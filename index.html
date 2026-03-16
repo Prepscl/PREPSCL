@@ -43,12 +43,15 @@
             scroll-snap-align: center; 
             text-decoration: none; 
             color: #000;
+            transition: transform 0.3s ease;
         }
+
+        .slide-card:hover { transform: translateY(-5px); }
 
         .slide-card img { width: 100%; height: 350px; object-fit: cover; border-bottom: 2px solid #000; }
         .slide-info { padding: 25px; }
 
-        /* NAVEGACIÓN NUMÉRICA (Estilo Refresko) */
+        /* NAVEGACIÓN NUMÉRICA */
         .slider-nav {
             display: flex;
             align-items: center;
@@ -74,7 +77,6 @@
         
         #current-index { color: #000; font-weight: bold; }
         .total-index { color: #888; }
-
     </style>
 </head>
 <body>
@@ -98,11 +100,26 @@
         </div>
 
         <div class="product-slider" id="productSlider">
-            <a href="catalogo.html" class="slide-card"><img src="img/menu1.jpg"><div class="slide-info"><h3>POWER BREAST HIGH CARB</h3><div class="price">$7.000 CLP</div></div></a>
-            <a href="catalogo.html" class="slide-card"><img src="img/menu2.jpg"><div class="slide-info"><h3>POWER BREAST LOW CARB</h3><div class="price">$6.500 CLP</div></div></a>
-            <a href="catalogo.html" class="slide-card"><img src="img/pack5.jpg"><div class="slide-info"><h3>PACK 5 COMIDAS</h3><div class="price">$30.000 CLP</div></div></a>
-            <a href="catalogo.html" class="slide-card"><img src="img/pack10.jpg"><div class="slide-info"><h3>PACK 10 COMIDAS</h3><div class="price">$60.000 CLP</div></div></a>
-            <a href="catalogo.html" class="slide-card"><img src="img/pack30.jpg"><div class="slide-info"><h3>PACK 30 COMIDAS</h3><div class="price">$180.000 CLP</div></div></a>
+            <a href="producto.html?id=highcarb" class="slide-card">
+                <img src="img/menu1.jpg">
+                <div class="slide-info"><h3>POWER BREAST HIGH CARB</h3><div class="price">$7.000 CLP</div></div>
+            </a>
+            <a href="producto.html?id=lowcarb" class="slide-card">
+                <img src="img/menu2.jpg">
+                <div class="slide-info"><h3>POWER BREAST LOW CARB</h3><div class="price">$6.500 CLP</div></div>
+            </a>
+            <a href="producto.html?id=pack5" class="slide-card">
+                <img src="img/pack5.jpg">
+                <div class="slide-info"><h3>PACK 5 COMIDAS</h3><div class="price">$30.000 CLP</div></div>
+            </a>
+            <a href="producto.html?id=pack10" class="slide-card">
+                <img src="img/pack10.jpg">
+                <div class="slide-info"><h3>PACK 10 COMIDAS</h3><div class="price">$60.000 CLP</div></div>
+            </a>
+            <a href="producto.html?id=pack30" class="slide-card">
+                <img src="img/pack30.jpg">
+                <div class="slide-info"><h3>PACK 30 COMIDAS</h3><div class="price">$180.000 CLP</div></div>
+            </a>
         </div>
 
         <div class="slider-nav">
@@ -122,7 +139,6 @@
         const currentIndexEl = document.getElementById('current-index');
         const totalSlides = 5;
 
-        // Actualizar número al hacer scroll manual
         slider.addEventListener('scroll', () => {
             const scrollLeft = slider.scrollLeft;
             const cardWidth = slider.querySelector('.slide-card').offsetWidth + 20;
@@ -133,7 +149,6 @@
             }
         });
 
-        // Función para las flechas
         function scrollSlider(direction) {
             const cardWidth = slider.querySelector('.slide-card').offsetWidth + 20;
             slider.scrollBy({
