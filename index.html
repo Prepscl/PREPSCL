@@ -15,7 +15,7 @@
             text-transform: uppercase;
         }
 
-        /* HEADER HOME REORGANIZADO */
+        /* HEADER HOME - CENTRADO TOTAL */
         header {
             display: flex;
             flex-direction: column;
@@ -23,18 +23,27 @@
             text-align: center;
             padding: 80px 20px 40px; 
             background: #f2f2f2;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        header .logo-link {
+            display: block;
+            margin-bottom: 30px;
         }
 
         header .logo-link img {
             width: 200px; 
             height: auto;
-            margin-bottom: 30px; /* Espacio antes del nav */
         }
 
+        /* NAVEGACIÓN CENTRADA */
         nav {
             display: flex;
+            justify-content: center; /* Asegura el centrado de los items */
             gap: 40px;
-            margin-bottom: 40px; /* Espacio antes del eslogan */
+            margin-bottom: 50px;
+            width: 100%;
         }
 
         nav a {
@@ -45,18 +54,23 @@
             padding-bottom: 8px;
             border-bottom: 2px solid transparent;
             transition: 0.3s;
+            white-space: nowrap;
         }
 
         nav a.active {
             border-bottom: 2px solid #000; 
         }
 
+        /* ESLOGAN EN NEGRITA Y CENTRADO */
         .hero-slogan {
+            width: 100%;
             font-size: 18px;
             letter-spacing: 5px; 
             color: #000;
-            font-weight: 900; /* Negrita destacada */
+            font-weight: 900; /* Negrita extra */
             margin-bottom: 20px;
+            display: block;
+            text-align: center;
         }
 
         /* CONTENIDO */
