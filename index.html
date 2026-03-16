@@ -3,305 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PREPS - Diseñado para tú rendimiento</title>
+    <title>PREPS - Home</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        @font-face {
-            font-family: 'Avenir Next LT Pro Regular';
-            src: local('Avenir Next LT Pro Regular'), url('AvenirNextLTPro-Regular.ttf') format('truetype');
-            font-weight: 400;
-        }
-        
-        @font-face {
-            font-family: 'Avenir Next LT Pro Demi';
-            src: local('Avenir Next LT Pro Demi'), url('AvenirNextLTPro-Demi.ttf') format('truetype');
-            font-weight: 900;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Avenir Next LT Pro Demi', 'Arial Black', sans-serif;
-            text-transform: uppercase;
-            font-weight: 900;
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background: #ffffff;
-            color: #000;
-            line-height: 1.2;
-        }
-
-        /* HEADER / NAVEGACIÓN */
-        header {
-            padding: 40px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            border-bottom: 2px solid #000;
-            background: #fff;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .logo-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            margin-bottom: 15px;
-        }
-
-        .logo-btn img {
-            width: 280px;
-            height: auto;
-        }
-
-        .hero-slogan {
-            font-size: 18px;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-        }
-
-        nav {
-            display: flex;
-            gap: 40px;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #000;
-            font-size: 16px;
-            letter-spacing: 1px;
-            padding-bottom: 5px;
-            transition: 0.3s;
-            border-bottom: 2px solid transparent;
-        }
-
-        nav a:hover {
-            border-bottom: 2px solid #000;
-        }
-
-        /* SECCIONES */
-        .page-section {
-            padding: 80px 20px;
-            max-width: 1100px;
-            margin: auto;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 40px;
-            margin-bottom: 60px;
-        }
-
-        /* HOME / HERO */
-        #home {
-            height: 60vh;
-            background: linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0.3)), url('hero.jpg') center/cover no-repeat;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        /* CATALOGO */
-        .product {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 100px;
-            gap: 40px;
-        }
-
-        @media (min-width: 768px) {
-            .product { flex-direction: row; }
-            .product.reverse { flex-direction: row-reverse; }
-        }
-
-        .menu-carousel {
-            width: 100%;
-            max-width: 450px;
-            aspect-ratio: 1 / 1;
-            border: 2px solid #000;
-            overflow: hidden;
-            background: #f9f9f9;
-        }
-
-        .carousel-track {
-            display: flex;
-            width: 200%;
-            height: 100%;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .carousel-track img {
-            width: 50%;
-            height: 100%;
-            object-fit: contain;
-            padding: 10px;
-        }
-
-        .product-text {
-            flex: 1;
-            text-align: center;
-        }
-
-        .product-text h2 { font-size: 28px; margin-bottom: 20px; }
-
-        .product-text ul {
-            list-style: none;
-            margin-bottom: 20px;
-        }
-
-        .product-text ul li {
-            font-family: 'Avenir Next LT Pro Regular', Arial, sans-serif;
-            font-weight: 400;
-            font-size: 17px;
-            text-transform: none;
-            margin-bottom: 5px;
-        }
-
-        .portion-size {
-            font-family: 'Avenir Next LT Pro Demi', sans-serif !important;
-            font-weight: 900;
-            margin-top: 15px;
-            display: block;
-        }
-
-        .macros {
-            background: #000;
-            color: #fff;
-            padding: 18px;
-            margin: 20px 0;
-            font-size: 15px;
-        }
-
-        .price { font-size: 34px; margin-bottom: 25px; }
-
-        /* SOBRE NOSOTROS */
-        .about-content {
-            text-align: center;
-            font-family: 'Avenir Next LT Pro Regular', Arial, sans-serif;
-            text-transform: none;
-            font-weight: 400;
-            font-size: 20px;
-            max-width: 800px;
-            margin: auto;
-            line-height: 1.6;
-        }
-
-        /* BOTONES */
-        .btn {
-            background: black;
-            color: white;
-            padding: 18px 45px;
-            text-decoration: none;
-            display: inline-block;
-            transition: 0.3s;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-
-        footer {
-            background: #000;
-            color: #fff;
-            padding: 40px;
-            text-align: center;
-            font-size: 13px;
-        }
+        .home-hero { width: 100%; height: 70vh; background: url('img/hero.jpg') center/cover no-repeat; margin-bottom: 40px; }
+        .product-slider { display: flex; overflow-x: auto; gap: 20px; padding: 40px 20px; scroll-snap-type: x mandatory; }
+        .product-slider::-webkit-scrollbar { display: none; }
+        .slide-card { min-width: 300px; border: 2px solid #000; text-align: center; scroll-snap-align: center; text-decoration: none; color: #000; }
+        .slide-card img { width: 100%; height: 300px; object-fit: cover; border-bottom: 2px solid #000; }
+        .slide-info { padding: 20px; }
+        .price { font-size: 24px; margin-top: 10px; }
     </style>
 </head>
 <body>
-
     <header>
-        <button class="logo-btn" onclick="window.scrollTo(0,0)">
-            <img src="logo-preps.png" alt="PREPS">
-        </button>
+        <a href="index.html" class="logo-link"><img src="img/logo-preps.png" alt="PREPS"></a>
         <div class="hero-slogan">DISEÑADO PARA TU RENDIMIENTO</div>
         <nav>
-            <a href="#home">Hogar</a>
-            <a href="#catalogo">Catalogar</a>
-            <a href="#nosotros">Sobre nosotros</a>
+            <a href="index.html" class="active">Hogar</a>
+            <a href="catalogo.html">Catalogar</a>
+            <a href="nosotros.html">Sobre nosotros</a>
         </nav>
     </header>
 
-    <section id="home" class="page-section">
-        <a class="btn" href="#catalogo">VER MENÚS</a>
-    </section>
+    <div class="home-hero"></div>
 
-    <section id="catalogo" class="page-section">
-        <h2 class="section-title">NUESTROS MENÚS</h2>
-        
-        <div class="product">
-            <div class="menu-carousel" onclick="toggleCarousel('track1')">
-                <div class="carousel-track" id="track1">
-                    <img src="menu1.jpg">
-                    <img src="tabla_highcarb.png">
-                </div>
-            </div>
-            <div class="product-text">
-                <h2>POWER BREAST HIGH CARB</h2>
-                <ul>
-                    <li>200g pechuga de pollo</li>
-                    <li>300g arroz</li>
-                    <li>100g brócoli</li>
-                    <li class="portion-size">PORCIÓN: 700G</li>
-                </ul>
-                <div class="macros">830 KCAL | PROT: 73G | CARBS: 92G | GRASAS: 19G</div>
-                <div class="price">$7.000</div>
-                <a class="btn" href="https://wa.me/56941892028">PEDIR</a>
-            </div>
-        </div>
-
-        <div class="product reverse">
-            <div class="menu-carousel" onclick="toggleCarousel('track2')">
-                <div class="carousel-track" id="track2">
-                    <img src="menu2.jpg">
-                    <img src="etiqueta_low_carb_450g_final.png">
-                </div>
-            </div>
-            <div class="product-text">
-                <h2>POWER BREAST LOW CARB</h2>
-                <ul>
-                    <li>200g pechuga de pollo</li>
-                    <li>150g arroz</li>
-                    <li>100g brócoli</li>
-                    <li class="portion-size">PORCIÓN: 450G</li>
-                </ul>
-                <div class="macros">632 KCAL | PROT: 69G | CARBS: 49G | GRASAS: 17G</div>
-                <div class="price">$6.500</div>
-                <a class="btn" href="https://wa.me/56941892028">PEDIR</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="nosotros" class="page-section">
-        <h2 class="section-title">SOBRE NOSOTROS</h2>
-        <div class="about-content">
-            <p>En <strong>PREPS</strong>, creemos que la nutrición es el pilar fundamental del alto rendimiento. Diseñamos meal preps equilibrados, frescos y listos para consumir, permitiéndote alcanzar tus metas físicas sin sacrificar tu tiempo. Cada plato está pesado y calculado para que sepas exactamente qué combustible le estás dando a tu cuerpo.</p>
-        </div>
+    <section class="product-slider">
+        <a href="catalogo.html" class="slide-card">
+            <img src="img/menu1.jpg">
+            <div class="slide-info"><h3>POWER BREAST HIGH CARB</h3><div class="price">$7.000 CLP</div></div>
+        </a>
+        <a href="catalogo.html" class="slide-card">
+            <img src="img/menu2.jpg">
+            <div class="slide-info"><h3>POWER BREAST LOW CARB</h3><div class="price">$6.500 CLP</div></div>
+        </a>
+        <a href="catalogo.html" class="slide-card">
+            <img src="img/pack5.jpg">
+            <div class="slide-info"><h3>PACK 5 COMIDAS</h3><div class="price">$30.000 CLP</div></div>
+        </a>
     </section>
 
     <footer>© 2026 PREPS - TODOS LOS DERECHOS RESERVADOS</footer>
-
-    <script>
-        function toggleCarousel(id) {
-            const track = document.getElementById(id);
-            const currentTransform = track.style.transform;
-            track.style.transform = currentTransform === 'translateX(-50%)' ? 'translateX(0)' : 'translateX(-50%)';
-        }
-        
-        // Auto-cambio cada 5 segundos
-        setInterval(() => {
-            toggleCarousel('track1');
-            toggleCarousel('track2');
-        }, 5000);
-    </script>
 </body>
 </html>
