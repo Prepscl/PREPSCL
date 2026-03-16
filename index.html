@@ -6,14 +6,13 @@
     <title>PREPS - Diseñado para tú rendimiento</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Importación de fuente Avenir Next LT Pro Regular (para descripciones) */
+        /* Fuentes oficiales PREPS */
         @font-face {
             font-family: 'Avenir Next LT Pro Regular';
             src: local('Avenir Next LT Pro Regular'), url('AvenirNextLTPro-Regular.ttf') format('truetype');
             font-weight: 400;
         }
         
-        /* Importación de fuente Avenir Next LT Pro Demi (para títulos y macros) */
         @font-face {
             font-family: 'Avenir Next LT Pro Demi';
             src: local('Avenir Next LT Pro Demi'), url('AvenirNextLTPro-Demi.ttf') format('truetype');
@@ -24,7 +23,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Avenir Next LT Pro Demi', 'Arial Black', sans-serif; /* Predeterminado en negrita */
+            font-family: 'Avenir Next LT Pro Demi', 'Arial Black', sans-serif;
             text-transform: uppercase;
             font-weight: 900;
         }
@@ -35,7 +34,7 @@
             line-height: 1.2;
         }
 
-        /* Hero Section */
+        /* Hero */
         .hero {
             height: 60vh;
             background: url('hero.jpg') center/cover no-repeat;
@@ -52,16 +51,7 @@
             margin-bottom: 20px;
         }
 
-        .hero-text-container h2 {
-            font-size: 28px;
-            letter-spacing: 2px;
-            margin-bottom: 30px;
-            color: #000;
-            background: rgba(255,255,255,0.8);
-            padding: 10px 20px;
-        }
-
-        /* Botones Interactuables con Animación */
+        /* Botones con animación */
         .btn {
             background: black;
             color: white;
@@ -71,23 +61,17 @@
             cursor: pointer;
             text-decoration: none;
             display: inline-block;
-            transition: all 0.3s ease-in-out; /* Animación suave */
+            transition: all 0.3s ease-in-out;
             position: relative;
-            overflow: hidden;
         }
 
         .btn:hover {
             background: #333;
-            transform: translateY(-3px); /* Pequeño salto hacia arriba */
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* Sombra al flotar */
-        }
-        
-        .btn:active {
-            transform: translateY(-1px);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
 
-        /* Secciones */
+        /* Secciones y Productos */
         .section {
             max-width: 1200px;
             margin: auto;
@@ -99,12 +83,9 @@
             font-size: 40px;
             margin-bottom: 40px;
             border-bottom: 4px solid #000;
-            display: inline-block;
-            width: 100%;
-            padding-bottom: 10px;
+            display: block;
         }
 
-        /* Carrusel de Imágenes de Menú */
         .product {
             display: flex;
             flex-direction: column;
@@ -114,153 +95,115 @@
         }
 
         @media (min-width: 768px) {
-            .product { flex-direction: row; text-align: left; gap: 60px; }
+            .product { flex-direction: row; gap: 60px; }
             .product.reverse { flex-direction: row-reverse; }
         }
 
-        /* Contenedor del Carrusel */
+        /* Carrusel dinámico */
         .menu-carousel {
             width: 100%;
             max-width: 450px;
-            border-radius: 4px;
-            border: 1px solid #eee;
-            overflow: hidden; /* Oculta lo que sale del carrusel */
+            border: 2px solid #000;
+            overflow: hidden;
             position: relative;
-            margin-bottom: 30px;
+            cursor: pointer;
         }
 
         .carousel-track {
             display: flex;
-            transition: transform 0.5s ease-in-out; /* Animación de deslizamiento */
-            width: 200%; /* Dos imágenes */
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 200%;
         }
 
         .carousel-track img {
             width: 100%;
             height: auto;
-            object-fit: cover;
         }
 
-        /* Texto y Tipografía Normal */
-        .product-text { flex: 1; }
-
-        .product-text h2 {
-            font-size: 30px;
-            margin-bottom: 15px;
-            margin-top: 20px;
+        /* Textos Centrados y Fuentes */
+        .product-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
+
+        .product-text h2 { font-size: 32px; margin-bottom: 20px; }
 
         .product-text ul {
             list-style: none;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
-        /* Cambiado a tipografía normal y minúsculas */
-        .product-text ul li, .portion-size {
-            font-family: 'Avenir Next LT Pro Regular', 'Arial', sans-serif;
-            font-weight: 400; /* Tipografía normal */
+        /* Ingredientes en fuente normal */
+        .product-text ul li {
+            font-family: 'Avenir Next LT Pro Regular', Arial, sans-serif;
+            font-weight: 400;
             font-size: 18px;
-            margin-bottom: 8px;
-            text-transform: none; /* Minúsculas */
+            text-transform: none;
+            margin-bottom: 5px;
         }
-        
+
+        /* Gramaje Centrado con fuente Demi */
         .portion-size {
-            font-weight: bold; /* Pero la porción en negrita */
+            font-family: 'Avenir Next LT Pro Demi', sans-serif !important;
+            font-weight: 900;
+            font-size: 20px;
             text-transform: uppercase;
-            font-family: 'Avenir Next LT Pro Demi', 'Arial Black', sans-serif;
-            margin-top: 10px;
+            margin-top: 15px;
             display: block;
+            text-align: center;
         }
 
         .macros {
             background: #000;
             color: #fff;
-            padding: 25px;
-            margin-bottom: 25px;
-            display: block;
+            padding: 20px;
+            margin: 20px 0;
+            width: 100%;
             font-size: 16px;
-            letter-spacing: 1px;
         }
 
+        /* Precio Centrado con fuente Demi */
         .price {
-            font-size: 32px;
+            font-family: 'Avenir Next LT Pro Demi', sans-serif !important;
+            font-size: 38px;
             margin-bottom: 25px;
+            text-align: center;
+            display: block;
         }
 
-        /* Packs Deslizables y Animación */
+        /* Packs Interactivos */
         .packs-wrapper {
             display: flex;
             overflow-x: auto;
             gap: 20px;
-            padding: 20px 10px 40px 10px;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
+            padding-bottom: 30px;
         }
 
-        .packs-wrapper::-webkit-scrollbar { display: none; }
-
         .pack {
-            min-width: 85%;
-            scroll-snap-align: center;
+            min-width: 300px;
             border: 2px solid #000;
-            text-align: center;
+            transition: 0.3s;
             background: #fff;
-            transition: all 0.3s ease;
+            text-align: center;
         }
 
         .pack:hover {
-            transform: scale(1.03); /* Efecto de zoom sutil */
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
-        @media (min-width: 768px) {
-            .pack { min-width: 350px; }
-        }
-
-        .pack img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-        }
-
-        .pack-content { padding: 30px; }
-        
-        .pack h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
-        }
-        
-        .pack .price {
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-
-        /* WhatsApp y Footer */
-        .whatsapp {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #25D366;
-            color: white;
-            padding: 15px 25px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 14px;
-            z-index: 999;
-            transition: all 0.3s ease;
-        }
-        
-        .whatsapp:hover {
-            transform: scale(1.1);
-            background: #128C7E;
-        }
+        .pack img { width: 100%; height: 250px; object-fit: cover; }
+        .pack-content { padding: 25px; }
 
         footer {
-            text-align: center;
-            padding: 60px;
             background: #000;
             color: #fff;
-            font-size: 12px;
+            padding: 40px;
+            text-align: center;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -270,18 +213,15 @@
         <div class="logo-container">
             <img src="logo-preps.png" alt="PREPS">
         </div>
-        <div class="hero-text-container">
-            <h2>DISEÑADO PARA TU RENDIMIENTO</h2>
-            <a class="btn" href="https://wa.me/56941892028">ORDENAR AHORA</a>
-        </div>
+        <a class="btn" href="https://wa.me/56941892028">ORDENAR AHORA</a>
     </section>
 
     <section class="section">
         <div class="product">
             <div class="menu-carousel">
                 <div class="carousel-track" id="track1">
-                    <img src="menu1.jpg" alt="High Carb Plato">
-                    <img src="tabla_highcarb.png" alt="High Carb Tabla Nutricional">
+                    <img src="menu1.jpg">
+                    <img src="tabla_highcarb.png">
                 </div>
             </div>
             <div class="product-text">
@@ -293,19 +233,18 @@
                     <li class="portion-size">PORCIÓN: 700G</li>
                 </ul>
                 <div class="macros">
-                    830 KCAL<br>
-                    PROT: 73G | CARBS: 92G | GRASAS: 19G
+                    830 KCAL | PROT: 73G | CARBS: 92G | GRASAS: 19G
                 </div>
                 <div class="price">$7.000</div>
-                <a class="btn" href="https://wa.me/56941892028?text=Hola%20PREPS,%20quisiera%20pedir%20el%20menú%20High%20Carb">PEDIR MENÚ</a>
+                <a class="btn" href="https://wa.me/56941892028?text=Hola, quiero el menú High Carb">PEDIR MENÚ</a>
             </div>
         </div>
 
         <div class="product reverse">
             <div class="menu-carousel">
                 <div class="carousel-track" id="track2">
-                    <img src="menu2.jpg" alt="Low Carb Plato">
-                    <img src="etiqueta_low_carb_450g_final.png" alt="Low Carb Tabla Nutricional">
+                    <img src="menu2.jpg">
+                    <img src="etiqueta_low_carb_450g_final.png">
                 </div>
             </div>
             <div class="product-text">
@@ -317,75 +256,52 @@
                     <li class="portion-size">PORCIÓN: 450G</li>
                 </ul>
                 <div class="macros">
-                    632 KCAL<br>
-                    PROT: 69G | CARBS: 49G | GRASAS: 17G
+                    632 KCAL | PROT: 69G | CARBS: 49G | GRASAS: 17G
                 </div>
                 <div class="price">$6.500</div>
-                <a class="btn" href="https://wa.me/56941892028?text=Hola%20PREPS,%20quisiera%20pedir%20el%20menú%20Low%20Carb">PEDIR MENÚ</a>
+                <a class="btn" href="https://wa.me/56941892028?text=Hola, quiero el menú Low Carb">PEDIR MENÚ</a>
             </div>
         </div>
     </section>
 
     <section class="section">
-        <h2 class="section-title">PACKS</h2>
+        <h2 class="section-title">PACKS SEMANALES</h2>
         <div class="packs-wrapper">
             <div class="pack">
-                <img src="pack5.jpg" alt="Pack 5">
+                <img src="pack5.jpg">
                 <div class="pack-content">
                     <h3>PACK 5 COMIDAS</h3>
                     <div class="price">$30.000</div>
-                    <a class="btn" href="https://wa.me/56941892028?text=Hola%20PREPS,%20quisiera%20pedir%20el%20Pack%20de%205%20comidas">ORDENAR PACK</a>
+                    <a class="btn" href="https://wa.me/56941892028?text=Quiero el Pack 5">ORDENAR</a>
                 </div>
             </div>
             <div class="pack">
-                <img src="pack10.jpg" alt="Pack 10">
+                <img src="pack10.jpg">
                 <div class="pack-content">
                     <h3>PACK 10 COMIDAS</h3>
                     <div class="price">$60.000</div>
-                    <a class="btn" href="https://wa.me/56941892028?text=Hola%20PREPS,%20quisiera%20pedir%20el%20Pack%20de%2010%20comidas">ORDENAR PACK</a>
-                </div>
-            </div>
-            <div class="pack">
-                <img src="pack30.jpg" alt="Pack 30">
-                <div class="pack-content">
-                    <h3>PACK 30 COMIDAS</h3>
-                    <div class="price">$180.000</div>
-                    <a class="btn" href="https://wa.me/56941892028?text=Hola%20PREPS,%20quisiera%20pedir%20el%20Pack%20de%2030%20comidas">ORDENAR PACK</a>
+                    <a class="btn" href="https://wa.me/56941892028?text=Quiero el Pack 10">ORDENAR</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <a class="whatsapp" href="https://wa.me/56941892028">WHATSAPP</a>
-
-    <footer>
-        © 2026 PREPS - TODOS LOS DERECHOS RESERVADOS
-    </footer>
+    <footer>© 2026 PREPS - TODOS LOS DERECHOS RESERVADOS</footer>
 
     <script>
-        function createCarousel(trackId) {
-            const track = document.getElementById(trackId);
-            let index = 0;
-            
-            // Función para mover el carrusel
-            function move() {
-                index = (index + 1) % 2; // Alterna entre 0 y 1 (2 imágenes)
-                track.style.transform = `translateX(-${index * 50}%)`; // Desplaza el track (200% ancho total, 50% por imagen)
-            }
-            
-            // Intervalo de 4 segundos para el cambio automático
-            setInterval(move, 4000);
-            
-            // Permitir cambio manual al hacer clic en la imagen
-            track.addEventListener('click', move);
+        function startCarousel(id) {
+            const track = document.getElementById(id);
+            let pos = 0;
+            setInterval(() => {
+                pos = pos === 0 ? 50 : 0;
+                track.style.transform = `translateX(-${pos}%)`;
+            }, 4000);
+            track.addEventListener('click', () => {
+                pos = pos === 0 ? 50 : 0;
+                track.style.transform = `translateX(-${pos}%)`;
+            });
         }
-        
-        // Iniciar carruseles al cargar la página
-        window.onload = function() {
-            createCarousel('track1'); // Carrusel High Carb
-            createCarousel('track2'); // Carrusel Low Carb
-        }
+        window.onload = () => { startCarousel('track1'); startCarousel('track2'); };
     </script>
-
 </body>
 </html>
