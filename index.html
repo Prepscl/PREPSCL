@@ -1,345 +1,268 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PREPS</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<title>PREPS - Diseñado para tú rendimiento</title>
 
 <style>
+/* Importación de fuente Avenir Next (debe estar en tu carpeta de GitHub) */
+@font-face {
+    font-family: 'Avenir Next LT Pro Demi';
+    src: local('Avenir Next LT Pro Demi'), url('AvenirNextLTPro-Demi.ttf') format('truetype');
+    font-weight: 900;
+}
 
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins', sans-serif;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Avenir Next LT Pro Demi', 'Arial Black', sans-serif;
+    font-weight: 900; 
+    text-transform: uppercase;
 }
 
 body{
-background:#ffffff;
-color:#111;
-line-height:1.5;
+    background:#ffffff;
+    color:#000;
+    line-height:1.2;
 }
 
 /* HERO */
-
 .hero{
-height:90vh;
-background:url('hero.jpg') center/cover no-repeat;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-color:white;
+    height: 60vh; 
+    background: url('hero.jpg') center/cover no-repeat; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.hero-overlay{
-background:rgba(0,0,0,0.45);
-padding:60px;
-border-radius:10px;
+.logo-container img {
+    width: 300px; 
+    height: auto;
 }
 
-.hero h1{
-font-size:72px;
-letter-spacing:6px;
-margin-bottom:15px;
+/* TEXTO DEBAJO DE LA IMAGEN */
+.hero-text-container {
+    text-align: center;
+    padding: 50px 20px;
 }
 
-.hero p{
-font-size:22px;
-margin-bottom:25px;
+.hero-text-container h2 {
+    font-size: 28px;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
 }
 
 .btn{
-background:black;
-color:white;
-padding:16px 30px;
-border:none;
-border-radius:8px;
-font-size:16px;
-cursor:pointer;
-text-decoration:none;
+    background:black;
+    color:white;
+    padding:20px 50px;
+    border:none;
+    border-radius:0; 
+    font-size: 18px;
+    cursor:pointer;
+    text-decoration:none;
+    display: inline-block;
+    transition: 0.3s;
 }
 
-/* SECTION */
+.btn:hover {
+    background: #333;
+}
 
+/* PRODUCTOS CENTRADOS Y SIN PUNTOS */
 .section{
-max-width:1200px;
-margin:auto;
-padding:100px 20px;
+    max-width:1200px;
+    margin:auto;
+    padding:60px 20px;
 }
-
-.section-title{
-text-align:center;
-font-size:36px;
-margin-bottom:60px;
-}
-
-/* PRODUCT BLOCK */
 
 .product{
-display:flex;
-align-items:center;
-gap:60px;
-margin-bottom:80px;
-flex-wrap:wrap;
-}
-
-.product.reverse{
-flex-direction:row-reverse;
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    text-align: center;
+    margin-bottom:100px;
 }
 
 .product img{
-width:500px;
-max-width:100%;
-border-radius:12px;
-}
-
-.product-text{
-flex:1;
+    width: 100%;
+    max-width: 450px;
+    margin-bottom: 30px;
+    border-radius: 4px;
 }
 
 .product-text h2{
-font-size:32px;
-margin-bottom:15px;
+    font-size:30px;
+    margin-bottom:15px;
 }
 
-.product-text ul{
-margin-left:18px;
-margin-bottom:15px;
+.product-text ul {
+    list-style: none; 
+    margin-bottom: 30px;
+}
+
+.product-text ul li {
+    font-size: 20px;
+    margin-bottom: 8px;
 }
 
 .macros{
-background:#f5f5f5;
-padding:15px;
-border-radius:8px;
-margin-bottom:15px;
+    background:#000;
+    color: #fff;
+    padding: 25px;
+    margin-bottom: 25px;
+    display: block;
+    font-size: 16px;
 }
 
 .price{
-font-size:22px;
-font-weight:700;
-margin-bottom:15px;
+    font-size:32px;
+    margin-bottom:25px;
 }
 
-/* BENEFITS */
-
-.benefits{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:30px;
-text-align:center;
+/* PACKS DESLIZABLES */
+.packs-wrapper {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding: 20px 10px 40px 10px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
 }
 
-.benefit{
-padding:25px;
-border:1px solid #eee;
-border-radius:12px;
-}
-
-/* PACKS */
-
-.packs{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:30px;
+.packs-wrapper::-webkit-scrollbar {
+    display: none;
 }
 
 .pack{
-border:1px solid #eee;
-border-radius:12px;
-overflow:hidden;
-text-align:center;
-transition:0.25s;
+    min-width: 85%;
+    scroll-snap-align: center;
+    border: 2px solid #000;
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .pack { min-width: 350px; }
 }
 
 .pack img{
-width:100%;
-height:200px;
-object-fit:cover;
+    width:100%;
+    height:300px;
+    object-fit:cover;
 }
 
 .pack-content{
-padding:25px;
+    padding:30px;
 }
 
-.pack h3{
-margin-bottom:10px;
-}
-
-.pack .price{
-font-size:26px;
-}
-
-/* CTA */
-
-.cta{
-text-align:center;
-padding:100px 20px;
-background:#f7f7f7;
-}
-
-.cta h2{
-font-size:36px;
-margin-bottom:20px;
-}
-
-/* WHATSAPP */
-
+/* WHATSAPP FLOAT */
 .whatsapp{
-position:fixed;
-bottom:25px;
-right:25px;
-background:#25D366;
-color:white;
-padding:16px 20px;
-border-radius:50px;
-text-decoration:none;
-font-weight:600;
+    position:fixed;
+    bottom:30px;
+    right:30px;
+    background:#25D366;
+    color:white;
+    padding:15px 25px;
+    border-radius:5px;
+    text-decoration:none;
+    font-size: 14px;
+    z-index: 999;
 }
-
-/* FOOTER */
 
 footer{
-text-align:center;
-padding:40px;
-color:#777;
+    text-align:center;
+    padding:60px;
+    background: #000;
+    color:#fff;
+    font-size: 12px;
 }
-
 </style>
 </head>
 
 <body>
 
 <section class="hero">
-<div class="hero-overlay">
-<h1>PREPS</h1>
-<p>Meal prep diseñado para tu rendimiento</p>
-<a class="btn" href="https://wa.me/56941892028">Ordenar ahora</a>
-</div>
+    <div class="logo-container">
+        <img src="logo-preps.png" alt="PREPS">
+    </div>
 </section>
 
+<div class="hero-text-container">
+    <h2>DISEÑADO PARA TÚ RENDIMIENTO</h2>
+    <a class="btn" href="https://wa.me/56941892028">ORDENAR AHORA</a>
+</div>
 
 <section class="section">
+    <div class="product">
+        <img src="menu1.jpg" alt="High Carb">
+        <div class="product-text">
+            <h2>POWER BREAST HIGH CARB</h2>
+            <ul>
+                <li>200G PECHUGA DE POLLO</li>
+                <li>300G ARROZ</li>
+                <li>100G BRÓCOLI</li>
+            </ul>
+            <div class="macros">
+                830 KCAL<br>
+                PROT: 73G | CARBS: 92G | GRASAS: 19G
+            </div>
+            <div class="price">$7.000</div>
+            <a class="btn" href="https://wa.me/56941892028">PEDIR MENÚ</a>
+        </div>
+    </div>
 
-<div class="product">
-
-<img src="menu1.jpg">
-
-<div class="product-text">
-<h2>POWER BREAST High Carb</h2>
-
-<ul>
-<li>200g pechuga de pollo</li>
-<li>300g arroz</li>
-<li>100g brócoli</li>
-</ul>
-
-<div class="macros">
-Proteínas: ___ g<br>
-Carbohidratos: ___ g<br>
-Grasas: ___ g
-</div>
-
-<div class="price">$7000</div>
-
-<a class="btn" href="https://wa.me/56941892028">Pedir menú</a>
-
-</div>
-</div>
-
-
-<div class="product reverse">
-
-<img src="menu2.jpg">
-
-<div class="product-text">
-<h2>POWER BREAST Low Carb</h2>
-
-<ul>
-<li>200g pechuga de pollo</li>
-<li>150g arroz</li>
-<li>100g brócoli</li>
-</ul>
-
-<div class="macros">
-Proteínas: ___ g<br>
-Carbohidratos: ___ g<br>
-Grasas: ___ g
-</div>
-
-<div class="price">$6500</div>
-
-<a class="btn" href="https://wa.me/56941892028">Pedir menú</a>
-
-</div>
-</div>
-
+    <div class="product">
+        <img src="menu2.jpg" alt="Low Carb">
+        <div class="product-text">
+            <h2>POWER BREAST LOW CARB</h2>
+            <ul>
+                <li>200G PECHUGA DE POLLO</li>
+                <li>150G ARROZ</li>
+                <li>100G BRÓCOLI</li>
+            </ul>
+            <div class="macros">
+                634 KCAL<br>
+                PROT: 69G | CARBS: 49G | GRASAS: 17G
+            </div>
+            <div class="price">$6.500</div>
+            <a class="btn" href="https://wa.me/56941892028">PEDIR MENÚ</a>
+        </div>
+    </div>
 </section>
 
-
-<section class="section">
-
-<h2 class="section-title">Por qué elegir PREPS</h2>
-
-<div class="benefits">
-
-<div class="benefit">Ingredientes frescos</div>
-<div class="benefit">Alto en proteínas</div>
-<div class="benefit">Ideal para deportistas</div>
-<div class="benefit">Ahorra tiempo en tu semana</div>
-
-</div>
-
+<section class="section" style="border-top: 2px solid #000;">
+    <h2 style="text-align: center; margin-bottom: 40px; font-size: 40px;">PACKS</h2>
+    <div class="packs-wrapper">
+        <div class="pack">
+            <img src="pack5.jpg" alt="Pack 5">
+            <div class="pack-content">
+                <h3>PACK 5 COMIDAS</h3>
+                <div class="price">$30.000</div>
+            </div>
+        </div>
+        <div class="pack">
+            <img src="pack10.jpg" alt="Pack 10">
+            <div class="pack-content">
+                <h3>PACK 10 COMIDAS</h3>
+                <div class="price">$60.000</div>
+            </div>
+        </div>
+        <div class="pack">
+            <img src="pack30.jpg" alt="Pack 30">
+            <div class="pack-content">
+                <h3>PACK 30 COMIDAS</h3>
+                <div class="price">$180.000</div>
+            </div>
+        </div>
+    </div>
 </section>
 
-
-<section class="section">
-
-<h2 class="section-title">Packs</h2>
-
-<div class="packs">
-
-<div class="pack">
-<img src="pack5.jpg">
-<div class="pack-content">
-<h3>Pack 5 comidas</h3>
-<div class="price">$30000</div>
-</div>
-</div>
-
-<div class="pack">
-<img src="pack10.jpg">
-<div class="pack-content">
-<h3>Pack 10 comidas</h3>
-<div class="price">$60000</div>
-</div>
-</div>
-
-<div class="pack">
-<img src="pack30.jpg">
-<div class="pack-content">
-<h3>Pack 30 comidas</h3>
-<div class="price">$180000</div>
-</div>
-</div>
-
-</div>
-
-</section>
-
-
-<section class="cta">
-<h2>Empieza tu semana con PREPS</h2>
-<a class="btn" href="https://wa.me/56941892028">Pedir por WhatsApp</a>
-</section>
-
-<a class="whatsapp" href="https://wa.me/56941892028">WhatsApp</a>
+<a class="whatsapp" href="https://wa.me/56941892028">WHATSAPP</a>
 
 <footer>
-© 2026 PREPS
+    © 2026 PREPS - TODOS LOS DERECHOS RESERVADOS
 </footer>
 
 </body>
