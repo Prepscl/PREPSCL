@@ -36,19 +36,29 @@
 
         /* Hero */
         .hero {
-            height: 60vh;
+            height: 70vh;
             background: url('hero.jpg') center/cover no-repeat;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
+            padding: 20px;
         }
 
         .logo-container img {
-            width: 300px;
+            width: 320px;
             height: auto;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+        }
+
+        .hero-slogan {
+            font-family: 'Avenir Next LT Pro Demi', sans-serif;
+            font-size: 26px;
+            letter-spacing: 2px;
+            margin-bottom: 35px;
+            color: #000;
+            font-weight: 900;
         }
 
         /* Botones con animación */
@@ -62,7 +72,6 @@
             text-decoration: none;
             display: inline-block;
             transition: all 0.3s ease-in-out;
-            position: relative;
         }
 
         .btn:hover {
@@ -136,7 +145,6 @@
             text-align: center;
         }
 
-        /* Ingredientes en fuente normal y minúsculas */
         .product-text ul li {
             font-family: 'Avenir Next LT Pro Regular', Arial, sans-serif;
             font-weight: 400;
@@ -145,7 +153,6 @@
             margin-bottom: 5px;
         }
 
-        /* Gramaje Centrado con fuente Demi */
         .portion-size {
             font-family: 'Avenir Next LT Pro Demi', sans-serif !important;
             font-weight: 900;
@@ -165,7 +172,6 @@
             font-size: 16px;
         }
 
-        /* Precio Centrado con fuente Demi */
         .price {
             font-family: 'Avenir Next LT Pro Demi', sans-serif !important;
             font-size: 38px;
@@ -174,7 +180,7 @@
             display: block;
         }
 
-        /* Packs Interactivos con scroll */
+        /* Packs con scroll */
         .packs-wrapper {
             display: flex;
             overflow-x: auto;
@@ -201,7 +207,6 @@
 
         .pack img { width: 100%; height: 280px; object-fit: cover; }
         .pack-content { padding: 25px; }
-        .pack h3 { font-size: 24px; margin-bottom: 10px; }
 
         footer {
             background: #000;
@@ -218,6 +223,7 @@
         <div class="logo-container">
             <img src="logo-preps.png" alt="PREPS">
         </div>
+        <div class="hero-slogan">DISEÑADO PARA TU RENDIMIENTO</div>
         <a class="btn" href="https://wa.me/56941892028">ORDENAR AHORA</a>
     </section>
 
@@ -277,7 +283,7 @@
                 <div class="pack-content">
                     <h3>PACK 5 COMIDAS</h3>
                     <div class="price">$30.000</div>
-                    <a class="btn" href="https://wa.me/56941892028?text=Hola, quiero el Pack de 5 comidas">ORDENAR</a>
+                    <a class="btn" href="https://wa.me/56941892028?text=Quiero el Pack 5">ORDENAR</a>
                 </div>
             </div>
             <div class="pack">
@@ -285,7 +291,7 @@
                 <div class="pack-content">
                     <h3>PACK 10 COMIDAS</h3>
                     <div class="price">$60.000</div>
-                    <a class="btn" href="https://wa.me/56941892028?text=Hola, quiero el Pack de 10 comidas">ORDENAR</a>
+                    <a class="btn" href="https://wa.me/56941892028?text=Quiero el Pack 10">ORDENAR</a>
                 </div>
             </div>
             <div class="pack">
@@ -293,7 +299,7 @@
                 <div class="pack-content">
                     <h3>PACK 30 COMIDAS</h3>
                     <div class="price">$180.000</div>
-                    <a class="btn" href="https://wa.me/56941892028?text=Hola, quiero el Pack de 30 comidas">ORDENAR</a>
+                    <a class="btn" href="https://wa.me/56941892028?text=Quiero el Pack 30">ORDENAR</a>
                 </div>
             </div>
         </div>
