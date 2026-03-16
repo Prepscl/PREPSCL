@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Producto - PREPS</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .product-page { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; padding: 60px 20px; max-width: 1200px; margin: auto; }
+        @media (max-width: 768px) { .product-page { grid-template-columns: 1fr; } }
+        
+        .product-image img { width: 100%; border: 2px solid #000; position: sticky; top: 120px; }
+        
+        .product-details { text-align: left; text-transform: none; font-family: Arial, sans-serif; line-height: 1.6; }
+        .product-details h1 { text-transform: uppercase; font-size: 36px; margin-bottom: 20px; font-family: 'Avenir Next LT Pro Demi', sans-serif; }
+        
+        .info-block { margin-bottom: 25px; font-size: 18px; }
+        .info-block strong { text-transform: uppercase; font-family: 'Avenir Next LT Pro Demi', sans-serif; display: block; margin-bottom: 5px; }
+        
+        .price-large { font-size: 32px; margin: 30px 0; font-family: 'Avenir Next LT Pro Demi', sans-serif; text-transform: uppercase; }
+        
+        .buy-btn { width: 100%; background: #000; color: #fff; padding: 20px; text-align: center; text-decoration: none; display: block; font-family: 'Avenir Next LT Pro Demi', sans-serif; text-transform: uppercase; font-size: 20px; transition: 0.3s; }
+        .buy-btn:hover { background: #333; }
+        
+        .share-link { margin-top: 40px; display: flex; align-items: center; gap: 10px; color: #666; text-decoration: none; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo-link"><img src="img/logo-preps.png" alt="PREPS"></a>
+        <nav><a href="index.html">Hogar</a><a href="catalogo.html">Catalogar</a><a href="nosotros.html">Sobre nosotros</a></nav>
+    </header>
+
+    <main class="product-page" id="product-content">
+        </main>
+
+    <footer>© 2026 PREPS - TODOS LOS DERECHOS RESERVADOS</footer>
+
+    <script>
+        const db = {
+            highcarb: {
+                name: "POWER BREAST HIGH CARB",
+                price: "$7.000 CLP",
+                img: "img/menu1.jpg",
+                desc: "Pechuga de pollo sellada al vacío acompañada de arroz blanco y brócoli al dente. Diseñado para quienes buscan una carga completa de glucógeno y energía post-entrenamiento.",
+                ingredientes: "Pechuga de pollo (200g), Arroz (300g), Brócoli (100g), especias naturales.",
+                vida: "5 a 7 días en refrigeración.",
+                macros: "830 KCAL | PROT: 73G | CARBS: 92G | GRASAS: 19G",
+                envio: "Entrega en 24 a 48 horas hábiles."
+            },
+            lowcarb: {
+                name: "POWER BREAST LOW CARB",
+                price: "$6.500 CLP",
+                img: "img/menu2.jpg",
+                desc: "Nuestra opción más ligera. Proteína de alta calidad con carbohidratos controlados para mantener la saciedad sin exceder las calorías.",
+                ingredientes: "Pechuga de pollo (200g), Arroz (150g), Brócoli (100g), especias naturales.",
+                vida: "5 a 7 días en refrigeración.",
+                macros: "632 KCAL | PROT: 69G | CARBS: 49G | GRASAS: 17G",
+                envio: "Entrega en 24 a 48 horas hábiles."
+            },
+            pack5: {
+                name: "PACK 5 COMIDAS",
+                price: "$30.000 CLP",
+                img: "img/pack5.jpg",
+                desc: "La solución perfecta para tu semana laboral. Asegura tus almuerzos de lunes a viernes con la mejor nutrición deportiva.",
+                ingredientes: "Menús a elección (High Carb / Low Carb).",
+                vida: "7 días refrigerado.",
+                macros: "Variable según selección de platos.",
+                envio: "Despacho incluido en zonas seleccionadas."
+            },
+            pack10: {
+                name: "PACK 10 COMIDAS",
+                price: "$60.000 CLP",
+                img: "img/pack10.jpg",
+                desc: "Optimiza tu tiempo y presupuesto. Este pack cubre tus comidas principales por 5 días (almuerzo y cena) o 10 días de almuerzos.",
+                ingredientes: "Combinación libre de todo nuestro catálogo.",
+                vida: "7 días refrigerado (puedes congelar para extender duración).",
+                macros: "Calculados individualmente por plato.",
+                envio: "Despacho prioritario."
+            },
+            pack30: {
+                name: "PACK 30 COMIDAS",
+                price: "$180.000 CLP",
+                img: "img/pack30.jpg",
+                desc: "Máximo rendimiento, mínimo esfuerzo. Olvídate de cocinar por un mes completo. La opción favorita de atletas de alto rendimiento por su ahorro y conveniencia.",
+                ingredientes: "Acceso total a rotación de menús mensuales.",
+                vida: "Consumo mensual (recomendamos congelar porciones).",
+                macros: "Asesoría básica de macros incluida en el pack.",
+                envio: "Envío programado mensual o quincenal."
+            }
+        };
+            }
+            // Agrega pack10 y pack30 aquí siguiendo el mismo formato
+        };
+
+        const params = new URLSearchParams(window.location.search);
+        const productId = params.get('id');
+        const p = db[productId] || db.highcarb;
+
+        document.getElementById('product-content').innerHTML = `
+            <div class="product-image">
+                <img src="${p.img}" alt="${p.name}">
+            </div>
+            <div class="product-details">
+                <div class="price-large">${p.price}</div>
+                <a href="https://wa.me/56941892028?text=Hola, quiero comprar: ${p.name}" class="buy-btn">Compre ya</a>
+                
+                <div class="info-block" style="margin-top:40px;">
+                    <strong>Descripción:</strong> ${p.desc}
+                </div>
+                <div class="info-block">
+                    <strong>Ingredientes:</strong> ${p.ingredientes}
+                </div>
+                <div class="info-block">
+                    <strong>Macros:</strong> ${p.macros}
+                </div>
+                <div class="info-block">
+                    <strong>Vida útil:</strong> ${p.vida}
+                </div>
+                <div class="info-block">
+                    <strong>Envío:</strong> ${p.envio}
+                </div>
+                
+                <a href="#" class="share-link"><span>↑</span> Compartir</a>
+            </div>
+        `;
+    </script>
+</body>
+</html>
