@@ -6,18 +6,82 @@
     <title>PREPS - Home</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        .home-hero { width: 100%; height: 70vh; background: url('img/hero.jpg') center/cover no-repeat; margin-bottom: 40px; }
-        .product-slider { display: flex; overflow-x: auto; gap: 20px; padding: 40px 20px; scroll-snap-type: x mandatory; }
+        .home-hero { 
+            width: 100%; 
+            height: 75vh; 
+            background: url('img/hero.jpg') center/cover no-repeat; 
+            margin-bottom: 60px;
+        }
+
+        .section-header { text-align: center; margin-bottom: 30px; }
+        .section-header h2 { font-size: 32px; letter-spacing: 2px; }
+
+        /* Slider de Productos */
+        .slider-container {
+            position: relative;
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        .product-slider { 
+            display: flex; 
+            overflow-x: auto; 
+            gap: 20px; 
+            padding-bottom: 20px; 
+            scroll-snap-type: x mandatory; 
+            scrollbar-width: none;
+            scroll-behavior: smooth;
+        }
+        
         .product-slider::-webkit-scrollbar { display: none; }
-        .slide-card { min-width: 300px; border: 2px solid #000; text-align: center; scroll-snap-align: center; text-decoration: none; color: #000; }
-        .slide-card img { width: 100%; height: 300px; object-fit: cover; border-bottom: 2px solid #000; }
-        .slide-info { padding: 20px; }
-        .price { font-size: 24px; margin-top: 10px; }
+
+        .slide-card { 
+            min-width: 320px; 
+            border: 2px solid #000; 
+            text-align: center; 
+            scroll-snap-align: center; 
+            text-decoration: none; 
+            color: #000;
+        }
+
+        .slide-card img { width: 100%; height: 350px; object-fit: cover; border-bottom: 2px solid #000; }
+        .slide-info { padding: 25px; }
+
+        /* NAVEGACIÓN NUMÉRICA (Estilo Refresko) */
+        .slider-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            font-family: 'Avenir Next LT Pro Regular', sans-serif;
+            font-size: 20px;
+            text-transform: none;
+        }
+
+        .nav-arrow {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #ccc;
+            transition: 0.3s;
+            padding: 10px;
+        }
+
+        .nav-arrow:hover { color: #000; }
+        
+        #current-index { color: #000; font-weight: bold; }
+        .total-index { color: #888; }
+
     </style>
 </head>
 <body>
     <header>
-        <a href="index.html" class="logo-link"><img src="img/logo-preps.png" alt="PREPS"></a>
+        <a href="index.html" class="logo-link">
+            <img src="img/logo-preps.png" alt="PREPS">
+        </a>
         <div class="hero-slogan">DISEÑADO PARA TU RENDIMIENTO</div>
         <nav>
             <a href="index.html" class="active">Hogar</a>
@@ -28,21 +92,55 @@
 
     <div class="home-hero"></div>
 
-    <section class="product-slider">
-        <a href="catalogo.html" class="slide-card">
-            <img src="img/menu1.jpg">
-            <div class="slide-info"><h3>POWER BREAST HIGH CARB</h3><div class="price">$7.000 CLP</div></div>
-        </a>
-        <a href="catalogo.html" class="slide-card">
-            <img src="img/menu2.jpg">
-            <div class="slide-info"><h3>POWER BREAST LOW CARB</h3><div class="price">$6.500 CLP</div></div>
-        </a>
-        <a href="catalogo.html" class="slide-card">
-            <img src="img/pack5.jpg">
-            <div class="slide-info"><h3>PACK 5 COMIDAS</h3><div class="price">$30.000 CLP</div></div>
-        </a>
+    <section class="slider-container">
+        <div class="section-header">
+            <h2>PRODUCTOS</h2>
+        </div>
+
+        <div class="product-slider" id="productSlider">
+            <a href="catalogo.html" class="slide-card"><img src="img/menu1.jpg"><div class="slide-info"><h3>POWER BREAST HIGH CARB</h3><div class="price">$7.000 CLP</div></div></a>
+            <a href="catalogo.html" class="slide-card"><img src="img/menu2.jpg"><div class="slide-info"><h3>POWER BREAST LOW CARB</h3><div class="price">$6.500 CLP</div></div></a>
+            <a href="catalogo.html" class="slide-card"><img src="img/pack5.jpg"><div class="slide-info"><h3>PACK 5 COMIDAS</h3><div class="price">$30.000 CLP</div></div></a>
+            <a href="catalogo.html" class="slide-card"><img src="img/pack10.jpg"><div class="slide-info"><h3>PACK 10 COMIDAS</h3><div class="price">$60.000 CLP</div></div></a>
+            <a href="catalogo.html" class="slide-card"><img src="img/pack30.jpg"><div class="slide-info"><h3>PACK 30 COMIDAS</h3><div class="price">$180.000 CLP</div></div></a>
+        </div>
+
+        <div class="slider-nav">
+            <button class="nav-arrow" onclick="scrollSlider(-1)">&#10094;</button>
+            <div>
+                <span id="current-index">1</span>
+                <span class="total-index"> / 5</span>
+            </div>
+            <button class="nav-arrow" onclick="scrollSlider(1)">&#10095;</button>
+        </div>
     </section>
 
     <footer>© 2026 PREPS - TODOS LOS DERECHOS RESERVADOS</footer>
+
+    <script>
+        const slider = document.getElementById('productSlider');
+        const currentIndexEl = document.getElementById('current-index');
+        const totalSlides = 5;
+
+        // Actualizar número al hacer scroll manual
+        slider.addEventListener('scroll', () => {
+            const scrollLeft = slider.scrollLeft;
+            const cardWidth = slider.querySelector('.slide-card').offsetWidth + 20;
+            const activeIndex = Math.round(scrollLeft / cardWidth) + 1;
+            
+            if (activeIndex >= 1 && activeIndex <= totalSlides) {
+                currentIndexEl.innerText = activeIndex;
+            }
+        });
+
+        // Función para las flechas
+        function scrollSlider(direction) {
+            const cardWidth = slider.querySelector('.slide-card').offsetWidth + 20;
+            slider.scrollBy({
+                left: direction * cardWidth,
+                behavior: 'smooth'
+            });
+        }
+    </script>
 </body>
 </html>
