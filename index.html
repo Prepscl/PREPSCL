@@ -6,29 +6,82 @@
     <title>PREPS - Home</title>
     <link rel="stylesheet" href="styles.css">
     <style>
+        /* FONDO Y TIPOGRAFÍA BASE */
+        body {
+            background-color: #f2f2f2; /* Gris claro de la referencia */
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 0;
+            text-transform: uppercase;
+        }
+
+        /* HEADER HOME - IDENTICO A REFERENCIA */
+        header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 100px 20px 60px; /* Mucho espacio arriba para centrarlo */
+            background: #f2f2f2;
+        }
+
+        header .logo-link img {
+            width: 200px; /* Tamaño controlado para que no tape todo */
+            height: auto;
+            margin-bottom: 40px;
+        }
+
+        .hero-slogan {
+            font-size: 18px;
+            letter-spacing: 5px; /* Espaciado ancho de la referencia */
+            color: #000;
+            margin-bottom: 50px;
+            font-weight: normal;
+        }
+
+        nav {
+            display: flex;
+            gap: 40px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #000;
+            font-size: 16px;
+            letter-spacing: 2px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid transparent;
+            transition: 0.3s;
+        }
+
+        nav a.active {
+            border-bottom: 2px solid #000; /* Línea negra debajo de Hogar */
+        }
+
+        /* CONTENIDO QUE SE MUEVE EN CONJUNTO */
         .home-hero { 
             width: 100%; 
             height: 75vh; 
             background: url('img/hero.jpg') center/cover no-repeat; 
-            margin-bottom: 60px;
+            margin-bottom: 80px;
         }
 
-        .section-header { text-align: center; margin-bottom: 30px; }
-        .section-header h2 { font-size: 32px; letter-spacing: 2px; }
+        .section-header { text-align: center; margin-bottom: 40px; }
+        .section-header h2 { font-size: 28px; letter-spacing: 4px; }
 
         /* Slider de Productos */
         .slider-container {
             position: relative;
             max-width: 1200px;
             margin: auto;
-            padding: 0 20px;
+            padding: 0 20px 100px;
         }
 
         .product-slider { 
             display: flex; 
             overflow-x: auto; 
             gap: 20px; 
-            padding-bottom: 20px; 
+            padding-bottom: 30px; 
             scroll-snap-type: x mandatory; 
             scrollbar-width: none;
             scroll-behavior: smooth;
@@ -43,24 +96,24 @@
             scroll-snap-align: center; 
             text-decoration: none; 
             color: #000;
-            transition: transform 0.3s ease;
+            background: #fff;
+            transition: 0.3s ease;
         }
 
         .slide-card:hover { transform: translateY(-5px); }
-
         .slide-card img { width: 100%; height: 350px; object-fit: cover; border-bottom: 2px solid #000; }
         .slide-info { padding: 25px; }
+        .slide-info h3 { font-size: 18px; letter-spacing: 1px; }
+        .price { font-size: 20px; font-weight: bold; margin-top: 10px; }
 
-        /* NAVEGACIÓN NUMÉRICA */
+        /* NAVEGACIÓN NUMÉRICA < 1 / 5 > */
         .slider-nav {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 30px;
-            margin-top: 30px;
-            font-family: 'Avenir Next LT Pro Regular', sans-serif;
+            margin-top: 40px;
             font-size: 20px;
-            text-transform: none;
         }
 
         .nav-arrow {
@@ -70,13 +123,20 @@
             cursor: pointer;
             color: #ccc;
             transition: 0.3s;
-            padding: 10px;
         }
 
         .nav-arrow:hover { color: #000; }
-        
         #current-index { color: #000; font-weight: bold; }
         .total-index { color: #888; }
+
+        footer {
+            background: #000;
+            color: #fff;
+            padding: 60px;
+            text-align: center;
+            font-size: 12px;
+            letter-spacing: 2px;
+        }
     </style>
 </head>
 <body>
@@ -92,45 +152,47 @@
         </nav>
     </header>
 
-    <div class="home-hero"></div>
+    <main>
+        <div class="home-hero"></div>
 
-    <section class="slider-container">
-        <div class="section-header">
-            <h2>PRODUCTOS</h2>
-        </div>
-
-        <div class="product-slider" id="productSlider">
-            <a href="producto.html?id=highcarb" class="slide-card">
-                <img src="img/menu1.jpg">
-                <div class="slide-info"><h3>POWER BREAST HIGH CARB</h3><div class="price">$7.000 CLP</div></div>
-            </a>
-            <a href="producto.html?id=lowcarb" class="slide-card">
-                <img src="img/menu2.jpg">
-                <div class="slide-info"><h3>POWER BREAST LOW CARB</h3><div class="price">$6.500 CLP</div></div>
-            </a>
-            <a href="producto.html?id=pack5" class="slide-card">
-                <img src="img/pack5.jpg">
-                <div class="slide-info"><h3>PACK 5 COMIDAS</h3><div class="price">$30.000 CLP</div></div>
-            </a>
-            <a href="producto.html?id=pack10" class="slide-card">
-                <img src="img/pack10.jpg">
-                <div class="slide-info"><h3>PACK 10 COMIDAS</h3><div class="price">$60.000 CLP</div></div>
-            </a>
-            <a href="producto.html?id=pack30" class="slide-card">
-                <img src="img/pack30.jpg">
-                <div class="slide-info"><h3>PACK 30 COMIDAS</h3><div class="price">$180.000 CLP</div></div>
-            </a>
-        </div>
-
-        <div class="slider-nav">
-            <button class="nav-arrow" onclick="scrollSlider(-1)">&#10094;</button>
-            <div>
-                <span id="current-index">1</span>
-                <span class="total-index"> / 5</span>
+        <section class="slider-container">
+            <div class="section-header">
+                <h2>PRODUCTOS</h2>
             </div>
-            <button class="nav-arrow" onclick="scrollSlider(1)">&#10095;</button>
-        </div>
-    </section>
+
+            <div class="product-slider" id="productSlider">
+                <a href="producto.html?id=highcarb" class="slide-card">
+                    <img src="img/menu1.jpg">
+                    <div class="slide-info"><h3>POWER BREAST HIGH CARB</h3><div class="price">$7.000 CLP</div></div>
+                </a>
+                <a href="producto.html?id=lowcarb" class="slide-card">
+                    <img src="img/menu2.jpg">
+                    <div class="slide-info"><h3>POWER BREAST LOW CARB</h3><div class="price">$6.500 CLP</div></div>
+                </a>
+                <a href="producto.html?id=pack5" class="slide-card">
+                    <img src="img/pack5.jpg">
+                    <div class="slide-info"><h3>PACK 5 COMIDAS</h3><div class="price">$30.000 CLP</div></div>
+                </a>
+                <a href="producto.html?id=pack10" class="slide-card">
+                    <img src="img/pack10.jpg">
+                    <div class="slide-info"><h3>PACK 10 COMIDAS</h3><div class="price">$60.000 CLP</div></div>
+                </a>
+                <a href="producto.html?id=pack30" class="slide-card">
+                    <img src="img/pack30.jpg">
+                    <div class="slide-info"><h3>PACK 30 COMIDAS</h3><div class="price">$180.000 CLP</div></div>
+                </a>
+            </div>
+
+            <div class="slider-nav">
+                <button class="nav-arrow" onclick="scrollSlider(-1)">&#10094;</button>
+                <div>
+                    <span id="current-index">1</span>
+                    <span class="total-index"> / 5</span>
+                </div>
+                <button class="nav-arrow" onclick="scrollSlider(1)">&#10095;</button>
+            </div>
+        </section>
+    </main>
 
     <footer>© 2026 PREPS - TODOS LOS DERECHOS RESERVADOS</footer>
 
