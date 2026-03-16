@@ -1,57 +1,100 @@
-/* styles.css */
+/*styles.css - Estilo Unificado para PREPS*/
+
 @font-face {
     font-family: 'Avenir Next LT Pro Demi';
     src: local('Arial Black');
     font-weight: 900;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body { 
-    background: #ffffff; 
-    color: #000; 
-    font-family: 'Avenir Next LT Pro Demi', sans-serif; 
-    text-transform: uppercase;
-}
-
-/* HEADER PARA CATÁLOGO / NOSOTROS / PRODUCTO (Estilo Refresko) */
-.header-refresko {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 50px;
-    border-bottom: 1px solid #eee;
-    background: #fff;
-}
-
-.header-refresko img { height: 40px; width: auto; }
-
-.header-refresko nav { display: flex; gap: 30px; }
-
-.header-refresko nav a {
-    text-decoration: none;
-    color: #000;
-    font-size: 16px;
+@font-face {
+    font-family: 'Avenir Next LT Pro Regular';
+    src: local('Arial');
     font-weight: 400;
 }
 
-/* HEADER PARA HOME (Centrado) */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #ffffff;
+    color: #000;
+    font-family: 'Avenir Next LT Pro Demi', sans-serif;
+    text-transform: uppercase;
+    line-height: 1.2;
+    overflow-x: hidden;
+}
+
+/* --- HEADER HOME (CENTRADO) --- */
 .header-home {
     padding: 60px 20px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    background: #fff;
 }
 
-.header-home img { width: 320px; margin-bottom: 10px; }
+.header-home img {
+    width: 320px;
+    margin-bottom: 10px;
+}
 
-.header-home .slogan { font-size: 22px; letter-spacing: 2px; margin-bottom: 30px; }
+.header-home .slogan {
+    font-size: 22px;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+}
 
-.header-home nav { display: flex; gap: 40px; }
+.header-home nav {
+    display: flex;
+    gap: 40px;
+}
 
-.header-home nav a { text-decoration: none; color: #000; font-size: 18px; }
+/* --- HEADER REFRESKO (LOGO IZQUIERDA - PARA CATÁLOGO Y NOSOTROS) --- */
+.header-refresko {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 50px;
+    border-bottom: 1px solid #000;
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 2000;
+}
 
-/* Común para enlaces */
-nav a { transition: 0.3s; border-bottom: 2px solid transparent; padding-bottom: 5px; }
-nav a:hover, nav a.active { border-bottom: 2px solid #000; }
+.header-refresko img {
+    height: 35px;
+    width: auto;
+}
+
+.header-refresko nav {
+    display: flex;
+    gap: 30px;
+}
+
+/* Estilos comunes para enlaces de navegación */
+nav a {
+    text-decoration: none;
+    color: #000;
+    font-family: 'Avenir Next LT Pro Regular', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    transition: 0.3s;
+    border-bottom: 2px solid transparent;
+    padding-bottom: 5px;
+}
+
+nav a:hover, nav a.active {
+    border-bottom: 2px solid #000;
+}
+
+/* BOTONES Y SECCIONES */
+.section-title { text-align: center; font-size: 32px; margin: 60px 0 40px; }
+.btn { background: black; color: white; padding: 18px 45px; text-decoration: none; display: inline-block; transition: 0.3s; cursor: pointer; border: none; }
+.btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+footer { background: #000; color: #fff; padding: 60px; text-align: center; font-size: 12px; font-family: Arial; text-transform: none; }
