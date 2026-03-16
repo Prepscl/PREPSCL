@@ -136,7 +136,7 @@
             text-align: center;
         }
 
-        /* Ingredientes en fuente normal */
+        /* Ingredientes en fuente normal y minúsculas */
         .product-text ul li {
             font-family: 'Avenir Next LT Pro Regular', Arial, sans-serif;
             font-weight: 400;
@@ -174,20 +174,24 @@
             display: block;
         }
 
-        /* Packs Interactivos */
+        /* Packs Interactivos con scroll */
         .packs-wrapper {
             display: flex;
             overflow-x: auto;
             gap: 20px;
             padding-bottom: 30px;
+            scroll-snap-type: x mandatory;
         }
 
+        .packs-wrapper::-webkit-scrollbar { display: none; }
+
         .pack {
-            min-width: 300px;
+            min-width: 320px;
             border: 2px solid #000;
             transition: 0.3s;
             background: #fff;
             text-align: center;
+            scroll-snap-align: center;
         }
 
         .pack:hover {
@@ -195,13 +199,14 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
-        .pack img { width: 100%; height: 250px; object-fit: cover; }
+        .pack img { width: 100%; height: 280px; object-fit: cover; }
         .pack-content { padding: 25px; }
+        .pack h3 { font-size: 24px; margin-bottom: 10px; }
 
         footer {
             background: #000;
             color: #fff;
-            padding: 40px;
+            padding: 60px;
             text-align: center;
             font-size: 14px;
         }
@@ -272,7 +277,7 @@
                 <div class="pack-content">
                     <h3>PACK 5 COMIDAS</h3>
                     <div class="price">$30.000</div>
-                    <a class="btn" href="https://wa.me/56941892028?text=Quiero el Pack 5">ORDENAR</a>
+                    <a class="btn" href="https://wa.me/56941892028?text=Hola, quiero el Pack de 5 comidas">ORDENAR</a>
                 </div>
             </div>
             <div class="pack">
@@ -280,7 +285,15 @@
                 <div class="pack-content">
                     <h3>PACK 10 COMIDAS</h3>
                     <div class="price">$60.000</div>
-                    <a class="btn" href="https://wa.me/56941892028?text=Quiero el Pack 10">ORDENAR</a>
+                    <a class="btn" href="https://wa.me/56941892028?text=Hola, quiero el Pack de 10 comidas">ORDENAR</a>
+                </div>
+            </div>
+            <div class="pack">
+                <img src="pack30.jpg">
+                <div class="pack-content">
+                    <h3>PACK 30 COMIDAS</h3>
+                    <div class="price">$180.000</div>
+                    <a class="btn" href="https://wa.me/56941892028?text=Hola, quiero el Pack de 30 comidas">ORDENAR</a>
                 </div>
             </div>
         </div>
@@ -295,7 +308,7 @@
             setInterval(() => {
                 pos = pos === 0 ? 50 : 0;
                 track.style.transform = `translateX(-${pos}%)`;
-            }, 4000);
+            }, 4500);
             track.addEventListener('click', () => {
                 pos = pos === 0 ? 50 : 0;
                 track.style.transform = `translateX(-${pos}%)`;
