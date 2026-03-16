@@ -8,40 +8,33 @@
     <style>
         /* FONDO Y TIPOGRAFÍA BASE */
         body {
-            background-color: #f2f2f2; /* Gris claro de la referencia */
+            background-color: #f2f2f2; 
             font-family: 'Courier New', Courier, monospace;
             margin: 0;
             padding: 0;
             text-transform: uppercase;
         }
 
-        /* HEADER HOME - IDENTICO A REFERENCIA */
+        /* HEADER HOME REORGANIZADO */
         header {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            padding: 100px 20px 60px; /* Mucho espacio arriba para centrarlo */
+            padding: 80px 20px 40px; 
             background: #f2f2f2;
         }
 
         header .logo-link img {
-            width: 200px; /* Tamaño controlado para que no tape todo */
+            width: 200px; 
             height: auto;
-            margin-bottom: 40px;
-        }
-
-        .hero-slogan {
-            font-size: 18px;
-            letter-spacing: 5px; /* Espaciado ancho de la referencia */
-            color: #000;
-            margin-bottom: 50px;
-            font-weight: normal;
+            margin-bottom: 30px; /* Espacio antes del nav */
         }
 
         nav {
             display: flex;
             gap: 40px;
+            margin-bottom: 40px; /* Espacio antes del eslogan */
         }
 
         nav a {
@@ -55,10 +48,18 @@
         }
 
         nav a.active {
-            border-bottom: 2px solid #000; /* Línea negra debajo de Hogar */
+            border-bottom: 2px solid #000; 
         }
 
-        /* CONTENIDO QUE SE MUEVE EN CONJUNTO */
+        .hero-slogan {
+            font-size: 18px;
+            letter-spacing: 5px; 
+            color: #000;
+            font-weight: 900; /* Negrita destacada */
+            margin-bottom: 20px;
+        }
+
+        /* CONTENIDO */
         .home-hero { 
             width: 100%; 
             height: 75vh; 
@@ -69,7 +70,6 @@
         .section-header { text-align: center; margin-bottom: 40px; }
         .section-header h2 { font-size: 28px; letter-spacing: 4px; }
 
-        /* Slider de Productos */
         .slider-container {
             position: relative;
             max-width: 1200px;
@@ -106,7 +106,6 @@
         .slide-info h3 { font-size: 18px; letter-spacing: 1px; }
         .price { font-size: 20px; font-weight: bold; margin-top: 10px; }
 
-        /* NAVEGACIÓN NUMÉRICA < 1 / 5 > */
         .slider-nav {
             display: flex;
             align-items: center;
@@ -144,12 +143,12 @@
         <a href="index.html" class="logo-link">
             <img src="img/logo-preps.png" alt="PREPS">
         </a>
-        <div class="hero-slogan">DISEÑADO PARA TU RENDIMIENTO</div>
         <nav>
             <a href="index.html" class="active">Hogar</a>
             <a href="catalogo.html">Catalogar</a>
             <a href="nosotros.html">Sobre nosotros</a>
         </nav>
+        <div class="hero-slogan">DISEÑADO PARA TU RENDIMIENTO</div>
     </header>
 
     <main>
