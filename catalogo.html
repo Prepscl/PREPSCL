@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo - PREPS</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; padding: 40px 20px; }
+        .item { border: 2px solid #000; cursor: pointer; text-align: center; }
+        .item img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-bottom: 2px solid #000; }
+        .item-info { padding: 20px; }
+
+        /* VISTA DETALLE (Se activa al click) */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 2000; overflow-y: auto; padding: 50px 20px; }
+        .modal-content { max-width: 1100px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+        @media (max-width: 768px) { .modal-content { grid-template-columns: 1fr; } }
+        .close { position: fixed; top: 20px; right: 30px; font-size: 40px; cursor: pointer; }
+        .desc-text { text-transform: none; font-family: Arial, sans-serif; line-height: 1.6; font-weight: 400; }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo-link"><img src="img/logo-preps.png" alt="PREPS"></a>
+        <div class="hero-slogan">DISEÑADO PARA TU RENDIMIENTO</div>
+        <nav><a href="index.html">Hogar</a><a href="catalogo.html" class="active">Catalogar</a><a href="nosotros.html">Sobre nosotros</a></nav>
+    </header>
+
+    <div class="grid">
+        <div class="item" onclick="openMe('hc')"><img src="img/menu1.jpg"><div class="item-info"><h3>HIGH CARB</h3><p>$7.000 CLP</p></div></div>
+        <div class="item" onclick="openMe('lc')"><img src="img/menu2.jpg"><div class="item-info"><h3>LOW CARB</h3><p>$6.500 CLP</p></div></div>
+    </div>
+
+    <div id="detail" class="modal">
+        <span class="close" onclick="closeMe()">&times;</span>
+        <div id="modal-body" class="modal-content"></div>
+    </div>
+
+    <script>
+        const data = {
+            hc: { name: "POWER BREAST HIGH CARB", price: "$7.000 CLP", img: "img/menu1.jpg", desc: "Descripción: Pechuga de pollo con arroz y brócoli. Ideal para entrenamientos intensos.", macros: "830 KCAL | PROT: 73G | CARBS: 92G | GRASAS: 19G" },
+            lc: { name: "POWER BREAST LOW CARB", price: "$6.500 CLP", img: "img/menu2.jpg", desc: "Descripción: Versión reducida en arroz para control calórico.", macros: "632 KCAL | PROT: 69G | CARBS: 49G | GRASAS: 17G" }
+        };
+        function openMe(id) {
+            const p = data[id];
+            document.getElementById('modal-body').innerHTML = `
+                <div><img src="${p.img}" style="width:100%; border:2px solid #000;"></div>
+                <div>
+                    <h1>${p.name}</h1>
+                    <div class="desc-text"><p>${p.desc}</p><br><p><strong>Macros:</strong> ${p.macros}</p></div>
+                    <h2 style="margin: 30px 0;">${p.price}</h2>
+                    <a href="https://wa.me/56941892028" class="btn">COMPRE YA</a>
+                </div>`;
+            document.getElementById('detail').style.display = 'block';
+        }
+        function closeMe() { document.getElementById('detail').style.display = 'none'; }
+    </script>
+</body>
+</html>
