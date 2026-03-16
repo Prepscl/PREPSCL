@@ -24,74 +24,90 @@
             font-family: 'Avenir Next LT Pro Demi', 'Arial Black', sans-serif;
             text-transform: uppercase;
             font-weight: 900;
+            scroll-behavior: smooth;
         }
 
         body {
             background: #ffffff;
             color: #000;
             line-height: 1.2;
-            overflow-x: hidden;
         }
 
-        /* Hero */
-        .hero {
-            height: 70vh;
-            background: linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.4)), url('hero.jpg') center/cover no-repeat;
+        /* HEADER / NAVEGACIÓN */
+        header {
+            padding: 40px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 20px;
+            border-bottom: 2px solid #000;
+            background: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        .logo-container img {
-            width: 320px;
-            max-width: 80%;
+        .logo-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            margin-bottom: 15px;
+        }
+
+        .logo-btn img {
+            width: 280px;
             height: auto;
-            margin-bottom: 10px;
         }
 
         .hero-slogan {
-            font-size: 24px;
+            font-size: 18px;
             letter-spacing: 2px;
-            margin-bottom: 35px;
-            color: #000;
+            margin-bottom: 20px;
         }
 
-        .btn {
-            background: black;
-            color: white;
-            padding: 18px 45px;
-            border: none;
-            font-size: 16px;
-            cursor: pointer;
+        nav {
+            display: flex;
+            gap: 40px;
+        }
+
+        nav a {
             text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
+            color: #000;
+            font-size: 16px;
+            letter-spacing: 1px;
+            padding-bottom: 5px;
+            transition: 0.3s;
+            border-bottom: 2px solid transparent;
         }
 
-        .btn:hover {
-            background: #333;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        nav a:hover {
+            border-bottom: 2px solid #000;
         }
 
-        .section {
+        /* SECCIONES */
+        .page-section {
+            padding: 80px 20px;
             max-width: 1100px;
             margin: auto;
-            padding: 80px 20px;
         }
 
         .section-title {
             text-align: center;
-            font-size: 36px;
-            margin-bottom: 50px;
-            border-bottom: 4px solid #000;
-            padding-bottom: 10px;
+            font-size: 40px;
+            margin-bottom: 60px;
         }
 
-        /* PRODUCTOS Y CARRUSEL - CORRECCIÓN DE PROPORCIÓN */
+        /* HOME / HERO */
+        #home {
+            height: 60vh;
+            background: linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0.3)), url('hero.jpg') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        /* CATALOGO */
         .product {
             display: flex;
             flex-direction: column;
@@ -101,7 +117,7 @@
         }
 
         @media (min-width: 768px) {
-            .product { flex-direction: row; text-align: left; }
+            .product { flex-direction: row; }
             .product.reverse { flex-direction: row-reverse; }
         }
 
@@ -111,8 +127,7 @@
             aspect-ratio: 1 / 1;
             border: 2px solid #000;
             overflow: hidden;
-            position: relative;
-            background: #f9f9f9; /* Fondo neutro para cuando la imagen no es cuadrada */
+            background: #f9f9f9;
         }
 
         .carousel-track {
@@ -125,24 +140,20 @@
         .carousel-track img {
             width: 50%;
             height: 100%;
-            /* ESTA ES LA CLAVE: contain evita que se estire */
-            object-fit: contain; 
+            object-fit: contain;
             padding: 10px;
         }
 
         .product-text {
             flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            text-align: center;
         }
 
-        .product-text h2 { font-size: 28px; margin-bottom: 20px; text-align: center; }
+        .product-text h2 { font-size: 28px; margin-bottom: 20px; }
 
         .product-text ul {
             list-style: none;
             margin-bottom: 20px;
-            text-align: center;
         }
 
         .product-text ul li {
@@ -156,7 +167,6 @@
         .portion-size {
             font-family: 'Avenir Next LT Pro Demi', sans-serif !important;
             font-weight: 900;
-            font-size: 19px;
             margin-top: 15px;
             display: block;
         }
@@ -166,48 +176,42 @@
             color: #fff;
             padding: 18px;
             margin: 20px 0;
-            width: 100%;
             font-size: 15px;
+        }
+
+        .price { font-size: 34px; margin-bottom: 25px; }
+
+        /* SOBRE NOSOTROS */
+        .about-content {
             text-align: center;
+            font-family: 'Avenir Next LT Pro Regular', Arial, sans-serif;
+            text-transform: none;
+            font-weight: 400;
+            font-size: 20px;
+            max-width: 800px;
+            margin: auto;
+            line-height: 1.6;
         }
 
-        .price {
-            font-size: 34px;
-            margin-bottom: 25px;
-            text-align: center;
+        /* BOTONES */
+        .btn {
+            background: black;
+            color: white;
+            padding: 18px 45px;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s;
         }
 
-        /* PACKS - CORRECCIÓN DE PROPORCIÓN */
-        .packs-wrapper {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
-
-        .pack {
-            border: 2px solid #000;
-            background: #fff;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .pack img {
-            width: 100%;
-            aspect-ratio: 4 / 3;
-            object-fit: contain; /* Cambiado a contain para evitar cortes raros */
-            background: #fdffdf;
-            border-bottom: 2px solid #000;
-            padding: 5px;
-        }
-
-        .pack-content { padding: 25px; flex-grow: 1; }
-        .pack h3 { font-size: 22px; margin-bottom: 15px; }
 
         footer {
             background: #000;
             color: #fff;
-            padding: 50px 20px;
+            padding: 40px;
             text-align: center;
             font-size: 13px;
         }
@@ -215,20 +219,30 @@
 </head>
 <body>
 
-    <section class="hero">
-        <div class="logo-container">
+    <header>
+        <button class="logo-btn" onclick="window.scrollTo(0,0)">
             <img src="logo-preps.png" alt="PREPS">
-        </div>
+        </button>
         <div class="hero-slogan">DISEÑADO PARA TU RENDIMIENTO</div>
-        <a class="btn" href="https://wa.me/56941892028">ORDENAR AHORA</a>
+        <nav>
+            <a href="#home">Hogar</a>
+            <a href="#catalogo">Catalogar</a>
+            <a href="#nosotros">Sobre nosotros</a>
+        </nav>
+    </header>
+
+    <section id="home" class="page-section">
+        <a class="btn" href="#catalogo">VER MENÚS</a>
     </section>
 
-    <section class="section">
+    <section id="catalogo" class="page-section">
+        <h2 class="section-title">NUESTROS MENÚS</h2>
+        
         <div class="product">
-            <div class="menu-carousel">
+            <div class="menu-carousel" onclick="toggleCarousel('track1')">
                 <div class="carousel-track" id="track1">
-                    <img src="menu1.jpg" alt="Menu High Carb">
-                    <img src="tabla_highcarb.png" alt="Tabla High Carb">
+                    <img src="menu1.jpg">
+                    <img src="tabla_highcarb.png">
                 </div>
             </div>
             <div class="product-text">
@@ -241,15 +255,15 @@
                 </ul>
                 <div class="macros">830 KCAL | PROT: 73G | CARBS: 92G | GRASAS: 19G</div>
                 <div class="price">$7.000</div>
-                <a class="btn" href="https://wa.me/56941892028?text=Hola, quiero el menú High Carb">PEDIR MENÚ</a>
+                <a class="btn" href="https://wa.me/56941892028">PEDIR</a>
             </div>
         </div>
 
         <div class="product reverse">
-            <div class="menu-carousel">
+            <div class="menu-carousel" onclick="toggleCarousel('track2')">
                 <div class="carousel-track" id="track2">
-                    <img src="menu2.jpg" alt="Menu Low Carb">
-                    <img src="etiqueta_low_carb_450g_final.png" alt="Tabla Low Carb">
+                    <img src="menu2.jpg">
+                    <img src="etiqueta_low_carb_450g_final.png">
                 </div>
             </div>
             <div class="product-text">
@@ -262,62 +276,32 @@
                 </ul>
                 <div class="macros">632 KCAL | PROT: 69G | CARBS: 49G | GRASAS: 17G</div>
                 <div class="price">$6.500</div>
-                <a class="btn" href="https://wa.me/56941892028?text=Hola, quiero el menú Low Carb">PEDIR MENÚ</a>
+                <a class="btn" href="https://wa.me/56941892028">PEDIR</a>
             </div>
         </div>
     </section>
 
-    <section class="section">
-        <h2 class="section-title">PACKS SEMANALES</h2>
-        <div class="packs-wrapper">
-            <div class="pack">
-                <img src="pack5.jpg" alt="Pack 5">
-                <div class="pack-content">
-                    <h3>PACK 5 COMIDAS</h3>
-                    <div class="price">$30.000</div>
-                    <a class="btn" href="https://wa.me/56941892028?text=Quiero el Pack 5">ORDENAR</a>
-                </div>
-            </div>
-            <div class="pack">
-                <img src="pack10.jpg" alt="Pack 10">
-                <div class="pack-content">
-                    <h3>PACK 10 COMIDAS</h3>
-                    <div class="price">$60.000</div>
-                    <a class="btn" href="https://wa.me/56941892028?text=Quiero el Pack 10">ORDENAR</a>
-                </div>
-            </div>
-            <div class="pack">
-                <img src="pack30.jpg" alt="Pack 30">
-                <div class="pack-content">
-                    <h3>PACK 30 COMIDAS</h3>
-                    <div class="price">$180.000</div>
-                    <a class="btn" href="https://wa.me/56941892028?text=Quiero el Pack 30">ORDENAR</a>
-                </div>
-            </div>
+    <section id="nosotros" class="page-section">
+        <h2 class="section-title">SOBRE NOSOTROS</h2>
+        <div class="about-content">
+            <p>En <strong>PREPS</strong>, creemos que la nutrición es el pilar fundamental del alto rendimiento. Diseñamos meal preps equilibrados, frescos y listos para consumir, permitiéndote alcanzar tus metas físicas sin sacrificar tu tiempo. Cada plato está pesado y calculado para que sepas exactamente qué combustible le estás dando a tu cuerpo.</p>
         </div>
     </section>
 
     <footer>© 2026 PREPS - TODOS LOS DERECHOS RESERVADOS</footer>
 
     <script>
-        function initCarousel(id) {
+        function toggleCarousel(id) {
             const track = document.getElementById(id);
-            let showTable = false;
-            
-            setInterval(() => {
-                showTable = !showTable;
-                track.style.transform = showTable ? 'translateX(-50%)' : 'translateX(0)';
-            }, 4500);
-
-            track.parentElement.addEventListener('click', () => {
-                showTable = !showTable;
-                track.style.transform = showTable ? 'translateX(-50%)' : 'translateX(0)';
-            });
+            const currentTransform = track.style.transform;
+            track.style.transform = currentTransform === 'translateX(-50%)' ? 'translateX(0)' : 'translateX(-50%)';
         }
-        window.onload = () => {
-            initCarousel('track1');
-            initCarousel('track2');
-        };
+        
+        // Auto-cambio cada 5 segundos
+        setInterval(() => {
+            toggleCarousel('track1');
+            toggleCarousel('track2');
+        }, 5000);
     </script>
 </body>
 </html>
