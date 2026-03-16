@@ -1,115 +1,57 @@
-/*styles.css - Estilo Unificado para PREPS (Tipo Refresko)*/
-
-/* Tipografía Principal y Predeterminada */
+/* styles.css */
 @font-face {
     font-family: 'Avenir Next LT Pro Demi';
-    src: local('Arial Black'); /* Puedes usar 'Arial Black' como respaldo si no tienes la fuente */
+    src: local('Arial Black');
     font-weight: 900;
 }
 
-@font-face {
-    font-family: 'Avenir Next LT Pro Regular';
-    src: local('Arial'); /* O 'Arial Regular' */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body { 
+    background: #ffffff; 
+    color: #000; 
+    font-family: 'Avenir Next LT Pro Demi', sans-serif; 
+    text-transform: uppercase;
+}
+
+/* HEADER PARA CATÁLOGO / NOSOTROS / PRODUCTO (Estilo Refresko) */
+.header-refresko {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 50px;
+    border-bottom: 1px solid #eee;
+    background: #fff;
+}
+
+.header-refresko img { height: 40px; width: auto; }
+
+.header-refresko nav { display: flex; gap: 30px; }
+
+.header-refresko nav a {
+    text-decoration: none;
+    color: #000;
+    font-size: 16px;
     font-weight: 400;
 }
 
-/* Base del sitio */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    scroll-behavior: smooth;
-}
-
-body {
-    background: #ffffff;
-    color: #000;
-    font-family: 'Avenir Next LT Pro Demi', sans-serif;
-    text-transform: uppercase; /* Mayúsculas predeterminadas */
-    line-height: 1.2;
-    overflow-x: hidden;
-}
-
-/* ENCABEZADO ESTILO "REFRESKO" (Logo izquierda, Menú derecha) */
-.main-header {
+/* HEADER PARA HOME (Centrado) */
+.header-home {
+    padding: 60px 20px 20px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between; /* Logo extrema izquierda, menú extrema derecha */
-    padding: 20px 50px; /* Margen interno para que respire */
-    border-bottom: 1px solid #000; /* Línea divisoria minimalista */
-    background: #fff;
-    position: sticky; /* Se queda fijo al hacer scroll */
-    top: 0;
-    z-index: 2000; /* Siempre por encima */
-}
-
-/* El enlace que contiene el logo */
-.logo-link {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-}
-
-/* El logo en sí */
-.logo-link img {
-    height: 35px; /* Altura controlada del logo, ajusta si es necesario */
-    width: auto;
-}
-
-/* Navegación a la derecha */
-.main-nav {
-    display: flex;
-    gap: 30px; /* Espacio entre los enlaces */
-}
-
-.main-nav a {
-    text-decoration: none;
-    color: #000;
-    font-family: 'Avenir Next LT Pro Regular', sans-serif; /* Tipografía más fina para el menú */
-    font-size: 16px;
-    letter-spacing: 1px;
-    transition: opacity 0.3s;
-    font-weight: 400; /* Regular weight */
-}
-
-.main-nav a:hover, .main-nav a.active {
-    opacity: 0.6; /* Efecto hover minimalista */
-}
-
-/* TÍTULOS DE SECCIÓN */
-.section-title {
     text-align: center;
-    font-size: 32px;
-    margin: 60px 0 40px;
 }
 
-/* BOTONES GLOBALES */
-.btn {
-    background: black;
-    color: white;
-    padding: 18px 45px;
-    text-decoration: none;
-    display: inline-block;
-    font-family: 'Avenir Next LT Pro Demi', sans-serif;
-    text-transform: uppercase;
-    font-size: 18px;
-    transition: 0.3s;
-    border: none;
-    cursor: pointer;
-}
+.header-home img { width: 320px; margin-bottom: 10px; }
 
-.btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-}
+.header-home .slogan { font-size: 22px; letter-spacing: 2px; margin-bottom: 30px; }
 
-/* FOOTER */
-footer {
-    background: #000;
-    color: #fff;
-    padding: 60px;
-    text-align: center;
-    font-size: 12px;
-    text-transform: none; /* Texto normal */
-    font-family: Arial, sans-serif;
-}
+.header-home nav { display: flex; gap: 40px; }
+
+.header-home nav a { text-decoration: none; color: #000; font-size: 18px; }
+
+/* Común para enlaces */
+nav a { transition: 0.3s; border-bottom: 2px solid transparent; padding-bottom: 5px; }
+nav a:hover, nav a.active { border-bottom: 2px solid #000; }
