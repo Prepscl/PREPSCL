@@ -6,12 +6,56 @@
     <title>Catálogo - PREPS Chile</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* Estilos específicos para el Catálogo */
+        /* FONDO GRIS CLARO IGUAL A HOME */
+        body {
+            background-color: #f2f2f2;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* HEADER REFRESKO: Logo pequeño izquierda, Menú derecha */
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 50px;
+            background: #f2f2f2;
+            border-bottom: 1px solid #000;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        /* Esto evita que el logo se vea gigante */
+        .logo-link img {
+            height: 35px; 
+            width: auto;
+            display: block;
+        }
+
+        .main-nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        .main-nav a {
+            text-decoration: none;
+            color: #000;
+            font-size: 14px;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        .main-nav a.active {
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        /* CUADRÍCULA DE PRODUCTOS */
         .grid-catalogo {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 40px;
-            padding: 40px 20px;
+            padding: 60px 20px;
             max-width: 1200px;
             margin: auto;
         }
@@ -40,20 +84,33 @@
 
         .producto-card .info {
             padding: 25px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
         }
 
         .producto-card h3 {
-            font-size: 20px;
+            font-size: 18px;
             margin-bottom: 10px;
+            letter-spacing: 1px;
         }
 
         .producto-card .price {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 900;
+        }
+
+        .section-title {
+            text-align: center;
+            letter-spacing: 4px;
+            margin-top: 60px;
+            font-size: 24px;
+        }
+
+        footer {
+            background: #000;
+            color: #fff;
+            padding: 60px;
+            text-align: center;
+            font-size: 12px;
+            margin-top: 80px;
         }
     </style>
 </head>
@@ -64,13 +121,13 @@
             <img src="img/logo-preps.png" alt="PREPS Chile">
         </a>
         <nav class="main-nav">
-            <a href="index.html">Hogar</a>
-            <a href="catalogo.html" class="active">Catalogar</a>
-            <a href="nosotros.html">Sobre nosotros</a>
+            <a href="index.html">HOGAR</a>
+            <a href="catalogo.html" class="active">CATALOGAR</a>
+            <a href="nosotros.html">SOBRE NOSOTROS</a>
         </nav>
     </header>
 
-    <main class="page-section">
+    <main>
         <h2 class="section-title">NUESTROS MENÚS</h2>
         
         <div class="grid-catalogo">
@@ -89,10 +146,9 @@
                     <div class="price">$6.500 CLP</div>
                 </div>
             </a>
-            
-            </div>
+        </div>
         
-        <h2 class="section-title" style="margin-top: 80px;">PACKS SEMANALES</h2>
+        <h2 class="section-title">PACKS SEMANALES</h2>
         
         <div class="grid-catalogo">
             <a href="producto.html?id=pack5" class="producto-card">
