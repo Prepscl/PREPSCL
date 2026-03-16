@@ -13,48 +13,47 @@
             margin: 0;
             padding: 0;
             text-transform: uppercase;
-        }
-
-        /* HEADER HOME - CENTRADO TOTAL */
-        header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            padding: 80px 20px 40px; 
-            background: #f2f2f2;
             width: 100%;
-            box-sizing: border-box;
         }
 
-        header .logo-link {
-            display: block;
-            margin-bottom: 30px;
+        /* HEADER HOME - CENTRADO ABSOLUTO */
+        header {
+            width: 100%;
+            display: block; /* Cambiado a block para centrado de texto tradicional */
+            text-align: center;
+            padding: 80px 0 40px; 
+            background: #f2f2f2;
         }
 
-        header .logo-link img {
+        .logo-link {
+            display: inline-block;
+            margin-bottom: 40px;
+        }
+
+        .logo-link img {
             width: 200px; 
             height: auto;
+            display: block;
         }
 
-        /* NAVEGACIÓN CENTRADA */
+        /* NAVEGACIÓN - CENTRADO CON INLINE-BLOCK */
         nav {
-            display: flex;
-            justify-content: center; /* Asegura el centrado de los items */
-            gap: 40px;
-            margin-bottom: 50px;
+            display: block;
             width: 100%;
+            margin-bottom: 50px;
+            text-align: center;
         }
 
         nav a {
+            display: inline-block; 
             text-decoration: none;
             color: #000;
             font-size: 16px;
             letter-spacing: 2px;
             padding-bottom: 8px;
+            margin: 0 20px; /* Espaciado lateral uniforme */
             border-bottom: 2px solid transparent;
             transition: 0.3s;
-            white-space: nowrap;
         }
 
         nav a.active {
@@ -63,27 +62,29 @@
 
         /* ESLOGAN EN NEGRITA Y CENTRADO */
         .hero-slogan {
+            display: block;
             width: 100%;
             font-size: 18px;
             letter-spacing: 5px; 
             color: #000;
-            font-weight: 900; /* Negrita extra */
-            margin-bottom: 20px;
-            display: block;
+            font-weight: 900; /* Negrita extra como en la imagen */
             text-align: center;
+            margin: 0 auto;
         }
 
-        /* CONTENIDO */
+        /* CONTENIDO QUE SE MUEVE EN CONJUNTO */
         .home-hero { 
             width: 100%; 
             height: 75vh; 
             background: url('img/hero.jpg') center/cover no-repeat; 
+            margin-top: 60px;
             margin-bottom: 80px;
         }
 
         .section-header { text-align: center; margin-bottom: 40px; }
         .section-header h2 { font-size: 28px; letter-spacing: 4px; }
 
+        /* Slider de Productos */
         .slider-container {
             position: relative;
             max-width: 1200px;
@@ -120,6 +121,7 @@
         .slide-info h3 { font-size: 18px; letter-spacing: 1px; }
         .price { font-size: 20px; font-weight: bold; margin-top: 10px; }
 
+        /* NAVEGACIÓN NUMÉRICA */
         .slider-nav {
             display: flex;
             align-items: center;
