@@ -1,20 +1,149 @@
-<section class="page-section">
-    <h2 class="section-title">NUESTRA HISTORIA</h2>
-    <div style="max-width: 850px; margin: auto; text-transform: none; font-family: Arial, sans-serif; line-height: 1.8; text-align: center; padding: 0 20px;">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nosotros - PREPS</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* FONDO GRIS CLARO CONSISTENTE */
+        body {
+            background-color: #f2f2f2;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 0;
+            text-transform: uppercase;
+        }
+
+        /* HEADER REFRESKO */
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 50px;
+            background: #f2f2f2;
+            border-bottom: 1px solid #000;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-link img {
+            height: 35px; 
+            width: auto;
+            display: block;
+        }
+
+        .main-nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        .main-nav a {
+            text-decoration: none;
+            color: #000;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .main-nav a.active {
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        /* CONTENIDO NOSOTROS */
+        .content-container {
+            max-width: 850px;
+            margin: 80px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .main-text {
+            font-size: 20px;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            text-transform: uppercase; /* Mantenemos el estilo de marca */
+            letter-spacing: 1px;
+        }
+
+        .info-box {
+            background: #fff;
+            padding: 40px;
+            border: 2px solid #000;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .info-box h3 {
+            text-align: center;
+            margin-bottom: 30px;
+            letter-spacing: 3px;
+            font-size: 22px;
+        }
+
+        .info-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-box li {
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+
+        .slogan-final {
+            font-size: 24px;
+            letter-spacing: 4px;
+            margin-top: 60px;
+        }
+
+        footer {
+            background: #000;
+            color: #fff;
+            padding: 60px;
+            text-align: center;
+            font-size: 12px;
+            margin-top: 100px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <a href="index.html" class="logo-link">
+            <img src="img/logo-preps.png" alt="PREPS">
+        </a>
+        <nav class="main-nav">
+            <a href="index.html">HOGAR</a>
+            <a href="catalogo.html">CATALOGAR</a>
+            <a href="nosotros.html" class="active">SOBRE NOSOTROS</a>
+        </nav>
+    </header>
+
+    <main class="content-container">
         
-        <p style="font-size: 20px; margin-bottom: 30px;">
+        <p class="main-text">
             En <strong>PREPS</strong>, diseñamos el combustible que tu cuerpo necesita para rendir al máximo. Creemos que comer sano no debe ser una tarea difícil, sino una ventaja competitiva.
         </p>
 
-        <div style="background: #f9f9f9; padding: 30px; border: 2px solid #000; margin-bottom: 30px;">
-            <h3 style="text-transform: uppercase; font-family: 'Avenir Next LT Pro Demi'; margin-bottom: 20px;">¿POR QUÉ ELEGIRNOS?</h3>
-            <ul style="list-style: none; padding: 0; text-align: left; display: inline-block;">
-                <li style="margin-bottom: 15px;"><strong>✓ PRECISIÓN TOTAL:</strong> Pesamos cada ingrediente para garantizar tus macros.</li>
-                <li style="margin-bottom: 15px;"><strong>✓ INGREDIENTES REALES:</strong> Sin procesados, solo comida de verdad.</li>
-                <li style="margin-bottom: 15px;"><strong>✓ PRECIO INTELIGENTE:</strong> Comer sano en PREPS cuesta lo mismo que un combo de McDonald's, pero rinde el doble para tus objetivos.</li>
+        <div class="info-box">
+            <h3>¿POR QUÉ ELEGIRNOS?</h3>
+            <ul>
+                <li><strong>✓ PRECISIÓN TOTAL:</strong> PESAMOS CADA INGREDIENTE PARA GARANTIZAR TUS MACROS.</li>
+                <li><strong>✓ INGREDIENTES REALES:</strong> SIN PROCESADOS, SOLO COMIDA DE VERDAD.</li>
+                <li><strong>✓ PRECIO INTELIGENTE:</strong> COMER SANO EN PREPS CUESTA LO MISMO QUE UN COMBO DE MCDONALD'S, PERO RINDE EL DOBLE PARA TUS OBJETIVOS.</li>
             </ul>
         </div>
 
-        <h3 style="text-transform: uppercase; font-family: 'Avenir Next LT Pro Demi'; font-size: 24px;">DISEÑADO PARA TU RENDIMIENTO.</h3>
-    </div>
-</section>
+        <h3 class="slogan-final">DISEÑADO PARA TU RENDIMIENTO.</h3>
+
+    </main>
+
+    <footer>
+        © 2026 PREPS - TODOS LOS DERECHOS RESERVADOS
+    </footer>
+
+</body>
+</html>
