@@ -3,63 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo - PREPS</title>
+    <title>Catálogo - PREPS Chile</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 30px; 
-            padding: 40px 20px; 
-            max-width: 1200px; 
+        /* Estilos específicos para el Catálogo */
+        .grid-catalogo {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 40px;
+            padding: 40px 20px;
+            max-width: 1200px;
             margin: auto;
         }
-        .item { 
-            border: 2px solid #000; 
-            text-align: center; 
-            text-decoration: none; 
+
+        .producto-card {
+            border: 2px solid #000;
+            background: #fff;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
             color: #000;
             transition: 0.3s;
         }
-        .item:hover { transform: translateY(-5px); }
-        .item img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-bottom: 2px solid #000; }
-        .item-info { padding: 20px; }
+
+        .producto-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .producto-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-bottom: 2px solid #000;
+        }
+
+        .producto-card .info {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .producto-card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .producto-card .price {
+            font-size: 22px;
+            font-weight: 900;
+        }
     </style>
 </head>
 <body>
-    <header>
-        <a href="index.html" class="logo-link"><img src="img/logo-preps.png" alt="PREPS"></a>
-        <div class="hero-slogan">DISEÑADO PARA TU RENDIMIENTO</div>
-        <nav>
+
+    <header class="main-header">
+        <a href="index.html" class="logo-link">
+            <img src="img/logo-preps.png" alt="PREPS Chile">
+        </a>
+        <nav class="main-nav">
             <a href="index.html">Hogar</a>
             <a href="catalogo.html" class="active">Catalogar</a>
             <a href="nosotros.html">Sobre nosotros</a>
         </nav>
     </header>
 
-    <div class="grid">
-        <a href="producto.html?id=highcarb" class="item">
-            <img src="img/menu1.jpg">
-            <div class="item-info"><h3>POWER BREAST HIGH CARB</h3><p>$7.000 CLP</p></div>
-        </a>
-        <a href="producto.html?id=lowcarb" class="item">
-            <img src="img/menu2.jpg">
-            <div class="item-info"><h3>POWER BREAST LOW CARB</h3><p>$6.500 CLP</p></div>
-        </a>
-        <a href="producto.html?id=pack5" class="item">
-            <img src="img/pack5.jpg">
-            <div class="item-info"><h3>PACK 5 COMIDAS</h3><p>$30.000 CLP</p></div>
-        </a>
-        <a href="producto.html?id=pack10" class="item">
-            <img src="img/pack10.jpg">
-            <div class="item-info"><h3>PACK 10 COMIDAS</h3><p>$60.000 CLP</p></div>
-        </a>
-        <a href="producto.html?id=pack30" class="item">
-            <img src="img/pack30.jpg">
-            <div class="item-info"><h3>PACK 30 COMIDAS</h3><p>$180.000 CLP</p></div>
-        </a>
-    </div>
+    <main class="page-section">
+        <h2 class="section-title">NUESTROS MENÚS</h2>
+        
+        <div class="grid-catalogo">
+            <a href="producto.html?id=highcarb" class="producto-card">
+                <img src="img/menu1.jpg" alt="High Carb">
+                <div class="info">
+                    <h3>POWER BREAST HIGH CARB</h3>
+                    <div class="price">$7.000 CLP</div>
+                </div>
+            </a>
+            
+            <a href="producto.html?id=lowcarb" class="producto-card">
+                <img src="img/menu2.jpg" alt="Low Carb">
+                <div class="info">
+                    <h3>POWER BREAST LOW CARB</h3>
+                    <div class="price">$6.500 CLP</div>
+                </div>
+            </a>
+            
+            </div>
+        
+        <h2 class="section-title" style="margin-top: 80px;">PACKS SEMANALES</h2>
+        
+        <div class="grid-catalogo">
+            <a href="producto.html?id=pack5" class="producto-card">
+                <img src="img/pack5.jpg" alt="Pack 5">
+                <div class="info">
+                    <h3>PACK 5 COMIDAS</h3>
+                    <div class="price">$30.000 CLP</div>
+                </div>
+            </a>
+            
+            <a href="producto.html?id=pack10" class="producto-card">
+                <img src="img/pack10.jpg" alt="Pack 10">
+                <div class="info">
+                    <h3>PACK 10 COMIDAS</h3>
+                    <div class="price">$60.000 CLP</div>
+                </div>
+            </a>
+            
+            <a href="producto.html?id=pack30" class="producto-card">
+                <img src="img/pack30.jpg" alt="Pack 30">
+                <div class="info">
+                    <h3>PACK 30 COMIDAS</h3>
+                    <div class="price">$180.000 CLP</div>
+                </div>
+            </a>
+        </div>
+    </main>
 
-    <footer>© 2026 PREPS - TODOS LOS DERECHOS RESERVADOS</footer>
+    <footer>
+        © 2026 PREPS CHILE - TODOS LOS DERECHOS RESERVADOS
+    </footer>
+
 </body>
 </html>
