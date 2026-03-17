@@ -19,7 +19,7 @@
         /* HEADER HOME - CENTRADO ABSOLUTO */
         header {
             width: 100%;
-            display: block; /* Cambiado a block para centrado de texto tradicional */
+            display: block; 
             text-align: center;
             padding: 80px 0 40px; 
             background: #f2f2f2;
@@ -51,7 +51,7 @@
             font-size: 16px;
             letter-spacing: 2px;
             padding-bottom: 8px;
-            margin: 0 20px; /* Espaciado lateral uniforme */
+            margin: 0 20px; 
             border-bottom: 2px solid transparent;
             transition: 0.3s;
         }
@@ -67,12 +67,12 @@
             font-size: 18px;
             letter-spacing: 5px; 
             color: #000;
-            font-weight: 900; /* Negrita extra como en la imagen */
+            font-weight: 900; 
             text-align: center;
             margin: 0 auto;
         }
 
-        /* CONTENIDO QUE SE MUEVE EN CONJUNTO */
+        /* CONTENIDO */
         .home-hero { 
             width: 100%; 
             height: 75vh; 
@@ -84,7 +84,6 @@
         .section-header { text-align: center; margin-bottom: 40px; }
         .section-header h2 { font-size: 28px; letter-spacing: 4px; }
 
-        /* Slider de Productos */
         .slider-container {
             position: relative;
             max-width: 1200px;
@@ -121,7 +120,6 @@
         .slide-info h3 { font-size: 18px; letter-spacing: 1px; }
         .price { font-size: 20px; font-weight: bold; margin-top: 10px; }
 
-        /* NAVEGACIÓN NUMÉRICA */
         .slider-nav {
             display: flex;
             align-items: center;
@@ -144,13 +142,26 @@
         #current-index { color: #000; font-weight: bold; }
         .total-index { color: #888; }
 
+        /* FOOTER CON INSTAGRAM */
         footer {
             background: #000;
             color: #fff;
-            padding: 60px;
+            padding: 60px 20px;
             text-align: center;
             font-size: 12px;
             letter-spacing: 2px;
+        }
+
+        .social-link img {
+            width: 30px;
+            height: auto;
+            filter: invert(1); /* Convierte el icono negro en blanco */
+            transition: opacity 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .social-link img:hover {
+            opacity: 0.7;
         }
     </style>
 </head>
@@ -209,7 +220,13 @@
         </section>
     </main>
 
-    <footer>© 2026 PREPS - TODOS LOS DERECHOS RESERVADOS</footer>
+    <footer>
+        <a href="https://www.instagram.com/prepscl/" target="_blank" class="social-link">
+            <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram">
+        </a>
+        <br>
+        © 2026 PREPS - TODOS LOS DERECHOS RESERVADOS
+    </footer>
 
     <script>
         const slider = document.getElementById('productSlider');
