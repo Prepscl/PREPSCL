@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISTEMA PREPS - ACCESO RESTRINGIDO</title>
+    <link rel="icon" type="image/png" href="img/logo-preps.png">
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            text-transform: uppercase;
+            overflow: hidden;
+            box-sizing: border-box;
+            padding: 20px;
+        }
+
+        .status {
+            font-size: 14px;
+            letter-spacing: 4px;
+            margin-bottom: 50px;
+            opacity: 0.8;
+            animation: pulse 2s infinite;
+        }
+
+        #typewriter {
+            font-size: 22px;
+            line-height: 1.6;
+            max-width: 650px;
+            letter-spacing: 2px;
+            font-weight: 900;
+            min-height: 200px;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background-color: #fff;
+            animation: blink 0.7s infinite;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+
+        /* BOTÓN CON ENLACE A LA TIENDA (index.html) */
+        .discover-btn {
+            margin-top: 70px;
+            padding: 20px 50px;
+            border: 1px solid #fff;
+            background: transparent;
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            letter-spacing: 5px;
+            transition: opacity 1.5s ease, visibility 1.5s ease;
+            cursor: pointer;
+            display: inline-block;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .discover-btn:hover {
+            background: #fff;
+            color: #000;
+            box-shadow: 0 0 25px rgba(255,255,255,0.5);
+        }
+
+        footer {
+            position: absolute;
+            bottom: 40px;
+            width: 100%;
+            text-align: center;
+            transition: opacity 2s ease, visibility 2s ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .fade-in {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        .social-link img {
+            width: 24px;
+            height: auto;
+            filter: invert(1);
+            margin-bottom: 10px;
+            transition: 0.3s;
+        }
+
+        .since-text {
+            font-size: 10px;
+            letter-spacing: 3px;
+            opacity: 0.7;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        @media (max-width: 600px) {
+            #typewriter { font-size: 18px; padding: 0 10px; }
+            .discover-btn { width: 90%; font-size: 14px; padding: 18px 0; }
+            footer { bottom: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="status">[ STATUS: ENCRYPTED ]</div>
+
+    <div id="typewriter"></div>
+
+    <a href="index.html" class="discover-btn" id="accessBtn">INGRESAR AL SISTEMA</a>
+
+    <footer id="footer">
+        <a href="https://www.instagram.com/prepscl/" target="_blank" class="social-link">
+            <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram">
+        </a>
+        <div class="since-text">PREPS SINCE 2026</div>
+    </footer>
+
+    <script>
+        const manifesto = "EL TIEMPO ES EL RECURSO MÁS ESCASO.<br><br>LA MAYORÍA LO PIERDE.<br>POCOS LO OPTIMIZAN.<br><br>HEMOS DISEÑADO LA HERRAMIENTA<br>PARA TU RENDIMIENTO DEFINITIVO.";
+
+        const speed = 60; 
+        let i = 0;
+        let htmlContent = "";
+
+        function typeWriter() {
+            if (i < manifesto.length) {
+                if (manifesto.substring(i, i + 4) === "<br>") {
+                    htmlContent += "<br>";
+                    i += 4;
+                } else {
+                    htmlContent += manifesto.charAt(i);
+                    i++;
+                }
+                document.getElementById("typewriter").innerHTML = htmlContent + '<span class="cursor"></span>';
+                setTimeout(typeWriter, speed);
+            } else {
+                document.getElementById("typewriter").innerHTML = htmlContent;
+                setTimeout(showHiddenElements, 800);
+            }
+        }
+
+        function showHiddenElements() {
+            document.getElementById("accessBtn").classList.add("fade-in");
+            document.getElementById("footer").classList.add("fade-in");
+        }
+
+        window.onload = typeWriter;
+    </script>
+
+</body>
+</html>
