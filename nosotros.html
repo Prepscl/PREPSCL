@@ -6,7 +6,6 @@
     <title>Sobre Nosotros - PREPS</title>
     <link rel="icon" type="image/png" href="img/logo-preps.png">
     <link rel="apple-touch-icon" href="img/logo-preps.png">
-    <link rel="stylesheet" href="styles.css">
     <style>
         /* FONDO GRIS CLARO CONSISTENTE */
         body {
@@ -65,7 +64,6 @@
             font-size: 20px;
             margin-bottom: 40px;
             line-height: 1.6;
-            text-transform: uppercase; /* Mantenemos el estilo de marca */
             letter-spacing: 1px;
         }
 
@@ -90,9 +88,9 @@
         }
 
         .info-box li {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             font-size: 16px;
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
         .slogan-final {
@@ -101,13 +99,42 @@
             margin-top: 60px;
         }
 
+        /* FOOTER CON INSTAGRAM */
         footer {
             background: #000;
             color: #fff;
             padding: 60px;
             text-align: center;
-            font-size: 12px;
             margin-top: 100px;
+        }
+
+        .footer-social img {
+            width: 24px;
+            height: auto;
+            filter: invert(1); /* Icono blanco */
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+
+        .footer-social img:hover {
+            opacity: 0.7;
+        }
+
+        .footer-text {
+            font-size: 10px;
+            letter-spacing: 2px;
+            line-height: 1.8;
+            opacity: 0.8;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            .main-header { padding: 15px 20px; }
+            .main-nav { gap: 15px; }
+            .main-nav a { font-size: 11px; }
+            .content-container { margin: 40px auto; }
+            .info-box { padding: 25px; }
+            .slogan-final { font-size: 18px; }
         }
     </style>
 </head>
@@ -127,15 +154,19 @@
     <main class="content-container">
         
         <p class="main-text">
-            En <strong>PREPS</strong>, diseñamos el combustible que tu cuerpo necesita para rendir al máximo. Creemos que comer sano no debe ser una tarea difícil, sino una ventaja competitiva.
+            EN <strong>PREPS</strong>, DISEÑAMOS EL COMBUSTIBLE QUE TU CUERPO NECESITA PARA RENDIR AL MÁXIMO. CREEMOS QUE COMER SANO NO DEBE SER UNA TAREA DIFICIL, SINO UNA VENTAJA COMPETITIVA.
         </p>
 
         <div class="info-box">
-            <h3>¿POR QUÉ ELEGIRNOS?</h3>
+            <h3>ESTÁNDAR DE CALIDAD</h3>
             <ul>
-                <li><strong>✓ PRECISIÓN TOTAL:</strong> PESAMOS CADA INGREDIENTE PARA GARANTIZAR TUS MACROS.</li>
-                <li><strong>✓ INGREDIENTES REALES:</strong> SIN PROCESADOS, SOLO COMIDA DE VERDAD.</li>
-                <li><strong>✓ PRECIO INTELIGENTE:</strong> COMER SANO EN PREPS CUESTA LO MISMO QUE UN COMBO DE MCDONALD'S, PERO RINDE EL DOBLE PARA TUS OBJETIVOS.</li>
+                <li><strong>[✓] PESAJE EN COCIDO:</strong> GARANTIZAMOS QUE TUS MACROS SEAN REALES. PESAMOS CADA PROTEÍNA UNA VEZ COCINADA PARA QUE LO QUE COMES SEA EXACTAMENTE LO QUE TU CUERPO REQUIERE, SIN PÉRDIDAS POR COCCIÓN.</li>
+                
+                <li><strong>[✓] HIGIENE TOTAL:</strong> OPERAMOS BAJO ESTRICTOS PROTOCOLO DE GRADO ALIMENTARIO. LA SEGURIDAD DE TU COMIDA ES NUESTRA PRIORIDAD EN CADA ETAPA DE PREPARACIÓN.</li>
+
+                <li><strong>[✓] PRECISIÓN DE MACROS:</strong> CADA INGREDIENTE ES SELECCIONADO Y PESADO AL GRAMO PARA GARANTIZAR QUE TU PLAN NUTRICIONAL SE CUMPLA AL 100%.</li>
+
+                <li><strong>[✓] PRECIO INTELIGENTE:</strong> ELIMINAMOS LOS PROCESADOS Y EL TIEMPO DE COCINA. COMER SANO EN PREPS CUESTA LO MISMO QUE COMIDA RÁPIDA, PERO CON RESULTADOS DE ÉLITE.</li>
             </ul>
         </div>
 
@@ -144,7 +175,15 @@
     </main>
 
     <footer>
-        © 2026 PREPS - TODOS LOS DERECHOS RESERVADOS
+        <div class="footer-social">
+            <a href="https://www.instagram.com/prepscl/" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram">
+            </a>
+        </div>
+        <div class="footer-text">
+            © 2026 PREPS - TODOS LOS DERECHOS RESERVADOS<br>
+            SINCE 2026
+        </div>
     </footer>
 
 </body>
