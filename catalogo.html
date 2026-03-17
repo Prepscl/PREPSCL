@@ -144,6 +144,53 @@
     .grid-catalogo, .grid-container {
         grid-template-columns: 1fr !important;
         padding: 20px !important;
+        /* FORZAR CENTRADO EN MÓVIL - CATÁLOGO */
+@media (max-width: 600px) {
+    /* 1. Forzamos que el header sea un bloque vertical */
+    header, .main-header {
+        display: block !important;
+        text-align: center !important;
+        padding: 40px 10px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 2. El logo al centro y con espacio */
+    .logo-link {
+        display: inline-block !important;
+        margin: 0 auto 20px auto !important;
+        float: none !important; /* Por si hay algún float rebelde */
+    }
+
+    .logo-link img {
+        height: 35px !important;
+        width: auto !important;
+        margin: 0 auto !important;
+    }
+
+    /* 3. El Menú centrado y sin chocar */
+    nav, .main-nav {
+        display: block !important;
+        width: 100% !important;
+        text-align: center !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    nav a, .main-nav a {
+        display: inline-block !important;
+        font-size: 11px !important; /* Un poco más pequeño para iPhone SE */
+        margin: 0 8px !important;
+        letter-spacing: 1px !important;
+        padding-bottom: 5px !important;
+    }
+
+    /* 4. Título central */
+    .section-header h2 {
+        font-size: 22px !important;
+        margin-top: 30px !important;
+    }
+}
     }
 }
         }
