@@ -113,6 +113,39 @@
             text-align: center;
             font-size: 12px;
             margin-top: 80px;
+            /* --- RESPONSIVE: AJUSTES PARA CELULARES --- */
+@media (max-width: 600px) {
+    /* Header: Logo arriba y menú abajo */
+    header, .main-header, .header-refresko {
+        flex-direction: column !important;
+        padding: 20px 10px !important;
+        text-align: center !important;
+    }
+
+    /* El logo tendrá espacio abajo */
+    .logo-link img, .header-refresko img {
+        margin-bottom: 15px !important;
+        height: 40px !important; /* Un poco más grande para que se lea bien */
+    }
+
+    /* Menú: Enlaces con menos espacio para que no se amontonen */
+    nav, .main-nav {
+        gap: 15px !important;
+        justify-content: center !important;
+        width: 100% !important;
+    }
+
+    nav a, .main-nav a {
+        font-size: 12px !important; /* Letra más pequeña para que quepa todo */
+        letter-spacing: 1px !important;
+    }
+
+    /* Cuadrícula de productos: una sola columna en móvil */
+    .grid-catalogo, .grid-container {
+        grid-template-columns: 1fr !important;
+        padding: 20px !important;
+    }
+}
         }
     </style>
 </head>
