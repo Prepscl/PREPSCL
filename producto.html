@@ -2,28 +2,64 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
     <title>Producto - PREPS</title>
+    
     <link rel="icon" type="image/png" href="img/logo-preps.png">
     <link rel="apple-touch-icon" href="img/logo-preps.png">
-    <link rel="stylesheet" href="styles.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
+
     <style>
-        body { background-color: #f2f2f2; font-family: 'Courier New', Courier, monospace; margin: 0; text-transform: uppercase; }
+        body { 
+            background-color: #f2f2f2; 
+            font-family: 'Courier New', Courier, monospace; 
+            margin: 0; 
+            text-transform: uppercase; 
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
         
-        /* HEADER ESTILO REFRESKO */
-        header { display: flex; align-items: center; justify-content: space-between; padding: 15px 50px; background: #f2f2f2; border-bottom: 1px solid #000; }
+        /* 1. SCROLL REVEAL */
+        .reveal { 
+            opacity: 0; 
+            transform: translateY(30px); 
+            transition: all 1.2s cubic-bezier(0.17, 0.55, 0.55, 1); 
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* HEADER (MANTENIENDO TU FUENTE ORIGINAL) */
+        header { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 15px 50px; 
+            background: #f2f2f2; 
+            border-bottom: 1px solid #000; 
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
         .logo-link img { height: 35px; width: auto; display: block; }
         nav { display: flex; gap: 30px; }
-        nav a { text-decoration: none; color: #000; font-size: 14px; letter-spacing: 1px; }
+        nav a { 
+            text-decoration: none; 
+            color: #000; 
+            font-size: 14px; 
+            letter-spacing: 1px;
+            font-family: 'Courier New', Courier, monospace; /* Tu preferencia */
+        }
 
-        /* DISEÑO DE PÁGINA CENTRADA */
         .product-page { 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            text-align: center; /* Centra todo el texto */
+            text-align: center; 
             padding: 60px 20px; 
-            max-width: 800px; 
+            max-width: 900px; 
             margin: auto; 
         }
         
@@ -31,141 +67,220 @@
         .image-container { 
             position: relative; 
             width: 100%; 
-            max-width: 500px; /* Tamaño controlado para que no se vea gigante */
+            max-width: 500px; 
             height: 500px; 
-            border: 2px solid #000; 
+            border: 1px solid #000; 
             background: #fff; 
             overflow: hidden; 
             margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
         
-        .image-wrapper { display: flex; height: 100%; transition: transform 0.5s ease-in-out; }
-        .image-wrapper img { min-width: 100%; height: 100%; object-fit: contain; background: #fff; }
+        .image-wrapper { display: flex; height: 100%; transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .image-wrapper img { min-width: 100%; height: 100%; object-fit: cover; }
         
-        .img-nav { position: absolute; top: 50%; width: 100%; display: flex; justify-content: space-between; transform: translateY(-50%); pointer-events: none; padding: 0 10px; box-sizing: border-box; }
-        .img-nav button { pointer-events: auto; background: #fff; border: 2px solid #000; cursor: pointer; padding: 10px 15px; font-size: 20px; transition: 0.3s; }
+        .img-nav { position: absolute; top: 50%; width: 100%; display: flex; justify-content: space-between; transform: translateY(-50%); pointer-events: none; padding: 0 15px; box-sizing: border-box; }
+        .img-nav button { 
+            pointer-events: auto; background: #fff; border: 1px solid #000; cursor: pointer; 
+            width: 45px; height: 45px; border-radius: 50%; font-size: 18px; transition: 0.3s; 
+            display: flex; align-items: center; justify-content: center;
+        }
         .img-nav button:hover { background: #000; color: #fff; }
 
-        /* DETALLES DEL PRODUCTO */
+        /* DETALLES */
         .product-details { width: 100%; }
-        .product-details h1 { font-size: 28px; margin-bottom: 20px; letter-spacing: 2px; font-weight: 900; }
-        .price-large { font-size: 32px; margin-bottom: 30px; font-weight: 900; color: #000; }
+        
+        .product-title { 
+            font-family: 'Inter', sans-serif; 
+            font-weight: 900; 
+            font-size: 36px; 
+            letter-spacing: -1.5px; 
+            margin: 20px 0;
+            line-height: 0.9;
+        }
+        
+        .price-large { 
+            font-family: 'Courier New', monospace;
+            font-size: 32px; 
+            margin-bottom: 30px; 
+            font-weight: 900; 
+        }
         
         .buy-btn { 
             width: 100%; 
             max-width: 400px; 
-            margin: 0 auto 50px; 
+            margin: 0 auto 60px; 
             background: #000; 
             color: #fff; 
-            padding: 20px; 
-            text-align: center; 
-            text-decoration: none; 
+            padding: 22px; 
             display: block; 
+            font-family: 'Inter', sans-serif;
             font-weight: 900; 
             font-size: 18px; 
-            transition: 0.3s; 
-        }
-        .buy-btn:hover { background: #333; transform: translateY(-2px); }
-
-        .info-block { 
-            margin-bottom: 30px; 
-            font-size: 16px; 
-            text-transform: none; /* Permite lectura más cómoda */
-            font-family: Arial, sans-serif; 
-            line-height: 1.6;
-        }
-
-        /* SUBTÍTULOS EN NEGRITA */
-        .info-block strong { 
-            text-transform: uppercase; 
-            font-family: 'Courier New', monospace; 
-            display: block; 
-            margin-bottom: 8px; 
-            font-size: 15px;
-            font-weight: 900; /* Negrita pura */
+            text-decoration: none;
             letter-spacing: 1px;
+            transition: 0.4s; 
         }
-        
-        footer { background: #000; color: #fff; padding: 60px; text-align: center; font-size: 12px; margin-top: 80px; }
+        .buy-btn:hover { background: #333; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+
+        /* TABLA NUTRICIONAL */
+        .specs-table {
+            width: 100%;
+            border-top: 1px solid #000;
+            margin-top: 40px;
+            text-align: left;
+        }
+        .spec-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .spec-label { font-weight: 900; font-size: 12px; color: #888; letter-spacing: 1px; }
+        .spec-value { 
+            font-family: 'Inter', sans-serif; 
+            font-weight: 900; 
+            font-size: 15px; 
+            letter-spacing: -0.5px;
+        }
+
+        /* MACRO GRID PROFESIONAL */
+        .macro-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: #000;
+            border: 1px solid #000;
+            margin: 40px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .macro-item {
+            background: #fff;
+            padding: 25px 10px;
+            text-align: center;
+        }
+        .macro-num { display: block; font-size: 24px; font-weight: 900; font-family: 'Inter', sans-serif; letter-spacing: -1px; }
+        .macro-label { font-size: 10px; color: #888; font-weight: 900; }
+
+        footer { background: #000; color: #fff; padding: 60px; text-align: center; font-size: 10px; letter-spacing: 2px; }
+
+        @media (max-width: 600px) {
+            header { padding: 15px 20px; flex-direction: column; gap: 15px; }
+            .product-title { font-size: 28px; }
+            .macro-grid { grid-template-columns: repeat(2, 1fr); }
+            .image-container { height: 350px; }
+        }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
         <a href="index.html" class="logo-link"><img src="img/logo-preps.png" alt="PREPS"></a>
-        <nav><a href="index.html">HOGAR</a><a href="catalogo.html">CATALOGAR</a><a href="nosotros.html">SOBRE NOSOTROS</a></nav>
+        <nav>
+            <a href="index.html">HOGAR</a>
+            <a href="catalogo.html">CATALOGAR</a>
+            <a href="nosotros.html">NOSOTROS</a>
+        </nav>
     </header>
 
     <main class="product-page" id="product-content"></main>
 
-    <footer>© 2026 PREPS - TODOS LOS DERECHOS RESERVADOS</footer>
+    <footer>© 2026 PREPS - PRECISION DINING</footer>
 
     <script>
         const db = {
             highcarb: {
-                name: "POWER BREAST HIGH CARB", price: "$7.000 CLP", 
+                name: "POWER BREAST HIGH CARB", 
+                price: "$5.690", 
                 imgs: ["img/menu1.jpg", "img/tabla_highcarb.png"],
-                desc: "Pechuga de pollo con arroz y brócoli. Diseñado para carga de glucógeno.",
-                ing: "Pechuga de pollo (200g), Arroz (300g), Brócoli (100g).",
-                vida: "5 a 7 días en refrigeración.",
-                macros: "830 KCAL | PROT: 73G | CARBS: 92G | GRASAS: 19G",
-                envio: "24 a 48 horas hábiles."
+                desc: "DISEÑADO PARA CARGA DE GLUCÓGENO Y MÁXIMO RENDIMIENTO.",
+                ing: "POLLO A LA PLANCHA (200G), ARROZ (300G), BRÓCOLI (100G).",
+                vida: "5 A 7 DÍAS EN REFRIGERACIÓN",
+                k: "830", p: "73", c: "92", g: "19",
+                envio: "24-48 HORAS HÁBILES"
             },
             lowcarb: {
-                name: "POWER BREAST LOW CARB", price: "$6.500 CLP", 
+                name: "POWER BREAST LOW CARB", 
+                price: "$4.990", 
                 imgs: ["img/menu2.jpg", "img/etiqueta_low_carb_450g_final.png"],
-                desc: "Opción ligera con carbohidratos controlados.",
-                ing: "Pechuga de pollo (200g), Arroz (150g), Brócoli (100g).",
-                vida: "5 a 7 días en refrigeración.",
-                macros: "632 KCAL | PROT: 69G | CARBS: 49G | GRASAS: 17G",
-                envio: "24 a 48 horas hábiles."
+                desc: "OPCIÓN LIGERA CON CARBOHIDRATOS CONTROLADOS PARA DEFINICIÓN.",
+                ing: "POLLO A LA PLANCHA (200G), ARROZ (150G), BRÓCOLI (100G).",
+                vida: "5 A 7 DÍAS EN REFRIGERACIÓN",
+                k: "632", p: "69", c: "49", g: "17",
+                envio: "24-48 HORAS HÁBILES"
             },
             pack5: {
-                name: "PACK 5 COMIDAS", price: "$30.000 CLP", imgs: ["img/pack5.jpg"],
-                desc: "Tu semana laboral resuelta.", ing: "Mix de menús PREPS.", vida: "7 días.", macros: "Variable.", envio: "Incluido."
+                name: "05 PACKS PERFORMANCE", price: "$24.900", imgs: ["img/pack5.jpg"],
+                desc: "TU SEMANA LABORAL BAJO CONTROL NUTRICIONAL.", ing: "MIX DE MENÚS PREPS (POLLO A LA PLANCHA).", vida: "7 DÍAS REFRIGERADO",
+                k: "VAR", p: "VAR", c: "VAR", g: "VAR", envio: "INCLUIDO"
             },
-            pack10: {
-                name: "PACK 10 COMIDAS", price: "$60.000 CLP", imgs: ["img/pack10.jpg"],
-                desc: "10 platos para optimizar tiempo.", ing: "Mix libre.", vida: "7 días.", macros: "Variable.", envio: "Prioritario."
+            pack15: {
+                name: "15 PACKS PERFORMANCE", price: "$72.900", imgs: ["img/pack15.jpg"],
+                desc: "COMPROMISO TOTAL CON TU OBJETIVO FÍSICO.", ing: "MIX LIBRE DE MENÚS.", vida: "7 DÍAS REFRIGERADO",
+                k: "VAR", p: "VAR", c: "VAR", g: "VAR", envio: "PRIORITARIO"
             },
-            pack30: {
-                name: "PACK 30 COMIDAS", price: "$180.000 CLP", imgs: ["img/pack30.jpg"],
-                desc: "Mes completo de nutrición.", ing: "Acceso total.", vida: "Mensual.", macros: "Asesoría incluida.", envio: "Programado."
+            pack28: {
+                name: "28 PACKS PERFORMANCE", price: "$129.900", imgs: ["img/pack28.jpg"],
+                desc: "MES COMPLETO DE NUTRICIÓN DE ÉLITE.", ing: "ACCESO TOTAL AL CATÁLOGO.", vida: "MENSUAL (ENTREGA SEMANAL)",
+                k: "VAR", p: "VAR", c: "VAR", g: "VAR", envio: "PROGRAMADO"
             }
         };
 
         const params = new URLSearchParams(window.location.search);
         const productId = params.get('id');
-        const p = db[productId] || db.highcarb;
+        const item = db[productId] || db.highcarb;
 
-        let imagesHtml = p.imgs.map(img => `<img src="${img}" onerror="this.src='img/logo-preps.png'">`).join('');
-        let navHtml = p.imgs.length > 1 ? `
+        let imagesHtml = item.imgs.map(img => `<img src="${img}" onerror="this.src='img/logo-preps.png'">`).join('');
+        let navHtml = item.imgs.length > 1 ? `
             <div class="img-nav">
                 <button onclick="moveSlide(-1)">&#10094;</button>
                 <button onclick="moveSlide(1)">&#10095;</button>
             </div>` : '';
 
         document.getElementById('product-content').innerHTML = `
-            <div class="image-container">
+            <div class="image-container reveal">
                 <div class="image-wrapper" id="wrapper">${imagesHtml}</div>
                 ${navHtml}
             </div>
-            <div class="product-details">
-                <div class="price-large">${p.price}</div>
-                <a href="https://wa.me/56941892028?text=Hola, quiero comprar: ${p.name}" class="buy-btn">Compre ya</a>
-                <h1>${p.name}</h1>
-                <div class="info-block"><strong>Descripción:</strong> ${p.desc}</div>
-                <div class="info-block"><strong>Ingredientes:</strong> ${p.ing}</div>
-                <div class="info-block"><strong>Macros:</strong> ${p.macros}</div>
-                <div class="info-block"><strong>Vida útil:</strong> ${p.vida}</div>
-                <div class="info-block"><strong>Envío:</strong> ${p.envio}</div>
+            
+            <div class="product-details reveal">
+                <div class="price-large">${item.price}</div>
+                <h1 class="product-title">${item.name}</h1>
+                <a href="https://wa.me/56941892028?text=Hola, quiero comprar: ${item.name}" class="buy-btn">ORDENAR AHORA</a>
+                
+                <div class="macro-grid">
+                    <div class="macro-item"><span class="macro-num">${item.k}</span><span class="macro-label">KCAL</span></div>
+                    <div class="macro-item"><span class="macro-num">${item.p}G</span><span class="macro-label">PROT</span></div>
+                    <div class="macro-item"><span class="macro-num">${item.c}G</span><span class="macro-label">CARBS</span></div>
+                    <div class="macro-item"><span class="macro-num">${item.g}G</span><span class="macro-label">FAT</span></div>
+                </div>
+
+                <div class="specs-table">
+                    <div class="spec-row"><span class="spec-label">DESCRIPCIÓN</span><span class="spec-value">${item.desc}</span></div>
+                    <div class="spec-row"><span class="spec-label">INGREDIENTES</span><span class="spec-value">${item.ing}</span></div>
+                    <div class="spec-row"><span class="spec-label">LOGÍSTICA</span><span class="spec-value">${item.envio}</span></div>
+                    <div class="spec-row"><span class="spec-label">VIDA ÚTIL</span><span class="spec-value">${item.vida}</span></div>
+                </div>
             </div>
         `;
+
+        // LÓGICA SCROLL REVEAL
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        window.addEventListener("load", reveal);
 
         let currentImg = 0;
         function moveSlide(step) {
             const wrapper = document.getElementById('wrapper');
-            const total = p.imgs.length;
+            const total = item.imgs.length;
             currentImg = (currentImg + step + total) % total;
             wrapper.style.transform = `translateX(-${currentImg * 100}%)`;
         }
