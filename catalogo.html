@@ -25,7 +25,7 @@
             overflow-x: hidden;
         }
 
-        /* 1. SCROLL REVEAL CLASE */
+        /* 1. SCROLL REVEAL */
         .reveal { 
             opacity: 0; 
             transform: translateY(40px); 
@@ -36,35 +36,65 @@
             transform: translateY(0); 
         }
 
-        /* HEADER CENTRADO (IGUAL AL HOME) */
-        header { 
-            width: 100%; 
-            text-align: center; 
-            padding: 60px 0 40px; 
-            background: #f2f2f2; 
+        /* HEADER CORPORATIVO (ALINEADO IZQ-DER) */
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 50px;
+            background: #f2f2f2;
+            border-bottom: 1px solid #000;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
-        .logo-link img { width: 180px; height: auto; margin-bottom: 30px; display: inline-block; }
 
-        nav { display: block; width: 100%; margin-bottom: 40px; text-align: center; }
-        nav a {
-            display: inline-block; text-decoration: none; color: #000;
-            font-size: 14px; letter-spacing: 2px; margin: 0 20px;
-            padding-bottom: 5px; border-bottom: 2px solid transparent; transition: 0.3s;
+        .logo-link img { height: 35px; width: auto; display: block; }
+        
+        .main-nav { 
+            display: flex; 
+            align-items: center; 
+            gap: 30px; 
         }
-        nav a.active { border-bottom: 2px solid #000; font-weight: bold; }
+        
+        .main-nav a {
+            text-decoration: none;
+            color: #000;
+            font-size: 13px;
+            letter-spacing: 2px;
+            font-weight: 400;
+            transition: 0.3s;
+        }
+        .main-nav a.active { font-weight: 900; border-bottom: 2px solid #000; }
 
-        /* TÍTULOS INTER 900 */
+        /* BOLSA DE COMPRA REPARADA */
+        .cart-link-container {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            border-bottom: none !important;
+            padding-bottom: 0 !important;
+        }
+        .cart-icon-svg { width: 22px !important; height: 22px !important; color: #000; display: block; }
+        #global-cart-count {
+            position: absolute; top: -8px; right: -10px;
+            background: #000; color: #fff;
+            font-family: 'Inter', sans-serif; font-weight: 900; font-size: 10px;
+            width: 18px; height: 18px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            letter-spacing: 0; line-height: 1;
+        }
+
         .section-title {
             font-family: 'Inter', sans-serif;
             text-align: center;
             letter-spacing: -1.5px;
-            margin-top: 40px;
+            margin-top: 80px;
             font-size: 32px;
             font-weight: 900;
             line-height: 0.9;
         }
 
-        /* GRID CON RELIEVE */
         .grid-catalogo {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -94,20 +124,8 @@
 
         .producto-card img { width: 100%; height: 300px; object-fit: cover; border-bottom: 1px solid #eee; }
         .producto-card .info { padding: 25px; flex-grow: 1; }
-        
-        .producto-card h3 { 
-            font-family: 'Inter', sans-serif;
-            font-size: 16px; 
-            font-weight: 900; 
-            letter-spacing: -0.5px; 
-            margin-bottom: 15px; 
-        }
-
-        .producto-card .price { 
-            font-family: 'Courier New', Courier, monospace; 
-            font-size: 20px; 
-            font-weight: 900; 
-        }
+        .producto-card h3 { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 15px; }
+        .producto-card .price { font-size: 20px; font-weight: 900; }
 
         .card-custom-black { background: #000 !important; border: 1px solid #000 !important; }
         .card-custom-black .info h3, .card-custom-black .info .price { color: #fff !important; }
@@ -120,20 +138,28 @@
         .social-link:hover img { opacity: 1; }
 
         @media (max-width: 600px) {
-            header { padding: 40px 10px; }
-            nav a { margin: 0 10px; font-size: 12px; }
+            .main-header { padding: 20px; flex-direction: column; gap: 15px; }
+            .main-nav { gap: 15px; }
             .section-title { font-size: 24px; }
         }
     </style>
 </head>
 <body>
 
-    <header>
+    <header class="main-header">
         <a href="index.html" class="logo-link"><img src="img/logo-preps.png" alt="PREPS Chile"></a>
-        <nav>
+        <nav class="main-nav">
             <a href="index.html">HOGAR</a>
             <a href="catalogo.html" class="active">CATALOGAR</a>
             <a href="nosotros.html">NOSOTROS</a>
+            <a href="carrito.html" class="cart-link-container">
+                <svg class="cart-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+                <span id="global-cart-count">0</span>
+            </a>
         </nav>
     </header>
 
@@ -181,6 +207,20 @@
     </footer>
 
     <script>
+        function updateGlobalCartCount() {
+            const cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
+            const countElement = document.getElementById('global-cart-count');
+            if (countElement) {
+                countElement.innerText = cart.length;
+                countElement.style.display = cart.length > 0 ? 'flex' : 'none';
+            }
+        }
+
+        window.addEventListener('load', () => {
+            updateGlobalCartCount();
+            reveal();
+        });
+
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
@@ -192,7 +232,6 @@
             }
         }
         window.addEventListener("scroll", reveal);
-        window.addEventListener("load", reveal);
     </script>
 
 </body>
