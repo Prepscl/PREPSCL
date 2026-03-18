@@ -30,14 +30,34 @@
         }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
+        /* HEADER CORPORATIVO (LOGO IZQ - NAV DER) */
         header { 
             display: flex; align-items: center; justify-content: space-between; 
             padding: 15px 50px; background: #f2f2f2; border-bottom: 1px solid #000; 
             position: sticky; top: 0; z-index: 1000;
         }
         .logo-link img { height: 35px; width: auto; display: block; }
-        nav { display: flex; gap: 30px; }
+        nav { display: flex; align-items: center; gap: 30px; }
         nav a { text-decoration: none; color: #000; font-size: 14px; letter-spacing: 1px; }
+
+        /* BOLSA DE COMPRA REPARADA */
+        .cart-link-container {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            border-bottom: none !important;
+            padding-bottom: 0 !important;
+            text-decoration: none;
+        }
+        .cart-icon-svg { width: 22px !important; height: 22px !important; color: #000; display: block; }
+        #global-cart-count {
+            position: absolute; top: -8px; right: -10px;
+            background: #000; color: #fff;
+            font-family: 'Inter', sans-serif; font-weight: 900; font-size: 10px;
+            width: 18px; height: 18px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            letter-spacing: 0; line-height: 1;
+        }
 
         .product-page { 
             display: flex; flex-direction: column; align-items: center; 
@@ -53,14 +73,13 @@
         .image-wrapper img { min-width: 100%; height: 100%; object-fit: cover; }
         
         .img-nav { position: absolute; top: 50%; width: 100%; display: flex; justify-content: space-between; transform: translateY(-50%); pointer-events: none; padding: 0 15px; }
-        .img-nav button { pointer-events: auto; background: #fff; border: 1px solid #000; cursor: pointer; width: 45px; height: 45px; border-radius: 50%; }
+        .img-nav button { pointer-events: auto; background: #fff; border: 1px solid #000; cursor: pointer; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; }
 
-        /* FOTO 1: SELECTOR Y BOTÓN */
         .purchase-container { display: flex; width: 100%; max-width: 400px; margin: 0 auto 60px; border: 1px solid #000; }
         .qty-input { 
             width: 80px; border: none; border-right: 1px solid #000; 
             font-family: 'Inter'; font-weight: 900; font-size: 18px; 
-            text-align: center; padding: 15px; cursor: pointer; background: #fff;
+            text-align: center; padding: 15px; cursor: pointer; background: #fff; appearance: none;
         }
         .buy-btn-new { 
             flex-grow: 1; background: #000; color: #fff; border: none; 
@@ -68,9 +87,9 @@
             letter-spacing: 1px; cursor: pointer; transition: 0.3s; 
         }
 
-        /* FOTO 2: MODAL */
         .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
-        .modal-content { background: #fff; width: 100%; max-width: 500px; padding: 40px; position: relative; text-align: center; }
+        .modal-content { background: #fff; width: 100%; max-width: 500px; padding: 40px; position: relative; text-align: center; animation: slideUp 0.4s ease; }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .close-modal { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; color: #888; }
         .modal-title { font-family: 'Inter'; font-weight: 900; font-size: 24px; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
         .modal-product-info { display: flex; align-items: center; gap: 20px; text-align: left; margin-bottom: 30px; }
@@ -86,10 +105,6 @@
         .macro-item { background: #fff; padding: 25px 10px; text-align: center; }
         .macro-num { display: block; font-size: 24px; font-weight: 900; font-family: 'Inter', sans-serif; }
         .macro-label { font-size: 10px; color: #888; font-weight: 900; }
-        .specs-table { width: 100%; border-top: 1px solid #000; margin-top: 40px; text-align: left; }
-        .spec-row { display: flex; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid #ddd; }
-        .spec-label { font-weight: 900; font-size: 12px; color: #888; }
-        .spec-value { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 15px; }
 
         footer { background: #000; color: #fff; padding: 60px; text-align: center; font-size: 10px; letter-spacing: 2px; }
 
@@ -103,7 +118,19 @@
 <body>
     <header>
         <a href="index.html" class="logo-link"><img src="img/logo-preps.png" alt="PREPS"></a>
-        <nav><a href="index.html">HOGAR</a><a href="catalogo.html">CATALOGAR</a><a href="nosotros.html">NOSOTROS</a></nav>
+        <nav>
+            <a href="index.html">HOGAR</a>
+            <a href="catalogo.html">CATALOGAR</a>
+            <a href="nosotros.html">NOSOTROS</a>
+            <a href="carrito.html" class="cart-link-container">
+                <svg class="cart-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+                <span id="global-cart-count">0</span>
+            </a>
+        </nav>
     </header>
 
     <main class="product-page" id="product-content"></main>
@@ -131,16 +158,25 @@
 
     <script>
         const db = {
-            highcarb: { name: "POWER BREAST HIGH CARB", price: "$5.690", imgs: ["img/menu1.jpg", "img/tabla_highcarb.png"], desc: "DISEÑADO PARA CARGA DE GLUCÓGENO Y MÁXIMO RENDIMIENTO.", ing: "POLLO A LA PLANCHA (200G), ARROZ (300G), BRÓCOLI (100G).", vida: "5 A 7 DÍAS EN REFRIGERACIÓN", k: "830", p: "73", c: "92", g: "19", envio: "24-48 HORAS HÁBILES" },
-            lowcarb: { name: "POWER BREAST LOW CARB", price: "$4.990", imgs: ["img/menu2.jpg", "img/etiqueta_low_carb_450g_final.png"], desc: "OPCIÓN LIGERA CON CARBOHIDRATOS CONTROLADOS PARA DEFINICIÓN.", ing: "POLLO A LA PLANCHA (200G), ARROZ (150G), BRÓCOLI (100G).", vida: "5 A 7 DÍAS EN REFRIGERACIÓN", k: "632", p: "69", c: "49", g: "17", envio: "24-48 HORAS HÁBILES" },
-            pack5: { name: "05 PACKS PERFORMANCE", price: "$24.900", imgs: ["img/pack5.jpg"], desc: "TU SEMANA LABORAL BAJO CONTROL NUTRICIONAL.", ing: "MIX DE MENÚS PREPS (POLLO A LA PLANCHA).", vida: "7 DÍAS REFRIGERADO", k: "VAR", p: "VAR", c: "VAR", g: "VAR", envio: "INCLUIDO" },
-            pack15: { name: "15 PACKS PERFORMANCE", price: "$72.900", imgs: ["img/pack15.jpg"], desc: "COMPROMISO TOTAL CON TU OBJETIVO FÍSICO.", ing: "MIX LIBRE DE MENÚS.", vida: "7 DÍAS REFRIGERADO", k: "VAR", p: "VAR", c: "VAR", g: "VAR", envio: "PRIORITARIO" },
-            pack28: { name: "28 PACKS PERFORMANCE", price: "$129.900", imgs: ["img/pack28.jpg"], desc: "MES COMPLETO DE NUTRICIÓN DE ÉLITE.", ing: "ACCESO TOTAL AL CATÁLOGO.", vida: "MENSUAL (ENTREGA SEMANAL)", k: "VAR", p: "VAR", c: "VAR", g: "VAR", envio: "PROGRAMADO" }
+            highcarb: { name: "POWER BREAST HIGH CARB", price: "$5.690", imgs: ["img/menu1.jpg", "img/tabla_highcarb.png"], k: "830", p: "73", c: "92", g: "19" },
+            lowcarb: { name: "POWER BREAST LOW CARB", price: "$4.990", imgs: ["img/menu2.jpg", "img/etiqueta_low_carb_450g_final.png"], k: "632", p: "69", c: "49", g: "17" },
+            pack5: { name: "05 PACKS PERFORMANCE", price: "$24.900", imgs: ["img/pack5.jpg"], k: "VAR", p: "VAR", c: "VAR", g: "VAR" },
+            pack15: { name: "15 PACKS PERFORMANCE", price: "$72.900", imgs: ["img/pack15.jpg"], k: "VAR", p: "VAR", c: "VAR", g: "VAR" },
+            pack28: { name: "28 PACKS PERFORMANCE", price: "$129.900", imgs: ["img/pack28.jpg"], k: "VAR", p: "VAR", c: "VAR", g: "VAR" }
         };
 
         const params = new URLSearchParams(window.location.search);
         const productId = params.get('id');
         const item = db[productId] || db.highcarb;
+
+        function updateGlobalCartCount() {
+            const cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
+            const countElement = document.getElementById('global-cart-count');
+            if (countElement) {
+                countElement.innerText = cart.length;
+                countElement.style.display = cart.length > 0 ? 'flex' : 'none';
+            }
+        }
 
         function renderProduct() {
             let maxQty = 5;
@@ -178,6 +214,10 @@
             let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
             for(let i=0; i<qty; i++) { cart.push({ name: item.name, price: priceVal }); }
             localStorage.setItem('preps_cart', JSON.stringify(cart));
+            
+            // ACTUALIZAR CONTADOR HEADER
+            updateGlobalCartCount();
+
             document.getElementById('modal-img').src = item.imgs[0];
             document.getElementById('modal-name').innerText = item.name;
             document.getElementById('modal-qty').innerText = qty;
@@ -194,7 +234,10 @@
             wrapper.style.transform = `translateX(-${currentImg * 100}%)`;
         }
 
-        renderProduct();
+        window.addEventListener('load', () => {
+            updateGlobalCartCount();
+            renderProduct();
+        });
     </script>
 </body>
 </html>
