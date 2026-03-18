@@ -3,183 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PREPS - Home</title>
+    <meta name="format-detection" content="telephone=no">
+    <title>PREPS - PRECISION DINING</title>
     <link rel="icon" type="image/png" href="img/logo-preps.png">
     <link rel="apple-touch-icon" href="img/logo-preps.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
+    
     <style>
-        /* FONDO Y TIPOGRAFÍA BASE */
+        /* CONFIGURACIÓN BASE */
         body {
             background-color: #f2f2f2; 
-            font-family: 'Courier New', Courier, monospace;
-            margin: 0;
-            padding: 0;
+            color: #000;
+            font-family: 'Inter', sans-serif;
+            margin: 0; padding: 0;
             text-transform: uppercase;
-            width: 100%;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
+
+        /* 1. LOADER MÍSTICO (2 SEG) */
+        #loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 9999;
+            transition: opacity 1s ease;
+        }
+        #loader img { width: 150px; animation: pulse 2s infinite ease-in-out; }
+        @keyframes pulse {
+            0%, 100% { transform: scale(0.9); opacity: 0.3; }
+            50% { transform: scale(1); opacity: 1; }
+        }
+
+        /* 2. SCROLL REVEAL */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 1.2s cubic-bezier(0.17, 0.55, 0.55, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
         /* HEADER HOME - CENTRADO ABSOLUTO */
         header {
-            width: 100%;
-            display: block; 
-            text-align: center;
-            padding: 80px 0 40px; 
-            background: #f2f2f2;
+            width: 100%; text-align: center; padding: 60px 0 40px; background: #f2f2f2;
         }
+        .logo-link img { width: 180px; height: auto; margin-bottom: 30px; }
 
-        .logo-link {
-            display: inline-block;
-            margin-bottom: 40px;
-        }
-
-        .logo-link img {
-            width: 200px; 
-            height: auto;
-            display: block;
-        }
-
-        /* NAVEGACIÓN */
-        nav {
-            display: block;
-            width: 100%;
-            margin-bottom: 50px;
-            text-align: center;
-        }
-
+        nav { display: block; width: 100%; margin-bottom: 40px; text-align: center; }
         nav a {
-            display: inline-block; 
-            text-decoration: none;
-            color: #000;
-            font-size: 16px;
-            letter-spacing: 2px;
-            padding-bottom: 8px;
-            margin: 0 20px; 
-            border-bottom: 2px solid transparent;
-            transition: 0.3s;
+            display: inline-block; text-decoration: none; color: #000;
+            font-size: 13px; letter-spacing: 2px; margin: 0 20px;
+            padding-bottom: 5px; border-bottom: 2px solid transparent; transition: 0.3s;
         }
-
-        nav a.active {
-            border-bottom: 2px solid #000; 
-        }
+        nav a.active { border-bottom: 2px solid #000; font-weight: 900; }
 
         .hero-slogan {
-            display: block;
-            width: 100%;
-            font-size: 18px;
-            letter-spacing: 5px; 
-            color: #000;
-            font-weight: 900; 
-            text-align: center;
-            margin: 0 auto;
+            font-size: 22px; font-weight: 900; letter-spacing: -1px; 
+            line-height: 0.9; text-align: center;
         }
 
-        /* CONTENIDO */
+        /* HERO IMAGE */
         .home-hero { 
-            width: 100%; 
-            height: 75vh; 
+            width: 100%; height: 70vh; 
             background: url('img/hero.jpg') center/cover no-repeat; 
-            margin-top: 60px;
-            margin-bottom: 80px;
+            margin: 40px 0 80px;
         }
 
-        .section-header { text-align: center; margin-bottom: 40px; }
-        .section-header h2 { font-size: 28px; letter-spacing: 4px; }
-
-        .slider-container {
-            position: relative;
-            max-width: 1200px;
-            margin: auto;
-            padding: 0 20px 100px;
+        /* 3. SLIDER AUTOMÁTICO & MANUAL (2.5 SEG) */
+        .section-header h2 { 
+            text-align: center; font-size: 32px; font-weight: 900; 
+            letter-spacing: -1.5px; margin-bottom: 40px; 
         }
 
+        .slider-container { max-width: 1200px; margin: auto; padding-bottom: 100px; }
         .product-slider { 
-            display: flex; 
-            overflow-x: auto; 
-            gap: 20px; 
-            padding-bottom: 30px; 
-            scroll-snap-type: x mandatory; 
-            scrollbar-width: none;
-            scroll-behavior: smooth;
+            display: flex; overflow-x: auto; gap: 20px; 
+            scroll-snap-type: x mandatory; scrollbar-width: none;
+            scroll-behavior: smooth; padding: 10px;
         }
-        
         .product-slider::-webkit-scrollbar { display: none; }
 
         .slide-card { 
-            min-width: 320px; 
-            border: 2px solid #000; 
-            text-align: center; 
-            scroll-snap-align: center; 
-            text-decoration: none; 
-            color: #000;
-            background: #fff;
-            transition: 0.3s ease;
-            display: flex;
-            flex-direction: column;
+            min-width: 320px; border: 2px solid #000; background: #fff;
+            text-align: center; scroll-snap-align: center; text-decoration: none; 
+            color: #000; transition: 0.3s; display: flex; flex-direction: column;
         }
-
-        .slide-card:hover { transform: translateY(-5px); }
         .slide-card img { width: 100%; height: 350px; object-fit: cover; border-bottom: 2px solid #000; }
-        .slide-info { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .slide-info h3 { font-size: 18px; letter-spacing: 1px; line-height: 1.4; margin: 0; }
-        .price { font-size: 20px; font-weight: bold; margin-top: 15px; }
+        
+        .slide-info { padding: 25px; flex-grow: 1; }
+        .slide-info h3 { font-size: 18px; font-weight: 900; letter-spacing: -0.5px; margin: 0; }
+        .price { 
+            font-family: 'Courier New', Courier, monospace; 
+            font-size: 20px; font-weight: bold; margin-top: 15px; 
+        }
 
-        /* ESTILO RESALTADO NEGRO PARA CUSTOM */
-        .card-custom-highlight {
-            background: #000 !important; /* Fondo Negro */
-            border: 2px solid #000 !important;
-        }
-        .card-custom-highlight img {
-            border-bottom: 2px solid #fff !important; /* Separador blanco para la imagen */
-        }
-        .card-custom-highlight .slide-info h3, 
-        .card-custom-highlight .price {
-            color: #fff !important; /* Texto Blanco */
-        }
+        /* HIGHLIGHT CUSTOM */
+        .card-custom-highlight { background: #000 !important; border-color: #000; }
+        .card-custom-highlight .slide-info h3, .card-custom-highlight .price { color: #fff; }
+        .card-custom-highlight img { border-bottom-color: #333; }
 
         /* NAVEGACIÓN SLIDER */
         .slider-nav {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 40px;
-            font-size: 20px;
+            display: flex; align-items: center; justify-content: center;
+            gap: 30px; margin-top: 40px; font-family: 'Courier New', monospace;
         }
-
-        .nav-arrow {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #ccc;
-            transition: 0.3s;
-        }
-
-        .nav-arrow:hover { color: #000; }
-        #current-index { color: #000; font-weight: bold; }
-        .total-index { color: #888; }
+        .nav-arrow { background: none; border: none; font-size: 24px; cursor: pointer; transition: 0.3s; }
+        #current-index { font-weight: bold; }
 
         footer {
-            background: #000;
-            color: #fff;
-            padding: 60px 20px;
-            text-align: center;
-            font-size: 12px;
-            letter-spacing: 2px;
+            background: #000; color: #fff; padding: 60px 20px; text-align: center;
+            font-size: 10px; letter-spacing: 2px;
         }
+        .social-link img { width: 30px; filter: invert(1); margin-bottom: 20px; transition: 0.3s; }
+        .social-link:hover img { opacity: 0.7; }
 
-        .social-link img {
-            width: 30px;
-            height: auto;
-            filter: invert(1);
-            transition: opacity 0.3s;
-            margin-bottom: 20px;
+        @media (max-width: 850px) {
+            .slide-card { min-width: 280px; }
+            .home-hero { height: 50vh; }
         }
-
-        .social-link img:hover { opacity: 0.7; }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap" rel="stylesheet">
 </head>
 <body>
+
+    <div id="loader">
+        <img src="img/logo-preps.png" alt="PREPS">
+        <p style="font-size: 10px; letter-spacing: 8px; margin-top: 30px; color: #333;">INICIALIZANDO SISTEMA...</p>
+    </div>
+
     <header>
         <a href="index.html" class="logo-link">
             <img src="img/logo-preps.png" alt="PREPS">
@@ -187,51 +135,50 @@
         <nav>
             <a href="index.html" class="active">Hogar</a>
             <a href="catalogo.html">Catalogar</a>
-            <a href="nosotros.html">Sobre nosotros</a>
+            <a href="nosotros.html">Nosotros</a>
         </nav>
-        <div class="hero-slogan">DISEÑADO PARA TU RENDIMIENTO</div>
+        <div class="hero-slogan reveal">DISEÑADO PARA TU RENDIMIENTO</div>
     </header>
 
     <main>
-        <div class="home-hero"></div>
+        <div class="home-hero reveal"></div>
 
-        <section class="slider-container">
+        <section class="slider-container reveal">
             <div class="section-header">
                 <h2>PRODUCTOS</h2>
             </div>
 
             <div class="product-slider" id="productSlider">
-                <a href="producto.html?id=highcarb" class="slide-card">
-                    <img src="img/menu1.jpg">
-                    <div class="slide-info"><h3>POWER BREAST HIGH CARB</h3><div class="price">$7.000 CLP</div></div>
-                </a>
-
-                <a href="producto.html?id=lowcarb" class="slide-card">
-                    <img src="img/menu2.jpg">
-                    <div class="slide-info"><h3>POWER BREAST LOW CARB</h3><div class="price">$6.500 CLP</div></div>
-                </a>
-
                 <a href="personalizar.html" class="slide-card card-custom-highlight">
-                    <img src="img/custom-prep.jpg" alt="Menú Personalizado">
+                    <img src="img/custom-prep.jpg" alt="Custom">
                     <div class="slide-info">
                         <h3>CUSTOM PERFORMANCE V1.0</h3>
-                        <div class="price">DESDE $5.000 CLP</div>
+                        <div class="price">DESDE $5.000</div>
                     </div>
                 </a>
 
-                <a href="producto.html?id=pack5" class="slide-card">
+                <a href="https://wa.me/56941892028?text=Hola, quiero el pack de 5 unidades" class="slide-card">
                     <img src="img/pack5.jpg">
-                    <div class="slide-info"><h3>PACK 5 COMIDAS</h3><div class="price">$30.000 CLP</div></div>
+                    <div class="slide-info">
+                        <h3>05 PACKS PERFORMANCE</h3>
+                        <div class="price">$24.900</div>
+                    </div>
                 </a>
 
-                <a href="producto.html?id=pack10" class="slide-card">
-                    <img src="img/pack10.jpg">
-                    <div class="slide-info"><h3>PACK 10 COMIDAS</h3><div class="price">$60.000 CLP</div></div>
+                <a href="https://wa.me/56941892028?text=Hola, quiero el pack de 15 unidades" class="slide-card">
+                    <img src="img/pack15.jpg">
+                    <div class="slide-info">
+                        <h3>15 PACKS PERFORMANCE</h3>
+                        <div class="price">$72.900</div>
+                    </div>
                 </a>
 
-                <a href="producto.html?id=pack30" class="slide-card">
-                    <img src="img/pack30.jpg">
-                    <div class="slide-info"><h3>PACK 30 COMIDAS</h3><div class="price">$180.000 CLP</div></div>
+                <a href="https://wa.me/56941892028?text=Hola, quiero el pack de 28 unidades" class="slide-card">
+                    <img src="img/pack28.jpg">
+                    <div class="slide-info">
+                        <h3>28 PACKS PERFORMANCE</h3>
+                        <div class="price">$129.900</div>
+                    </div>
                 </a>
             </div>
 
@@ -239,7 +186,7 @@
                 <button class="nav-arrow" onclick="scrollSlider(-1)">&#10094;</button>
                 <div>
                     <span id="current-index">1</span>
-                    <span class="total-index"> / 6</span>
+                    <span style="color: #888;"> / 4</span>
                 </div>
                 <button class="nav-arrow" onclick="scrollSlider(1)">&#10095;</button>
             </div>
@@ -250,20 +197,40 @@
         <a href="https://www.instagram.com/prepscl/" target="_blank" class="social-link">
             <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram">
         </a>
-        <br>
-        © 2026 PREPS - TODOS LOS DERECHOS RESERVADOS
+        <p>© 2026 PREPS - PRECISION DINING</p>
     </footer>
 
     <script>
         const slider = document.getElementById('productSlider');
         const currentIndexEl = document.getElementById('current-index');
-        const totalSlides = 6;
+        const totalSlides = 4;
 
+        // LOADER Y REVEAL
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => { 
+                    document.getElementById('loader').style.display = 'none'; 
+                    reveal();
+                }, 1000);
+            }, 2000);
+        });
+
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) reveals[i].classList.add("active");
+            }
+        }
+        window.addEventListener("scroll", reveal);
+
+        // LÓGICA SLIDER
         slider.addEventListener('scroll', () => {
             const scrollLeft = slider.scrollLeft;
             const cardWidth = slider.querySelector('.slide-card').offsetWidth + 20;
             const activeIndex = Math.round(scrollLeft / cardWidth) + 1;
-            
             if (activeIndex >= 1 && activeIndex <= totalSlides) {
                 currentIndexEl.innerText = activeIndex;
             }
@@ -271,11 +238,22 @@
 
         function scrollSlider(direction) {
             const cardWidth = slider.querySelector('.slide-card').offsetWidth + 20;
-            slider.scrollBy({
-                left: direction * cardWidth,
-                behavior: 'smooth'
-            });
+            slider.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
         }
+
+        // AUTO-SLIDE CADA 2.5 SEG
+        let autoScroll = setInterval(() => {
+            const cardWidth = slider.querySelector('.slide-card').offsetWidth + 20;
+            if (slider.scrollLeft + slider.offsetWidth >= slider.scrollWidth) {
+                slider.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+                scrollSlider(1);
+            }
+        }, 2500);
+
+        // Detener auto-slide si el usuario interactúa
+        slider.addEventListener('mousedown', () => clearInterval(autoScroll));
+        slider.addEventListener('touchstart', () => clearInterval(autoScroll));
     </script>
 </body>
 </html>
