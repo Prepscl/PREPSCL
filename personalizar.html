@@ -23,7 +23,6 @@
             border-bottom: 4px solid #fff;
         }
 
-        /* LAYOUT PRINCIPAL: FLEXBOX LATERAL */
         .main-wrapper { 
             display: flex; 
             max-width: 1100px; 
@@ -33,7 +32,6 @@
             flex-wrap: wrap; 
         }
 
-        /* COLUMNA IZQUIERDA: CONTROLES */
         .controls-column { 
             flex: 1; 
             min-width: 320px; 
@@ -43,7 +41,6 @@
             box-sizing: border-box; 
         }
 
-        /* COLUMNA DERECHA: MONITOR DE MACROS */
         .monitor-column { 
             width: 320px; 
             background: #000; 
@@ -70,7 +67,6 @@
             justify-content: center;
         }
 
-        /* ÍTEMS DE MACROS */
         .macro-item { 
             display: flex; 
             justify-content: space-between; 
@@ -135,8 +131,8 @@
                 <div class="label-group"><span>01. PROTEÍNA (POLLO)</span> <span id="val-pollo">100G</span></div>
                 <input type="range" id="input-pollo" min="0" max="800" step="50" value="100">
                 <div class="prep-selector">
-                    <button class="prep-btn" id="btn-cocido" onclick="setPrep('COCIDO')">COCIDO VAPOR</button>
-                    <button class="prep-btn active" id="btn-plancha" onclick="setPrep('PLANCHA')">A LA PLANCHA</button>
+                    <button class="prep-btn active" id="btn-cocido" onclick="setPrep('COCIDO')">COCIDO VAPOR</button>
+                    <button class="prep-btn" id="btn-plancha" onclick="setPrep('PLANCHA')">A LA PLANCHA</button>
                 </div>
             </div>
 
@@ -181,80 +177,93 @@
     </div>
 
     <script>
-       <script>
-    let prepPollo = 'COCIDO'; // Por defecto para calzar con Menus Fijos de tu libreta
-    const inputs = ['input-pollo', 'input-arroz', 'input-brocoli'];
-    
-    // --- INGENIERÍA DE PRECISIÓN ABSOLUTA (VALORES POR 1 GRAMO) ---
-    // Ajustados para que: 200P + 300A + 100B = 73 Prot / 92 Carb / 19 Fat / 830 Kcal
-    const pollo_macros = {
-        'COCIDO': { p: 0.31, c: 0, g: 0.085, k: 2.035 },    // 200g = 62P / 17G / 407K
-        'PLANCHA': { p: 0.345, c: 0, g: 0.085, k: 2.125 }  
-    };
-    
-    const arroz_macros = { p: 0.0266, c: 0.2866, g: 0.0066, k: 1.32 }; // 300g = 8P / 86C / 2G / 396K
-    const brocoli_macros = { p: 0.03, c: 0.06, g: 0, k: 0.27 };        // 100g = 3P / 6C / 0G / 27K
+        let prepPollo = 'COCIDO'; // Default Cocido para calzar con Menús Fijos
+        const inputs = ['input-pollo', 'input-arroz', 'input-brocoli'];
+        
+        // --- INGENIERÍA DE PRECISIÓN ABSOLUTA (VALORES POR 1 GRAMO) ---
+        // Calibrados para que: 200P + 300A + 100B = 73P / 92C / 19G / 830K
+        const pollo_macros = {
+            'COCIDO': { p: 0.31, c: 0, g: 0.085, k: 2.035 },
+            'PLANCHA': { p: 0.345, c: 0, g: 0.085, k: 2.125 }
+        };
+        const arroz_macros = { p: 0.0266, c: 0.2866, g: 0.0066, k: 1.32 }; 
+        const brocoli_macros = { p: 0.03, c: 0.06, g: 0, k: 0.27 };         
 
-    const precios = { pollo: 22, arroz: 4, brocoli: 5.9, base: 1000 };
+        const precios = { pollo: 22, arroz: 4, brocoli: 5.9, base: 1000 };
 
-    function setPrep(type) {
-        prepPollo = type;
-        document.getElementById('btn-cocido').classList.toggle('active', type === 'COCIDO');
-        document.getElementById('btn-plancha').classList.toggle('active', type === 'PLANCHA');
-        updateValues();
-    }
-
-    function updateValues(e) {
-        let p = parseInt(document.getElementById('input-pollo').value);
-        let a = parseInt(document.getElementById('input-arroz').value);
-        let b = parseInt(document.getElementById('input-brocoli').value);
-
-        let total = p + a + b;
-
-        if (total > 800) {
-            if (e) {
-                e.target.value = parseInt(e.target.value) - (total - 800);
-                p = parseInt(document.getElementById('input-pollo').value);
-                a = parseInt(document.getElementById('input-arroz').value);
-                b = parseInt(document.getElementById('input-brocoli').value);
-                total = 800;
-            }
+        function setPrep(type) {
+            prepPollo = type;
+            document.getElementById('btn-cocido').classList.toggle('active', type === 'COCIDO');
+            document.getElementById('btn-plancha').classList.toggle('active', type === 'PLANCHA');
+            updateValues();
         }
 
-        document.getElementById('val-pollo').innerText = p + "G";
-        document.getElementById('val-arroz').innerText = a + "G";
-        document.getElementById('val-brocoli').innerText = b + "G";
+        function updateValues(e) {
+            let p = parseInt(document.getElementById('input-pollo').value);
+            let a = parseInt(document.getElementById('input-arroz').value);
+            let b = parseInt(document.getElementById('input-brocoli').value);
 
-        // CÁLCULO FINAL
-        let protTotal = (p * pollo_macros[prepPollo].p) + (a * arroz_macros.p) + (b * brocoli_macros.p);
-        let carbTotal = (a * arroz_macros.c) + (b * brocoli_macros.c);
-        let fatTotal = (p * pollo_macros[prepPollo].g) + (a * arroz_macros.g);
-        let kcalTotal = (p * pollo_macros[prepPollo].k) + (a * arroz_macros.k) + (b * brocoli_macros.k);
+            let total = p + a + b;
 
-        // Actualizar Monitor con Redondeo a la unidad
-        document.getElementById('m-prot').innerText = Math.round(protTotal);
-        document.getElementById('m-carb').innerText = Math.round(carbTotal);
-        document.getElementById('m-fat').innerText = Math.round(fatTotal);
-        document.getElementById('m-kcal').innerText = Math.round(kcalTotal);
+            if (total > 800) {
+                if (e) {
+                    e.target.value = parseInt(e.target.value) - (total - 800);
+                    p = parseInt(document.getElementById('input-pollo').value);
+                    a = parseInt(document.getElementById('input-arroz').value);
+                    b = parseInt(document.getElementById('input-brocoli').value);
+                    total = 800;
+                }
+            }
 
-        let finalPrice = (p * precios.pollo) + (a * precios.arroz) + (b * precios.brocoli) + precios.base;
-        document.getElementById('final-price').innerText = "$" + Math.round(finalPrice).toLocaleString('es-CL');
+            document.getElementById('val-pollo').innerText = p + "G";
+            document.getElementById('val-arroz').innerText = a + "G";
+            document.getElementById('val-brocoli').innerText = b + "G";
 
-        // Lógica de nombres...
-        let proto = "UNIDAD: PERSONALIZADA";
-        if (total >= 750) proto = "PROTOCOLO: SOBRECARGA";
-        else if (p >= 400 && a <= 100) proto = "MODO: KETO ELITE";
-        else if (a >= 450) proto = "PROTOCOLO: CARGA CARB";
-        else if (b >= 350) proto = "PROTOCOLO: FIBRA MAX";
-        else if (p >= 250 && a >= 250) proto = "PROTOCOLO: SINERGIA";
-        else if (total <= 350) proto = "UNIDAD: BASE LIGERA";
+            // CÁLCULO DE MACROS CON PRECISIÓN DE LIBRETA
+            let protTotal = (p * pollo_macros[prepPollo].p) + (a * arroz_macros.p) + (b * brocoli_macros.p);
+            let carbTotal = (a * arroz_macros.c) + (b * brocoli_macros.c);
+            let fatTotal = (p * pollo_macros[prepPollo].g) + (a * arroz_macros.g);
+            let kcalTotal = (p * pollo_macros[prepPollo].k) + (a * arroz_macros.k) + (b * brocoli_macros.k);
 
-        document.getElementById('protocol-name').innerText = proto;
-    }
+            // Actualizar Monitor
+            document.getElementById('m-prot').innerText = Math.round(protTotal);
+            document.getElementById('m-carb').innerText = Math.round(carbTotal);
+            document.getElementById('m-fat').innerText = Math.round(fatTotal);
+            document.getElementById('m-kcal').innerText = Math.round(kcalTotal);
 
-    inputs.forEach(id => document.getElementById(id).addEventListener('input', updateValues));
-    updateValues();
-</script>
+            // Precio Final
+            let finalPrice = (p * precios.pollo) + (a * precios.arroz) + (b * precios.brocoli) + precios.base;
+            document.getElementById('final-price').innerText = "$" + Math.round(finalPrice).toLocaleString('es-CL');
+
+            // --- NOMBRES EN ESPAÑOL ---
+            let proto = "UNIDAD: PERSONALIZADA";
+            if (total >= 750) proto = "PROTOCOLO: SOBRECARGA";
+            else if (p >= 400 && a <= 100) proto = "MODO: KETO ELITE";
+            else if (a >= 450) proto = "PROTOCOLO: CARGA CARB";
+            else if (b >= 350) proto = "PROTOCOLO: FIBRA MAX";
+            else if (p >= 250 && a >= 250) proto = "PROTOCOLO: SINERGIA";
+            else if (total <= 350) proto = "UNIDAD: BASE LIGERA";
+
+            document.getElementById('protocol-name').innerText = proto;
+        }
+
+        inputs.forEach(id => document.getElementById(id).addEventListener('input', updateValues));
+
+        function sendToWhatsApp() {
+            const p = document.getElementById('input-pollo').value;
+            const a = document.getElementById('input-arroz').value;
+            const b = document.getElementById('input-brocoli').value;
+            const price = document.getElementById('final-price').innerText;
+            const proto = document.getElementById('protocol-name').innerText;
+            const prot = document.getElementById('m-prot').innerText;
+            const carb = document.getElementById('m-carb').innerText;
+            const kcal = document.getElementById('m-kcal').innerText;
+
+            const msg = `NUEVO PEDIDO PERSONALIZADO%0A----------------------%0A${proto}%0A%0A- POLLO (${prepPollo}): ${p}G%0A- ARROZ: ${a}G%0A- BROCOLI: ${b}G%0A%0A- PROTEÍNA: ${prot}G | CARBOS: ${carb}G%0A- ENERGÍA TOTAL: ${kcal} KCAL%0A----------------------%0ATOTAL: ${price}`;
+            window.open(`https://wa.me/569XXXXXXXX?text=${msg}`); 
+        }
+
+        updateValues();
     </script>
 </body>
 </html>
