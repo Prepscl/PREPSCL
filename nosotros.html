@@ -18,8 +18,7 @@
             background-color: #f2f2f2;
             color: #000;
             font-family: 'Courier New', Courier, monospace;
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             text-transform: uppercase;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
@@ -32,7 +31,7 @@
         }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* HEADER */
+        /* HEADER CORPORATIVO UNIFICADO */
         .main-header {
             display: flex;
             align-items: center;
@@ -46,14 +45,33 @@
         }
 
         .logo-link img { height: 35px; width: auto; display: block; }
-        .main-nav { display: flex; gap: 30px; }
+        .main-nav { display: flex; align-items: center; gap: 30px; }
         .main-nav a {
             text-decoration: none;
             color: #000;
             font-size: 14px;
             letter-spacing: 1px;
+            transition: 0.3s;
         }
         .main-nav a.active { font-weight: bold; border-bottom: 2px solid #000; }
+
+        /* BOLSA DE COMPRA REPARADA */
+        .cart-link-container {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            border-bottom: none !important;
+            padding-bottom: 0 !important;
+        }
+        .cart-icon-svg { width: 22px !important; height: 22px !important; color: #000; display: block; }
+        #global-cart-count {
+            position: absolute; top: -8px; right: -10px;
+            background: #000; color: #fff;
+            font-family: 'Inter', sans-serif; font-weight: 900; font-size: 10px;
+            width: 18px; height: 18px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            letter-spacing: 0; line-height: 1;
+        }
 
         /* CONTENIDO NOSOTROS */
         .content-container {
@@ -63,7 +81,6 @@
             text-align: center;
         }
 
-        /* TEXTO PRINCIPAL: COURIER CON MARCA EN INTER */
         .main-text {
             font-size: 20px;
             margin-bottom: 60px;
@@ -72,7 +89,6 @@
             color: #000;
         }
 
-        /* ESTILO PARA LA PALABRA PREPS DENTRO DEL TEXTO */
         .brand-link {
             font-family: 'Inter', sans-serif;
             font-weight: 900;
@@ -164,11 +180,18 @@
             <a href="index.html">HOGAR</a>
             <a href="catalogo.html">CATALOGAR</a>
             <a href="nosotros.html" class="active">NOSOTROS</a>
+            <a href="carrito.html" class="cart-link-container">
+                <svg class="cart-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+                <span id="global-cart-count">0</span>
+            </a>
         </nav>
     </header>
 
     <main class="content-container">
-        
         <div class="reveal">
             <p class="main-text">
                 EN <a href="index.html" class="brand-link">PREPS</a>, DISEÑAMOS EL COMBUSTIBLE QUE TU CUERPO NECESITA PARA RENDIR AL MÁXIMO. CREEMOS QUE COMER SANO NO DEBE SER UNA TAREA DIFICIL, SINO UNA VENTAJA COMPETITIVA.
@@ -188,7 +211,6 @@
         <div class="reveal">
             <h3 class="slogan-final">DISEÑADO PARA TU RENDIMIENTO.</h3>
         </div>
-
     </main>
 
     <footer>
@@ -204,6 +226,15 @@
     </footer>
 
     <script>
+        function updateGlobalCartCount() {
+            const cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
+            const countElement = document.getElementById('global-cart-count');
+            if (countElement) {
+                countElement.innerText = cart.length;
+                countElement.style.display = cart.length > 0 ? 'flex' : 'none';
+            }
+        }
+
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
@@ -215,7 +246,10 @@
             }
         }
         window.addEventListener("scroll", reveal);
-        window.addEventListener("load", reveal);
+        window.addEventListener("load", () => {
+            updateGlobalCartCount();
+            reveal();
+        });
     </script>
 
 </body>
