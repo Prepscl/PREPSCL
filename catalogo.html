@@ -18,7 +18,7 @@
         body {
             background-color: #f2f2f2;
             color: #000;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Courier New', Courier, monospace;
             margin: 0;
             text-transform: uppercase;
             -webkit-font-smoothing: antialiased;
@@ -36,36 +36,29 @@
             transform: translateY(0); 
         }
 
-        /* HEADER */
-        .main-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px 50px;
-            background: #f2f2f2;
-            border-bottom: 1px solid #000;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+        /* HEADER CENTRADO (IGUAL AL HOME) */
+        header { 
+            width: 100%; 
+            text-align: center; 
+            padding: 60px 0 40px; 
+            background: #f2f2f2; 
         }
+        .logo-link img { width: 180px; height: auto; margin-bottom: 30px; display: inline-block; }
 
-        .logo-link img { height: 35px; width: auto; display: block; }
-        .main-nav { display: flex; gap: 30px; }
-        .main-nav a {
-            text-decoration: none;
-            color: #000;
-            font-size: 13px;
-            letter-spacing: 2px;
-            font-weight: 400;
-            transition: 0.3s;
+        nav { display: block; width: 100%; margin-bottom: 40px; text-align: center; }
+        nav a {
+            display: inline-block; text-decoration: none; color: #000;
+            font-size: 14px; letter-spacing: 2px; margin: 0 20px;
+            padding-bottom: 5px; border-bottom: 2px solid transparent; transition: 0.3s;
         }
-        .main-nav a.active { font-weight: 900; border-bottom: 2px solid #000; }
+        nav a.active { border-bottom: 2px solid #000; font-weight: bold; }
 
-        /* TÍTULOS INTER 900 (ESTILO DROPS IS HOT) */
+        /* TÍTULOS INTER 900 */
         .section-title {
+            font-family: 'Inter', sans-serif;
             text-align: center;
             letter-spacing: -1.5px;
-            margin-top: 80px;
+            margin-top: 40px;
             font-size: 32px;
             font-weight: 900;
             line-height: 0.9;
@@ -103,13 +96,13 @@
         .producto-card .info { padding: 25px; flex-grow: 1; }
         
         .producto-card h3 { 
+            font-family: 'Inter', sans-serif;
             font-size: 16px; 
             font-weight: 900; 
             letter-spacing: -0.5px; 
             margin-bottom: 15px; 
         }
 
-        /* PRECIOS EN COURIER PARA PRECISIÓN */
         .producto-card .price { 
             font-family: 'Courier New', Courier, monospace; 
             font-size: 20px; 
@@ -127,16 +120,17 @@
         .social-link:hover img { opacity: 1; }
 
         @media (max-width: 600px) {
-            .main-header { flex-direction: column; padding: 20px; gap: 15px; }
+            header { padding: 40px 10px; }
+            nav a { margin: 0 10px; font-size: 12px; }
             .section-title { font-size: 24px; }
         }
     </style>
 </head>
 <body>
 
-    <header class="main-header">
+    <header>
         <a href="index.html" class="logo-link"><img src="img/logo-preps.png" alt="PREPS Chile"></a>
-        <nav class="main-nav">
+        <nav>
             <a href="index.html">HOGAR</a>
             <a href="catalogo.html" class="active">CATALOGAR</a>
             <a href="nosotros.html">NOSOTROS</a>
@@ -149,15 +143,15 @@
             <div class="grid-catalogo">
                 <a href="producto.html?id=highcarb" class="producto-card">
                     <img src="img/menu1.jpg" alt="High Carb">
-                    <div class="info"><h3>POWER BREAST HIGH CARB</h3><div class="price">$5690</div></div>
+                    <div class="info"><h3>POWER BREAST HIGH CARB</h3><div class="price">$5.690</div></div>
                 </a>
                 <a href="producto.html?id=lowcarb" class="producto-card">
                     <img src="img/menu2.jpg" alt="Low Carb">
-                    <div class="info"><h3>POWER BREAST LOW CARB</h3><div class="price">$4990</div></div>
+                    <div class="info"><h3>POWER BREAST LOW CARB</h3><div class="price">$4.990</div></div>
                 </a>
                 <a href="personalizar.html" class="producto-card card-custom-black">
                     <img src="img/custom-prep.jpg" alt="Personalizar">
-                    <div class="info"><h3>CUSTOM PERFORMANCE V1.0</h3><div class="price">DESDE $1.200</div></div>
+                    <div class="info"><h3>CUSTOM PERFORMANCE V1.0</h3><div class="price">DESDE $5.000</div></div>
                 </a>
             </div>
         </section>
@@ -165,15 +159,15 @@
         <section class="reveal">
             <h2 class="section-title">PLANES PERFORMANCE</h2>
             <div class="grid-catalogo">
-                <a href="https://wa.me/56941892028?text=Hola,%20quiero%20el%20pack%20de%205%20unidades" class="producto-card">
+                <a href="producto.html?id=pack5" class="producto-card">
                     <img src="img/pack5.jpg" alt="Pack 5">
                     <div class="info"><h3>05 PACKS PERFORMANCE</h3><div class="price">$24.900</div></div>
                 </a>
-                <a href="https://wa.me/56941892028?text=Hola,%20quiero%20el%20pack%20de%2015%20unidades" class="producto-card">
+                <a href="producto.html?id=pack15" class="producto-card">
                     <img src="img/pack15.jpg" alt="Pack 15">
                     <div class="info"><h3>15 PACKS PERFORMANCE</h3><div class="price">$72.900</div></div>
                 </a>
-                <a href="https://wa.me/56941892028?text=Hola,%20quiero%20el%20pack%20de%2028%20unidades" class="producto-card">
+                <a href="producto.html?id=pack28" class="producto-card">
                     <img src="img/pack28.jpg" alt="Pack 28">
                     <div class="info"><h3>28 PACKS PERFORMANCE</h3><div class="price">$129.900</div></div>
                 </a>
