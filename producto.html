@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -31,106 +31,70 @@
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         header { 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            padding: 15px 50px; 
-            background: #f2f2f2; 
-            border-bottom: 1px solid #000; 
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            display: flex; align-items: center; justify-content: space-between; 
+            padding: 15px 50px; background: #f2f2f2; border-bottom: 1px solid #000; 
+            position: sticky; top: 0; z-index: 1000;
         }
         .logo-link img { height: 35px; width: auto; display: block; }
         nav { display: flex; gap: 30px; }
-        nav a { 
-            text-decoration: none; 
-            color: #000; 
-            font-size: 14px; 
-            letter-spacing: 1px;
-            font-family: 'Courier New', Courier, monospace;
-        }
+        nav a { text-decoration: none; color: #000; font-size: 14px; letter-spacing: 1px; }
 
         .product-page { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            text-align: center; 
-            padding: 60px 20px; 
-            max-width: 900px; 
-            margin: auto; 
+            display: flex; flex-direction: column; align-items: center; 
+            text-align: center; padding: 60px 20px; max-width: 900px; margin: auto; 
         }
         
         .image-container { 
-            position: relative; 
-            width: 100%; 
-            max-width: 500px; 
-            height: 500px; 
-            border: 1px solid #000; 
-            background: #fff; 
-            overflow: hidden; 
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            position: relative; width: 100%; max-width: 500px; height: 500px; 
+            border: 1px solid #000; background: #fff; overflow: hidden; margin-bottom: 40px;
         }
         
         .image-wrapper { display: flex; height: 100%; transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1); }
         .image-wrapper img { min-width: 100%; height: 100%; object-fit: cover; }
         
-        .img-nav { position: absolute; top: 50%; width: 100%; display: flex; justify-content: space-between; transform: translateY(-50%); pointer-events: none; padding: 0 15px; box-sizing: border-box; }
-        .img-nav button { 
-            pointer-events: auto; background: #fff; border: 1px solid #000; cursor: pointer; 
-            width: 45px; height: 45px; border-radius: 50%; font-size: 18px; transition: 0.3s; 
-            display: flex; align-items: center; justify-content: center;
-        }
-        .img-nav button:hover { background: #000; color: #fff; }
+        .img-nav { position: absolute; top: 50%; width: 100%; display: flex; justify-content: space-between; transform: translateY(-50%); pointer-events: none; padding: 0 15px; }
+        .img-nav button { pointer-events: auto; background: #fff; border: 1px solid #000; cursor: pointer; width: 45px; height: 45px; border-radius: 50%; }
 
-        .product-details { width: 100%; }
-        .product-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 36px; letter-spacing: -1.5px; margin: 20px 0; line-height: 0.9; }
-        .price-large { font-family: 'Courier New', monospace; font-size: 32px; margin-bottom: 30px; font-weight: 900; }
-        
-        /* SELECTOR Y BOTÓN FOTO 1 */
-        .purchase-area { display: flex; max-width: 450px; margin: 0 auto 60px; border: 1px solid #000; background: #fff; }
+        /* FOTO 1: SELECTOR Y BOTÓN */
+        .purchase-container { display: flex; width: 100%; max-width: 400px; margin: 0 auto 60px; border: 1px solid #000; }
         .qty-input { 
             width: 80px; border: none; border-right: 1px solid #000; 
             font-family: 'Inter'; font-weight: 900; font-size: 18px; 
-            text-align: center; padding: 15px; appearance: none; cursor: pointer; background: #fff;
+            text-align: center; padding: 15px; cursor: pointer; background: #fff;
         }
-        .btn-add-cart { 
+        .buy-btn-new { 
             flex-grow: 1; background: #000; color: #fff; border: none; 
             font-family: 'Inter'; font-weight: 900; font-size: 16px; 
             letter-spacing: 1px; cursor: pointer; transition: 0.3s; 
         }
-        .btn-add-cart:hover { background: #333; }
 
-        /* MODAL FOTO 2 */
+        /* FOTO 2: MODAL */
         .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
-        .modal-content { background: #fff; width: 100%; max-width: 500px; padding: 40px; position: relative; text-align: center; animation: slideUp 0.4s ease; }
-        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal-content { background: #fff; width: 100%; max-width: 500px; padding: 40px; position: relative; text-align: center; }
         .close-modal { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; color: #888; }
         .modal-title { font-family: 'Inter'; font-weight: 900; font-size: 24px; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
         .modal-product-info { display: flex; align-items: center; gap: 20px; text-align: left; margin-bottom: 30px; }
         .modal-product-info img { width: 90px; height: 90px; object-fit: cover; border: 1px solid #eee; }
-        .modal-text h3 { font-family: 'Inter'; font-weight: 900; font-size: 14px; margin: 0 0 5px; }
-        .modal-text p { font-size: 11px; color: #666; margin: 2px 0; }
+        .modal-text h3 { font-family: 'Inter'; font-weight: 900; font-size: 14px; margin: 0; }
         .modal-actions { display: flex; flex-direction: column; gap: 10px; }
-        .btn-modal-black { background: #000; color: #fff; padding: 18px; text-decoration: none; font-weight: 900; font-size: 14px; font-family: 'Inter'; }
-        .btn-modal-outline { background: #fff; color: #000; padding: 18px; border: 2px solid #000; font-weight: 900; font-size: 14px; font-family: 'Inter'; cursor: pointer; }
+        .btn-modal-black { background: #000; color: #fff; padding: 18px; text-decoration: none; font-weight: 900; font-size: 14px; display: block; }
+        .btn-modal-outline { background: #fff; color: #000; padding: 18px; border: 2px solid #000; font-weight: 900; font-size: 14px; cursor: pointer; }
 
-        .specs-table { width: 100%; border-top: 1px solid #000; margin-top: 40px; text-align: left; }
-        .spec-row { display: flex; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid #ddd; }
-        .spec-label { font-weight: 900; font-size: 12px; color: #888; letter-spacing: 1px; }
-        .spec-value { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 15px; letter-spacing: -0.5px; }
-
+        .product-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 36px; margin: 20px 0; line-height: 0.9; }
+        .price-large { font-family: 'Courier New', monospace; font-size: 32px; margin-bottom: 30px; font-weight: 900; }
         .macro-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: #000; border: 1px solid #000; margin: 40px 0; }
         .macro-item { background: #fff; padding: 25px 10px; text-align: center; }
-        .macro-num { display: block; font-size: 24px; font-weight: 900; font-family: 'Inter', sans-serif; letter-spacing: -1px; }
+        .macro-num { display: block; font-size: 24px; font-weight: 900; font-family: 'Inter', sans-serif; }
         .macro-label { font-size: 10px; color: #888; font-weight: 900; }
+        .specs-table { width: 100%; border-top: 1px solid #000; margin-top: 40px; text-align: left; }
+        .spec-row { display: flex; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid #ddd; }
+        .spec-label { font-weight: 900; font-size: 12px; color: #888; }
+        .spec-value { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 15px; }
 
         footer { background: #000; color: #fff; padding: 60px; text-align: center; font-size: 10px; letter-spacing: 2px; }
 
         @media (max-width: 600px) {
             header { padding: 15px 20px; flex-direction: column; gap: 15px; }
-            .product-title { font-size: 28px; }
             .macro-grid { grid-template-columns: repeat(2, 1fr); }
             .image-container { height: 350px; }
         }
@@ -179,10 +143,6 @@
         const item = db[productId] || db.highcarb;
 
         function renderProduct() {
-            let imagesHtml = item.imgs.map(img => `<img src="${img}" onerror="this.src='img/logo-preps.png'">`).join('');
-            let navHtml = item.imgs.length > 1 ? `<div class="img-nav"><button onclick="moveSlide(-1)">&#10094;</button><button onclick="moveSlide(1)">&#10095;</button></div>` : '';
-
-            // Reglas de Stock
             let maxQty = 5;
             if (productId === 'pack5' || productId === 'pack15') maxQty = 2;
             if (productId === 'pack28') maxQty = 1;
@@ -192,29 +152,21 @@
 
             document.getElementById('product-content').innerHTML = `
                 <div class="image-container reveal active">
-                    <div class="image-wrapper" id="wrapper">${imagesHtml}</div>
-                    ${navHtml}
+                    <div class="image-wrapper" id="wrapper">${item.imgs.map(img => `<img src="${img}">`).join('')}</div>
+                    ${item.imgs.length > 1 ? '<div class="img-nav"><button onclick="moveSlide(-1)">&#10094;</button><button onclick="moveSlide(1)">&#10095;</button></div>' : ''}
                 </div>
                 <div class="product-details reveal active">
                     <div class="price-large">${item.price}</div>
                     <h1 class="product-title">${item.name}</h1>
-                    
-                    <div class="purchase-area">
+                    <div class="purchase-container">
                         <select id="qty-selector" class="qty-input">${qtyOptions}</select>
-                        <button class="btn-add-cart" onclick="addToCart()">AGREGAR AL CARRO</button>
+                        <button class="buy-btn-new" onclick="addToCart()">AGREGAR AL CARRO</button>
                     </div>
-                    
                     <div class="macro-grid">
                         <div class="macro-item"><span class="macro-num">${item.k}</span><span class="macro-label">KCAL</span></div>
                         <div class="macro-item"><span class="macro-num">${item.p}G</span><span class="macro-label">PROT</span></div>
                         <div class="macro-item"><span class="macro-num">${item.c}G</span><span class="macro-label">CARBS</span></div>
                         <div class="macro-item"><span class="macro-num">${item.g}G</span><span class="macro-label">FAT</span></div>
-                    </div>
-                    <div class="specs-table">
-                        <div class="spec-row"><span class="spec-label">DESCRIPCIÓN</span><span class="spec-value">${item.desc}</span></div>
-                        <div class="spec-row"><span class="spec-label">INGREDIENTES</span><span class="spec-value">${item.ing}</span></div>
-                        <div class="spec-row"><span class="spec-label">LOGÍSTICA</span><span class="spec-value">${item.envio}</span></div>
-                        <div class="spec-row"><span class="spec-label">VIDA ÚTIL</span><span class="spec-value">${item.vida}</span></div>
                     </div>
                 </div>
             `;
@@ -224,13 +176,8 @@
             const qty = parseInt(document.getElementById('qty-selector').value);
             const priceVal = parseInt(item.price.replace('$', '').replace('.', ''));
             let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
-            
-            for(let i=0; i<qty; i++) {
-                cart.push({ name: item.name, price: priceVal });
-            }
+            for(let i=0; i<qty; i++) { cart.push({ name: item.name, price: priceVal }); }
             localStorage.setItem('preps_cart', JSON.stringify(cart));
-
-            // Mostrar Modal
             document.getElementById('modal-img').src = item.imgs[0];
             document.getElementById('modal-name').innerText = item.name;
             document.getElementById('modal-qty').innerText = qty;
