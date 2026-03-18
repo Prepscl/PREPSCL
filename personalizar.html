@@ -324,8 +324,40 @@
         update();
 
         function sendToWhatsApp() {
-            const msg = `🚀 NUEVO PEDIDO PREPS CUSTOM%0A----------------------%0A⚡ ${document.getElementById('protocol-name').innerText}%0A%0A📦 COMPOSICIÓN:%0A- POLLO (${prepPollo}): ${document.getElementById('input-pollo').value}G%0A- ARROZ: ${document.getElementById('input-arroz').value}G%0A- BRÓCOLI: ${document.getElementById('input-brocoli').value}G%0A%0A💰 TOTAL: ${document.getElementById('final-price').innerText}`;
-            window.open(`https://wa.me/569XXXXXXXX?text=${msg}`); 
+          
+    // 1. Preguntar modalidad de entrega de forma simple
+    const entrega = confirm("¿Deseas DELIVERY a zonas disponibles?\n(Presiona CANCELAR para RETIRO LOCAL)") 
+                    ? "DELIVERY ZONAL" 
+                    : "RETIRO LOCAL";
+
+    const p = document.getElementById('val-pollo').innerText;
+    const a = document.getElementById('val-arroz').innerText;
+    const b = document.getElementById('val-brocoli').innerText;
+    const price = document.getElementById('final-price').innerText;
+    const proto = document.getElementById('protocol-name').innerText;
+    
+    // Macros para el mensaje
+    const prot = document.getElementById('m-prot').innerText;
+    const carb = document.getElementById('m-carb').innerText;
+    const kcal = document.getElementById('m-kcal').innerText;
+
+    // 2. Construir el mensaje con mística PREPS
+    const msg = `🚀 *NUEVO PEDIDO PREPS CUSTOM*%0A` +
+                `--------------------------%0A` +
+                `⚡ *${proto}*%0A%0A` +
+                `📍 *ENTREGA:* ${entrega}%0A%0A` +
+                `📦 *CONFIGURACIÓN:*%0A` +
+                `- POLLO (${prepPollo}): ${p}%0A` +
+                `- ARROZ: ${a}%0A` +
+                `- BRÓCOLI: ${b}%0A%0A` +
+                `📊 *DATOS NUTRICIONALES:*%0A` +
+                `- P: ${prot}g | C: ${carb}g | Kcal: ${kcal}%0A` +
+                `--------------------------%0A` +
+                `💰 *TOTAL A PAGAR:* ${price}`;
+
+    // 3. Abrir WhatsApp (Asegúrate de poner tu número real aquí)
+    window.open(`https://wa.me/56941892028?text=${msg}`); 
+}
         }
     </script>
 </body>
