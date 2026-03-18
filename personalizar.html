@@ -18,7 +18,7 @@
             overflow-x: hidden;
         }
 
-        /* 1. PANTALLA DE CARGA (LOADER MÍSTICO) */
+        /* 1. PANTALLA DE CARGA MÍSTICA */
         #loader {
             position: fixed;
             top: 0;
@@ -31,25 +31,24 @@
             align-items: center;
             justify-content: center;
             z-index: 9999;
-            transition: opacity 1s ease, visibility 1s;
+            transition: opacity 0.8s ease;
         }
 
         #loader img {
-            width: 150px;
+            width: 120px;
             animation: pulse 2s infinite ease-in-out;
         }
 
         @keyframes pulse {
-            0% { transform: scale(0.9); opacity: 0.3; }
+            0%, 100% { transform: scale(0.9); opacity: 0.3; }
             50% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(0.9); opacity: 0.3; }
         }
 
-        /* 2. EFECTO DE REVELACIÓN (SCROLL REVEAL) */
+        /* REVELACIÓN SUAVE COMPATIBLE CON MÓVIL */
         .reveal {
             opacity: 0;
-            transform: translateY(40px);
-            transition: all 1.2s ease-out;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
         }
 
         .reveal.active {
@@ -63,8 +62,7 @@
             align-items: center;
             justify-content: space-between;
             padding: 15px 50px;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(10px);
+            background: #000;
             border-bottom: 1px solid #1a1a1a;
             position: sticky;
             top: 0;
@@ -86,36 +84,38 @@
         .container {
             max-width: 1100px;
             margin: 0 auto;
-            padding: 80px 20px 180px;
+            padding: 60px 20px 100px;
         }
 
         .welcome-section {
             text-align: center;
-            margin-bottom: 80px;
+            margin-bottom: 60px;
         }
 
         .welcome-title {
-            font-size: 30px;
+            font-size: 26px;
             font-weight: 900;
-            letter-spacing: 6px;
-            margin-bottom: 20px;
+            letter-spacing: 4px;
+            margin-bottom: 15px;
         }
 
         .welcome-subtitle {
             font-size: 14px;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             color: #444;
         }
 
-        /* LAYOUT DUAL (Boceto) */
+        /* LAYOUT DUAL */
         .config-layout {
             display: flex;
-            gap: 60px;
+            gap: 50px;
             align-items: flex-start;
+            flex-wrap: wrap;
         }
 
         .image-section {
             flex: 1;
+            min-width: 320px;
             border: 1px solid #222;
             background: #050505;
         }
@@ -132,14 +132,13 @@
 
         .image-placeholder {
             width: 100%;
-            height: 450px;
+            height: 400px;
             background: #080808;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #222;
+            color: #1a1a1a;
             letter-spacing: 10px;
-            font-size: 12px;
         }
 
         /* CONFIGURADOR */
@@ -148,14 +147,14 @@
         .section-label {
             font-size: 15px;
             font-weight: 900;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             border-left: 4px solid #fff;
             padding-left: 15px;
             letter-spacing: 2px;
         }
 
-        .step { margin-bottom: 40px; }
-        .label-group { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 15px; font-size: 12px; color: #666; }
+        .step { margin-bottom: 35px; }
+        .label-group { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 12px; font-size: 11px; color: #666; }
         
         input[type=range] {
             width: 100%;
@@ -166,7 +165,7 @@
             accent-color: #fff;
         }
 
-        .prep-selector { display: flex; gap: 8px; margin-top: 20px; }
+        .prep-selector { display: flex; gap: 8px; margin-top: 15px; }
         .prep-btn { 
             flex: 1; 
             padding: 12px; 
@@ -176,13 +175,14 @@
             cursor: pointer; 
             font-family: inherit; 
             font-size: 10px; 
-            transition: 0.4s;
+            transition: 0.3s;
         }
         .prep-btn.active { border-color: #fff; color: #fff; background: #0a0a0a; }
 
+        /* PANEL DE MACROS */
         .macros-display {
-            margin-top: 50px;
-            padding: 30px;
+            margin-top: 40px;
+            padding: 25px;
             background: #050505;
             border: 1px solid #111;
         }
@@ -190,43 +190,36 @@
         .macro-line {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-size: 13px;
             color: #555;
         }
 
-        .macro-val { font-size: 22px; font-weight: 900; color: #fff; }
+        .macro-val { font-size: 19px; font-weight: 900; color: #fff; }
 
-        /* FOOTER DE PRECIO TRANSLÚCIDO */
-        .price-footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(15px);
-            color: #fff;
-            padding: 25px 60px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-sizing: border-box;
-            border-top: 1px solid #1a1a1a;
-            z-index: 2000;
-        }
-
-        .price-display { font-size: 24px; font-weight: 900; letter-spacing: 3px; }
-
-        .btn-send {
+        /* ÁREA DE ACCIÓN (FIJA BAJO MACROS, NO FLOTANTE) */
+        .action-area {
+            margin-top: 20px;
+            padding: 30px;
             background: #fff;
             color: #000;
-            padding: 18px 60px;
+            text-align: center;
+            border: 1px solid #fff;
+        }
+
+        .price-display { font-size: 22px; font-weight: 900; letter-spacing: 2px; margin-bottom: 15px; }
+
+        .btn-send {
+            background: #000;
+            color: #fff;
+            padding: 15px 40px;
             border: none;
             font-weight: 900;
             letter-spacing: 3px;
+            width: 100%;
             cursor: pointer;
             transition: 0.4s;
         }
-        .btn-send:hover { background: #888; transform: translateY(-3px); }
 
         /* FOOTER SOCIAL */
         .social-footer {
@@ -236,16 +229,15 @@
             border-top: 1px solid #111;
         }
 
-        .social-link img { width: 30px; filter: invert(1); opacity: 0.5; transition: 0.3s; }
-        .social-link img:hover { opacity: 1; }
+        .social-link img { width: 30px; filter: invert(1); opacity: 0.5; }
 
         @media (max-width: 850px) {
-            .main-header { padding: 20px; flex-direction: column; }
-            .main-nav { margin-top: 20px; }
-            .main-nav a { margin: 0 10px; font-size: 10px; }
+            .main-header { padding: 15px 25px; }
+            .main-nav a { margin-left: 15px; font-size: 10px; }
             .config-layout { flex-direction: column; }
             .config-section { width: 100%; }
-            .price-footer { flex-direction: column; gap: 20px; padding: 30px; }
+            .image-placeholder { height: 280px; }
+            .action-area { padding: 25px 15px; }
         }
     </style>
 </head>
@@ -253,7 +245,6 @@
 
     <div id="loader">
         <img src="img/logo-preps.png" alt="PREPS">
-        <p style="font-size: 10px; letter-spacing: 8px; margin-top: 30px; color: #333;">INICIALIZANDO SISTEMA</p>
     </div>
 
     <header class="main-header">
@@ -267,15 +258,15 @@
 
     <div class="container">
         <div class="welcome-section reveal">
-            <h1 class="welcome-title">BIENVENID@S A CUSTOM PERFORMANCE V1.0</h1>
-            <p class="welcome-subtitle">DISEÑADO PARA TI QUE BUSCAS PRECISIÓN EN TU COMIDA.</p>
+            <h1 class="welcome-title">CUSTOM PERFORMANCE V1.0</h1>
+            <p class="welcome-subtitle">PRECISIÓN EN TU COMIDA BY PREPS®</p>
         </div>
 
         <div class="config-layout">
             <div class="image-section reveal">
                 <div class="food-name" id="protocol-name">UNIDAD: BASE LIGERA</div>
                 <div class="image-placeholder">
-                    <span>SYSTEM_ACTIVE_IMG</span>
+                    <span>SYSTEM_ACTIVE</span>
                 </div>
             </div>
 
@@ -283,7 +274,7 @@
                 <div class="section-label">PARÁMETROS DE CARGA</div>
                 
                 <div class="step">
-                    <div class="label-group"><span>PROTEÍNA (POLLO)</span> <span id="val-pollo">100G</span></div>
+                    <div class="label-group"><span>POLLO</span> <span id="val-pollo">100G</span></div>
                     <input type="range" id="input-pollo" min="0" max="800" step="50" value="100">
                     <div class="prep-selector">
                         <button class="prep-btn" id="btn-cocido" onclick="setPrep('COCIDO')">VAPOR</button>
@@ -292,12 +283,12 @@
                 </div>
 
                 <div class="step">
-                    <div class="label-group"><span>CARBO (ARROZ)</span> <span id="val-arroz">100G</span></div>
+                    <div class="label-group"><span>ARROZ</span> <span id="val-arroz">100G</span></div>
                     <input type="range" id="input-arroz" min="0" max="800" step="50" value="100">
                 </div>
 
                 <div class="step">
-                    <div class="label-group"><span>FIBRA (BRÓCOLI)</span> <span id="val-brocoli">100G</span></div>
+                    <div class="label-group"><span>BRÓCOLI</span> <span id="val-brocoli">100G</span></div>
                     <input type="range" id="input-brocoli" min="0" max="800" step="50" value="100">
                 </div>
 
@@ -307,43 +298,31 @@
                     <div class="macro-line"><span>GRASAS</span> <span class="macro-val"><span id="m-fat">0</span>G</span></div>
                     <div class="macro-line" style="border:none; margin-bottom:0;"><span>ENERGÍA</span> <span class="macro-val"><span id="m-kcal">0</span> KCAL</span></div>
                 </div>
+
+                <div class="action-area">
+                    <div class="price-display">TOTAL: <span id="final-price">$0</span></div>
+                    <button class="btn-send" onclick="sendToWhatsApp()">PEDIR AHORA</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="social-footer">
+    <footer class="social-footer">
         <a href="https://www.instagram.com/prepscl/" target="_blank" class="social-link">
             <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram">
         </a>
-        <p style="font-size: 9px; margin-top: 30px; color: #222; letter-spacing: 3px;">© 2026 PREPS CHILE - PRECISION DINING</p>
-    </div>
-
-    <div class="price-footer">
-        <div class="price-display">TOTAL: <span id="final-price">$0</span></div>
-        <button class="btn-send" onclick="sendToWhatsApp()">GENERAR ORDEN</button>
-    </div>
+    </footer>
 
     <script>
-        // PANTALLA DE CARGA
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const loader = document.getElementById('loader');
-                loader.style.opacity = '0';
-                setTimeout(() => { loader.style.visibility = 'hidden'; }, 1000);
-            }, 2000);
-        });
-
-        // REVEAL ON SCROLL
-        const reveals = document.querySelectorAll('.reveal');
-        window.addEventListener('scroll', () => {
-            reveals.forEach(el => {
-                const windowHeight = window.innerHeight;
-                const revealTop = el.getBoundingClientRect().top;
-                if (revealTop < windowHeight - 100) el.classList.add('active');
-            });
-        });
-        // Activación inicial post-loader
-        setTimeout(() => { reveals[0].classList.add('active'); }, 2500);
+        // MANEJO DE CARGA Y REVELACIÓN (OPTIMIZADO MÓVIL)
+        window.onload = () => {
+            const loader = document.getElementById('loader');
+            loader.style.opacity = '0';
+            setTimeout(() => { 
+                loader.style.display = 'none'; 
+                document.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
+            }, 800);
+        };
 
         // LÓGICA NUTRICIONAL
         let prepPollo = 'PLANCHA';
@@ -359,10 +338,10 @@
             prepPollo = type;
             document.getElementById('btn-cocido').classList.toggle('active', type === 'COCIDO');
             document.getElementById('btn-plancha').classList.toggle('active', type === 'PLANCHA');
-            updateValues();
+            update();
         }
 
-        function updateValues(e) {
+        function update(e) {
             let p = parseInt(document.getElementById('input-pollo').value);
             let a = parseInt(document.getElementById('input-arroz').value);
             let b = parseInt(document.getElementById('input-brocoli').value);
@@ -393,15 +372,13 @@
             document.getElementById('final-price').innerText = "$" + Math.round(finalPrice).toLocaleString('es-CL');
 
             let proto = "UNIDAD: PERSONALIZADA";
-            if (total >= 750) proto = "PROTOCOLO: SOBRECARGA";
+            if (p+a+b >= 750) proto = "PROTOCOLO: SOBRECARGA";
             else if (p >= 400 && a <= 100) proto = "MODO: KETO ELITE";
-            else if (a >= 450) proto = "PROTOCOLO: CARGA CARB";
-            else if (total <= 350) proto = "UNIDAD: BASE LIGERA";
             document.getElementById('protocol-name').innerText = proto;
         }
 
-        document.querySelectorAll('input[type=range]').forEach(i => i.addEventListener('input', updateValues));
-        updateValues();
+        document.querySelectorAll('input[type=range]').forEach(i => i.addEventListener('input', update));
+        update();
 
         function sendToWhatsApp() {
             const msg = `🚀 NUEVO PEDIDO PREPS CUSTOM%0A----------------------%0A⚡ ${document.getElementById('protocol-name').innerText}%0A%0A📦 COMPOSICIÓN:%0A- POLLO (${prepPollo}): ${document.getElementById('input-pollo').value}G%0A- ARROZ: ${document.getElementById('input-arroz').value}G%0A- BRÓCOLI: ${document.getElementById('input-brocoli').value}G%0A%0A💰 TOTAL: ${document.getElementById('final-price').innerText}`;
