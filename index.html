@@ -24,7 +24,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* 1. LOADER MÍSTICO (2 SEG) */
+        /* 1. LOADER MÍSTICO */
         #loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; display: flex; flex-direction: column;
@@ -41,7 +41,7 @@
         .reveal { opacity: 0; transform: translateY(30px); transition: all 1.2s cubic-bezier(0.17, 0.55, 0.55, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* HEADER CENTRADO (ESTILO ORIGINAL) */
+        /* HEADER CENTRADO ORIGINAL */
         header { 
             width: 100%; 
             text-align: center; 
@@ -50,7 +50,7 @@
         }
         .logo-link img { width: 180px; height: auto; margin-bottom: 30px; display: inline-block; }
 
-        nav { display: block; width: 100%; margin-bottom: 40px; text-align: center; }
+        nav { display: flex; width: 100%; margin-bottom: 40px; justify-content: center; align-items: center; }
         nav a {
             display: inline-block; text-decoration: none; color: #000;
             font-size: 14px; letter-spacing: 2px; margin: 0 20px;
@@ -58,94 +58,56 @@
         }
         nav a.active { border-bottom: 2px solid #000; font-weight: bold; }
 
-        /* SLOGAN IMPACTO (INTER 900) */
+        /* ESTILO BOLSA DE COMPRA REPARADO */
+        .cart-link-container {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            margin-left: 10px;
+            vertical-align: middle;
+            border-bottom: none !important;
+            padding-bottom: 0 !important;
+        }
+        .cart-icon-svg { width: 22px !important; height: 22px !important; color: #000; display: block; }
+        #global-cart-count {
+            position: absolute; top: -8px; right: -10px;
+            background: #000; color: #fff;
+            font-family: 'Inter', sans-serif; font-weight: 900; font-size: 10px;
+            width: 18px; height: 18px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            letter-spacing: 0; line-height: 1;
+        }
+
         .hero-slogan { 
-            font-family: 'Inter', sans-serif; 
-            font-size: 22px; 
-            font-weight: 900; 
-            letter-spacing: -1px; 
-            text-align: center; 
-            line-height: 1; 
+            font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 900; 
+            letter-spacing: -1px; text-align: center; line-height: 1; 
         }
+        .home-hero { width: 100%; height: 70vh; background: url('img/hero.jpg') center/cover no-repeat; margin: 40px 0 80px; }
 
-        .home-hero { 
-            width: 100%; 
-            height: 70vh; 
-            background: url('img/hero.jpg') center/cover no-repeat; 
-            margin: 40px 0 80px; 
-        }
-
-        /* 3. SLIDER OPTIMIZADO CON RELIEVE */
-        .section-header h2 { 
-            font-family: 'Inter', sans-serif;
-            text-align: center; 
-            font-size: 32px; 
-            font-weight: 900; 
-            letter-spacing: -1.5px; 
-            margin-bottom: 40px; 
-        }
-        
-        .slider-container { 
-            max-width: 1300px; 
-            margin: auto; 
-            padding: 20px 0 100px;
-        }
-
-        .product-slider { 
-            display: flex; 
-            overflow-x: auto; 
-            gap: 30px; 
-            scroll-snap-type: x mandatory; 
-            scrollbar-width: none;
-            scroll-behavior: smooth; 
-            padding: 20px;
-        }
+        .section-header h2 { font-family: 'Inter', sans-serif; text-align: center; font-size: 32px; font-weight: 900; letter-spacing: -1.5px; margin-bottom: 40px; }
+        .slider-container { max-width: 1300px; margin: auto; padding: 20px 0 100px; }
+        .product-slider { display: flex; overflow-x: auto; gap: 30px; scroll-snap-type: x mandatory; scrollbar-width: none; scroll-behavior: smooth; padding: 20px; }
         .product-slider::-webkit-scrollbar { display: none; }
 
         .slide-card { 
-            min-width: 320px; 
-            border: 1px solid #ddd; 
-            background: #fff;
-            text-align: center; 
-            scroll-snap-align: center; 
-            text-decoration: none; 
-            color: #000; 
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            display: flex; 
-            flex-direction: column;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            min-width: 320px; border: 1px solid #ddd; background: #fff;
+            text-align: center; scroll-snap-align: center; text-decoration: none; 
+            color: #000; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            display: flex; flex-direction: column; box-shadow: 0 4px 6px rgba(0,0,0,0.02);
         }
-
-        .slide-card:hover { 
-            transform: translateY(-10px); 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            border-color: #000;
-        }
-
+        .slide-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); border-color: #000; }
         .slide-card img { width: 100%; height: 350px; object-fit: cover; }
         .slide-info { padding: 25px; flex-grow: 1; border-top: 1px solid #eee; }
-        .slide-info h3 { 
-            font-family: 'Inter', sans-serif;
-            font-size: 16px; 
-            font-weight: 900; 
-            letter-spacing: -0.5px; 
-            margin: 0; 
-        }
+        .slide-info h3 { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 900; letter-spacing: -0.5px; margin: 0; }
         .price { font-family: 'Courier New', Courier, monospace; font-size: 18px; font-weight: bold; margin-top: 15px; }
 
         .card-custom-highlight { background: #000 !important; border-color: #000; }
         .card-custom-highlight .slide-info { border-top: 1px solid #222; }
         .card-custom-highlight .slide-info h3, .card-custom-highlight .price { color: #fff; }
 
-        /* NAVEGACIÓN SLIDER */
         .slider-nav { display: flex; align-items: center; justify-content: center; gap: 40px; margin-top: 40px; }
-        .nav-arrow { 
-            background: #fff; border: 1px solid #000; width: 50px; height: 50px; 
-            font-size: 18px; cursor: pointer; transition: 0.3s; display: flex; 
-            align-items: center; justify-content: center; border-radius: 50%;
-        }
+        .nav-arrow { background: #fff; border: 1px solid #000; width: 50px; height: 50px; font-size: 18px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
         .nav-arrow:hover { background: #000; color: #fff; }
-        
         .counter { font-family: 'Courier New', monospace; font-weight: bold; font-size: 18px; }
 
         footer { background: #000; color: #fff; padding: 60px 20px; text-align: center; font-size: 10px; letter-spacing: 2px; }
@@ -154,7 +116,9 @@
 
         @media (max-width: 850px) { 
             header { padding: 40px 10px; }
-            nav a { margin: 0 10px; font-size: 12px; }
+            nav { flex-wrap: wrap; gap: 10px; }
+            nav a { margin: 5px 10px; font-size: 12px; }
+            .cart-link-container { margin: 5px 10px; }
             .slide-card { min-width: 280px; } 
             .home-hero { height: 50vh; } 
             .hero-slogan { font-size: 18px; padding: 0 10px; }
@@ -174,6 +138,14 @@
             <a href="index.html" class="active">Hogar</a>
             <a href="catalogo.html">Catalogar</a>
             <a href="nosotros.html">Nosotros</a>
+            <a href="carrito.html" class="cart-link-container">
+                <svg class="cart-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+                <span id="global-cart-count">0</span>
+            </a>
         </nav>
         <div class="hero-slogan reveal">DISEÑADO PARA TU RENDIMIENTO</div>
     </header>
@@ -183,7 +155,6 @@
 
         <section class="slider-container reveal">
             <div class="section-header"><h2>PRODUCTOS</h2></div>
-
             <div class="product-slider" id="productSlider">
                 <a href="producto.html?id=highcarb" class="slide-card">
                     <img src="img/menu1.jpg">
@@ -197,15 +168,15 @@
                     <img src="img/custom-prep.jpg">
                     <div class="slide-info"><h3>CUSTOM PERFORMANCE V1.0</h3><div class="price">DESDE $5.000</div></div>
                 </a>
-                <a href="https://wa.me/56941892028?text=Hola, quiero el pack de 5" class="slide-card">
+                <a href="producto.html?id=pack5" class="slide-card">
                     <img src="img/pack5.jpg">
                     <div class="slide-info"><h3>05 PACKS PERFORMANCE</h3><div class="price">$24.900</div></div>
                 </a>
-                <a href="https://wa.me/56941892028?text=Hola, quiero el pack de 15" class="slide-card">
+                <a href="producto.html?id=pack15" class="slide-card">
                     <img src="img/pack15.jpg">
                     <div class="slide-info"><h3>15 PACKS PERFORMANCE</h3><div class="price">$72.900</div></div>
                 </a>
-                <a href="https://wa.me/56941892028?text=Hola, quiero el pack de 28" class="slide-card">
+                <a href="producto.html?id=pack28" class="slide-card">
                     <img src="img/pack28.jpg">
                     <div class="slide-info"><h3>28 PACKS PERFORMANCE</h3><div class="price">$129.900</div></div>
                 </a>
@@ -227,9 +198,18 @@
     <script>
         const slider = document.getElementById('productSlider');
         const currentIndexEl = document.getElementById('current-index');
-        const totalSlides = 6;
+
+        function updateGlobalCartCount() {
+            const cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
+            const countElement = document.getElementById('global-cart-count');
+            if (countElement) {
+                countElement.innerText = cart.length;
+                countElement.style.display = cart.length > 0 ? 'flex' : 'none';
+            }
+        }
 
         window.addEventListener('load', () => {
+            updateGlobalCartCount();
             setTimeout(() => {
                 document.getElementById('loader').style.opacity = '0';
                 setTimeout(() => { document.getElementById('loader').style.display = 'none'; reveal(); }, 800);
@@ -259,9 +239,7 @@
         let autoScroll = setInterval(() => {
             if (slider.scrollLeft + slider.offsetWidth >= slider.scrollWidth - 20) {
                 slider.scrollTo({ left: 0, behavior: 'smooth' });
-            } else {
-                scrollSlider(1);
-            }
+            } else { scrollSlider(1); }
         }, 5000);
 
         slider.addEventListener('mousedown', () => clearInterval(autoScroll));
