@@ -38,34 +38,48 @@
         .reveal { opacity: 0; transform: translateY(50px); transition: all 1.2s cubic-bezier(0.17, 0.55, 0.55, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* HEADER */
+        /* HEADER PREMIUM (ALINEADO IZQ-DER) */
         .main-header {
             display: flex; align-items: center; justify-content: space-between;
             padding: 15px 50px; background: #000; border-bottom: 1px solid #1a1a1a;
             position: sticky; top: 0; z-index: 1000;
         }
         .logo-link img { height: 35px; }
-        .main-nav a { text-decoration: none; color: #fff; font-size: 13px; letter-spacing: 2px; margin-left: 30px; }
+        
+        .main-nav { display: flex; align-items: center; gap: 30px; }
+        .main-nav a { text-decoration: none; color: #fff; font-size: 13px; letter-spacing: 2px; }
+
+        /* BOLSA DE COMPRA BLANCA PARA FONDO NEGRO */
+        .cart-link-container {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            border-bottom: none !important;
+            padding-bottom: 0 !important;
+        }
+        .cart-icon-svg { width: 22px !important; height: 22px !important; color: #fff; display: block; }
+        #global-cart-count {
+            position: absolute; top: -8px; right: -10px;
+            background: #fff; color: #000;
+            font-family: 'Inter', sans-serif; font-weight: 900; font-size: 10px;
+            width: 18px; height: 18px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            letter-spacing: 0; line-height: 1;
+        }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 80px 20px 150px; }
-
         .welcome-section { text-align: center; margin-bottom: 100px; }
         .welcome-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 32px; letter-spacing: -1.5px; margin-bottom: 20px; line-height: 1.1; }
         .welcome-subtitle { font-size: 14px; letter-spacing: 3px; color: #444; }
 
         .config-layout { display: flex; gap: 60px; flex-wrap: wrap; }
         .image-section { flex: 1; min-width: 320px; border: 1px solid #222; background: #050505; }
-        
         .food-name { background: #fff; color: #000; padding: 20px; text-align: center; font-family: 'Inter', sans-serif; font-weight: 900; font-size: 18px; letter-spacing: -0.5px; }
         .image-placeholder { height: 450px; background: #080808; display: flex; align-items: center; justify-content: center; color: #1a1a1a; letter-spacing: 10px; font-size: 12px; }
 
         .config-section { width: 420px; }
         .section-label { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 15px; margin-bottom: 30px; border-left: 4px solid #fff; padding-left: 15px; letter-spacing: -0.5px; }
-
         .limit-info { font-size: 11px; color: #ff3333 !important; margin-bottom: 25px; letter-spacing: 1px; border: 1px solid #441111; padding: 12px; text-align: center; background: rgba(255,0,0,0.02); pointer-events: none; }
-
-        .name-input { width: 100%; background: transparent; border: none; border-bottom: 2px solid #333; color: #fff; padding: 10px 0; margin-bottom: 30px; font-family: inherit; font-size: 16px; outline: none; }
-        .name-input:focus { border-bottom-color: #fff; }
 
         .step { margin-bottom: 40px; }
         .label-group { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 12px; font-size: 13px; color: #666; }
@@ -88,6 +102,7 @@
 
         @media (max-width: 850px) {
             .main-header { padding: 20px; flex-direction: column; gap: 15px; }
+            .main-nav { gap: 15px; }
             .config-layout { flex-direction: column; }
             .config-section { width: 100%; }
             .welcome-title { font-size: 24px; }
@@ -106,19 +121,15 @@
         <nav class="main-nav">
             <a href="index.html">HOGAR</a>
             <a href="catalogo.html">CATALOGAR</a>
-            <a href="nosotros.html">NOSOTROS</a
-                                                <nav>
-    <a href="index.html">HOGAR</a>
-    <a href="catalogo.html">CATALOGAR</a>
-    <a href="nosotros.html">NOSOTROS</a>
-    <a href="carrito.html" class="cart-link-container">
-        <svg class="cart-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <path d="M16 10a4 4 0 0 1-8 0"></path>
-        </svg>
-        <span id="global-cart-count">0</span>
-    </a>
+            <a href="nosotros.html">NOSOTROS</a>
+            <a href="carrito.html" class="cart-link-container">
+                <svg class="cart-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+                <span id="global-cart-count">0</span>
+            </a>
         </nav>
     </header>
 
@@ -182,7 +193,17 @@
     <script>
         let prepPollo = 'PLANCHA';
 
+        function updateGlobalCartCount() {
+            const cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
+            const countElement = document.getElementById('global-cart-count');
+            if (countElement) {
+                countElement.innerText = cart.length;
+                countElement.style.display = cart.length > 0 ? 'flex' : 'none';
+            }
+        }
+
         window.addEventListener('load', () => {
+            updateGlobalCartCount();
             setTimeout(() => {
                 const loader = document.getElementById('loader');
                 loader.style.opacity = '0';
@@ -262,8 +283,7 @@
                 price: priceNum 
             });
             localStorage.setItem('preps_cart', JSON.stringify(currentCart));
-
-            // Redirigir al carro para finalizar
+            updateGlobalCartCount();
             window.location.href = "carrito.html";
         }
 
