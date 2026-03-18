@@ -14,11 +14,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
 
     <style>
-        /* FONDO GRIS CLARO CONSISTENTE */
         body {
             background-color: #f2f2f2;
             color: #000;
-            font-family: 'Courier New', Courier, monospace; /* Fuente base */
+            font-family: 'Courier New', Courier, monospace;
             margin: 0;
             padding: 0;
             text-transform: uppercase;
@@ -26,18 +25,14 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* 1. SCROLL REVEAL */
         .reveal { 
             opacity: 0; 
             transform: translateY(30px); 
             transition: all 1.2s cubic-bezier(0.17, 0.55, 0.55, 1); 
         }
-        .reveal.active { 
-            opacity: 1; 
-            transform: translateY(0); 
-        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* HEADER (MANTENIENDO TU ESTILO ORIGINAL) */
+        /* HEADER */
         .main-header {
             display: flex;
             align-items: center;
@@ -50,30 +45,15 @@
             z-index: 1000;
         }
 
-        .logo-link img {
-            height: 35px; 
-            width: auto;
-            display: block;
-        }
-
-        .main-nav {
-            display: flex;
-            gap: 30px;
-        }
-
+        .logo-link img { height: 35px; width: auto; display: block; }
+        .main-nav { display: flex; gap: 30px; }
         .main-nav a {
             text-decoration: none;
             color: #000;
             font-size: 14px;
             letter-spacing: 1px;
-            font-family: 'Courier New', Courier, monospace; /* Fuente que te gusta */
         }
-
-        .main-nav a.active {
-            font-weight: bold;
-            border-bottom: 2px solid #000;
-            padding-bottom: 2px;
-        }
+        .main-nav a.active { font-weight: bold; border-bottom: 2px solid #000; }
 
         /* CONTENIDO NOSOTROS */
         .content-container {
@@ -83,16 +63,27 @@
             text-align: center;
         }
 
-        /* TÍTULO PRINCIPAL CON FUENTE DE IMPACTO */
+        /* TEXTO PRINCIPAL: COURIER CON MARCA EN INTER */
         .main-text {
+            font-size: 20px;
+            margin-bottom: 60px;
+            line-height: 1.6;
+            letter-spacing: 1px;
+            color: #000;
+        }
+
+        /* ESTILO PARA LA PALABRA PREPS DENTRO DEL TEXTO */
+        .brand-link {
             font-family: 'Inter', sans-serif;
             font-weight: 900;
             font-size: 24px;
             letter-spacing: -1px;
-            margin-bottom: 60px;
-            line-height: 1.2;
+            text-decoration: none;
             color: #000;
+            display: inline-block;
+            transition: 0.3s;
         }
+        .brand-link:hover { transform: scale(1.1); }
 
         .info-box {
             background: #fff;
@@ -100,7 +91,6 @@
             border: 1px solid #000;
             margin-bottom: 40px;
             text-align: left;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
 
         .info-box h3 {
@@ -112,11 +102,7 @@
             font-size: 24px;
         }
 
-        .info-box ul {
-            list-style: none;
-            padding: 0;
-        }
-
+        .info-box ul { list-style: none; padding: 0; }
         .info-box li {
             margin-bottom: 25px;
             font-size: 14px;
@@ -127,7 +113,6 @@
         .info-box strong {
             font-family: 'Inter', sans-serif;
             font-weight: 900;
-            color: #000;
         }
 
         .slogan-final {
@@ -139,7 +124,6 @@
             line-height: 0.9;
         }
 
-        /* FOOTER */
         footer {
             background: #000;
             color: #fff;
@@ -153,25 +137,20 @@
             filter: invert(1);
             opacity: 0.5;
             margin-bottom: 15px;
-            transition: 0.3s;
         }
-
-        .footer-social img:hover { opacity: 1; }
 
         .footer-text {
             font-size: 10px;
             letter-spacing: 2px;
-            line-height: 1.8;
             opacity: 0.6;
         }
 
-        /* RESPONSIVE */
         @media (max-width: 600px) {
             .main-header { padding: 15px 20px; flex-direction: column; gap: 15px; }
             .main-nav { gap: 15px; }
             .content-container { margin: 40px auto; }
-            .main-text { font-size: 18px; }
-            .slogan-final { font-size: 22px; }
+            .main-text { font-size: 16px; }
+            .brand-link { font-size: 20px; }
         }
     </style>
 </head>
@@ -192,7 +171,7 @@
         
         <div class="reveal">
             <p class="main-text">
-                EN PREPS, DISEÑAMOS EL COMBUSTIBLE QUE TU CUERPO NECESITA PARA RENDIR AL MÁXIMO. CREEMOS QUE COMER SANO NO DEBE SER UNA TAREA DIFICIL, SINO UNA VENTAJA COMPETITIVA.
+                EN <a href="index.html" class="brand-link">PREPS</a>, DISEÑAMOS EL COMBUSTIBLE QUE TU CUERPO NECESITA PARA RENDIR AL MÁXIMO. CREEMOS QUE COMER SANO NO DEBE SER UNA TAREA DIFICIL, SINO UNA VENTAJA COMPETITIVA.
             </p>
         </div>
 
@@ -200,11 +179,8 @@
             <h3>ESTÁNDAR DE CALIDAD</h3>
             <ul>
                 <li><strong>[✓] PESAJE EN COCIDO:</strong> GARANTIZAMOS QUE TUS MACROS SEAN REALES. PESAMOS CADA PROTEÍNA UNA VEZ COCINADA PARA QUE LO QUE COMES SEA EXACTAMENTE LO QUE TU CUERPO REQUIERE.</li>
-                
                 <li><strong>[✓] HIGIENE TOTAL:</strong> OPERAMOS BAJO ESTRICTOS PROTOCOLO DE GRADO ALIMENTARIO. LA SEGURIDAD DE TU COMIDA ES NUESTRA PRIORIDAD ABSOLUTA.</li>
-
                 <li><strong>[✓] PRECISIÓN DE MACROS:</strong> CADA INGREDIENTE ES SELECCIONADO Y PESADO AL GRAMO PARA GARANTIZAR QUE TU PLAN NUTRICIONAL SE CUMPLA AL 100%.</li>
-
                 <li><strong>[✓] PRECIO INTELIGENTE:</strong> ELIMINAMOS PROCESADOS Y EL TIEMPO DE COCINA. COMER EN PREPS CUESTA LO MISMO QUE COMIDA RÁPIDA, PERO CON RESULTADOS DE ÉLITE.</li>
             </ul>
         </div>
