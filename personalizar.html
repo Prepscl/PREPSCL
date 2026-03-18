@@ -18,7 +18,7 @@
             overflow-x: hidden;
         }
 
-        /* 1. LOADER MÍSTICO ORIGINAL */
+        /* 1. PANTALLA DE CARGA MÍSTICA */
         #loader {
             position: fixed;
             top: 0;
@@ -31,11 +31,11 @@
             align-items: center;
             justify-content: center;
             z-index: 9999;
-            transition: opacity 1s ease;
+            transition: opacity 0.8s ease;
         }
 
         #loader img {
-            width: 150px;
+            width: 120px;
             animation: pulse 2s infinite ease-in-out;
         }
 
@@ -44,10 +44,10 @@
             50% { transform: scale(1); opacity: 1; }
         }
 
-        /* 2. SCROLL REVEAL (MISTICISMO ACTIVADO) */
+        /* 2. SCROLL REVEAL (MISTICISMO) */
         .reveal {
             opacity: 0;
-            transform: translateY(50px);
+            transform: translateY(40px);
             transition: all 1.2s cubic-bezier(0.17, 0.55, 0.55, 1);
         }
 
@@ -90,13 +90,12 @@
         }
 
         /* BIENVENIDA RESTAURADA */
-        .welcome-section { text-align: center; margin-bottom: 100px; }
+        .welcome-section { text-align: center; margin-bottom: 80px; }
         .welcome-title { font-size: 28px; font-weight: 900; letter-spacing: 5px; margin-bottom: 20px; line-height: 1.4; }
         .welcome-subtitle { font-size: 14px; letter-spacing: 3px; color: #444; max-width: 700px; margin: 0 auto; }
 
         /* LAYOUT DUAL */
         .config-layout { display: flex; gap: 60px; flex-wrap: wrap; }
-        
         .image-section { flex: 1; min-width: 320px; border: 1px solid #222; background: #050505; }
         .food-name { background: #fff; color: #000; padding: 20px; text-align: center; font-weight: 900; font-size: 18px; letter-spacing: 2px; }
         .image-placeholder { height: 450px; background: #080808; display: flex; align-items: center; justify-content: center; color: #1a1a1a; letter-spacing: 10px; font-size: 12px; }
@@ -105,7 +104,6 @@
         .config-section { width: 420px; }
         .section-label { font-size: 15px; font-weight: 900; margin-bottom: 30px; border-left: 4px solid #fff; padding-left: 15px; letter-spacing: 2px; }
 
-        /* EXPLICACIÓN 800G */
         .limit-info {
             font-size: 11px;
             color: #ff3333;
@@ -126,12 +124,10 @@
         .prep-btn { flex: 1; padding: 12px; border: 1px solid #222; background: transparent; color: #444; cursor: pointer; font-family: inherit; font-size: 10px; transition: 0.3s; }
         .prep-btn.active { border-color: #fff; color: #fff; background: #0a0a0a; }
 
-        /* MACROS */
         .macros-display { margin-top: 50px; padding: 30px; background: #050505; border: 1px solid #111; }
         .macro-line { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 13px; color: #555; }
         .macro-val { font-size: 22px; font-weight: 900; color: #fff; }
 
-        /* ÁREA DE ACCIÓN (ESTÁTICA BAJO LOS MACROS) */
         .action-area {
             margin-top: 20px;
             padding: 35px;
@@ -143,25 +139,12 @@
 
         .price-display { font-size: 24px; font-weight: 900; letter-spacing: 3px; margin-bottom: 20px; }
         .btn-send { background: #000; color: #fff; padding: 18px 40px; border: none; font-weight: 900; letter-spacing: 3px; width: 100%; cursor: pointer; transition: 0.4s; }
-        .btn-send:hover { background: #333; }
-
-        /* FOOTER SOCIAL */
-        .social-footer {
-            text-align: center;
-            padding: 60px;
-            background: #000;
-            border-top: 1px solid #111;
-        }
-        .social-link img { width: 30px; filter: invert(1); opacity: 0.5; transition: 0.3s; }
-        .social-link img:hover { opacity: 1; }
 
         @media (max-width: 850px) {
             .main-header { padding: 20px; flex-direction: column; gap: 15px; }
             .main-nav a { margin: 0 10px; font-size: 10px; }
             .config-layout { flex-direction: column; }
             .config-section { width: 100%; }
-            .welcome-title { font-size: 20px; }
-            .image-placeholder { height: 300px; }
         }
     </style>
 </head>
@@ -190,17 +173,12 @@
         <div class="config-layout">
             <div class="image-section reveal">
                 <div class="food-name" id="protocol-name">UNIDAD: BASE LIGERA</div>
-                <div class="image-placeholder">
-                    <span>SYSTEM_ACTIVE_IMG</span>
-                </div>
+                <div class="image-placeholder"><span>SYSTEM_ACTIVE_IMG</span></div>
             </div>
 
             <div class="config-section reveal">
                 <div class="section-label">PARÁMETROS DE CARGA</div>
-                
-                <div class="limit-info">
-                    SISTEMA LIMITADO A 800G TOTALES POR UNIDAD.
-                </div>
+                <div class="limit-info">SISTEMA LIMITADO A 800G TOTALES POR UNIDAD.</div>
 
                 <div class="step">
                     <div class="label-group"><span>POLLO</span> <span id="val-pollo">100G</span></div>
@@ -240,11 +218,10 @@
         <a href="https://www.instagram.com/prepscl/" target="_blank" class="social-link">
             <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram">
         </a>
-        <p style="font-size: 9px; margin-top: 30px; color: #222; letter-spacing: 3px;">© 2026 PREPS CHILE - PRECISION DINING</p>
     </footer>
 
     <script>
-        // LOADER Y REVEAL
+        // CARGA Y REVELACIÓN
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const loader = document.getElementById('loader');
@@ -324,40 +301,18 @@
         update();
 
         function sendToWhatsApp() {
-          
-    // 1. Preguntar modalidad de entrega de forma simple
-    const entrega = confirm("¿Deseas DELIVERY a zonas disponibles?\n(Presiona CANCELAR para RETIRO LOCAL)") 
-                    ? "DELIVERY ZONAL" 
-                    : "RETIRO LOCAL";
+            const entrega = confirm("¿Deseas DELIVERY a zonas disponibles?\n(Presiona CANCELAR para RETIRO LOCAL)") ? "DELIVERY ZONAL" : "RETIRO LOCAL";
+            const p = document.getElementById('val-pollo').innerText;
+            const a = document.getElementById('val-arroz').innerText;
+            const b = document.getElementById('val-brocoli').innerText;
+            const price = document.getElementById('final-price').innerText;
+            const proto = document.getElementById('protocol-name').innerText;
+            const prot = document.getElementById('m-prot').innerText;
+            const carb = document.getElementById('m-carb').innerText;
+            const kcal = document.getElementById('m-kcal').innerText;
 
-    const p = document.getElementById('val-pollo').innerText;
-    const a = document.getElementById('val-arroz').innerText;
-    const b = document.getElementById('val-brocoli').innerText;
-    const price = document.getElementById('final-price').innerText;
-    const proto = document.getElementById('protocol-name').innerText;
-    
-    // Macros para el mensaje
-    const prot = document.getElementById('m-prot').innerText;
-    const carb = document.getElementById('m-carb').innerText;
-    const kcal = document.getElementById('m-kcal').innerText;
-
-    // 2. Construir el mensaje con mística PREPS
-    const msg = `🚀 *NUEVO PEDIDO PREPS CUSTOM*%0A` +
-                `--------------------------%0A` +
-                `⚡ *${proto}*%0A%0A` +
-                `📍 *ENTREGA:* ${entrega}%0A%0A` +
-                `📦 *CONFIGURACIÓN:*%0A` +
-                `- POLLO (${prepPollo}): ${p}%0A` +
-                `- ARROZ: ${a}%0A` +
-                `- BRÓCOLI: ${b}%0A%0A` +
-                `📊 *DATOS NUTRICIONALES:*%0A` +
-                `- P: ${prot}g | C: ${carb}g | Kcal: ${kcal}%0A` +
-                `--------------------------%0A` +
-                `💰 *TOTAL A PAGAR:* ${price}`;
-
-    // 3. Abrir WhatsApp (Asegúrate de poner tu número real aquí)
-    window.open(`https://wa.me/56941892028?text=${msg}`); 
-}
+            const msg = `🚀 *NUEVO PEDIDO PREPS CUSTOM*%0A--------------------------%0A⚡ *${proto}*%0A%0A📍 *ENTREGA:* ${entrega}%0A%0A📦 *CONFIGURACIÓN:*%0A- POLLO (${prepPollo}): ${p}%0A- ARROZ: ${a}%0A- BRÓCOLI: ${b}%0A%0A📊 *DATOS NUTRICIONALES:*%0A- P: ${prot}g | C: ${carb}g | Kcal: ${kcal}%0A--------------------------%0A💰 *TOTAL A PAGAR:* ${price}`;
+            window.open(`https://wa.me/56941892028?text=${msg}`); 
         }
     </script>
 </body>
