@@ -23,6 +23,7 @@
             border-bottom: 4px solid #fff;
         }
 
+        /* LAYOUT PRINCIPAL: FLEXBOX LATERAL */
         .main-wrapper { 
             display: flex; 
             max-width: 1100px; 
@@ -32,6 +33,7 @@
             flex-wrap: wrap; 
         }
 
+        /* COLUMNA IZQUIERDA: CONTROLES */
         .controls-column { 
             flex: 1; 
             min-width: 320px; 
@@ -41,6 +43,7 @@
             box-sizing: border-box; 
         }
 
+        /* COLUMNA DERECHA: MONITOR DE MACROS */
         .monitor-column { 
             width: 320px; 
             background: #000; 
@@ -67,6 +70,7 @@
             justify-content: center;
         }
 
+        /* ÍTEMS DE MACROS */
         .macro-item { 
             display: flex; 
             justify-content: space-between; 
@@ -131,8 +135,8 @@
                 <div class="label-group"><span>01. PROTEÍNA (POLLO)</span> <span id="val-pollo">100G</span></div>
                 <input type="range" id="input-pollo" min="0" max="800" step="50" value="100">
                 <div class="prep-selector">
-                    <button class="prep-btn active" id="btn-cocido" onclick="setPrep('COCIDO')">COCIDO VAPOR</button>
-                    <button class="prep-btn" id="btn-plancha" onclick="setPrep('PLANCHA')">A LA PLANCHA</button>
+                    <button class="prep-btn" id="btn-cocido" onclick="setPrep('COCIDO')">COCIDO VAPOR</button>
+                    <button class="prep-btn active" id="btn-plancha" onclick="setPrep('PLANCHA')">A LA PLANCHA</button>
                 </div>
             </div>
 
@@ -177,16 +181,18 @@
     </div>
 
     <script>
-        let prepPollo = 'COCIDO';
+        let prepPollo = 'PLANCHA'; // Por defecto plancha para calzar con tus notas de 80p
         const inputs = ['input-pollo', 'input-arroz', 'input-brocoli'];
         
-        // --- BASE DE DATOS RECALIBRADA (POR 1 GRAMO) ---
+        // --- BASE DE DATOS RECALIBRADA SEGÚN NOTAS MANUSCRITAS ---
         const pollo_macros = {
             'COCIDO': { p: 0.23, c: 0, g: 0.015, k: 1.1 },      // 200g = 46P
-            'PLANCHA': { p: 0.345, c: 0, g: 0.08, k: 2.1 }     // 200g = 69P
+            'PLANCHA': { p: 0.345, c: 0, g: 0.085, k: 2.125 }  // 200g = 69P / 17G / 425K
         };
-        const arroz_macros = { p: 0.0266, c: 0.2866, g: 0.0066, k: 1.313 }; // 300g = 8P / 86C
-        const brocoli_macros = { p: 0.03, c: 0.06, g: 0, k: 0.36 };         // 100g = 3P / 6C
+        // Arroz: 300g = 8P / 86C / 2G / 426K -> Por 1g:
+        const arroz_macros = { p: 0.0266, c: 0.2866, g: 0.0066, k: 1.42 }; 
+        // Brócoli: 100g = 3P / 6C / 0G / 36K -> Por 1g:
+        const brocoli_macros = { p: 0.03, c: 0.06, g: 0, k: 0.36 };         
 
         // PRECIOS VENTA (Ref High Carb manual = $6.490)
         const precios = { pollo: 22, arroz: 4, brocoli: 5.9, base: 1000 };
@@ -219,13 +225,13 @@
             document.getElementById('val-arroz').innerText = a + "G";
             document.getElementById('val-brocoli').innerText = b + "G";
 
-            // CÁLCULO DE MACROS EXACTO
+            // CÁLCULO DE MACROS CON PRECISIÓN DE LIBRETA
             let protTotal = (p * pollo_macros[prepPollo].p) + (a * arroz_macros.p) + (b * brocoli_macros.p);
             let carbTotal = (a * arroz_macros.c) + (b * brocoli_macros.c);
             let fatTotal = (p * pollo_macros[prepPollo].g) + (a * arroz_macros.g);
             let kcalTotal = (p * pollo_macros[prepPollo].k) + (a * arroz_macros.k) + (b * brocoli_macros.k);
 
-            // Actualizar Monitor
+            // Actualizar Monitor con redondeo estándar
             document.getElementById('m-prot').innerText = Math.round(protTotal);
             document.getElementById('m-carb').innerText = Math.round(carbTotal);
             document.getElementById('m-fat').innerText = Math.round(fatTotal);
@@ -257,9 +263,10 @@
             const proto = document.getElementById('protocol-name').innerText;
             const prot = document.getElementById('m-prot').innerText;
             const carb = document.getElementById('m-carb').innerText;
+            const fat = document.getElementById('m-fat').innerText;
             const kcal = document.getElementById('m-kcal').innerText;
 
-            const msg = `NUEVO PEDIDO PERSONALIZADO%0A----------------------%0A${proto}%0A%0A- POLLO (${prepPollo}): ${p}G%0A- ARROZ: ${a}G%0A- BROCOLI: ${b}G%0A%0A- PROTEÍNA: ${prot}G | CARBOS: ${carb}G%0A- ENERGÍA TOTAL: ${kcal} KCAL%0A----------------------%0ATOTAL: ${price}`;
+            const msg = `NUEVO PEDIDO PERSONALIZADO%0A----------------------%0A${proto}%0A%0A- POLLO (${prepPollo}): ${p}G%0A- ARROZ: ${a}G%0A- BROCOLI: ${b}G%0A%0A- PROTEÍNA: ${prot}G | CARBOS: ${carb}G%0A- GRASAS: ${fat}G%0A- ENERGÍA TOTAL: ${kcal} KCAL%0A----------------------%0ATOTAL: ${price}`;
             window.open(`https://wa.me/569XXXXXXXX?text=${msg}`); 
         }
 
