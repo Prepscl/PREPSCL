@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONFIGURADOR CUSTOM V1.0 - PREPS</title>
+    <title>CONFIGURADOR PERSONALIZADO - PREPS</title>
     <style>
         body {
             background-color: #f2f2f2;
@@ -31,15 +31,15 @@
             box-sizing: border-box;
         }
 
-        /* NOMBRE DEL PROTOCOLO RESALTADO */
         #protocol-name { 
             text-align: center; 
-            font-size: 20px; 
-            letter-spacing: 3px; 
+            font-size: 18px; 
+            letter-spacing: 2px; 
             background: #000;
             color: #fff;
-            padding: 10px;
+            padding: 12px;
             margin-bottom: 30px;
+            font-weight: 900;
         }
 
         .step { margin-bottom: 35px; }
@@ -76,7 +76,6 @@
             font-family: inherit;
             font-size: 10px;
             font-weight: bold;
-            transition: 0.2s;
         }
 
         .prep-btn.active { background: #000; color: #fff; }
@@ -121,13 +120,13 @@
 </head>
 <body>
 
-    <div class="header-config">SYSTEM CONFIG: CUSTOM PREP</div>
+    <div class="header-config">CONFIGURACIÓN DE RENDIMIENTO</div>
 
     <div class="container">
-        <div id="protocol-name">UNIT: CORE 300</div>
+        <div id="protocol-name">UNIDAD: BASE 300</div>
 
         <div class="step">
-            <div class="label-group"><span>01. POLLO (PRO)</span> <span id="val-pollo">100G</span></div>
+            <div class="label-group"><span>01. POLLO</span> <span id="val-pollo">100G</span></div>
             <input type="range" id="input-pollo" min="0" max="800" step="50" value="100">
             <div class="prep-selector">
                 <button class="prep-btn active" id="btn-cocido" onclick="setPrep('COCIDO')">COCIDO VAPOR</button>
@@ -136,32 +135,32 @@
         </div>
 
         <div class="step">
-            <div class="label-group"><span>02. ARROZ (CARB)</span> <span id="val-arroz">100G</span></div>
+            <div class="label-group"><span>02. ARROZ</span> <span id="val-arroz">100G</span></div>
             <input type="range" id="input-arroz" min="0" max="800" step="50" value="100">
         </div>
 
         <div class="step">
-            <div class="label-group"><span>03. BRÓCOLI (FIBER)</span> <span id="val-brocoli">100G</span></div>
+            <div class="label-group"><span>03. BRÓCOLI</span> <span id="val-brocoli">100G</span></div>
             <input type="range" id="input-brocoli" min="0" max="800" step="50" value="100">
         </div>
 
         <div class="status-monitor">
-            <div style="font-size: 11px; letter-spacing: 2px; font-weight: bold;">CARGA TOTAL: <span id="total-grams">300</span> / 800G</div>
+            <div style="font-size: 11px; letter-spacing: 2px; font-weight: bold;">PESO TOTAL: <span id="total-grams">300</span> / 800G</div>
             <div class="bar-container"><div id="progress"></div></div>
         </div>
     </div>
 
     <div class="price-footer">
         <div style="font-size: 24px; font-weight: 900; letter-spacing: 2px;">TOTAL: <span id="final-price">$0</span></div>
-        <button class="btn-send" onclick="sendToWhatsApp()">GENERAR ORDEN</button>
+        <button class="btn-send" onclick="sendToWhatsApp()">PEDIR CONFIGURACIÓN</button>
     </div>
 
     <script>
         let prepPollo = 'COCIDO';
         const inputs = ['input-pollo', 'input-arroz', 'input-brocoli'];
         
-        // PRECIOS CON MARGEN 98% (Sobre costos: Pollo 9.06, Arroz 0.86, Brócoli 2.27, Envase 450)
-        const precios = { pollo: 18, arroz: 1.7, brocoli: 4.5, base: 900 };
+        // PRECIOS AJUSTADOS (Referencia High Carb manual = $6.490)
+        const precios = { pollo: 22, arroz: 4, brocoli: 6.9, base: 1000 };
 
         function setPrep(type) {
             prepPollo = type;
@@ -176,11 +175,9 @@
 
             let total = p + a + b;
 
-            // Lógica no invasiva: Bloqueo en 800g
             if (total > 800) {
                 if (e) {
-                    const diff = total - 800;
-                    e.target.value = parseInt(e.target.value) - diff;
+                    e.target.value = parseInt(e.target.value) - (total - 800);
                     p = parseInt(document.getElementById('input-pollo').value);
                     a = parseInt(document.getElementById('input-arroz').value);
                     b = parseInt(document.getElementById('input-brocoli').value);
@@ -194,33 +191,22 @@
             document.getElementById('total-grams').innerText = total;
             document.getElementById('progress').style.width = (total / 800 * 100) + "%";
 
-            // Cálculo Precio Final
             let finalPrice = (p * precios.pollo) + (a * precios.arroz) + (b * precios.brocoli) + precios.base;
             document.getElementById('final-price').innerText = "$" + Math.round(finalPrice).toLocaleString('es-CL');
 
-            // --- LÓGICA DE NOMBRES DE PROTOCOLO ---
-            let proto = "UNIT: CUSTOM-CORE";
-            
-            if (total >= 750) {
-                proto = "PROTOCOL: OVERLOAD";
-            } else if (p >= 400 && a <= 100) {
-                proto = "MODE: KETO-STRIKE";
-            } else if (a >= 450) {
-                proto = "PROTOCOL: GLYCO-LOAD";
-            } else if (b >= 350) {
-                proto = "MODE: FIBER-MAX";
-            } else if (p >= 250 && a >= 250) {
-                proto = "PROTOCOL: SYNERGY";
-            } else if (total <= 350) {
-                proto = "UNIT: LIGHT-OPS";
-            }
+            // --- NOMBRES EN ESPAÑOL ---
+            let proto = "UNIDAD: PERSONALIZADA";
+            if (total >= 750) proto = "PROTOCOLO: SOBRECARGA";
+            else if (p >= 400 && a <= 100) proto = "MODO: KETO ELITE";
+            else if (a >= 450) proto = "PROTOCOLO: CARGA CARB";
+            else if (b >= 350) proto = "PROTOCOLO: FIBRA MAX";
+            else if (p >= 250 && a >= 250) proto = "PROTOCOLO: SINERGIA";
+            else if (total <= 350) proto = "UNIDAD: BASE LIGERA";
 
             document.getElementById('protocol-name').innerText = proto;
         }
 
-        inputs.forEach(id => {
-            document.getElementById(id).addEventListener('input', updateValues);
-        });
+        inputs.forEach(id => document.getElementById(id).addEventListener('input', updateValues));
 
         function sendToWhatsApp() {
             const p = document.getElementById('input-pollo').value;
@@ -229,8 +215,8 @@
             const price = document.getElementById('final-price').innerText;
             const proto = document.getElementById('protocol-name').innerText;
 
-            const msg = `NUEVO PEDIDO CUSTOM V1.0%0A----------------------%0A${proto}%0A%0A- POLLO (${prepPollo}): ${p}G%0A- ARROZ: ${a}G%0A- BROCOLI: ${b}G%0A%0A----------------------%0ATOTAL: ${price}`;
-            window.open(`https://wa.me/569XXXXXXXX?text=${msg}`); // Reemplaza con tu número
+            const msg = `NUEVO PEDIDO PERSONALIZADO%0A----------------------%0A${proto}%0A%0A- POLLO (${prepPollo}): ${p}G%0A- ARROZ: ${a}G%0A- BROCOLI: ${b}G%0A%0A----------------------%0ATOTAL: ${price}`;
+            window.open(`https://wa.me/569XXXXXXXX?text=${msg}`); 
         }
 
         updateValues();
