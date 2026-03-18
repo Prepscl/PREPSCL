@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
     <title>CUSTOM PERFORMANCE V1.0 - PREPS</title>
     <link rel="icon" type="image/png" href="img/logo-preps.png">
     <link rel="apple-touch-icon" href="img/logo-preps.png">
@@ -18,7 +19,7 @@
             overflow-x: hidden;
         }
 
-        /* 1. PANTALLA DE CARGA MÍSTICA */
+        /* 1. LOADER MÍSTICO (REDUCIDO A 2 SEGUNDOS) */
         #loader {
             position: fixed;
             top: 0;
@@ -31,11 +32,11 @@
             align-items: center;
             justify-content: center;
             z-index: 9999;
-            transition: opacity 0.8s ease;
+            transition: opacity 1s ease;
         }
 
         #loader img {
-            width: 120px;
+            width: 150px;
             animation: pulse 2s infinite ease-in-out;
         }
 
@@ -44,10 +45,10 @@
             50% { transform: scale(1); opacity: 1; }
         }
 
-        /* 2. SCROLL REVEAL (MISTICISMO) */
+        /* 2. SCROLL REVEAL */
         .reveal {
             opacity: 0;
-            transform: translateY(40px);
+            transform: translateY(50px);
             transition: all 1.2s cubic-bezier(0.17, 0.55, 0.55, 1);
         }
 
@@ -77,22 +78,18 @@
             font-size: 13px;
             letter-spacing: 2px;
             margin-left: 30px;
-            transition: 0.3s;
         }
 
-        .main-nav a:hover { color: #888; }
-
-        /* CONTENEDOR PRINCIPAL */
+        /* CONTENEDOR */
         .container {
             max-width: 1100px;
             margin: 0 auto;
             padding: 80px 20px 150px;
         }
 
-        /* BIENVENIDA RESTAURADA */
-        .welcome-section { text-align: center; margin-bottom: 80px; }
+        .welcome-section { text-align: center; margin-bottom: 100px; }
         .welcome-title { font-size: 28px; font-weight: 900; letter-spacing: 5px; margin-bottom: 20px; line-height: 1.4; }
-        .welcome-subtitle { font-size: 14px; letter-spacing: 3px; color: #444; max-width: 700px; margin: 0 auto; }
+        .welcome-subtitle { font-size: 14px; letter-spacing: 3px; color: #444; }
 
         /* LAYOUT DUAL */
         .config-layout { display: flex; gap: 60px; flex-wrap: wrap; }
@@ -104,47 +101,62 @@
         .config-section { width: 420px; }
         .section-label { font-size: 15px; font-weight: 900; margin-bottom: 30px; border-left: 4px solid #fff; padding-left: 15px; letter-spacing: 2px; }
 
+        /* REGLA 800G SIN ENLACES AZULES */
         .limit-info {
             font-size: 11px;
-            color: #ff3333;
+            color: #ff3333 !important;
             margin-bottom: 25px;
             letter-spacing: 1px;
             border: 1px solid #441111;
             padding: 12px;
             text-align: center;
             background: rgba(255,0,0,0.02);
+            pointer-events: none; /* Evita que sea clickeable */
         }
+
+        /* INPUT NOMBRE */
+        .name-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #333;
+            color: #fff;
+            padding: 10px 0;
+            margin-bottom: 30px;
+            font-family: inherit;
+            font-size: 16px;
+            outline: none;
+        }
+        .name-input:focus { border-bottom-color: #fff; }
 
         .step { margin-bottom: 40px; }
         .label-group { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 12px; font-size: 13px; color: #666; }
-        
         input[type=range] { width: 100%; height: 2px; background: #333; appearance: none; outline: none; accent-color: #fff; }
 
-        .prep-selector { display: flex; gap: 8px; margin-top: 15px; }
-        .prep-btn { flex: 1; padding: 12px; border: 1px solid #222; background: transparent; color: #444; cursor: pointer; font-family: inherit; font-size: 10px; transition: 0.3s; }
-        .prep-btn.active { border-color: #fff; color: #fff; background: #0a0a0a; }
+        .selector-box { display: flex; gap: 8px; margin-top: 15px; }
+        .btn-opt { flex: 1; padding: 12px; border: 1px solid #222; background: transparent; color: #444; cursor: pointer; font-family: inherit; font-size: 10px; transition: 0.3s; }
+        .btn-opt.active { border-color: #fff; color: #fff; background: #0a0a0a; }
 
+        /* MACROS */
         .macros-display { margin-top: 50px; padding: 30px; background: #050505; border: 1px solid #111; }
         .macro-line { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 13px; color: #555; }
         .macro-val { font-size: 22px; font-weight: 900; color: #fff; }
 
-        .action-area {
-            margin-top: 20px;
-            padding: 35px;
-            background: #fff;
-            color: #000;
-            text-align: center;
-            border: 1px solid #fff;
-        }
-
+        /* ACCIÓN FINAL */
+        .action-area { margin-top: 20px; padding: 35px; background: #fff; color: #000; text-align: center; }
         .price-display { font-size: 24px; font-weight: 900; letter-spacing: 3px; margin-bottom: 20px; }
         .btn-send { background: #000; color: #fff; padding: 18px 40px; border: none; font-weight: 900; letter-spacing: 3px; width: 100%; cursor: pointer; transition: 0.4s; }
 
+        /* SOCIAL FOOTER */
+        .social-footer { text-align: center; padding: 60px; background: #000; border-top: 1px solid #111; }
+        .social-link img { width: 30px; filter: invert(1); opacity: 0.5; transition: 0.3s; }
+        .social-link:hover img { opacity: 1; }
+
         @media (max-width: 850px) {
             .main-header { padding: 20px; flex-direction: column; gap: 15px; }
-            .main-nav a { margin: 0 10px; font-size: 10px; }
             .config-layout { flex-direction: column; }
             .config-section { width: 100%; }
+            .welcome-title { font-size: 20px; }
         }
     </style>
 </head>
@@ -177,15 +189,24 @@
             </div>
 
             <div class="config-section reveal">
-                <div class="section-label">PARÁMETROS DE CARGA</div>
+                <div class="section-label">IDENTIFICACIÓN Y LOGÍSTICA</div>
+                
+                <input type="text" id="user-name" class="name-input" placeholder="INGRESA TU NOMBRE" autocomplete="off">
+                
+                <div class="selector-box" style="margin-bottom: 40px;">
+                    <button class="btn-opt active" id="btn-retiro" onclick="setEntrega('RETIRO LOCAL')">RETIRO LOCAL</button>
+                    <button class="btn-opt" id="btn-delivery" onclick="setEntrega('DELIVERY ZONAL')">DELIVERY</button>
+                </div>
+
+                <div class="section-label">CONFIGURACIÓN DE CARGA</div>
                 <div class="limit-info">SISTEMA LIMITADO A 800G TOTALES POR UNIDAD.</div>
 
                 <div class="step">
                     <div class="label-group"><span>POLLO</span> <span id="val-pollo">100G</span></div>
                     <input type="range" id="input-pollo" min="0" max="800" step="50" value="100">
-                    <div class="prep-selector">
-                        <button class="prep-btn" id="btn-cocido" onclick="setPrep('COCIDO')">VAPOR</button>
-                        <button class="prep-btn active" id="btn-plancha" onclick="setPrep('PLANCHA')">PLANCHA</button>
+                    <div class="selector-box">
+                        <button class="btn-opt" id="btn-cocido" onclick="setPrep('COCIDO')">VAPOR</button>
+                        <button class="btn-opt active" id="btn-plancha" onclick="setPrep('PLANCHA')">PLANCHA</button>
                     </div>
                 </div>
 
@@ -218,16 +239,20 @@
         <a href="https://www.instagram.com/prepscl/" target="_blank" class="social-link">
             <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram">
         </a>
+        <p style="font-size: 9px; margin-top: 30px; color: #222; letter-spacing: 3px;">© 2026 PREPS CHILE - PRECISION DINING</p>
     </footer>
 
     <script>
-        // CARGA Y REVELACIÓN
+        let prepPollo = 'PLANCHA';
+        let modoEntrega = 'RETIRO LOCAL';
+
+        // LOADER (2 SEGUNDOS) Y REVEAL
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const loader = document.getElementById('loader');
                 loader.style.opacity = '0';
                 setTimeout(() => { loader.style.display = 'none'; reveal(); }, 1000);
-            }, 2500);
+            }, 2000);
         });
 
         function reveal() {
@@ -242,8 +267,6 @@
         }
         window.addEventListener("scroll", reveal);
 
-        // LÓGICA NUTRICIONAL
-        let prepPollo = 'PLANCHA';
         const pollo_macros = {
             'PLANCHA': { p: 0.31, c: 0, g: 0.085, k: 2.035 },
             'COCIDO': { p: 0.23, c: 0, g: 0.015, k: 1.1 } 
@@ -257,6 +280,12 @@
             document.getElementById('btn-cocido').classList.toggle('active', type === 'COCIDO');
             document.getElementById('btn-plancha').classList.toggle('active', type === 'PLANCHA');
             update();
+        }
+
+        function setEntrega(modo) {
+            modoEntrega = modo;
+            document.getElementById('btn-retiro').classList.toggle('active', modo === 'RETIRO LOCAL');
+            document.getElementById('btn-delivery').classList.toggle('active', modo === 'DELIVERY ZONAL');
         }
 
         function update(e) {
@@ -293,7 +322,7 @@
             if (p+a+b >= 750) proto = "PROTOCOLO: SOBRECARGA";
             else if (p >= 400 && a <= 100) proto = "MODO: KETO ELITE";
             else if (a >= 450) proto = "PROTOCOLO: CARGA CARB";
-            else if (total <= 350) proto = "UNIDAD: BASE LIGERA";
+            else if (p+a+b <= 350) proto = "UNIDAD: BASE LIGERA";
             document.getElementById('protocol-name').innerText = proto;
         }
 
@@ -301,17 +330,22 @@
         update();
 
         function sendToWhatsApp() {
-            const entrega = confirm("¿Deseas DELIVERY a zonas disponibles?\n(Presiona CANCELAR para RETIRO LOCAL)") ? "DELIVERY ZONAL" : "RETIRO LOCAL";
-            const p = document.getElementById('val-pollo').innerText;
-            const a = document.getElementById('val-arroz').innerText;
-            const b = document.getElementById('val-brocoli').innerText;
-            const price = document.getElementById('final-price').innerText;
-            const proto = document.getElementById('protocol-name').innerText;
-            const prot = document.getElementById('m-prot').innerText;
-            const carb = document.getElementById('m-carb').innerText;
-            const kcal = document.getElementById('m-kcal').innerText;
+            const nombre = document.getElementById('user-name').value;
+            if(!nombre) { alert("INGRESA TU NOMBRE PARA LA COMANDA."); return; }
 
-            const msg = `🚀 *NUEVO PEDIDO PREPS CUSTOM*%0A--------------------------%0A⚡ *${proto}*%0A%0A📍 *ENTREGA:* ${entrega}%0A%0A📦 *CONFIGURACIÓN:*%0A- POLLO (${prepPollo}): ${p}%0A- ARROZ: ${a}%0A- BRÓCOLI: ${b}%0A%0A📊 *DATOS NUTRICIONALES:*%0A- P: ${prot}g | C: ${carb}g | Kcal: ${kcal}%0A--------------------------%0A💰 *TOTAL A PAGAR:* ${price}`;
+            const msg = `🚀 *NUEVO PEDIDO PREPS CUSTOM*%0A` +
+                        `--------------------------%0A` +
+                        `👤 *CLIENTE:* ${nombre}%0A` +
+                        `⚡ *${document.getElementById('protocol-name').innerText}*%0A%0A` +
+                        `📍 *ENTREGA:* ${modoEntrega}%0A%0A` +
+                        `📦 *CONFIGURACIÓN:*%0A` +
+                        `- POLLO (${prepPollo}): ${document.getElementById('val-pollo').innerText}%0A` +
+                        `- ARROZ: ${document.getElementById('val-arroz').innerText}%0A` +
+                        `- BRÓCOLI: ${document.getElementById('val-brocoli').innerText}%0A%0A` +
+                        `📊 *MACROS:* P: ${document.getElementById('m-prot').innerText}g | C: ${document.getElementById('m-carb').innerText}g | Kcal: ${document.getElementById('m-kcal').innerText}%0A` +
+                        `--------------------------%0A` +
+                        `💰 *TOTAL:* ${document.getElementById('final-price').innerText}`;
+
             window.open(`https://wa.me/56941892028?text=${msg}`); 
         }
     </script>
