@@ -3,185 +3,294 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONFIGURADOR PERSONALIZADO - PREPS</title>
+    <title>CUSTOM PERFORMANCE V1.0 - PREPS</title>
+    <link rel="icon" type="image/png" href="img/logo-preps.png">
+    <link rel="apple-touch-icon" href="img/logo-preps.png">
     <style>
+        /* ESTÉTICA PREMIUM: FONDO NEGRO / LETRAS BLANCAS */
         body {
-            background-color: #f2f2f2;
+            background-color: #000;
+            color: #fff;
             font-family: 'Courier New', Courier, monospace;
             margin: 0;
+            padding: 0;
             text-transform: uppercase;
-            padding-bottom: 140px;
         }
 
-        .header-config {
+        /* HEADER CORPORATIVO (Igual a las otras páginas pero en negro) */
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 50px;
             background: #000;
+            border-bottom: 1px solid #333;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-link img {
+            height: 35px; 
+            width: auto;
+            filter: invert(0); /* Logo original sobre fondo negro */
+        }
+
+        .main-nav a {
+            text-decoration: none;
             color: #fff;
-            padding: 30px;
+            font-size: 14px;
+            letter-spacing: 1px;
+            margin-left: 30px;
+            transition: 0.3s;
+        }
+
+        .main-nav a:hover { color: #888; }
+
+        /* CONTENEDOR PRINCIPAL */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 20px 160px;
+        }
+
+        /* SECCIÓN DE BIENVENIDA (Boceto) */
+        .welcome-section {
             text-align: center;
-            letter-spacing: 5px;
+            margin-bottom: 60px;
+        }
+
+        .welcome-title {
+            font-size: 26px;
             font-weight: 900;
-            border-bottom: 4px solid #fff;
+            letter-spacing: 4px;
+            margin-bottom: 15px;
         }
 
-        .main-wrapper { 
-            display: flex; 
-            max-width: 1100px; 
-            margin: 40px auto; 
-            gap: 25px; 
-            padding: 0 20px;
-            flex-wrap: wrap; 
+        .welcome-subtitle {
+            font-size: 14px;
+            letter-spacing: 2px;
+            color: #888;
         }
 
-        .controls-column { 
-            flex: 1; 
-            min-width: 320px; 
-            background: #fff; 
-            border: 2px solid #000; 
-            padding: 35px; 
-            box-sizing: border-box; 
+        /* LAYOUT DUAL (Boceto) */
+        .config-layout {
+            display: flex;
+            gap: 50px;
+            align-items: flex-start;
         }
 
-        .monitor-column { 
-            width: 320px; 
-            background: #000; 
-            color: #fff; 
-            padding: 35px; 
-            border: 2px solid #000; 
-            box-sizing: border-box; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
+        /* IZQUIERDA: IMAGEN Y NOMBRE */
+        .image-section {
+            flex: 1;
+            border: 2px solid #fff;
+            background: #111;
         }
 
-        #protocol-name { 
-            text-align: center; 
-            font-size: 16px; 
-            letter-spacing: 2px; 
-            border-bottom: 1px solid #fff; 
-            padding-bottom: 20px; 
-            margin-bottom: 25px; 
+        .food-name {
+            font-size: 18px;
             font-weight: 900;
-            min-height: 45px;
+            text-align: center;
+            padding: 20px;
+            background: #fff;
+            color: #000;
+            letter-spacing: 2px;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 450px;
+            background: url('img/custom-hero.jpg') center/cover no-repeat;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: #444;
         }
 
-        .macro-item { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: baseline; 
-            margin-bottom: 25px; 
-            border-bottom: 1px solid #333; 
-            padding-bottom: 10px; 
+        /* DERECHA: CONFIGURADOR Y MACROS */
+        .config-section {
+            width: 420px;
         }
-        .macro-label { font-size: 10px; color: #888; letter-spacing: 1px; }
-        .macro-val { font-size: 26px; font-weight: 900; }
-        .unit { font-size: 12px; margin-left: 5px; color: #888; }
+
+        .section-label {
+            font-size: 16px;
+            font-weight: 900;
+            margin-bottom: 25px;
+            border-left: 4px solid #fff;
+            padding-left: 15px;
+        }
 
         .step { margin-bottom: 35px; }
-        .label-group { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 10px; font-size: 13px; }
-        input[type=range] { width: 100%; height: 10px; background: #eee; appearance: none; outline: none; accent-color: #000; }
+        .label-group { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 12px; font-size: 13px; }
         
-        .prep-selector { display: flex; gap: 5px; margin-top: 15px; }
-        .prep-btn { flex: 1; padding: 12px; border: 1px solid #000; background: #fff; cursor: pointer; font-family: inherit; font-size: 10px; font-weight: bold; transition: 0.2s; }
-        .prep-btn.active { background: #000; color: #fff; }
+        /* SLIDERS PREMIUM */
+        input[type=range] {
+            width: 100%;
+            height: 6px;
+            background: #333;
+            appearance: none;
+            outline: none;
+            accent-color: #fff;
+        }
 
-        .status-info { font-size: 10px; text-align: center; color: #999; margin-top: 25px; letter-spacing: 1px; }
+        .prep-selector { display: flex; gap: 8px; margin-top: 15px; }
+        .prep-btn { 
+            flex: 1; 
+            padding: 12px; 
+            border: 1px solid #fff; 
+            background: transparent; 
+            color: #fff;
+            cursor: pointer; 
+            font-family: inherit; 
+            font-size: 10px; 
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .prep-btn.active { background: #fff; color: #000; }
 
+        /* PANEL DE MACROS (Boceto) */
+        .macros-display {
+            margin-top: 40px;
+            padding: 25px;
+            background: #111;
+            border: 1px solid #333;
+        }
+
+        .macro-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .macro-val { font-size: 20px; font-weight: 900; color: #fff; }
+
+        /* FOOTER PRECIO / WHATSAPP */
         .price-footer {
             position: fixed;
             bottom: 0;
             width: 100%;
-            background: #000;
-            color: #fff;
+            background: #fff;
+            color: #000;
             padding: 25px;
             text-align: center;
             box-sizing: border-box;
-            border-top: 4px solid #fff;
             z-index: 2000;
         }
 
         .btn-send {
-            background: #fff;
-            color: #000;
-            padding: 15px;
+            background: #000;
+            color: #fff;
+            padding: 18px 50px;
             border: none;
             font-weight: 900;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             cursor: pointer;
-            margin-top: 10px;
             width: 100%;
             max-width: 400px;
+            transition: 0.3s;
+        }
+
+        /* FOOTER INSTAGRAM */
+        .social-footer {
+            text-align: center;
+            padding: 40px;
+            background: #000;
+            border-top: 1px solid #222;
+        }
+
+        .social-link img {
+            width: 30px;
+            filter: invert(1);
+            transition: 0.3s;
         }
 
         @media (max-width: 850px) {
-            .monitor-column { width: 100%; order: -1; margin-bottom: 0; }
-            .main-wrapper { margin-top: 10px; gap: 10px; }
+            .main-header { padding: 20px; flex-direction: column; }
+            .main-nav { margin-top: 15px; }
+            .main-nav a { margin: 0 10px; font-size: 11px; }
+            .config-layout { flex-direction: column; }
+            .config-section { width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <div class="header-config">SISTEMA CONFIGURADOR PREPS</div>
+    <header class="main-header">
+        <a href="index.html" class="logo-link">
+            <img src="img/logo-preps.png" alt="PREPS">
+        </a>
+        <nav class="main-nav">
+            <a href="index.html">HOGAR</a>
+            <a href="catalogo.html">CATALOGAR</a>
+            <a href="nosotros.html">SOBRE NOSOTROS</a>
+        </nav>
+    </header>
 
-    <div class="main-wrapper">
-        <div class="controls-column">
-            <div class="step">
-                <div class="label-group"><span>01. PROTEÍNA (POLLO)</span> <span id="val-pollo">100G</span></div>
-                <input type="range" id="input-pollo" min="0" max="800" step="50" value="100">
-                <div class="prep-selector">
-                    <button class="prep-btn" id="btn-cocido" onclick="setPrep('COCIDO')">COCIDO VAPOR</button>
-                    <button class="prep-btn active" id="btn-plancha" onclick="setPrep('PLANCHA')">A LA PLANCHA</button>
+    <div class="container">
+        <div class="welcome-section">
+            <h1 class="welcome-title">BIENVENID@S A CUSTOM PERFORMANCE V1.0 BY PREPS</h1>
+            <p class="welcome-subtitle">DISEÑADO PARA TI QUE BUSCAS PRECISIÓN EN TU COMIDA.</p>
+        </div>
+
+        <div class="config-layout">
+            <div class="image-section">
+                <div class="food-name" id="protocol-name">UNIDAD: BASE LIGERA</div>
+                <div class="image-placeholder">
+                    </div>
+            </div>
+
+            <div class="config-section">
+                <div class="section-label">CONFIGURADOR (GRAMOS)</div>
+                
+                <div class="step">
+                    <div class="label-group"><span>POLLO</span> <span id="val-pollo">100G</span></div>
+                    <input type="range" id="input-pollo" min="0" max="800" step="50" value="100">
+                    <div class="prep-selector">
+                        <button class="prep-btn" id="btn-cocido" onclick="setPrep('COCIDO')">COCIDO VAPOR</button>
+                        <button class="prep-btn active" id="btn-plancha" onclick="setPrep('PLANCHA')">A LA PLANCHA</button>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="label-group"><span>ARROZ</span> <span id="val-arroz">100G</span></div>
+                    <input type="range" id="input-arroz" min="0" max="800" step="50" value="100">
+                </div>
+
+                <div class="step">
+                    <div class="label-group"><span>BRÓCOLI</span> <span id="val-brocoli">100G</span></div>
+                    <input type="range" id="input-brocoli" min="0" max="800" step="50" value="100">
+                </div>
+
+                <div class="macros-display">
+                    <div class="section-label" style="border-left-color: #555; margin-bottom: 20px;">MACROS (REAL-TIME)</div>
+                    <div class="macro-line"><span>PROTEÍNA</span> <span class="macro-val"><span id="m-prot">0</span>G</span></div>
+                    <div class="macro-line"><span>CARBOS</span> <span class="macro-val"><span id="m-carb">0</span>G</span></div>
+                    <div class="macro-line"><span>GRASAS</span> <span class="macro-val"><span id="m-fat">0</span>G</span></div>
+                    <div class="macro-line" style="border:none;"><span>ENERGÍA</span> <span class="macro-val"><span id="m-kcal">0</span> KCAL</span></div>
                 </div>
             </div>
-
-            <div class="step">
-                <div class="label-group"><span>02. ARROZ (CARBOS)</span> <span id="val-arroz">100G</span></div>
-                <input type="range" id="input-arroz" min="0" max="800" step="50" value="100">
-            </div>
-
-            <div class="step">
-                <div class="label-group"><span>03. BRÓCOLI (FIBRA)</span> <span id="val-brocoli">100G</span></div>
-                <input type="range" id="input-brocoli" min="0" max="800" step="50" value="100">
-            </div>
-
-            <div class="status-info">PESO MÁXIMO PERMITIDO: 800G</div>
         </div>
+    </div>
 
-        <div class="monitor-column">
-            <div id="protocol-name">UNIDAD: BASE LIGERA</div>
-            
-            <div class="macro-item">
-                <span class="macro-label">PROTEÍNA</span>
-                <div><span id="m-prot" class="macro-val">0</span><span class="unit">G</span></div>
-            </div>
-            <div class="macro-item">
-                <span class="macro-label">CARBOS</span>
-                <div><span id="m-carb" class="macro-val">0</span><span class="unit">G</span></div>
-            </div>
-            <div class="macro-item">
-                <span class="macro-label">GRASAS</span>
-                <div><span id="m-fat" class="macro-val">0</span><span class="unit">G</span></div>
-            </div>
-            <div class="macro-item" style="border: none; margin-bottom: 0;">
-                <span class="macro-label">ENERGÍA</span>
-                <div><span id="m-kcal" class="macro-val">0</span><span class="unit">KCAL</span></div>
-            </div>
-        </div>
+    <div class="social-footer">
+        <a href="https://www.instagram.com/prepscl/" target="_blank" class="social-link">
+            <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram">
+        </a>
+        <p style="font-size: 10px; margin-top: 20px; color: #444;">© 2026 PREPS CHILE - PRECISION DINING</p>
     </div>
 
     <div class="price-footer">
-        <div style="font-size: 24px; font-weight: 900; letter-spacing: 2px;">TOTAL: <span id="final-price">$0</span></div>
-        <button class="btn-send" onclick="sendToWhatsApp()">PEDIR CONFIGURACIÓN</button>
+        <div style="font-size: 22px; font-weight: 900; margin-bottom: 10px;">TOTAL: <span id="final-price">$0</span></div>
+        <button class="btn-send" onclick="sendToWhatsApp()">GENERAR ORDEN DE PEDIDO</button>
     </div>
 
     <script>
-        let prepPollo = 'PLANCHA'; // Ahora Plancha es el default para tus menús de libreta
+        let prepPollo = 'PLANCHA';
         const inputs = ['input-pollo', 'input-arroz', 'input-brocoli'];
         
-        // --- CALIBRACIÓN ARREGLADA ---
-        // Ahora PLANCHA tiene los valores altos (73P / 830Kcal con 200P-300A-100B)
+        // --- COEFICIENTES EXACTOS DE TU LIBRETA ---
         const pollo_macros = {
             'PLANCHA': { p: 0.31, c: 0, g: 0.085, k: 2.035 },
             'COCIDO': { p: 0.23, c: 0, g: 0.015, k: 1.1 } 
@@ -204,14 +313,12 @@
             let b = parseInt(document.getElementById('input-brocoli').value);
 
             let total = p + a + b;
-
             if (total > 800) {
                 if (e) {
                     e.target.value = parseInt(e.target.value) - (total - 800);
                     p = parseInt(document.getElementById('input-pollo').value);
                     a = parseInt(document.getElementById('input-arroz').value);
                     b = parseInt(document.getElementById('input-brocoli').value);
-                    total = 800;
                 }
             }
 
@@ -236,7 +343,6 @@
             if (total >= 750) proto = "PROTOCOLO: SOBRECARGA";
             else if (p >= 400 && a <= 100) proto = "MODO: KETO ELITE";
             else if (a >= 450) proto = "PROTOCOLO: CARGA CARB";
-            else if (b >= 350) proto = "PROTOCOLO: FIBRA MAX";
             else if (p >= 250 && a >= 250) proto = "PROTOCOLO: SINERGIA";
             else if (total <= 350) proto = "UNIDAD: BASE LIGERA";
 
@@ -244,6 +350,7 @@
         }
 
         inputs.forEach(id => document.getElementById(id).addEventListener('input', updateValues));
+        updateValues();
 
         function sendToWhatsApp() {
             const p = document.getElementById('input-pollo').value;
@@ -251,16 +358,9 @@
             const b = document.getElementById('input-brocoli').value;
             const price = document.getElementById('final-price').innerText;
             const proto = document.getElementById('protocol-name').innerText;
-            const prot = document.getElementById('m-prot').innerText;
-            const carb = document.getElementById('m-carb').innerText;
-            const fat = document.getElementById('m-fat').innerText;
-            const kcal = document.getElementById('m-kcal').innerText;
-
-            const msg = `🚀 NUEVO PEDIDO PREPS%0A----------------------%0A⚡ ${proto}%0A%0A📦 COMPOSICIÓN:%0A- POLLO (${prepPollo}): ${p}G%0A- ARROZ: ${a}G%0A- BRÓCOLI: ${b}G%0A%0A📊 MACROS CALCULADOS:%0A- PROTEÍNA: ${prot}G%0A- CARBOS: ${carb}G%0A- GRASAS: ${fat}G%0A- ENERGÍA: ${kcal} KCAL%0A----------------------%0A💰 TOTAL: ${price}`;
+            const msg = `🚀 NUEVO PEDIDO PREPS CUSTOM%0A----------------------%0A⚡ ${proto}%0A%0A📦 COMPOSICIÓN:%0A- POLLO (${prepPollo}): ${p}G%0A- ARROZ: ${a}G%0A- BRÓCOLI: ${b}G%0A%0A📊 DATOS:%0A- PROT: ${document.getElementById('m-prot').innerText}G%0A- CARB: ${document.getElementById('m-carb').innerText}G%0A- ENERGY: ${document.getElementById('m-kcal').innerText}KCAL%0A----------------------%0A💰 TOTAL: ${price}`;
             window.open(`https://wa.me/569XXXXXXXX?text=${msg}`); 
         }
-
-        updateValues();
     </script>
 </body>
 </html>
