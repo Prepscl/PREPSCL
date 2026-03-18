@@ -15,13 +15,42 @@
         :root { --accent: #25D366; --dark: #000; --light: #f2f2f2; }
         body { background-color: var(--light); color: var(--dark); font-family: 'Courier New', monospace; margin: 0; text-transform: uppercase; -webkit-font-smoothing: antialiased; }
 
-        header { width: 100%; text-align: center; padding: 60px 0 40px; background: var(--light); }
-        .logo-link img { width: 180px; margin-bottom: 30px; }
-        nav a { display: inline-block; text-decoration: none; color: #000; font-size: 14px; letter-spacing: 2px; margin: 0 20px; padding-bottom: 5px; border-bottom: 2px solid transparent; }
-        nav a.active { border-bottom: 2px solid #000; font-weight: bold; }
+        /* HEADER CORPORATIVO UNIFICADO */
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 50px;
+            background: #f2f2f2;
+            border-bottom: 1px solid #000;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo-link img { height: 35px; width: auto; display: block; }
+        .main-nav { display: flex; align-items: center; gap: 30px; }
+        .main-nav a { text-decoration: none; color: #000; font-size: 13px; letter-spacing: 2px; transition: 0.3s; }
+        
+        /* BOLSA DE COMPRA REPARADA */
+        .cart-link-container {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            border-bottom: none !important;
+            padding-bottom: 0 !important;
+        }
+        .cart-icon-svg { width: 22px !important; height: 22px !important; color: #000; display: block; }
+        #global-cart-count {
+            position: absolute; top: -8px; right: -10px;
+            background: #000; color: #fff;
+            font-family: 'Inter', sans-serif; font-weight: 900; font-size: 10px;
+            width: 18px; height: 18px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            letter-spacing: 0; line-height: 1;
+        }
 
-        /* SORPRESA 1: BARRA DE POTENCIAL DE CARGA */
-        .loading-zone { max-width: 800px; margin: 20px auto; padding: 0 20px; }
+        /* SORPRESA: BARRA DE POTENCIAL */
+        .loading-zone { max-width: 800px; margin: 40px auto 20px; padding: 0 20px; }
         .progress-container { background: #ddd; height: 4px; width: 100%; position: relative; margin-top: 10px; }
         #progress-bar { background: var(--dark); height: 100%; width: 0%; transition: 1s cubic-bezier(0.17, 0.55, 0.55, 1); }
         .progress-label { font-size: 10px; letter-spacing: 2px; display: flex; justify-content: space-between; }
@@ -35,41 +64,49 @@
         .cart-header td { padding: 15px 20px; }
         .cart-row td { padding: 20px; border-bottom: 1px solid #eee; }
         .p-name { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 15px; letter-spacing: -0.5px; }
-
         .btn-remove { background: #ff4444; color: #fff; border: none; padding: 5px 10px; cursor: pointer; font-size: 10px; font-weight: 900; }
 
         /* FORMULARIOS ESTILO LABORATORIO */
-        .form-section { background: #fff; border: 1px solid #000; padding: 30px; margin-bottom: 20px; position: relative; overflow: hidden; }
+        .form-section { background: #fff; border: 1px solid #000; padding: 30px; margin-bottom: 20px; }
         .form-label { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 12px; margin-bottom: 15px; display: block; color: #666; }
-        input, select { width: 100%; padding: 15px; margin-bottom: 20px; border: 1px solid #eee; font-family: 'Courier New', monospace; box-sizing: border-box; background: #fafafa; }
-        input:focus { border-color: #000; outline: none; background: #fff; }
+        input, select { width: 100%; padding: 15px; margin-bottom: 20px; border: 1px solid #eee; font-family: 'Courier New', monospace; box-sizing: border-box; background: #fafafa; text-transform: uppercase; }
 
-        /* SORPRESA 2: EFECTO HACK DESCUENTO */
         .promo-box { display: flex; gap: 10px; }
         .btn-apply { background: #000; color: #fff; border: none; padding: 0 25px; font-weight: 900; cursor: pointer; font-family: 'Inter'; }
         #discount-msg { color: var(--accent); font-weight: 900; font-size: 12px; margin-top: -10px; margin-bottom: 20px; display: none; animation: blink 1s infinite; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
         /* SUMMARY TICKET */
         .summary-box { background: #000; color: #fff; padding: 40px; text-align: center; }
         .total-amount { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 48px; letter-spacing: -2px; display: block; margin: 10px 0 30px; }
         .btn-checkout { background: var(--accent); color: #000; padding: 22px; font-family: 'Inter', sans-serif; font-weight: 900; font-size: 16px; width: 100%; border: none; cursor: pointer; transition: 0.3s; }
-        .btn-checkout:hover { transform: scale(1.02); filter: brightness(1.1); }
+        .btn-checkout:hover { transform: scale(1.02); }
 
         footer { background: #000; color: #fff; padding: 60px 20px; text-align: center; font-size: 10px; letter-spacing: 2px; }
-        .social-link img { width: 25px; filter: invert(1); margin-bottom: 20px; }
 
-        @media (max-width: 600px) { .cart-title { font-size: 24px; } .total-amount { font-size: 32px; } }
+        @media (max-width: 600px) {
+            .main-header { padding: 20px; flex-direction: column; gap: 15px; }
+            .cart-title { font-size: 24px; }
+            .total-amount { font-size: 32px; }
+        }
     </style>
 </head>
 <body>
 
-    <header>
+    <header class="main-header">
         <a href="index.html" class="logo-link"><img src="img/logo-preps.png" alt="PREPS"></a>
-        <nav>
+        <nav class="main-nav">
             <a href="index.html">HOGAR</a>
             <a href="catalogo.html">CATALOGAR</a>
             <a href="nosotros.html">NOSOTROS</a>
+            <a href="carrito.html" class="cart-link-container">
+                <svg class="cart-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+                <span id="global-cart-count">0</span>
+            </a>
         </nav>
     </header>
 
@@ -80,7 +117,6 @@
 
     <div class="container">
         <h1 class="cart-title">REVISIÓN DE UNIDADES</h1>
-
         <div id="cart-content"></div>
 
         <div id="checkout-form" style="display:none;">
@@ -123,16 +159,19 @@
         </div>
     </div>
 
-    <footer>
-        <a href="https://www.instagram.com/prepscl/" target="_blank" class="social-link">
-            <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram">
-        </a>
-        <p>© 2026 PREPS - PRECISION DINING</p>
-    </footer>
+    <footer>© 2026 PREPS - PRECISION DINING</footer>
 
     <script>
         let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
         let discount = 0;
+
+        function updateGlobalCartCount() {
+            const countElement = document.getElementById('global-cart-count');
+            if (countElement) {
+                countElement.innerText = cart.length;
+                countElement.style.display = cart.length > 0 ? 'flex' : 'none';
+            }
+        }
 
         function toggleDelivery() {
             const method = document.getElementById('delivery-method').value;
@@ -145,7 +184,7 @@
                 discount = 0.10;
                 document.getElementById('discount-msg').style.display = 'block';
                 renderCart();
-            } else { alert("CÓDIGO NO VÁLIDO EN EL SISTEMA"); }
+            } else { alert("CÓDIGO NO VÁLIDO"); }
         }
 
         function renderCart() {
@@ -154,11 +193,12 @@
             const bar = document.getElementById('progress-bar');
             const pctText = document.getElementById('pct');
             
+            updateGlobalCartCount();
+
             if (cart.length === 0) {
-                container.innerHTML = `<div style="text-align:center; padding:100px 0; border:1px dashed #ccc;">SISTEMA EN ESPERA...<br><br><a href="catalogo.html" style="color:#000; font-weight:bold;">VOLVER AL CATÁLOGO</a></div>`;
+                container.innerHTML = `<div style="text-align:center; padding:100px 0; border:1px dashed #ccc;">SISTEMA EN ESPERA...<br><br><a href="catalogo.html" style="color:#000; font-weight:900;">VOLVER AL CATÁLOGO</a></div>`;
                 form.style.display = 'none';
-                bar.style.width = "0%";
-                pctText.innerText = "0%";
+                bar.style.width = "0%"; pctText.innerText = "0%";
                 return;
             }
 
@@ -166,7 +206,7 @@
             let total = 0;
             let rows = cart.map((item, index) => {
                 total += item.price;
-                return `<tr><td class="p-name">${item.name}</td><td style="font-weight:900;">$${item.price.toLocaleString('es-CL')}</td><td style="text-align:right;"><button class="btn-remove" onclick="removeItem(${index})">X</button></td></tr>`;
+                return `<tr class="cart-row"><td class="p-name">${item.name}</td><td style="font-weight:900;">$${item.price.toLocaleString('es-CL')}</td><td style="text-align:right;"><button class="btn-remove" onclick="removeItem(${index})">X</button></td></tr>`;
             }).join('');
 
             container.innerHTML = `<table class="cart-table"><tr class="cart-header"><td>ITEM</td><td>VALOR</td><td style="text-align:right;">ELIMINAR</td></tr>${rows}</table>`;
@@ -174,8 +214,7 @@
             let final = total * (1 - discount);
             document.getElementById('final-total').innerText = `$${Math.round(final).toLocaleString('es-CL')}`;
 
-            // Actualizar barra de progreso (Sorpresa)
-            let progress = (cart.length / 10) * 100; // Se llena al llegar a 10 items
+            let progress = (cart.length / 10) * 100;
             if(progress > 100) progress = 100;
             bar.style.width = progress + "%";
             pctText.innerText = Math.round(progress) + "%";
@@ -193,21 +232,17 @@
             const method = document.getElementById('delivery-method').value;
             const comuna = (method === 'DELIVERY') ? document.getElementById('comuna').value : 'RETIRO';
 
-            if (!name || !email) { alert("ERROR: DATOS DE CONTACTO INCOMPLETOS."); return; }
+            if (!name || !email) { alert("COMPLETA LOS DATOS."); return; }
 
-            let msg = `🛠️ *REPORTE DE CARGA PREPS*%0A`;
-            msg += `--------------------------%0A`;
-            msg += `👤 *USUARIO:* ${name}%0A📧 *EMAIL:* ${email}%0A📍 *LOGÍSTICA:* ${method} (${comuna})%0A`;
-            msg += `--------------------------%0A`;
+            let msg = `🛠️ *REPORTE DE CARGA PREPS*%0A👤 *CLIENTE:* ${name}%0A📧 *EMAIL:* ${email}%0A📍 *LOGÍSTICA:* ${method} (${comuna})%0A%0A`;
             cart.forEach(item => { msg += `• ${item.name}%0A`; });
-            msg += `--------------------------%0A`;
-            if(discount > 0) msg += `🎟️ *DESCUENTO MILA10 APLICADO*%0A`;
-            msg += `💰 *TOTAL FINAL:* ${document.getElementById('final-total').innerText}`;
+            if(discount > 0) msg += `%0A🎟️ *DESCUENTO APLICADO*`;
+            msg += `%0A💰 *TOTAL:* ${document.getElementById('final-total').innerText}`;
 
             window.open(`https://wa.me/56941892028?text=${msg}`);
         }
 
-        renderCart();
+        window.addEventListener('load', renderCart);
     </script>
 </body>
 </html>
