@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONFIGURADOR CUSTOM V1.0 - PREPS</title>
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            text-transform: uppercase;
+            padding-bottom: 100px;
+        }
+
+        /* HEADER LIMPIO */
+        .header-config {
+            background: #000;
+            color: #fff;
+            padding: 30px;
+            text-align: center;
+            letter-spacing: 5px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 30px auto;
+            padding: 20px;
+            background: #fff;
+            border: 2px solid #000;
+        }
+
+        .step { margin-bottom: 40px; }
+        .label-group { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 15px; }
+        
+        /* SLIDERS ESTILO TECH */
+        input[type=range] {
+            width: 100%;
+            cursor: pointer;
+            accent-color: #000;
+        }
+
+        /* SELECTORES DE PREPARACIÓN */
+        .prep-selector {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .prep-btn {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #000;
+            background: #fff;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 11px;
+        }
+
+        .prep-btn.active {
+            background: #000;
+            color: #fff;
+        }
+
+        /* MONITOR DE ESTADO */
+        .status-monitor {
+            background: #f9f9f9;
+            padding: 15px;
+            border: 1px dashed #000;
+            margin-top: 20px;
+            font-size: 12px;
+        }
+
+        .total-bar {
+            background: #eee;
+            height: 10px;
+            margin-top: 10px;
+            position: relative;
+        }
+
+        #progress {
+            background: #000;
+            height: 100%;
+            width: 0%;
+            transition: 0.3s;
+        }
+
+        /* FOOTER DE PRECIO FIJO */
+        .price-footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #000;
+            color: #fff;
+            padding: 25px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .btn-send {
+            background: #fff;
+            color: #000;
+            padding: 15px 40px;
+            border: none;
+            font-weight: bold;
+            letter-spacing: 2px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-config">
+        ENGINEERING CUSTOM PREP
+    </div>
+
+    <div class="container">
+        <h2 id="protocol-name" style="text-align: center; font-size: 18px;">UNIT: CORE 300</h2>
+
+        <div class="step">
+            <div class="label-group">
+                <span>01. POLLO (COCIDO/PLANCHA)</span>
+                <span id="val-pollo">100G</span>
+            </div>
+            <input type="range" id="input-pollo" min="0" max="500" step="50" value="100" oninput="updateValues()">
+            <div class="prep-selector">
+                <button class="prep-btn active" id="btn-cocido" onclick="setPrep('COCIDO')">AL VAPOR/COCIDO</button>
+                <button class="prep-btn" id="btn-plancha" onclick="setPrep('A LA PLANCHA')">A LA PLANCHA</button>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="label-group">
+                <span>02. ARROZ (COCIDO)</span>
+                <span id="val-arroz">100G</span>
+            </div>
+            <input type="range" id="input-arroz" min="0" max="600" step="50" value="100" oninput="updateValues()">
+        </div>
+
+        <div class="step">
+            <div class="label-group">
+                <span>03. BRÓCOLI (VAPOR)</span>
+                <span id="val-brocoli">100G</span>
+            </div>
+            <input type="range" id="input-brocoli" min="0" max="400" step="50" value="100" oninput="updateValues()">
+        </div>
+
+        <div class="status-monitor">
+            <span>VOLUMEN TOTAL: <span id="total-grams">300</span> / 800G</span>
+            <div class="total-bar"><div id="progress"></div></div>
+        </div>
+    </div>
+
+    <div class="price-footer">
+        <div style="font-size: 22px; letter-spacing: 3px;">TOTAL: <span id="final-price">$5.000</span></div>
+        <button class="btn-send" onclick="sendToWhatsApp()">GENERAR PROTOCOLO</button>
+    </div>
+
+    <script>
+        let prepPollo = 'COCIDO';
+
+        function setPrep(type) {
+            prepPollo = type;
+            document.getElementById('btn-cocido').classList.toggle('active', type === 'COCIDO');
+            document.getElementById('btn-plancha').classList.toggle('active', type === 'A LA PLANCHA');
+        }
+
+        function updateValues() {
+            let p = parseInt(document.getElementById('input-pollo').value);
+            let a = parseInt(document.getElementById('input-arroz').value);
+            let b = parseInt(document.getElementById('input-brocoli').value);
+
+            let totalG = p + a + b;
+
+            // Bloqueo de 800g
+            if (totalG > 800) {
+                // Si se pasa, revertimos el último movimiento (lógica simple)
+                alert("LÍMITE DE CAPACIDAD ALCANZADO (800G)");
+                // Aquí podrías añadir lógica para ajustar automáticamente al máximo
+            }
+
+            document.getElementById('val-pollo').innerText = p + "G";
+            document.getElementById('val-arroz').innerText = a + "G";
+            document.getElementById('val-brocoli').innerText = b + "G";
+            document.getElementById('total-grams').innerText = totalG;
+            document.getElementById('progress').style.width = (totalG / 800 * 100) + "%";
+
+            // MATEMÁTICA PREPS (Precios de Venta con Margen)
+            // Pollo $20/g | Arroz $8/g | Brócoli $12/g | Base $1000
+            let price = (p * 20) + (a * 8) + (b * 12) + 1000;
+            document.getElementById('final-price').innerText = "$" + price.toLocaleString('es-CL');
+
+            // Nombres de Protocolo
+            let name = "UNIT: CUSTOM-CORE";
+            if(totalG >= 700) name = "PROTOCOL: OVERLOAD";
+            if(a > p && a > 400) name = "PROTOCOL: REFUEL";
+            if(p >= 400 && a == 0) name = "MODE: KETO-STRIKE";
+            
+            document.getElementById('protocol-name').innerText = name;
+        }
+
+        function sendToWhatsApp() {
+            let p = document.getElementById('input-pollo').value;
+            let a = document.getElementById('input-arroz').value;
+            let b = document.getElementById('input-brocoli').value;
+            let price = document.getElementById('final-price').innerText;
+            let protocol = document.getElementById('protocol-name').innerText;
+
+            let msg = `NUEVO PEDIDO CUSTOM V1.0%0A----------------------%0A${protocol}%0A%0A- POLLO (${prepPollo}): ${p}G%0A- ARROZ: ${a}G%0A- BROCOLI: ${b}G%0A%0A----------------------%0ATOTAL: ${price}`;
+            window.open(`https://wa.me/569XXXXXXXX?text=${msg}`); 
+            // Reemplaza las X con tu número real
+        }
+
+        updateValues(); // Inicializar
+    </script>
+</body>
+</html>
