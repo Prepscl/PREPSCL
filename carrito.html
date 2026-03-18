@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>SISTEMA DE CARGA - PREPS</title>
+    <link rel="icon" type="image/png" href="img/logo-preps.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root { --accent: #25D366; --dark: #000; --light: #f2f2f2; }
+        body { background-color: var(--light); color: var(--dark); font-family: 'Courier New', monospace; margin: 0; text-transform: uppercase; -webkit-font-smoothing: antialiased; }
+
+        header { width: 100%; text-align: center; padding: 60px 0 40px; background: var(--light); }
+        .logo-link img { width: 180px; margin-bottom: 30px; }
+        nav a { display: inline-block; text-decoration: none; color: #000; font-size: 14px; letter-spacing: 2px; margin: 0 20px; padding-bottom: 5px; border-bottom: 2px solid transparent; }
+        nav a.active { border-bottom: 2px solid #000; font-weight: bold; }
+
+        /* SORPRESA 1: BARRA DE POTENCIAL DE CARGA */
+        .loading-zone { max-width: 800px; margin: 20px auto; padding: 0 20px; }
+        .progress-container { background: #ddd; height: 4px; width: 100%; position: relative; margin-top: 10px; }
+        #progress-bar { background: var(--dark); height: 100%; width: 0%; transition: 1s cubic-bezier(0.17, 0.55, 0.55, 1); }
+        .progress-label { font-size: 10px; letter-spacing: 2px; display: flex; justify-content: space-between; }
+
+        .container { max-width: 800px; margin: 0 auto 100px; padding: 0 20px; }
+        .cart-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 32px; letter-spacing: -1.5px; margin-bottom: 40px; text-align: center; }
+
+        /* TABLA TÉCNICA */
+        .cart-table { width: 100%; border-collapse: collapse; margin-bottom: 40px; background: #fff; border: 1px solid #000; }
+        .cart-header { border-bottom: 2px solid #000; font-family: 'Inter', sans-serif; font-weight: 900; font-size: 11px; color: #888; }
+        .cart-header td { padding: 15px 20px; }
+        .cart-row td { padding: 20px; border-bottom: 1px solid #eee; }
+        .p-name { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 15px; letter-spacing: -0.5px; }
+
+        .btn-remove { background: #ff4444; color: #fff; border: none; padding: 5px 10px; cursor: pointer; font-size: 10px; font-weight: 900; }
+
+        /* FORMULARIOS ESTILO LABORATORIO */
+        .form-section { background: #fff; border: 1px solid #000; padding: 30px; margin-bottom: 20px; position: relative; overflow: hidden; }
+        .form-label { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 12px; margin-bottom: 15px; display: block; color: #666; }
+        input, select { width: 100%; padding: 15px; margin-bottom: 20px; border: 1px solid #eee; font-family: 'Courier New', monospace; box-sizing: border-box; background: #fafafa; }
+        input:focus { border-color: #000; outline: none; background: #fff; }
+
+        /* SORPRESA 2: EFECTO HACK DESCUENTO */
+        .promo-box { display: flex; gap: 10px; }
+        .btn-apply { background: #000; color: #fff; border: none; padding: 0 25px; font-weight: 900; cursor: pointer; font-family: 'Inter'; }
+        #discount-msg { color: var(--accent); font-weight: 900; font-size: 12px; margin-top: -10px; margin-bottom: 20px; display: none; animation: blink 1s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+        /* SUMMARY TICKET */
+        .summary-box { background: #000; color: #fff; padding: 40px; text-align: center; }
+        .total-amount { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 48px; letter-spacing: -2px; display: block; margin: 10px 0 30px; }
+        .btn-checkout { background: var(--accent); color: #000; padding: 22px; font-family: 'Inter', sans-serif; font-weight: 900; font-size: 16px; width: 100%; border: none; cursor: pointer; transition: 0.3s; }
+        .btn-checkout:hover { transform: scale(1.02); filter: brightness(1.1); }
+
+        footer { background: #000; color: #fff; padding: 60px 20px; text-align: center; font-size: 10px; letter-spacing: 2px; }
+        .social-link img { width: 25px; filter: invert(1); margin-bottom: 20px; }
+
+        @media (max-width: 600px) { .cart-title { font-size: 24px; } .total-amount { font-size: 32px; } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo-link"><img src="img/logo-preps.png" alt="PREPS"></a>
+        <nav>
+            <a href="index.html">HOGAR</a>
+            <a href="catalogo.html">CATALOGAR</a>
+            <a href="nosotros.html">NOSOTROS</a>
+        </nav>
+    </header>
+
+    <div class="loading-zone">
+        <div class="progress-label"><span>VOLUMEN DE CARGA DEL SISTEMA</span> <span id="pct">0%</span></div>
+        <div class="progress-container"><div id="progress-bar"></div></div>
+    </div>
+
+    <div class="container">
+        <h1 class="cart-title">REVISIÓN DE UNIDADES</h1>
+
+        <div id="cart-content"></div>
+
+        <div id="checkout-form" style="display:none;">
+            <div class="form-section">
+                <span class="form-label">[01] DATOS DE CONTACTO</span>
+                <input type="text" id="cust-name" placeholder="NOMBRE COMPLETO">
+                <input type="email" id="cust-email" placeholder="CORREO ELECTRÓNICO">
+                
+                <span class="form-label">[02] LOGÍSTICA</span>
+                <select id="delivery-method" onchange="toggleDelivery()">
+                    <option value="RETIRO">RETIRO LOCAL (SANTIAGO)</option>
+                    <option value="DELIVERY">DELIVERY ZONAL (SANTIAGO)</option>
+                </select>
+
+                <div id="delivery-options" style="display:none;">
+                    <select id="comuna">
+                        <option value="VITACURA">VITACURA</option>
+                        <option value="LAS CONDES">LAS CONDES</option>
+                        <option value="PROVIDENCIA">PROVIDENCIA</option>
+                        <option value="LO BARNECHEA">LO BARNECHEA</option>
+                        <option value="METRO">METRO A CONVENIR</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <span class="form-label">[03] VALIDACIÓN DE CÓDIGO</span>
+                <div class="promo-box">
+                    <input type="text" id="promo-code" placeholder="CÓDIGO DE ACCESO">
+                    <button class="btn-apply" onclick="applyPromo()">OK</button>
+                </div>
+                <div id="discount-msg">>> SISTEMA: CÓDIGO MILA10 ACTIVADO -10%</div>
+            </div>
+
+            <div class="summary-box">
+                <span style="font-size: 10px; letter-spacing: 4px; opacity: 0.5;">TOTAL NETO A PAGAR</span>
+                <div class="total-amount" id="final-total">$0</div>
+                <button class="btn-checkout" onclick="sendToWhatsApp()">CONFIRMAR CARGA (WSP)</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="https://www.instagram.com/prepscl/" target="_blank" class="social-link">
+            <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram">
+        </a>
+        <p>© 2026 PREPS - PRECISION DINING</p>
+    </footer>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
+        let discount = 0;
+
+        function toggleDelivery() {
+            const method = document.getElementById('delivery-method').value;
+            document.getElementById('delivery-options').style.display = (method === 'DELIVERY') ? 'block' : 'none';
+        }
+
+        function applyPromo() {
+            const code = document.getElementById('promo-code').value.toUpperCase();
+            if (code === 'MILA10') {
+                discount = 0.10;
+                document.getElementById('discount-msg').style.display = 'block';
+                renderCart();
+            } else { alert("CÓDIGO NO VÁLIDO EN EL SISTEMA"); }
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-content');
+            const form = document.getElementById('checkout-form');
+            const bar = document.getElementById('progress-bar');
+            const pctText = document.getElementById('pct');
+            
+            if (cart.length === 0) {
+                container.innerHTML = `<div style="text-align:center; padding:100px 0; border:1px dashed #ccc;">SISTEMA EN ESPERA...<br><br><a href="catalogo.html" style="color:#000; font-weight:bold;">VOLVER AL CATÁLOGO</a></div>`;
+                form.style.display = 'none';
+                bar.style.width = "0%";
+                pctText.innerText = "0%";
+                return;
+            }
+
+            form.style.display = 'block';
+            let total = 0;
+            let rows = cart.map((item, index) => {
+                total += item.price;
+                return `<tr><td class="p-name">${item.name}</td><td style="font-weight:900;">$${item.price.toLocaleString('es-CL')}</td><td style="text-align:right;"><button class="btn-remove" onclick="removeItem(${index})">X</button></td></tr>`;
+            }).join('');
+
+            container.innerHTML = `<table class="cart-table"><tr class="cart-header"><td>ITEM</td><td>VALOR</td><td style="text-align:right;">ELIMINAR</td></tr>${rows}</table>`;
+            
+            let final = total * (1 - discount);
+            document.getElementById('final-total').innerText = `$${Math.round(final).toLocaleString('es-CL')}`;
+
+            // Actualizar barra de progreso (Sorpresa)
+            let progress = (cart.length / 10) * 100; // Se llena al llegar a 10 items
+            if(progress > 100) progress = 100;
+            bar.style.width = progress + "%";
+            pctText.innerText = Math.round(progress) + "%";
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            localStorage.setItem('preps_cart', JSON.stringify(cart));
+            renderCart();
+        }
+
+        function sendToWhatsApp() {
+            const name = document.getElementById('cust-name').value;
+            const email = document.getElementById('cust-email').value;
+            const method = document.getElementById('delivery-method').value;
+            const comuna = (method === 'DELIVERY') ? document.getElementById('comuna').value : 'RETIRO';
+
+            if (!name || !email) { alert("ERROR: DATOS DE CONTACTO INCOMPLETOS."); return; }
+
+            let msg = `🛠️ *REPORTE DE CARGA PREPS*%0A`;
+            msg += `--------------------------%0A`;
+            msg += `👤 *USUARIO:* ${name}%0A📧 *EMAIL:* ${email}%0A📍 *LOGÍSTICA:* ${method} (${comuna})%0A`;
+            msg += `--------------------------%0A`;
+            cart.forEach(item => { msg += `• ${item.name}%0A`; });
+            msg += `--------------------------%0A`;
+            if(discount > 0) msg += `🎟️ *DESCUENTO MILA10 APLICADO*%0A`;
+            msg += `💰 *TOTAL FINAL:* ${document.getElementById('final-total').innerText}`;
+
+            window.open(`https://wa.me/56941892028?text=${msg}`);
+        }
+
+        renderCart();
+    </script>
+</body>
+</html>
