@@ -6,7 +6,6 @@
     <title>PREPS - Home</title>
     <link rel="icon" type="image/png" href="img/logo-preps.png">
     <link rel="apple-touch-icon" href="img/logo-preps.png">
-    <link rel="stylesheet" href="styles.css">
     <style>
         /* FONDO Y TIPOGRAFÍA BASE */
         body {
@@ -113,33 +112,30 @@
             color: #000;
             background: #fff;
             transition: 0.3s ease;
-            position: relative;
-        }
-
-        /* ESTILO ESPECIAL PARA EL PERSONALIZADO */
-        .custom-card {
-            border: 4px solid #000;
-            background: #fdfdfd;
-        }
-
-        .badge-new {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #000;
-            color: #fff;
-            padding: 5px 12px;
-            font-size: 10px;
-            font-weight: bold;
-            z-index: 10;
+            display: flex;
+            flex-direction: column;
         }
 
         .slide-card:hover { transform: translateY(-5px); }
         .slide-card img { width: 100%; height: 350px; object-fit: cover; border-bottom: 2px solid #000; }
-        .slide-info { padding: 25px; }
-        .slide-info h3 { font-size: 18px; letter-spacing: 1px; line-height: 1.4; }
-        .price { font-size: 20px; font-weight: bold; margin-top: 10px; }
+        .slide-info { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .slide-info h3 { font-size: 18px; letter-spacing: 1px; line-height: 1.4; margin: 0; }
+        .price { font-size: 20px; font-weight: bold; margin-top: 15px; }
 
+        /* ESTILO RESALTADO NEGRO PARA CUSTOM */
+        .card-custom-highlight {
+            background: #000 !important; /* Fondo Negro */
+            border: 2px solid #000 !important;
+        }
+        .card-custom-highlight img {
+            border-bottom: 2px solid #fff !important; /* Separador blanco para la imagen */
+        }
+        .card-custom-highlight .slide-info h3, 
+        .card-custom-highlight .price {
+            color: #fff !important; /* Texto Blanco */
+        }
+
+        /* NAVEGACIÓN SLIDER */
         .slider-nav {
             display: flex;
             align-items: center;
@@ -204,31 +200,34 @@
             </div>
 
             <div class="product-slider" id="productSlider">
-                <a href="personalizar.html" class="slide-card custom-card">
-                    <div class="badge-new">NUEVO</div>
-                    <img src="img/custom-prep.jpg" alt="Menú Personalizado">
-                    <div class="slide-info">
-                        <h3>CUSTOM PERFORMANCE V1.0 (HASTA 800G)</h3>
-                        <div class="price">DESDE $5.000 CLP</div>
-                    </div>
-                </a>
-
                 <a href="producto.html?id=highcarb" class="slide-card">
                     <img src="img/menu1.jpg">
                     <div class="slide-info"><h3>POWER BREAST HIGH CARB</h3><div class="price">$7.000 CLP</div></div>
                 </a>
+
                 <a href="producto.html?id=lowcarb" class="slide-card">
                     <img src="img/menu2.jpg">
                     <div class="slide-info"><h3>POWER BREAST LOW CARB</h3><div class="price">$6.500 CLP</div></div>
                 </a>
+
+                <a href="personalizar.html" class="slide-card card-custom-highlight">
+                    <img src="img/custom-prep.jpg" alt="Menú Personalizado">
+                    <div class="slide-info">
+                        <h3>CUSTOM PERFORMANCE V1.0</h3>
+                        <div class="price">DESDE $5.000 CLP</div>
+                    </div>
+                </a>
+
                 <a href="producto.html?id=pack5" class="slide-card">
                     <img src="img/pack5.jpg">
                     <div class="slide-info"><h3>PACK 5 COMIDAS</h3><div class="price">$30.000 CLP</div></div>
                 </a>
+
                 <a href="producto.html?id=pack10" class="slide-card">
                     <img src="img/pack10.jpg">
                     <div class="slide-info"><h3>PACK 10 COMIDAS</h3><div class="price">$60.000 CLP</div></div>
                 </a>
+
                 <a href="producto.html?id=pack30" class="slide-card">
                     <img src="img/pack30.jpg">
                     <div class="slide-info"><h3>PACK 30 COMIDAS</h3><div class="price">$180.000 CLP</div></div>
@@ -257,7 +256,7 @@
     <script>
         const slider = document.getElementById('productSlider');
         const currentIndexEl = document.getElementById('current-index');
-        const totalSlides = 6; // Actualizado a 6
+        const totalSlides = 6;
 
         slider.addEventListener('scroll', () => {
             const scrollLeft = slider.scrollLeft;
