@@ -19,115 +19,69 @@
             background-color: #000;
             color: #fff;
             font-family: 'Courier New', Courier, monospace;
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             text-transform: uppercase;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* 1. LOADER MÍSTICO (2 SEGUNDOS) */
+        /* 1. LOADER MÍSTICO */
         #loader {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #000;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center;
             z-index: 9999; transition: opacity 1s ease;
         }
         #loader img { width: 150px; animation: pulse 2s infinite ease-in-out; }
-        @keyframes pulse {
-            0%, 100% { transform: scale(0.9); opacity: 0.3; }
-            50% { transform: scale(1); opacity: 1; }
-        }
+        @keyframes pulse { 0%, 100% { transform: scale(0.9); opacity: 0.3; } 50% { transform: scale(1); opacity: 1; } }
 
         /* 2. SCROLL REVEAL */
         .reveal { opacity: 0; transform: translateY(50px); transition: all 1.2s cubic-bezier(0.17, 0.55, 0.55, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* HEADER (COURIER NEW) */
+        /* HEADER */
         .main-header {
             display: flex; align-items: center; justify-content: space-between;
             padding: 15px 50px; background: #000; border-bottom: 1px solid #1a1a1a;
             position: sticky; top: 0; z-index: 1000;
         }
         .logo-link img { height: 35px; }
-        .main-nav a {
-            text-decoration: none; color: #fff; font-size: 13px;
-            letter-spacing: 2px; margin-left: 30px; font-family: 'Courier New', Courier, monospace;
-        }
+        .main-nav a { text-decoration: none; color: #fff; font-size: 13px; letter-spacing: 2px; margin-left: 30px; }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 80px 20px 150px; }
 
-        /* BIENVENIDA (INTER 900) */
         .welcome-section { text-align: center; margin-bottom: 100px; }
-        .welcome-title { 
-            font-family: 'Inter', sans-serif;
-            font-weight: 900;
-            font-size: 32px; 
-            letter-spacing: -1.5px; 
-            margin-bottom: 20px; 
-            line-height: 1.1; 
-        }
+        .welcome-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 32px; letter-spacing: -1.5px; margin-bottom: 20px; line-height: 1.1; }
         .welcome-subtitle { font-size: 14px; letter-spacing: 3px; color: #444; }
 
-        /* LAYOUT DUAL */
         .config-layout { display: flex; gap: 60px; flex-wrap: wrap; }
         .image-section { flex: 1; min-width: 320px; border: 1px solid #222; background: #050505; }
         
-        /* NOMBRE PROTOCOLO (INTER 900) */
-        .food-name { 
-            background: #fff; color: #000; padding: 20px; text-align: center; 
-            font-family: 'Inter', sans-serif; font-weight: 900; 
-            font-size: 18px; letter-spacing: -0.5px; 
-        }
+        .food-name { background: #fff; color: #000; padding: 20px; text-align: center; font-family: 'Inter', sans-serif; font-weight: 900; font-size: 18px; letter-spacing: -0.5px; }
         .image-placeholder { height: 450px; background: #080808; display: flex; align-items: center; justify-content: center; color: #1a1a1a; letter-spacing: 10px; font-size: 12px; }
 
-        /* CONFIGURADOR */
         .config-section { width: 420px; }
-        .section-label { 
-            font-family: 'Inter', sans-serif; font-weight: 900;
-            font-size: 15px; margin-bottom: 30px; border-left: 4px solid #fff; 
-            padding-left: 15px; letter-spacing: -0.5px; 
-        }
+        .section-label { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 15px; margin-bottom: 30px; border-left: 4px solid #fff; padding-left: 15px; letter-spacing: -0.5px; }
 
-        .limit-info {
-            font-size: 11px; color: #ff3333 !important; margin-bottom: 25px;
-            letter-spacing: 1px; border: 1px solid #441111; padding: 12px;
-            text-align: center; background: rgba(255,0,0,0.02); pointer-events: none;
-        }
+        .limit-info { font-size: 11px; color: #ff3333 !important; margin-bottom: 25px; letter-spacing: 1px; border: 1px solid #441111; padding: 12px; text-align: center; background: rgba(255,0,0,0.02); pointer-events: none; }
 
-        .name-input {
-            width: 100%; background: transparent; border: none; border-bottom: 2px solid #333;
-            color: #fff; padding: 10px 0; margin-bottom: 30px; font-family: inherit; font-size: 16px; outline: none;
-        }
+        .name-input { width: 100%; background: transparent; border: none; border-bottom: 2px solid #333; color: #fff; padding: 10px 0; margin-bottom: 30px; font-family: inherit; font-size: 16px; outline: none; }
         .name-input:focus { border-bottom-color: #fff; }
 
         .step { margin-bottom: 40px; }
         .label-group { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 12px; font-size: 13px; color: #666; }
         input[type=range] { width: 100%; height: 2px; background: #333; appearance: none; outline: none; accent-color: #fff; }
 
-        /* BOTONES OPCIÓN (INTER 900) */
         .selector-box { display: flex; gap: 8px; margin-top: 15px; }
-        .btn-opt { 
-            flex: 1; padding: 12px; border: 1px solid #222; background: transparent; 
-            color: #444; cursor: pointer; font-family: 'Inter', sans-serif; 
-            font-weight: 900; font-size: 10px; transition: 0.3s; 
-        }
+        .btn-opt { flex: 1; padding: 12px; border: 1px solid #222; background: transparent; color: #444; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 900; font-size: 10px; transition: 0.3s; }
         .btn-opt.active { border-color: #fff; color: #fff; background: #0a0a0a; }
 
-        /* MACROS */
         .macros-display { margin-top: 50px; padding: 30px; background: #050505; border: 1px solid #111; }
         .macro-line { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 13px; color: #555; }
         .macro-val { font-size: 22px; font-weight: 900; color: #fff; }
 
-        /* ACCIÓN FINAL (INTER 900) */
         .action-area { margin-top: 20px; padding: 35px; background: #fff; color: #000; text-align: center; }
         .price-display { font-size: 24px; font-weight: 900; letter-spacing: 3px; margin-bottom: 20px; font-family: 'Courier New', monospace; }
-        .btn-send { 
-            background: #000; color: #fff; padding: 18px 40px; border: none; 
-            font-family: 'Inter', sans-serif; font-weight: 900; 
-            font-size: 16px; letter-spacing: -0.5px; width: 100%; cursor: pointer; transition: 0.4s; 
-        }
+        .btn-send { background: #000; color: #fff; padding: 18px 40px; border: none; font-family: 'Inter', sans-serif; font-weight: 900; font-size: 16px; letter-spacing: -0.5px; width: 100%; cursor: pointer; transition: 0.4s; }
 
         .social-footer { text-align: center; padding: 60px; background: #000; border-top: 1px solid #111; }
         .social-link img { width: 30px; filter: invert(1); opacity: 0.5; transition: 0.3s; }
@@ -169,13 +123,6 @@
             </div>
 
             <div class="config-section reveal">
-                <div class="section-label">IDENTIFICACIÓN Y LOGÍSTICA</div>
-                <input type="text" id="user-name" class="name-input" placeholder="INGRESA TU NOMBRE" autocomplete="off">
-                <div class="selector-box" style="margin-bottom: 40px;">
-                    <button class="btn-opt active" id="btn-retiro" onclick="setEntrega('RETIRO LOCAL')">RETIRO LOCAL</button>
-                    <button class="btn-opt" id="btn-delivery" onclick="setEntrega('DELIVERY ZONAL')">DELIVERY</button>
-                </div>
-
                 <div class="section-label">CONFIGURACIÓN DE CARGA</div>
                 <div class="limit-info">SISTEMA LIMITADO A 800G TOTALES POR UNIDAD.</div>
 
@@ -207,7 +154,7 @@
 
                 <div class="action-area">
                     <div class="price-display">TOTAL: <span id="final-price">$0</span></div>
-                    <button class="btn-send" onclick="sendToWhatsApp()">PEDIR AHORA</button>
+                    <button class="btn-send" onclick="addToCartCustom()">AGREGAR AL CARRO</button>
                 </div>
             </div>
         </div>
@@ -222,7 +169,6 @@
 
     <script>
         let prepPollo = 'PLANCHA';
-        let modoEntrega = 'RETIRO LOCAL';
 
         window.addEventListener('load', () => {
             setTimeout(() => {
@@ -252,12 +198,6 @@
             document.getElementById('btn-cocido').classList.toggle('active', type === 'COCIDO');
             document.getElementById('btn-plancha').classList.toggle('active', type === 'PLANCHA');
             update();
-        }
-
-        function setEntrega(modo) {
-            modoEntrega = modo;
-            document.getElementById('btn-retiro').classList.toggle('active', modo === 'RETIRO LOCAL');
-            document.getElementById('btn-delivery').classList.toggle('active', modo === 'DELIVERY ZONAL');
         }
 
         function update(e) {
@@ -298,28 +238,25 @@
             document.getElementById('protocol-name').innerText = proto;
         }
 
+        function addToCartCustom() {
+            const priceText = document.getElementById('final-price').innerText;
+            const priceNum = parseInt(priceText.replace('$', '').replace('.', ''));
+            const proto = document.getElementById('protocol-name').innerText;
+            const det = `${document.getElementById('val-pollo').innerText} P | ${document.getElementById('val-arroz').innerText} A`;
+
+            let currentCart = JSON.parse(localStorage.getItem('preps_cart')) || [];
+            currentCart.push({ 
+                name: `CUSTOM: ${proto} (${det})`, 
+                price: priceNum 
+            });
+            localStorage.setItem('preps_cart', JSON.stringify(currentCart));
+
+            // Redirigir al carro para finalizar
+            window.location.href = "carrito.html";
+        }
+
         document.querySelectorAll('input[type=range]').forEach(i => i.addEventListener('input', update));
         update();
-
-        function sendToWhatsApp() {
-            const nombre = document.getElementById('user-name').value;
-            if(!nombre) { alert("INGRESA TU NOMBRE PARA LA COMANDA."); return; }
-
-            const msg = `🚀 *NUEVO PEDIDO PREPS CUSTOM*%0A` +
-                        `--------------------------%0A` +
-                        `👤 *CLIENTE:* ${nombre}%0A` +
-                        `⚡ *${document.getElementById('protocol-name').innerText}*%0A%0A` +
-                        `📍 *ENTREGA:* ${modoEntrega}%0A%0A` +
-                        `📦 *CONFIGURACIÓN:*%0A` +
-                        `- POLLO (${prepPollo}): ${document.getElementById('val-pollo').innerText}%0A` +
-                        `- ARROZ: ${document.getElementById('val-arroz').innerText}%0A` +
-                        `- BRÓCOLI: ${document.getElementById('val-brocoli').innerText}%0A%0A` +
-                        `📊 *MACROS:* P: ${document.getElementById('m-prot').innerText}g | C: ${document.getElementById('m-carb').innerText}g | Kcal: ${document.getElementById('m-kcal').innerText}%0A` +
-                        `--------------------------%0A` +
-                        `💰 *TOTAL:* ${document.getElementById('final-price').innerText}`;
-
-            window.open(`https://wa.me/56941892028?text=${msg}`); 
-        }
     </script>
 </body>
 </html>
