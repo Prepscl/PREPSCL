@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -59,16 +58,9 @@
         .promo-group { display: flex; gap: 10px; margin-bottom: 15px; }
         .btn-apply { background: #000; color: #fff; border: none; padding: 0 25px; font-weight: 900; cursor: pointer; }
 
-        /* ANIMACIÓN DE DESCUENTO RESTAURADA */
-        #discount-msg { 
-            color: var(--accent); 
-            font-weight: 900; 
-            font-size: 11px; 
-            margin-top: 5px; 
-            display: none; 
-            animation: blink 1s infinite; 
-        }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        /* REGLA DE ANIMACIÓN CORREGIDA */
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        #discount-msg { color: var(--accent); font-weight: 900; font-size: 11px; margin-top: 5px; animation: blink 1s infinite; display: none; }
 
         .summary-box { background: #000; color: #fff; padding: 45px 20px; text-align: center; }
         .total-amount { font-family: 'Inter'; font-weight: 900; font-size: 42px; color: #fff; margin: 15px 0; letter-spacing: -2px; }
@@ -204,7 +196,7 @@
                         <input type="text" id="promo-code" placeholder="INGRESAR CÓDIGO" style="margin-bottom:0;">
                         <button class="btn-apply" onclick="applyPromo()">OK</button>
                     </div>
-                    <div id="discount-msg">>> CÓDIGO ACTIVADO: -10% DE DESCUENTO</div>
+                    <div id="discount-msg" style="${discount > 0 ? 'display:block' : 'none'}">>> CÓDIGO ACTIVADO: -10% DE DESCUENTO</div>
                 </div>
 
                 <div class="summary-box">
@@ -234,7 +226,6 @@
             const code = document.getElementById('promo-code').value.toUpperCase();
             if (code === 'MILA10') {
                 discount = 0.10;
-                document.getElementById('discount-msg').style.display = 'block';
                 renderCart();
             } else { alert("SISTEMA: CÓDIGO INVÁLIDO"); }
         }
