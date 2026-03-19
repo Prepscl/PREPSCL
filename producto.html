@@ -77,8 +77,8 @@
     <header>
         <a href="index.html" class="logo-link"><img src="img/logo-preps.png" alt="PREPS"></a>
         <nav>
-            <a href="index.html">HOGAR</a>
-            <a href="catalogo.html">CATALOGAR</a>
+            <a href="index.html">HOME</a>
+            <a href="catalogo.html">CATÁLOGO</a>
             <a href="nosotros.html">NOSOTROS</a>
             <a href="carrito.html" class="cart-link-container">
                 <svg class="cart-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
@@ -91,7 +91,7 @@
 
     <div id="confirm-modal" class="modal-overlay">
         <div class="modal-content">
-            <h2 class="modal-title">SISTEMA ACTUALIZADO</h2>
+            <h2 class="modal-title">TUS PRODUCTOS</h2>
             <div class="modal-body">
                 <img id="modal-img" src="" alt="">
                 <div class="modal-info-text">
@@ -180,7 +180,7 @@
                 ${configHTML}
                 <div class="purchase-container">
                     <input type="number" id="qty-main" class="qty-main" value="1" min="1" max="${item.max}" oninput="updateLivePrice()" onkeydown="return false;">
-                    <button class="buy-btn-new" onclick="addToCart()">AÑADIR AL SISTEMA</button>
+                    <button class="buy-btn-new" onclick="addToCart()">AÑADIR AL CARRO</button>
                 </div>
                 ${macroHTML}`;
         }
