@@ -8,97 +8,72 @@
     
     <link rel="icon" type="image/png" href="img/logo-preps.png">
     <link rel="apple-touch-icon" href="img/logo-preps.png">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
 
     <style>
-        body {
-            background-color: #000;
-            color: #fff;
-            font-family: 'Courier New', Courier, monospace;
-            margin: 0; padding: 0;
-            text-transform: uppercase;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
+        body { background-color: #000; color: #fff; font-family: 'Courier New', Courier, monospace; margin: 0; text-transform: uppercase; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-        #loader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 9999; transition: opacity 1s ease;
-        }
+        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 1s ease; }
         #loader img { width: 150px; animation: pulse 2s infinite ease-in-out; }
         @keyframes pulse { 0%, 100% { transform: scale(0.9); opacity: 0.3; } 50% { transform: scale(1); opacity: 1; } }
 
         .reveal { opacity: 0; transform: translateY(50px); transition: all 1.2s cubic-bezier(0.17, 0.55, 0.55, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        .main-header {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 15px 50px; background: #000; border-bottom: 1px solid #1a1a1a;
-            position: sticky; top: 0; z-index: 1000;
-        }
+        .main-header { display: flex; align-items: center; justify-content: space-between; padding: 15px 50px; background: #000; border-bottom: 1px solid #1a1a1a; position: sticky; top: 0; z-index: 1000; }
         .logo-link img { height: 35px; }
         .main-nav { display: flex; align-items: center; gap: 30px; }
         .main-nav a { text-decoration: none; color: #fff; font-size: 13px; letter-spacing: 2px; }
 
-        .cart-link-container { position: relative; display: inline-flex; align-items: center; border-bottom: none !important; }
-        .cart-icon-svg { width: 22px !important; height: 22px !important; color: #fff; display: block; }
-        #global-cart-count {
-            position: absolute; top: -8px; right: -10px; background: #fff; color: #000;
-            font-family: 'Inter'; font-weight: 900; font-size: 10px; width: 18px; height: 18px;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-        }
+        .cart-link-container { position: relative; display: inline-flex; align-items: center; }
+        .cart-icon-svg { width: 22px; height: 22px; color: #fff; }
+        #global-cart-count { position: absolute; top: -8px; right: -10px; background: #fff; color: #000; font-family: 'Inter'; font-weight: 900; font-size: 10px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 80px 20px 150px; }
         .welcome-section { text-align: center; margin-bottom: 100px; }
-        .welcome-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 32px; letter-spacing: -1.5px; margin-bottom: 20px; line-height: 1.1; }
+        .welcome-title { font-family: 'Inter'; font-weight: 900; font-size: 32px; letter-spacing: -1.5px; margin-bottom: 20px; }
         .welcome-subtitle { font-size: 14px; letter-spacing: 3px; color: #444; }
 
         .config-layout { display: flex; gap: 60px; flex-wrap: wrap; }
         .image-section { flex: 1; min-width: 320px; border: 1px solid #222; background: #050505; }
         .food-name { background: #fff; color: #000; padding: 20px; text-align: center; font-family: 'Inter'; font-weight: 900; font-size: 18px; }
         .image-placeholder { height: 450px; background: #080808; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        #active-img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s; }
+        #active-img { width: 100%; height: 100%; object-fit: cover; }
 
         .config-section { width: 420px; }
         .section-label { font-family: 'Inter'; font-weight: 900; font-size: 15px; margin-bottom: 30px; border-left: 4px solid #fff; padding-left: 15px; }
-        .limit-info { font-size: 11px; color: #ff3333 !important; margin-bottom: 25px; border: 1px solid #441111; padding: 12px; text-align: center; }
+        .limit-info { font-size: 11px; color: #ff3333; margin-bottom: 25px; border: 1px solid #441111; padding: 12px; text-align: center; }
 
         .step { margin-bottom: 40px; }
         .label-group { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 12px; font-size: 13px; color: #666; }
-        input[type=range] { width: 100%; height: 2px; background: #333; appearance: none; outline: none; accent-color: #fff; }
+        input[type=range] { width: 100%; height: 2px; background: #333; appearance: none; outline: none; accent-color: #fff; cursor: pointer; }
 
         .selector-box { display: flex; gap: 8px; margin-top: 15px; }
         .btn-opt { flex: 1; padding: 12px; border: 1px solid #222; background: transparent; color: #444; cursor: pointer; font-family: 'Inter'; font-weight: 900; font-size: 10px; transition: 0.3s; }
         .btn-opt.active { border-color: #fff; color: #fff; background: #0a0a0a; }
 
-        .macros-display { margin-top: 50px; padding: 30px; background: #050505; border: 1px solid #111; }
-        .macro-line { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 13px; color: #555; }
-        .macro-val { font-size: 22px; font-weight: 900; color: #fff; }
+        /* UMBRAL MÍNIMO */
+        #min-alert { font-size: 10px; color: #ff3333; margin-top: 10px; font-weight: 900; letter-spacing: 1px; display: none; }
 
         .purchase-area { display: flex; margin-top: 20px; border: 1px solid #fff; }
         .qty-input { width: 80px; background: #fff; color: #000; border: none; font-family: 'Inter'; font-weight: 900; font-size: 18px; text-align: center; outline: none; }
         .btn-send { flex-grow: 1; background: #fff; color: #000; padding: 22px; border: none; font-family: 'Inter'; font-weight: 900; font-size: 16px; cursor: pointer; transition: 0.4s; }
+        .btn-send:disabled { background: #222; color: #444; cursor: not-allowed; border-color: #222; }
 
+        /* MODAL */
         .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
-        .modal-content { background: #fff; color: #000; width: 100%; max-width: 500px; padding: 40px; position: relative; text-align: center; border-radius: 0; }
-        .modal-title { font-family: 'Inter'; font-weight: 900; font-size: 22px; margin-bottom: 20px; }
-        .modal-img-container { width: 100%; height: 200px; background: #eee; margin-bottom: 20px; overflow: hidden; border: 1px solid #000; }
-        .modal-img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .modal-content { background: #fff; color: #000; width: 100%; max-width: 500px; padding: 40px; position: relative; text-align: center; }
+        
+        .delete-btn-container { position: absolute; right: 20px; top: 20px; text-align: right; cursor: pointer; }
+        .delete-x { font-size: 22px; color: #000; font-weight: 900; display: block; line-height: 1; }
+        .delete-label { font-size: 8px; color: #ff0000; font-weight: 900; display: block; margin-top: 4px; opacity: 0; transition: 0.2s; white-space: nowrap; }
+        .delete-btn-container:hover .delete-label { opacity: 1; }
+        .delete-btn-container:hover .delete-x { color: #ff0000; }
+
         .btn-modal-black { background: #000; color: #fff; padding: 18px; text-decoration: none; font-weight: 900; display: block; margin-bottom: 10px; font-size: 14px; }
         .btn-modal-outline { background: #fff; color: #000; padding: 18px; border: 2px solid #000; font-weight: 900; width: 100%; cursor: pointer; font-size: 14px; }
 
-        .social-footer { text-align: center; padding: 60px; background: #000; border-top: 1px solid #111; }
-        .social-link img { width: 30px; filter: invert(1); opacity: 0.5; }
-
-        @media (max-width: 850px) {
-            .main-header { padding: 20px; flex-direction: column; gap: 15px; }
-            .config-layout { flex-direction: column; }
-            .config-section { width: 100%; }
-        }
+        @media (max-width: 850px) { .main-header { padding: 20px; flex-direction: column; gap: 15px; } .config-layout { flex-direction: column; } .config-section { width: 100%; } }
     </style>
 </head>
 <body>
@@ -115,11 +90,7 @@
             <a href="catalogo.html">CATALOGAR</a>
             <a href="nosotros.html">NOSOTROS</a>
             <a href="carrito.html" class="cart-link-container">
-                <svg class="cart-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <path d="M16 10a4 4 0 0 1-8 0"></path>
-                </svg>
+                <svg class="cart-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
                 <span id="global-cart-count">0</span>
             </a>
         </nav>
@@ -137,15 +108,12 @@
                     <span id="protocol-name">CARGANDO...</span><br>
                     <span id="comb-number" style="font-size: 10px; color: #888; letter-spacing: 2px;">ID: #0000</span>
                 </div>
-                <div class="image-placeholder">
-                    <img id="active-img" src="img/1.jpg" alt="Preview">
-                </div>
+                <div class="image-placeholder"><img id="active-img" src="img/1.jpg" alt="Preview"></div>
             </div>
 
             <div class="config-section reveal">
                 <div class="section-label">CONFIGURACIÓN DE CARGA</div>
-                <div class="limit-info">SISTEMA LIMITADO A 800G TOTALES.</div>
-
+                
                 <div class="step">
                     <div class="label-group"><span>POLLO</span> <span id="val-pollo">100G</span></div>
                     <input type="range" id="input-pollo" min="0" max="800" step="50" value="100">
@@ -165,50 +133,55 @@
                     <input type="range" id="input-brocoli" min="0" max="800" step="50" value="100">
                 </div>
 
+                <div class="step">
+                    <div class="label-group"><span>SAZÓN: PIMIENTA NEGRA</span></div>
+                    <div class="selector-box">
+                        <button class="btn-opt active" id="btn-p-si" onclick="setPimienta(true)">CON PIMIENTA</button>
+                        <button class="btn-opt" id="btn-p-no" onclick="setPimienta(false)">SIN PIMIENTA</button>
+                    </div>
+                </div>
+
                 <div class="macros-display">
                     <div class="macro-line"><span>PROTEÍNA</span> <span class="macro-val"><span id="m-prot">0</span>G</span></div>
-                    <div class="macro-line"><span>CARBOS</span> <span class="macro-val"><span id="m-carb">0</span>G</span></div>
-                    <div class="macro-line" style="border:none; margin-bottom:0;"><span>ENERGÍA</span> <span class="macro-val"><span id="m-kcal">0</span> KCAL</span></div>
+                    <div class="macro-line"><span>ENERGÍA</span> <span class="macro-val"><span id="m-kcal">0</span> KCAL</span></div>
                 </div>
 
                 <div class="purchase-area">
-                    <select id="qty-selector" class="qty-input">
-                        <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
-                    </select>
-                    <button class="btn-send" onclick="addToCartCustom()">AGREGAR AL CARRO</button>
+                    <input type="number" id="qty-selector" class="qty-input" value="1" min="1" max="10" onkeydown="return false;">
+                    <button class="btn-send" id="add-btn" onclick="addToCartCustom()">AGREGAR AL CARRO</button>
                 </div>
                 <div style="text-align: center; margin-top: 15px; font-family: 'Courier New'; font-weight: 900; font-size: 22px;" id="final-price">$0</div>
+                <div id="min-alert" style="text-align: center;">MÍNIMO DE CONFIGURACIÓN: $4.000</div>
             </div>
         </div>
     </div>
 
     <div id="confirm-modal" class="modal-overlay">
         <div class="modal-content">
-            <h2 class="modal-title">SISTEMA ACTUALIZADO</h2>
-            <div class="modal-img-container">
-                <img id="modal-img" src="" alt="">
+            <div class="delete-btn-container" onclick="undoAddToCart()">
+                <span class="delete-x">✕</span>
+                <span class="delete-label">ELIMINAR PEDIDO</span>
             </div>
-            <div style="margin-bottom: 25px; text-align: left; font-size: 13px;">
+            <h2 class="modal-title" style="margin-top: 20px;">SISTEMA ACTUALIZADO</h2>
+            <div class="modal-img-container"><img id="modal-img" src="" alt=""></div>
+            <div style="margin-bottom: 25px; text-align: left; font-size: 13px; font-family: 'Inter';">
                 <p id="modal-desc" style="font-weight: 900; margin-bottom: 5px;"></p>
                 <p id="modal-qty-text"></p>
-                <p style="font-weight: 900; border-top: 1px solid #eee; padding-top: 10px; font-size: 18px;">TOTAL: <span id="modal-total"></span></p>
+                <p id="modal-total" style="font-weight: 900; border-top: 1px solid #eee; padding-top: 10px; font-size: 18px; margin-top: 10px;"></p>
             </div>
             <a href="carrito.html" class="btn-modal-black">IR AL CARRO</a>
-            <button class="btn-modal-outline" onclick="closeModal()">SEGUIR COMPRANDO</button>
+            <button class="btn-modal-outline" onclick="closeModal()">SEGUIR PERSONALIZANDO</button>
         </div>
     </div>
 
-    <footer class="social-footer">
-        <a href="https://www.instagram.com/prepscl/" target="_blank" class="social-link"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram"></a>
-        <p style="font-size: 9px; margin-top: 30px; color: #222; letter-spacing: 3px;">© 2026 PREPS CHILE</p>
-    </footer>
-
     <script>
         let prepPollo = 'PLANCHA';
+        let conPimienta = true;
+        let lastAddedCount = 0;
         const precios = { pollo: 22, arroz: 4, brocoli: 5.9, base: 1000 };
-        const pollo_macros = { 'PLANCHA': { p: 0.31, c: 0, k: 2.035 }, 'COCIDO': { p: 0.23, c: 0, k: 1.1 } };
-        const arroz_macros = { p: 0.026, c: 0.28, k: 1.32 };
-        const brocoli_macros = { p: 0.03, c: 0.06, k: 0.27 };
+        const pollo_macros = { 'PLANCHA': { p: 0.31, k: 2.035 }, 'COCIDO': { p: 0.23, k: 1.1 } };
+        const arroz_macros = { p: 0.026, k: 1.32 };
+        const brocoli_macros = { p: 0.03, k: 0.27 };
 
         function updateGlobalCartCount() {
             const cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
@@ -222,12 +195,14 @@
             update();
         }
 
+        function setPimienta(val) {
+            conPimienta = val;
+            document.getElementById('btn-p-si').classList.toggle('active', val);
+            document.getElementById('btn-p-no').classList.toggle('active', !val);
+        }
+
         function getCombinationID(p, a, b, prep) {
-            const ip = p / 50;
-            const ia = a / 50;
-            const ib = b / 50;
-            const iprep = prep === 'PLANCHA' ? 1 : 0;
-            const id = (ip * 100) + (ia * 10) + ib + (iprep * 500);
+            const id = ((p/50)*100) + ((a/50)*10) + (b/50) + (prep==='PLANCHA'?500:0);
             return Math.abs(Math.floor(id)).toString().padStart(4, '0');
         }
 
@@ -235,6 +210,7 @@
             let p = parseInt(document.getElementById('input-pollo').value);
             let a = parseInt(document.getElementById('input-arroz').value);
             let b = parseInt(document.getElementById('input-brocoli').value);
+            let qty = parseInt(document.getElementById('qty-selector').value);
             
             if (p + a + b > 800 && e) {
                 e.target.value = parseInt(e.target.value) - ((p + a + b) - 800);
@@ -243,83 +219,60 @@
                 b = parseInt(document.getElementById('input-brocoli').value);
             }
 
+            const prot = (p * pollo_macros[prepPollo].p) + (a * arroz_macros.p) + (b * brocoli_macros.p);
+            const kcal = (p * pollo_macros[prepPollo].k) + (a * arroz_macros.k) + (b * brocoli_macros.k);
+            const unitPrice = (p * precios.pollo) + (a * precios.arroz) + (b * precios.brocoli) + precios.base;
+            const totalPrice = unitPrice * qty;
+
             document.getElementById('val-pollo').innerText = p + "G";
             document.getElementById('val-arroz').innerText = a + "G";
             document.getElementById('val-brocoli').innerText = b + "G";
-
-            const prot = (p * pollo_macros[prepPollo].p) + (a * arroz_macros.p) + (b * brocoli_macros.p);
-            const carb = (a * arroz_macros.c) + (b * brocoli_macros.c);
-            const kcal = (p * pollo_macros[prepPollo].k) + (a * arroz_macros.k) + (b * brocoli_macros.k);
-            const price = (p * precios.pollo) + (a * precios.arroz) + (b * precios.brocoli) + precios.base;
-
             document.getElementById('m-prot').innerText = Math.round(prot);
-            document.getElementById('m-carb').innerText = Math.round(carb);
             document.getElementById('m-kcal').innerText = Math.round(kcal);
-            document.getElementById('final-price').innerText = "$" + Math.round(price).toLocaleString('es-CL');
+            document.getElementById('final-price').innerText = "$" + Math.round(totalPrice).toLocaleString('es-CL');
 
+            // Lógica de Bloqueo por Mínimo ($4.000)
+            const isUnderMin = totalPrice < 4000;
+            document.getElementById('add-btn').disabled = isUnderMin;
+            document.getElementById('min-alert').style.display = isUnderMin ? 'block' : 'none';
+
+            // Fotos
             const imgId = getImgId(p, a, b, prepPollo);
             document.getElementById('active-img').src = `img/${imgId}.jpg`;
             
-            let proto = "UNIDAD: PERSONALIZADA";
-            if (p+a+b >= 750) proto = "PROTOCOLO: SOBRECARGA";
-            else if (p >= 400 && a <= 100) proto = "MODO: KETO ELITE";
-            else if (p+a+b <= 350) proto = "UNIDAD: BASE LIGERA";
-            document.getElementById('protocol-name').innerText = proto;
-
-            const combID = getCombinationID(p, a, b, prepPollo);
-            document.getElementById('comb-number').innerText = `COMBINACIÓN: # ${combID}`;
+            let proto = "PERSONALIZADA";
+            if (p+a+b >= 750) proto = "SOBRECARGA";
+            else if (p >= 400 && a <= 100) proto = "KETO ELITE";
+            else if (p+a+b <= 350) proto = "BASE LIGERA";
+            document.getElementById('protocol-name').innerText = "UNIDAD: " + proto;
+            document.getElementById('comb-number').innerText = `COMBINACIÓN: # ${getCombinationID(p, a, b, prepPollo)}`;
         }
 
         function getImgId(p, a, b, prep) {
             const sp = p === 0 ? 'N' : (p < 400 ? 'P' : 'M');
             const sa = a === 0 ? 'N' : (a < 400 ? 'P' : 'M');
             const sb = b === 0 ? 'N' : (b < 400 ? 'P' : 'M');
-
             if (sp === 'N') {
-                if (sa==='N' && sb==='N') return 1;
-                if (sa==='N' && sb==='P') return 2;
-                if (sa==='N' && sb==='M') return 3;
-                if (sa==='P' && sb==='N') return 4;
-                if (sa==='P' && sb==='P') return 5;
-                if (sa==='P' && sb==='M') return 6;
-                if (sa==='M' && sb==='N') return 7;
-                if (sa==='M' && sb==='P') return 8;
-                if (sa==='M' && sb==='M') return 9;
+                if (sa==='N' && sb==='N') return 1; if (sa==='N' && sb==='P') return 2; if (sa==='N' && sb==='M') return 3;
+                if (sa==='P' && sb==='N') return 4; if (sa==='P' && sb==='P') return 5; if (sa==='P' && sb==='M') return 6;
+                if (sa==='M' && sb==='N') return 7; if (sa==='M' && sb==='P') return 8; if (sa==='M' && sb==='M') return 9;
             } else if (prep === 'COCIDO') {
                 if (sp==='P') {
-                    if (sa==='N' && sb==='N') return 10;
-                    if (sa==='N' && sb==='P') return 11;
-                    if (sa==='N' && sb==='M') return 12;
-                    if (sa==='P' && sb==='N') return 13;
-                    if (sa==='P' && sb==='P') return 14;
-                    if (sa==='P' && sb==='M') return 15;
-                    if (sa==='M' && sb==='N') return 16;
-                    if (sa==='M' && sb==='P') return 17;
+                    if (sa==='N' && sb==='N') return 10; if (sa==='N' && sb==='P') return 11; if (sa==='N' && sb==='M') return 12;
+                    if (sa==='P' && sb==='N') return 13; if (sa==='P' && sb==='P') return 14; if (sa==='P' && sb==='M') return 15;
+                    if (sa==='M' && sb==='N') return 16; if (sa==='M' && sb==='P') return 17;
                 } else {
-                    if (sa==='N' && sb==='N') return 18;
-                    if (sa==='N' && sb==='P') return 19;
-                    if (sa==='P' && sb==='N') return 20;
-                    if (sa==='P' && sb==='P') return 21;
-                    if (sa==='N' && sb==='M') return 22;
-                    if (sa==='M' && sb==='N') return 23;
+                    if (sa==='N' && sb==='N') return 18; if (sa==='N' && sb==='P') return 19; if (sa==='P' && sb==='N') return 20;
+                    if (sa==='P' && sb==='P') return 21; if (sa==='N' && sb==='M') return 22; if (sa==='M' && sb==='N') return 23;
                 }
             } else {
                 if (sp==='P') {
-                    if (sa==='N' && sb==='N') return 24;
-                    if (sa==='N' && sb==='P') return 25;
-                    if (sa==='N' && sb==='M') return 26;
-                    if (sa==='P' && sb==='N') return 27;
-                    if (sa==='P' && sb==='P') return 28;
-                    if (sa==='P' && sb==='M') return 29;
-                    if (sa==='M' && sb==='N') return 30;
-                    if (sa==='M' && sb==='P') return 31;
+                    if (sa==='N' && sb==='N') return 24; if (sa==='N' && sb==='P') return 25; if (sa==='N' && sb==='M') return 26;
+                    if (sa==='P' && sb==='N') return 27; if (sa==='P' && sb==='P') return 28; if (sa==='P' && sb==='M') return 29;
+                    if (sa==='M' && sb==='N') return 30; if (sa==='M' && sb==='P') return 31;
                 } else {
-                    if (sa==='N' && sb==='N') return 32;
-                    if (sa==='N' && sb==='P') return 33;
-                    if (sa==='P' && sb==='N') return 34;
-                    if (sa==='P' && sb==='P') return 35;
-                    if (sa==='N' && sb==='M') return 36;
-                    if (sa==='M' && sb==='N') return 37;
+                    if (sa==='N' && sb==='N') return 32; if (sa==='N' && sb==='P') return 33; if (sa==='P' && sb==='N') return 34;
+                    if (sa==='P' && sb==='P') return 35; if (sa==='N' && sb==='M') return 36; if (sa==='M' && sb==='N') return 37;
                 }
             }
             return 1;
@@ -327,21 +280,31 @@
 
         function addToCartCustom() {
             const qty = parseInt(document.getElementById('qty-selector').value);
-            const priceVal = parseInt(document.getElementById('final-price').innerText.replace('$', '').replace('.', ''));
+            const priceText = document.getElementById('final-price').innerText;
+            const priceNum = parseInt(priceText.replace('$', '').replace('.', '')) / qty;
+            const pimientaText = conPimienta ? "C/PIMIENTA" : "S/PIMIENTA";
             const combID = getCombinationID(parseInt(document.getElementById('input-pollo').value), parseInt(document.getElementById('input-arroz').value), parseInt(document.getElementById('input-brocoli').value), prepPollo);
-            const name = `CUSTOM #${combID}: ${document.getElementById('protocol-name').innerText} (${document.getElementById('val-pollo').innerText} P | ${document.getElementById('val-arroz').innerText} A)`;
             
+            const name = `CUSTOM #${combID}: ${document.getElementById('protocol-name').innerText} (${document.getElementById('val-pollo').innerText} P | ${document.getElementById('val-arroz').innerText} A) [${pimientaText}]`;
+            
+            lastAddedCount = qty;
             let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
-            for(let i=0; i<qty; i++) { cart.push({ name: name, price: priceVal }); }
+            for(let i=0; i<qty; i++) { cart.push({ name: name, price: priceNum }); }
             localStorage.setItem('preps_cart', JSON.stringify(cart));
             
             updateGlobalCartCount();
-            
             document.getElementById('modal-img').src = document.getElementById('active-img').src;
             document.getElementById('modal-desc').innerText = name;
             document.getElementById('modal-qty-text').innerText = "CANTIDAD: " + qty;
-            document.getElementById('modal-total').innerText = "$" + (priceVal * qty).toLocaleString('es-CL');
+            document.getElementById('modal-total').innerText = "TOTAL: " + priceText;
             document.getElementById('confirm-modal').style.display = 'flex';
+        }
+
+        function undoAddToCart() {
+            let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
+            if (cart.length >= lastAddedCount) { cart.splice(-lastAddedCount); localStorage.setItem('preps_cart', JSON.stringify(cart)); }
+            updateGlobalCartCount();
+            closeModal();
         }
 
         function closeModal() { document.getElementById('confirm-modal').style.display = 'none'; }
@@ -357,18 +320,12 @@
 
         window.addEventListener('load', () => {
             updateGlobalCartCount();
-            setTimeout(() => {
-                document.getElementById('loader').style.opacity = '0';
-                setTimeout(() => { 
-                    document.getElementById('loader').style.display = 'none'; 
-                    reveal();
-                }, 800);
-            }, 1000);
+            setTimeout(() => { document.getElementById('loader').style.opacity = '0'; setTimeout(() => { document.getElementById('loader').style.display = 'none'; reveal(); }, 800); }, 1000);
             update();
         });
 
         window.addEventListener("scroll", reveal);
-        document.querySelectorAll('input[type=range]').forEach(i => i.addEventListener('input', update));
+        document.querySelectorAll('input[type=range], #qty-selector').forEach(i => i.addEventListener('input', update));
     </script>
 </body>
 </html>
