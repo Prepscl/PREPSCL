@@ -18,44 +18,37 @@
         .main-nav { display: flex; align-items: center; gap: 30px; }
         .main-nav a { text-decoration: none; color: #000; font-size: 13px; letter-spacing: 2px; }
 
-        /* DASHBOARD DE BIOMASA (MACROS TOTALES) */
-        .biomass-dashboard { max-width: 800px; margin: 30px auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 20px; }
-        .macro-card { background: #000; color: #fff; padding: 15px; text-align: center; border: 1px solid #333; }
-        .macro-label { font-size: 9px; opacity: 0.6; display: block; margin-bottom: 5px; }
-        .macro-total-val { font-family: 'Inter'; font-weight: 900; font-size: 20px; color: var(--neon); }
-
-        /* BARRA DE PROGRESO EVOLUTIVA */
-        .loading-zone { max-width: 800px; margin: 20px auto; padding: 0 20px; }
-        .progress-container { background: #ddd; height: 8px; width: 100%; margin-top: 10px; border-radius: 10px; overflow: hidden; }
-        #progress-bar { height: 100%; width: 0%; transition: 1s cubic-bezier(0.17, 0.55, 0.55, 1); background: #ff4444; }
-        .progress-label { font-size: 10px; font-weight: 900; display: flex; justify-content: space-between; }
-
         .container { max-width: 800px; margin: 0 auto 100px; padding: 0 20px; }
-        .cart-title { font-family: 'Inter'; font-weight: 900; font-size: 28px; letter-spacing: -1px; margin-bottom: 30px; text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; }
+        
+        /* DASHBOARD DINÁMICO */
+        .biomass-dashboard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0; }
+        .macro-card { background: #000; color: #fff; padding: 15px; text-align: center; border: 1px solid #333; }
+        .macro-label { font-size: 8px; opacity: 0.6; display: block; margin-bottom: 5px; }
+        .macro-total-val { font-family: 'Inter'; font-weight: 900; font-size: 18px; color: var(--neon); }
 
-        /* TABLA AGRUPADA */
+        /* BARRA */
+        .progress-container { background: #ddd; height: 8px; width: 100%; margin: 10px 0 30px; border-radius: 10px; overflow: hidden; }
+        #progress-bar { height: 100%; width: 0%; transition: 1s ease; background: #ff4444; }
+        
+        .cart-title { font-family: 'Inter'; font-weight: 900; font-size: 24px; letter-spacing: -1px; margin-top: 40px; text-align: center; text-transform: uppercase; }
+
+        /* TABLA */
         .cart-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; background: #fff; border: 1px solid #000; }
-        .cart-header { background: #f9f9f9; font-family: 'Inter'; font-weight: 900; font-size: 10px; color: #888; }
-        .cart-header td { padding: 12px 20px; }
-        .cart-row td { padding: 20px; border-bottom: 1px solid #eee; }
-        .qty-controls { display: flex; align-items: center; gap: 10px; }
+        .cart-row td { padding: 15px; border-bottom: 1px solid #eee; font-size: 12px; }
+        .qty-controls { display: flex; align-items: center; gap: 10px; justify-content: center; }
         .btn-qty { background: #000; color: #fff; border: none; width: 25px; height: 25px; cursor: pointer; font-weight: 900; }
 
-        /* BANNER OPTIMIZACIÓN */
-        #opt-banner { background: #fffbcc; border: 1px solid #e6db55; padding: 15px; text-align: center; margin-bottom: 20px; font-size: 11px; font-weight: 900; display: none; }
-
-        /* CONSOLA DE COMANDOS (MODAL) */
-        #console-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; color: var(--neon); padding: 40px; box-sizing: border-box; }
-        #console-text { font-family: 'Courier New', monospace; font-size: 14px; text-align: left; max-width: 400px; }
-
-        .summary-box { background: #000; color: #fff; padding: 40px; text-align: center; }
-        .total-amount { font-family: 'Inter'; font-weight: 900; font-size: 40px; color: #fff; margin: 15px 0; }
+        .summary-box { background: #000; color: #fff; padding: 40px; text-align: center; margin-top: 20px; }
+        .total-amount { font-family: 'Inter'; font-weight: 900; font-size: 36px; color: #fff; margin: 15px 0; }
         .btn-checkout { background: var(--accent); color: #000; padding: 22px; font-family: 'Inter'; font-weight: 900; font-size: 16px; width: 100%; border: none; cursor: pointer; }
+
+        #console-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; color: var(--neon); padding: 40px; box-sizing: border-box; }
 
         @media (max-width: 600px) {
             .main-header { padding: 15px 20px; }
+            .main-nav { gap: 15px; }
             .biomass-dashboard { grid-template-columns: 1fr; }
-            .total-amount { font-size: 30px; }
+            .cart-row td { padding: 10px; font-size: 10px; }
         }
     </style>
 </head>
@@ -70,82 +63,40 @@
         </nav>
     </header>
 
-    <div class="loading-zone">
-        <div class="progress-label"><span>EFICIENCIA DE CARGA SEMANAL</span> <span id="status-tag">BAJA</span></div>
-        <div class="progress-container"><div id="progress-bar"></div></div>
-    </div>
-
-    <div class="biomass-dashboard">
-        <div class="macro-card"><span class="macro-label">TOTAL KCAL</span><span class="macro-total-val" id="total-kcal">0</span></div>
-        <div class="macro-card"><span class="macro-label">TOTAL PROTEÍNA</span><span class="macro-total-val" id="total-prot">0G</span></div>
-        <div class="macro-card"><span class="macro-label">TOTAL CARBOS</span><span class="macro-total-val" id="total-carb">0G</span></div>
-    </div>
-
-    <div class="container">
-        <div id="opt-banner">ADVERTENCIA: VOLUMEN DE CARGA BAJO. ¿AÑADIR PACK DE RENDIMIENTO?</div>
-        
-        <h1 class="cart-title">INVENTARIO DE UNIDADES</h1>
+    <div class="container" id="main-container">
         <div id="cart-content"></div>
-
-        <div id="checkout-form" style="display:none; margin-top: 40px;">
-            <div style="background:#fff; border:1px solid #000; padding:30px; margin-bottom:20px;">
-                <span style="font-weight:900; font-size:12px; display:block; margin-bottom:20px;">[DATOS DE DESPACHO]</span>
-                <input type="text" id="cust-name" placeholder="NOMBRE COMPLETO" style="width:100%; padding:15px; margin-bottom:15px; border:1px solid #eee;">
-                <select id="delivery-method" onchange="toggleDelivery()" style="width:100%; padding:15px;">
-                    <option value="RETIRO">RETIRO LOCAL (SANTIAGO)</option>
-                    <option value="DELIVERY">DELIVERY ZONAL (SANTIAGO)</option>
-                </select>
-                <div id="delivery-options" style="display:none; margin-top:15px;">
-                    <select id="comuna" style="width:100%; padding:15px;">
-                        <option value="VITACURA">VITACURA</option>
-                        <option value="LAS CONDES">LAS CONDES</option>
-                        <option value="PROVIDENCIA">PROVIDENCIA</option>
-                        <option value="LO BARNECHEA">LO BARNECHEA</option>
-                        <option value="METRO">METRO A CONVENIR</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="summary-box">
-                <span style="font-size: 10px; letter-spacing: 4px; opacity: 0.5;">TOTAL SISTEMA</span>
-                <div class="total-amount" id="final-total">$0</div>
-                <button class="btn-checkout" onclick="startConsole()">FINALIZAR PROTOCOLO (WSP)</button>
-            </div>
-        </div>
     </div>
 
     <div id="console-modal">
-        <div id="console-text"></div>
+        <div id="console-text" style="font-family: monospace;"></div>
     </div>
 
     <script>
         let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
         
-        // Base de datos de macros para el dashboard
+        // Base de datos de macros exacta a tu libreta
         const macroDB = {
-            "POWER BREAST HIGH CARB": {k: 830, p: 73, c: 92},
-            "POWER BREAST LOW CARB": {k: 632, p: 69, c: 49},
-            "05 PACKS": {k: 3600, p: 350, c: 300}, // Promedios para packs
-            "15 PACKS": {k: 10800, p: 1050, c: 900},
-            "28 PACKS": {k: 20000, p: 2000, c: 1700}
+            "HIGH CARB": {k: 830, p: 73, c: 92},
+            "LOW CARB": {k: 632, p: 69, c: 49},
+            "PACK 5": {k: 3600, p: 350, c: 300},
+            "PACK 15": {k: 10800, p: 1050, c: 900},
+            "PACK 28": {k: 20000, p: 2000, c: 1700}
         };
-
-        function toggleDelivery() {
-            document.getElementById('delivery-options').style.display = (document.getElementById('delivery-method').value === 'DELIVERY') ? 'block' : 'none';
-        }
 
         function renderCart() {
             const container = document.getElementById('cart-content');
             if (cart.length === 0) {
-                container.innerHTML = `<div style="text-align:center; padding:80px 0;">SISTEMA VACÍO...<br><br><a href="catalogo.html" style="color:#000; font-weight:900;">INICIAR CARGA</a></div>`;
-                document.getElementById('checkout-form').style.display = 'none';
-                updateDashboard(0,0,0,0);
+                container.innerHTML = `
+                    <div style="text-align:center; padding:100px 20px;">
+                        <p style="font-size:12px; letter-spacing:4px; opacity:0.5;">SISTEMA EN ESPERA...</p>
+                        <h1 class="cart-title">INVENTARIO VACÍO</h1>
+                        <br><br>
+                        <a href="catalogo.html" style="background:#000; color:#fff; padding:20px 40px; text-decoration:none; font-weight:900; display:inline-block;">INICIAR CARGA</a>
+                    </div>`;
                 return;
             }
 
-            document.getElementById('checkout-form').style.display = 'block';
-            
-            // AGRUPACIÓN INTELIGENTE
+            // Agrupar productos
             const grouped = cart.reduce((acc, item) => {
                 acc[item.name] = acc[item.name] || { count: 0, price: item.price };
                 acc[item.name].count++;
@@ -153,51 +104,94 @@
             }, {});
 
             let totalMoney = 0, totalKcal = 0, totalProt = 0, totalCarb = 0;
-            let rows = "";
+            let tableRows = "";
 
             for (const [name, data] of Object.entries(grouped)) {
                 totalMoney += data.price * data.count;
-                // Cálculo de macros acumulados
-                let key = Object.keys(macroDB).find(k => name.includes(k)) || (name.includes("CUSTOM") ? "POWER BREAST LOW CARB" : null);
-                if(key && macroDB[key]) {
+                
+                // Buscar macros en la DB
+                let key = Object.keys(macroDB).find(k => name.toUpperCase().includes(k));
+                if(key) {
                     totalKcal += macroDB[key].k * data.count;
                     totalProt += macroDB[key].p * data.count;
                     totalCarb += macroDB[key].c * data.count;
+                } else if (name.includes("CUSTOM")) {
+                    // Si es custom estimamos sobre un High Carb si no hay datos específicos
+                    totalKcal += 750 * data.count; totalProt += 70 * data.count;
                 }
 
-                rows += `<tr class="cart-row">
-                    <td><span class="p-name">${name}</span></td>
-                    <td style="text-align:center;">
-                        <div class="qty-controls">
-                            <button class="btn-qty" onclick="changeQty('${name}', -1)">-</button>
-                            <span style="font-weight:900;">${data.count}</span>
-                            <button class="btn-qty" onclick="changeQty('${name}', 1)">+</button>
-                        </div>
-                    </td>
-                    <td style="text-align:right; font-weight:900;">$${(data.price * data.count).toLocaleString('es-CL')}</td>
-                </tr>`;
+                tableRows += `
+                    <tr class="cart-row">
+                        <td><span style="font-weight:900;">${name}</span></td>
+                        <td>
+                            <div class="qty-controls">
+                                <button class="btn-qty" onclick="changeQty('${name}', -1)">-</button>
+                                <span style="font-weight:900; min-width:20px; text-align:center;">${data.count}</span>
+                                <button class="btn-qty" onclick="changeQty('${name}', 1)">+</button>
+                            </div>
+                        </td>
+                        <td style="text-align:right; font-weight:900;">$${(data.price * data.count).toLocaleString('es-CL')}</td>
+                    </tr>`;
             }
 
-            container.innerHTML = `<table class="cart-table">${rows}</table>`;
-            document.getElementById('final-total').innerText = `$${totalMoney.toLocaleString('es-CL')}`;
-            updateDashboard(cart.length, totalKcal, totalProt, totalCarb);
+            // Inyectar Dashboard + Tabla + Formulario
+            container.innerHTML = `
+                <div class="cart-title">REPORTE DE ESTADO</div>
+                <div class="progress-label" style="margin-top:20px;">
+                    <span>EFICIENCIA SEMANAL</span> 
+                    <span id="status-tag" style="color:red;">CALCULANDO...</span>
+                </div>
+                <div class="progress-container"><div id="progress-bar"></div></div>
+
+                <div class="biomass-dashboard">
+                    <div class="macro-card"><span class="macro-label">TOTAL KCAL</span><span class="macro-total-val">${Math.round(totalKcal).toLocaleString()}</span></div>
+                    <div class="macro-card"><span class="macro-label">TOTAL PROT</span><span class="macro-total-val">${Math.round(totalProt)}G</span></div>
+                    <div class="macro-card"><span class="macro-label">TOTAL CARB</span><span class="macro-total-val">${Math.round(totalCarb)}G</span></div>
+                </div>
+
+                <table class="cart-table">${tableRows}</table>
+
+                <div style="background:#fff; border:1px solid #000; padding:30px; margin-bottom:20px; text-align:left;">
+                    <span style="font-weight:900; font-size:10px; display:block; margin-bottom:20px; opacity:0.5;">[DATOS DE DESPACHO]</span>
+                    <input type="text" id="cust-name" placeholder="NOMBRE COMPLETO" style="width:100%; padding:15px; margin-bottom:15px; border:1px solid #eee; font-family:inherit;">
+                    <select id="delivery-method" onchange="toggleDelivery()" style="width:100%; padding:15px; font-family:inherit;">
+                        <option value="RETIRO">RETIRO LOCAL (SANTIAGO)</option>
+                        <option value="DELIVERY">DELIVERY ZONAL (SANTIAGO)</option>
+                    </select>
+                    <div id="delivery-options" style="display:none; margin-top:15px;">
+                        <select id="comuna" style="width:100%; padding:15px; font-family:inherit;">
+                            <option value="VITACURA">VITACURA</option>
+                            <option value="LAS CONDES">LAS CONDES</option>
+                            <option value="PROVIDENCIA">PROVIDENCIA</option>
+                            <option value="LO BARNECHEA">LO BARNECHEA</option>
+                            <option value="METRO">METRO A CONVENIR</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="summary-box">
+                    <span style="font-size: 10px; letter-spacing: 4px; opacity: 0.5;">TOTAL SISTEMA</span>
+                    <div class="total-amount">$${totalMoney.toLocaleString('es-CL')}</div>
+                    <button class="btn-checkout" onclick="startConsole()">FINALIZAR PROTOCOLO (WSP)</button>
+                </div>
+            `;
+
+            // Actualizar barra de progreso después de renderizar
+            setTimeout(() => {
+                const bar = document.getElementById('progress-bar');
+                const tag = document.getElementById('status-tag');
+                let pct = (cart.length / 10) * 100;
+                if(pct > 100) pct = 100;
+                bar.style.width = pct + "%";
+                if(pct < 40) { bar.style.background = "#ff4444"; tag.innerText = "BAJA"; }
+                else if(pct < 80) { bar.style.background = "#ffcc00"; tag.innerText = "MEDIA"; }
+                else { bar.style.background = "#39FF14"; tag.innerText = "OPTIMIZADA"; }
+            }, 100);
         }
 
-        function updateDashboard(qty, k, p, c) {
-            const bar = document.getElementById('progress-bar');
-            const tag = document.getElementById('status-tag');
-            let pct = (qty / 10) * 100;
-            if(pct > 100) pct = 100;
-            
-            bar.style.width = pct + "%";
-            if(pct < 40) { bar.style.background = "#ff4444"; tag.innerText = "CARGA INSUFICIENTE"; }
-            else if(pct < 80) { bar.style.background = "#ffcc00"; tag.innerText = "CARGA MEDIA"; }
-            else { bar.style.background = var(--neon); tag.innerText = "OPTIMIZADO PARA ATLETAS"; }
-
-            document.getElementById('total-kcal').innerText = Math.round(k).toLocaleString();
-            document.getElementById('total-prot').innerText = Math.round(p) + "G";
-            document.getElementById('total-carb').innerText = Math.round(c) + "G";
-            document.getElementById('opt-banner').style.display = qty < 5 ? 'block' : 'none';
+        function toggleDelivery() {
+            const options = document.getElementById('delivery-options');
+            if(options) options.style.display = (document.getElementById('delivery-method').value === 'DELIVERY') ? 'block' : 'none';
         }
 
         function changeQty(name, delta) {
@@ -214,28 +208,16 @@
 
         function startConsole() {
             const name = document.getElementById('cust-name').value;
-            if(!name) { alert("INGRESA TU NOMBRE"); return; }
-            
+            if(!name) { alert("INGRESA TU NOMBRE PARA EL TICKET"); return; }
             const modal = document.getElementById('console-modal');
             const text = document.getElementById('console-text');
             modal.style.display = 'flex';
-            
-            const lines = [
-                "> INICIANDO PROTOCOLO PREPS...",
-                "> COMPILANDO BIOMASA TOTAL...",
-                "> ESTRUCTURANDO ORDEN DE PRODUCCIÓN...",
-                "> GENERANDO TICKET DE DESPACHO...",
-                "> ACCESO CONCEDIDO. REDIRECCIONANDO..."
-            ];
-
+            text.innerHTML = "";
+            const lines = ["> INICIANDO PROTOCOLO...", "> COMPILANDO BIOMASA...", "> GENERANDO TICKET...", "> REDIRECCIONANDO..."];
             let i = 0;
-            const interval = setInterval(() => {
-                text.innerHTML += lines[i] + "<br>";
-                i++;
-                if(i >= lines.length) {
-                    clearInterval(interval);
-                    setTimeout(sendToWhatsApp, 800);
-                }
+            const intv = setInterval(() => {
+                text.innerHTML += lines[i] + "<br>"; i++;
+                if(i >= lines.length) { clearInterval(intv); setTimeout(sendToWhatsApp, 600); }
             }, 400);
         }
 
@@ -243,23 +225,12 @@
             const name = document.getElementById('cust-name').value;
             const method = document.getElementById('delivery-method').value;
             const comuna = (method === 'DELIVERY') ? document.getElementById('comuna').value : 'RETIRO';
-            const totalVal = document.getElementById('final-total').innerText;
-            const p = document.getElementById('total-prot').innerText;
-            const k = document.getElementById('total-kcal').innerText;
+            const totalVal = document.querySelector('.total-amount').innerText;
 
-            let msg = `🧪 *ORDEN DE PRODUCCIÓN PREPS*%0A`;
-            msg += `👤 *CLIENTE:* ${name.toUpperCase()}%0A`;
-            msg += `📍 *LOGÍSTICA:* ${method} (${comuna})%0A%0A`;
-            msg += `📊 *TOTAL NUTRICIONAL:* ${k} KCAL | ${p} PROT%0A%0A`;
-            
-            const grouped = cart.reduce((acc, item) => {
-                acc[item.name] = (acc[item.name] || 0) + 1;
-                return acc;
-            }, {});
-
+            let msg = `🧪 *ORDEN PREPS*%0A👤 *CLIENTE:* ${name.toUpperCase()}%0A📍 *LOG:* ${method} (${comuna})%0A%0A`;
+            const grouped = cart.reduce((acc, item) => { acc[item.name] = (acc[item.name] || 0) + 1; return acc; }, {});
             for (const [n, c] of Object.entries(grouped)) { msg += `• ${c}x ${n}%0A`; }
-            
-            msg += `%0A💰 *TOTAL A PAGAR:* ${totalVal}`;
+            msg += `%0A💰 *TOTAL:* ${totalVal}`;
             window.location.href = `https://wa.me/56941892028?text=${msg}`;
         }
 
