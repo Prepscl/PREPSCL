@@ -50,7 +50,6 @@
             position: absolute; top: -8px; right: -10px; background: #fff; color: #000;
             font-family: 'Inter'; font-weight: 900; font-size: 10px; width: 18px; height: 18px;
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            letter-spacing: 0; line-height: 1;
         }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 80px 20px 150px; }
@@ -79,20 +78,17 @@
         .macro-line { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 13px; color: #555; }
         .macro-val { font-size: 22px; font-weight: 900; color: #fff; }
 
-        /* COMPRA: SELECTOR Y BOTÓN */
         .purchase-area { display: flex; margin-top: 20px; border: 1px solid #fff; }
-        .qty-input { width: 80px; background: #fff; color: #000; border: none; font-family: 'Inter'; font-weight: 900; font-size: 18px; text-align: center; outline: none; }
+        .qty-input { width: 80px; background: #fff; color: #000; border: none; font-family: 'Inter'; font-weight: 900; font-size: 18px; text-align: center; }
         .btn-send { flex-grow: 1; background: #fff; color: #000; padding: 22px; border: none; font-family: 'Inter'; font-weight: 900; font-size: 16px; cursor: pointer; transition: 0.4s; }
-        .btn-send:hover { background: #ccc; }
 
-        /* MODAL */
         .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
         .modal-content { background: #fff; color: #000; width: 100%; max-width: 500px; padding: 40px; position: relative; text-align: center; border-radius: 0; }
         .modal-title { font-family: 'Inter'; font-weight: 900; font-size: 22px; margin-bottom: 20px; }
         .modal-img-container { width: 100%; height: 200px; background: #eee; margin-bottom: 20px; overflow: hidden; border: 1px solid #000; }
         .modal-img-container img { width: 100%; height: 100%; object-fit: cover; }
-        .btn-modal-black { background: #000; color: #fff; padding: 18px; text-decoration: none; font-weight: 900; display: block; margin-bottom: 10px; font-size: 14px; }
-        .btn-modal-outline { background: #fff; color: #000; padding: 18px; border: 2px solid #000; font-weight: 900; width: 100%; cursor: pointer; font-size: 14px; }
+        .btn-modal-black { background: #000; color: #fff; padding: 18px; text-decoration: none; font-weight: 900; display: block; margin-bottom: 10px; }
+        .btn-modal-outline { background: #fff; color: #000; padding: 18px; border: 2px solid #000; font-weight: 900; width: 100%; cursor: pointer; }
 
         .social-footer { text-align: center; padding: 60px; background: #000; border-top: 1px solid #111; }
         .social-link img { width: 30px; filter: invert(1); opacity: 0.5; }
@@ -131,12 +127,16 @@
     <div class="container">
         <div class="welcome-section reveal">
             <h1 class="welcome-title">CUSTOM PERFORMANCE V1.0</h1>
-            <p style="color: #444; letter-spacing: 3px;">DISEÑO DE COMBUSTIBLE PERSONALIZADO</p>
+            <p style="color: #444; letter-spacing: 3px; margin-bottom: 10px;">DISEÑO DE COMBUSTIBLE PERSONALIZADO</p>
+            <p style="font-size: 10px; color: #888; letter-spacing: 2px;">SISTEMA ACTIVO: MÁS DE 1.600 COMBINACIONES POSIBLES</p>
         </div>
 
         <div class="config-layout">
             <div class="image-section reveal">
-                <div class="food-name" id="protocol-name">CARGANDO...</div>
+                <div class="food-name">
+                    <span id="protocol-name">CARGANDO...</span><br>
+                    <span id="comb-number" style="font-size: 10px; color: #888; letter-spacing: 2px;">ID: #0000</span>
+                </div>
                 <div class="image-placeholder">
                     <img id="active-img" src="img/1.jpg" alt="Preview">
                 </div>
@@ -208,7 +208,7 @@
         const precios = { pollo: 22, arroz: 4, brocoli: 5.9, base: 1000 };
         const pollo_macros = { 'PLANCHA': { p: 0.31, c: 0, k: 2.035 }, 'COCIDO': { p: 0.23, c: 0, k: 1.1 } };
         const arroz_macros = { p: 0.026, c: 0.28, k: 1.32 };
-        const brocoli_macros = { p: 0.03, c: 0.06, k: 0.27 }; // Faltaba la 'c' aquí, corregido.
+        const brocoli_macros = { p: 0.03, c: 0.06, k: 0.27 };
 
         function updateGlobalCartCount() {
             const cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
@@ -220,6 +220,15 @@
             document.getElementById('btn-cocido').classList.toggle('active', type === 'COCIDO');
             document.getElementById('btn-plancha').classList.toggle('active', type === 'PLANCHA');
             update();
+        }
+
+        function getCombinationID(p, a, b, prep) {
+            const ip = p / 50;
+            const ia = a / 50;
+            const ib = b / 50;
+            const iprep = prep === 'PLANCHA' ? 1 : 0;
+            const id = (ip * 100) + (ia * 10) + ib + (iprep * 500);
+            return Math.abs(Math.floor(id)).toString().padStart(4, '0');
         }
 
         function update(e) {
@@ -256,6 +265,9 @@
             else if (p >= 400 && a <= 100) proto = "MODO: KETO ELITE";
             else if (p+a+b <= 350) proto = "UNIDAD: BASE LIGERA";
             document.getElementById('protocol-name').innerText = proto;
+
+            const combID = getCombinationID(p, a, b, prepPollo);
+            document.getElementById('comb-number').innerText = `COMBINACIÓN: # ${combID}`;
         }
 
         function getImgId(p, a, b, prep) {
@@ -316,7 +328,8 @@
         function addToCartCustom() {
             const qty = parseInt(document.getElementById('qty-selector').value);
             const priceVal = parseInt(document.getElementById('final-price').innerText.replace('$', '').replace('.', ''));
-            const name = `CUSTOM: ${document.getElementById('protocol-name').innerText} (${document.getElementById('val-pollo').innerText} P | ${document.getElementById('val-arroz').innerText} A)`;
+            const combID = getCombinationID(parseInt(document.getElementById('input-pollo').value), parseInt(document.getElementById('input-arroz').value), parseInt(document.getElementById('input-brocoli').value), prepPollo);
+            const name = `CUSTOM #${combID}: ${document.getElementById('protocol-name').innerText} (${document.getElementById('val-pollo').innerText} P | ${document.getElementById('val-arroz').innerText} A)`;
             
             let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
             for(let i=0; i<qty; i++) { cart.push({ name: name, price: priceVal }); }
