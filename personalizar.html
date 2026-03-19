@@ -42,7 +42,6 @@
 
         .config-section { width: 420px; }
         .section-label { font-family: 'Inter'; font-weight: 900; font-size: 15px; margin-bottom: 30px; border-left: 4px solid #fff; padding-left: 15px; }
-        .limit-info { font-size: 11px; color: #ff3333; margin-bottom: 25px; border: 1px solid #441111; padding: 12px; text-align: center; }
 
         .step { margin-bottom: 40px; }
         .label-group { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 12px; font-size: 13px; color: #666; }
@@ -52,23 +51,24 @@
         .btn-opt { flex: 1; padding: 12px; border: 1px solid #222; background: transparent; color: #444; cursor: pointer; font-family: 'Inter'; font-weight: 900; font-size: 10px; transition: 0.3s; }
         .btn-opt.active { border-color: #fff; color: #fff; background: #0a0a0a; }
 
-        #min-alert { font-size: 10px; color: #ff3333; margin-top: 10px; font-weight: 900; letter-spacing: 1px; display: none; }
-
-        .purchase-area { display: flex; margin-top: 20px; border: 1px solid #fff; }
-        .qty-input { width: 80px; background: #fff; color: #000; border: none; font-family: 'Inter'; font-weight: 900; font-size: 18px; text-align: center; outline: none; }
-        .btn-send { flex-grow: 1; background: #fff; color: #000; padding: 22px; border: none; font-family: 'Inter'; font-weight: 900; font-size: 16px; cursor: pointer; transition: 0.4s; }
-        .btn-send:disabled { background: #222; color: #444; cursor: not-allowed; border-color: #222; }
+        /* STEPPER CONTROLS (MOBILE FIX) */
+        .stepper-control { display: flex; align-items: center; border: 1px solid #333; background: #000; width: fit-content; }
+        .stepper-btn { background: none; border: none; color: #fff; font-family: 'Inter'; font-weight: 900; font-size: 20px; padding: 10px 20px; cursor: pointer; }
+        .stepper-val { width: 50px; text-align: center; font-family: 'Inter'; font-weight: 900; font-size: 16px; border-left: 1px solid #1a1a1a; border-right: 1px solid #1a1a1a; }
 
         .macros-display { margin-top: 50px; padding: 30px; background: #050505; border: 1px solid #111; }
-        .macro-line { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 13px; color: #555; }
+        .macro-line { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 12px; color: #555; }
         .macro-val { font-size: 18px; font-weight: 900; color: #fff; }
 
+        .purchase-area { display: flex; margin-top: 20px; border: 1px solid #fff; align-items: stretch; }
+        .btn-send { flex-grow: 1; background: #fff; color: #000; padding: 22px; border: none; font-family: 'Inter'; font-weight: 900; font-size: 16px; cursor: pointer; transition: 0.4s; }
+        .btn-send:disabled { background: #222; color: #444; cursor: not-allowed; }
+
+        /* MODAL RESPONSIVE */
         .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
         .modal-content { background: #fff; color: #000; width: 100%; max-width: 500px; padding: 40px; position: relative; text-align: center; }
-        
-        /* FIX PRE CARRO MOBILE */
         .modal-body { display: flex; align-items: center; gap: 20px; text-align: left; margin-bottom: 30px; }
-        .modal-img-container { width: 120px; height: 120px; background: #eee; overflow: hidden; border: 1px solid #000; flex-shrink: 0; }
+        .modal-img-container { width: 100px; height: 100px; background: #eee; overflow: hidden; border: 1px solid #000; flex-shrink: 0; }
         .modal-img-container img { width: 100%; height: 100%; object-fit: cover; }
         .modal-info-text { flex-grow: 1; }
 
@@ -92,10 +92,7 @@
 </head>
 <body>
 
-    <div id="loader">
-        <img src="img/logo-preps.png" alt="PREPS">
-        <p style="font-size: 10px; letter-spacing: 8px; margin-top: 30px; color: #333;">ENTRANDO AL LABORATORIO...</p>
-    </div>
+    <div id="loader"><img src="img/logo-preps.png" alt="PREPS"></div>
 
     <header class="main-header">
         <a href="index.html" class="logo-link"><img src="img/logo-preps.png" alt="PREPS"></a>
@@ -112,7 +109,7 @@
 
     <div class="container">
         <div class="welcome-section reveal">
-            <h1 class="welcome-title">BIENVENID@S A CUSTOM LAB PERFORMANCE V1.0</h1>
+            <h1 class="welcome-title">CUSTOM LAB PERFORMANCE V1.0</h1>
             <p class="welcome-subtitle">DISEÑADO CON PRECISIÓN BY PREPS - MÁS DE 1.600 COMBINACIONES POSIBLES</p>
         </div>
 
@@ -156,9 +153,12 @@
                 </div>
 
                 <div class="step">
-                    <div class="label-group"><span>OPCIONAL: SAL ROSADA DEL HIMALAYA</span> <span id="val-sal">0G</span></div>
-                    <input type="number" id="qty-sal" class="qty-input" style="width: 100%; border: 1px solid #333; margin-top: 10px;" value="0" min="0" max="5" onkeydown="return false;" oninput="update()">
-                    <p style="font-size: 8px; color: #444; margin-top: 5px;">*MÁXIMO TÉCNICO RECOMENDADO: 5G POR RACIÓN</p>
+                    <div class="label-group"><span>SAL ROSADA DEL HIMALAYA</span> <span style="background:#fff; color:#000; padding:2px 6px; font-size:9px; font-weight:900;">OPCIONAL</span></div>
+                    <div class="stepper-control">
+                        <button class="stepper-btn" onclick="changeSal(-1)">-</button>
+                        <span class="stepper-val" id="val-sal">0G</span>
+                        <button class="stepper-btn" onclick="changeSal(1)">+</button>
+                    </div>
                 </div>
 
                 <div class="macros-display">
@@ -169,11 +169,15 @@
                 </div>
 
                 <div class="purchase-area">
-                    <input type="number" id="qty-selector" class="qty-input" value="1" min="1" max="10" onkeydown="return false;" oninput="update()">
+                    <div class="stepper-control" style="border:none; border-right:1px solid #000; background:#fff;">
+                        <button class="stepper-btn" style="color:#000" onclick="changeQty(-1)">-</button>
+                        <span class="stepper-val" style="color:#000" id="val-qty">1</span>
+                        <button class="stepper-btn" style="color:#000" onclick="changeQty(1)">+</button>
+                    </div>
                     <button class="btn-send" id="add-btn" onclick="addToCartCustom()">AGREGAR AL CARRO</button>
                 </div>
                 <div style="text-align: center; margin-top: 15px; font-family: 'Courier New'; font-weight: 900; font-size: 22px;" id="final-price">$0</div>
-                <div id="min-alert" style="text-align: center;">MÍNIMO DE CONFIGURACIÓN: $4.000</div>
+                <div id="min-alert" style="text-align: center; color: #ff3333; font-size: 10px; font-weight: 900;">MÍNIMO DE CONFIGURACIÓN: $4.000</div>
             </div>
         </div>
     </div>
@@ -198,22 +202,10 @@
         </div>
     </div>
 
-    <footer class="social-footer">
-        <a href="https://www.instagram.com/prepscl/" target="_blank" class="social-link"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram" style="width:30px; filter:invert(1); opacity:0.5;"></a>
-        <p style="font-size: 9px; margin-top: 30px; color: #222; letter-spacing: 3px;">© 2026 PREPS CHILE</p>
-    </footer>
-
     <script>
-        let prepPollo = 'PLANCHA';
-        let conPimienta = true;
-        let lastAddedCount = 0;
+        let prepPollo = 'PLANCHA', conPimienta = true, salGrams = 0, itemQty = 1, lastAddedCount = 0;
         const precios = { pollo: 22, arroz: 4, brocoli: 5.9, base: 1000 };
-        
-        // Macros actualizados (Proteína, Carbos, Grasas, Kcal) por gramo
-        const pollo_macros = { 
-            'PLANCHA': { p: 0.31, c: 0, f: 0.03, k: 1.65 }, 
-            'COCIDO': { p: 0.23, c: 0, f: 0.02, k: 1.1 } 
-        };
+        const pollo_macros = { 'PLANCHA': { p: 0.31, c: 0, f: 0.03, k: 1.65 }, 'COCIDO': { p: 0.23, c: 0, f: 0.02, k: 1.1 } };
         const arroz_macros = { p: 0.026, c: 0.28, f: 0.003, k: 1.3 };
         const brocoli_macros = { p: 0.03, c: 0.06, f: 0.004, k: 0.35 };
 
@@ -221,6 +213,9 @@
             const cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
             document.getElementById('global-cart-count').innerText = cart.length;
         }
+
+        function changeSal(v) { salGrams = Math.max(0, Math.min(5, salGrams + v)); update(); }
+        function changeQty(v) { itemQty = Math.max(1, Math.min(10, itemQty + v)); update(); }
 
         function setPrep(type) {
             prepPollo = type;
@@ -245,8 +240,6 @@
             let p = parseInt(document.getElementById('input-pollo').value);
             let a = parseInt(document.getElementById('input-arroz').value);
             let b = parseInt(document.getElementById('input-brocoli').value);
-            let sal = parseInt(document.getElementById('qty-sal').value) || 0;
-            let qty = parseInt(document.getElementById('qty-selector').value) || 1;
             
             if (p + a + b > 800 && e) {
                 e.target.value = parseInt(e.target.value) - ((p + a + b) - 800);
@@ -256,17 +249,18 @@
             }
 
             const prot = (p * pollo_macros[prepPollo].p) + (a * arroz_macros.p) + (b * brocoli_macros.p);
-            const carb = (p * pollo_macros[prepPollo].c) + (a * arroz_macros.c) + (b * brocoli_macros.c);
+            const carb = (a * arroz_macros.c) + (b * brocoli_macros.c);
             const fat = (p * pollo_macros[prepPollo].f) + (a * arroz_macros.f) + (b * brocoli_macros.f);
             const kcal = (p * pollo_macros[prepPollo].k) + (a * arroz_macros.k) + (b * brocoli_macros.k);
             
             const unitPrice = (p * precios.pollo) + (a * precios.arroz) + (b * precios.brocoli) + precios.base;
-            const totalPrice = unitPrice * qty;
+            const totalPrice = unitPrice * itemQty;
 
             document.getElementById('val-pollo').innerText = p + "G";
             document.getElementById('val-arroz').innerText = a + "G";
             document.getElementById('val-brocoli').innerText = b + "G";
-            document.getElementById('val-sal').innerText = sal + "G";
+            document.getElementById('val-sal').innerText = salGrams + "G";
+            document.getElementById('val-qty').innerText = itemQty;
             
             document.getElementById('m-prot').innerText = Math.round(prot);
             document.getElementById('m-carb').innerText = Math.round(carb);
@@ -279,67 +273,32 @@
             document.getElementById('add-btn').disabled = isUnderMin;
             document.getElementById('min-alert').style.display = isUnderMin ? 'block' : 'none';
 
-            const imgId = getImgId(p, a, b, prepPollo);
-            document.getElementById('active-img').src = `img/${imgId}.jpg`;
-            
-            let proto = "PERSONALIZADA";
-            if (p+a+b >= 750) proto = "SOBRECARGA";
-            else if (p >= 400 && a <= 100) proto = "KETO ELITE";
-            else if (p+a+b <= 350) proto = "BASE LIGERA";
-            document.getElementById('protocol-name').innerText = "UNIDAD: " + proto;
-            document.getElementById('comb-number').innerText = `COMBINACIÓN: # ${getCombinationID(p, a, b, prepPollo)}`;
+            document.getElementById('active-img').src = `img/${getImgId(p, a, b, prepPollo)}.jpg`;
+            document.getElementById('protocol-name').innerText = "UNIDAD: " + (p+a+b >= 750 ? "SOBRECARGA" : (p >= 400 && a <= 100 ? "KETO ELITE" : (p+a+b <= 350 ? "BASE LIGERA" : "PERSONALIZADA")));
+            document.getElementById('comb-number').innerText = `ID: #${getCombinationID(p, a, b, prepPollo)}`;
         }
 
         function getImgId(p, a, b, prep) {
-            const sp = p === 0 ? 'N' : (p < 400 ? 'P' : 'M');
-            const sa = a === 0 ? 'N' : (a < 400 ? 'P' : 'M');
-            const sb = b === 0 ? 'N' : (b < 400 ? 'P' : 'M');
-            if (sp === 'N') {
-                if (sa==='N' && sb==='N') return 1; if (sa==='N' && sb==='P') return 2; if (sa==='N' && sb==='M') return 3;
-                if (sa==='P' && sb==='N') return 4; if (sa==='P' && sb==='P') return 5; if (sa==='P' && sb==='M') return 6;
-                if (sa==='M' && sb==='N') return 7; if (sa==='M' && sb==='P') return 8; if (sa==='M' && sb==='M') return 9;
-            } else if (prep === 'COCIDO') {
-                if (sp==='P') {
-                    if (sa==='N' && sb==='N') return 10; if (sa==='N' && sb==='P') return 11; if (sa==='N' && sb==='M') return 12;
-                    if (sa==='P' && sb==='N') return 13; if (sa==='P' && sb==='P') return 14; if (sa==='P' && sb==='M') return 15;
-                    if (sa==='M' && sb==='N') return 16; if (sa==='M' && sb==='P') return 17;
-                } else {
-                    if (sa==='N' && sb==='N') return 18; if (sa==='N' && sb==='P') return 19; if (sa==='P' && sb==='N') return 20;
-                    if (sa==='P' && sb==='P') return 21; if (sa==='N' && sb==='M') return 22; if (sa==='M' && sb==='N') return 23;
-                }
-            } else {
-                if (sp==='P') {
-                    if (sa==='N' && sb==='N') return 24; if (sa==='N' && sb==='P') return 25; if (sa==='N' && sb==='M') return 26;
-                    if (sa==='P' && sb==='N') return 27; if (sa==='P' && sb==='P') return 28; if (sa==='P' && sb==='M') return 29;
-                    if (sa==='M' && sb==='N') return 30; if (sa==='M' && sb==='P') return 31;
-                } else {
-                    if (sa==='N' && sb==='N') return 32; if (sa==='N' && sb==='P') return 33; if (sa==='P' && sb==='N') return 34;
-                    if (sa==='P' && sb==='P') return 35; if (sa==='N' && sb==='M') return 36; if (sa==='M' && sb==='N') return 37;
-                }
-            }
-            return 1;
+            const sp = p === 0 ? 'N' : (p < 400 ? 'P' : 'M'), sa = a === 0 ? 'N' : (a < 400 ? 'P' : 'M'), sb = b === 0 ? 'N' : (b < 400 ? 'P' : 'M');
+            if (sp === 'N') { if (sa==='N' && sb==='N') return 1; if (sa==='N' && sb==='P') return 2; if (sa==='N' && sb==='M') return 3; if (sa==='P' && sb==='N') return 4; if (sa==='P' && sb==='P') return 5; if (sa==='P' && sb==='M') return 6; if (sa==='M' && sb==='N') return 7; if (sa==='M' && sb==='P') return 8; return 9; }
+            if (prep === 'COCIDO') { if (sp==='P') { if (sa==='N' && sb==='N') return 10; if (sa==='N' && sb==='P') return 11; if (sa==='N' && sb==='M') return 12; if (sa==='P' && sb==='N') return 13; if (sa==='P' && sb==='P') return 14; if (sa==='P' && sb==='M') return 15; if (sa==='M' && sb==='N') return 16; return 17; } else { if (sa==='N' && sb==='N') return 18; if (sa==='N' && sb==='P') return 19; if (sa==='P' && sb==='N') return 20; if (sa==='P' && sb==='P') return 21; if (sa==='N' && sb==='M') return 22; return 23; } }
+            else { if (sp==='P') { if (sa==='N' && sb==='N') return 24; if (sa==='N' && sb==='P') return 25; if (sa==='N' && sb==='M') return 26; if (sa==='P' && sb==='N') return 27; if (sa==='P' && sb==='P') return 28; if (sa==='P' && sb==='M') return 29; if (sa==='M' && sb==='N') return 30; return 31; } else { if (sa==='N' && sb==='N') return 32; if (sa==='N' && sb==='P') return 33; if (sa==='P' && sb==='N') return 34; if (sa==='P' && sb==='P') return 35; if (sa==='N' && sb==='M') return 36; return 37; } }
         }
 
         function addToCartCustom() {
-            const qty = parseInt(document.getElementById('qty-selector').value) || 1;
-            const sal = document.getElementById('qty-sal').value;
-            const priceText = document.getElementById('final-price').innerText;
-            const priceNum = parseInt(priceText.replace('$', '').replace('.', '')) / qty;
-            const pimientaText = conPimienta ? "C/PIM" : "S/PIM";
-            const combID = getCombinationID(parseInt(document.getElementById('input-pollo').value), parseInt(document.getElementById('input-arroz').value), parseInt(document.getElementById('input-brocoli').value), prepPollo);
-            
-            const name = `CUSTOM #${combID}: ${document.getElementById('protocol-name').innerText} (${document.getElementById('val-pollo').innerText}P|${document.getElementById('val-arroz').innerText}A) [${pimientaText}|SAL:${sal}G]`;
-            
-            lastAddedCount = qty;
+            const prText = document.getElementById('final-price').innerText;
+            const prNum = parseInt(prText.replace('$', '').replace('.', '')) / itemQty;
+            const pim = conPimienta ? "C/PIM" : "S/PIM";
+            const name = `CUSTOM: ${document.getElementById('protocol-name').innerText} (${document.getElementById('val-pollo').innerText}|${document.getElementById('val-arroz').innerText}) [${pim}|SAL:${salGrams}G]`;
+            lastAddedCount = itemQty;
             let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
-            for(let i=0; i<qty; i++) { cart.push({ name: name, price: priceNum }); }
+            for(let i=0; i<itemQty; i++) { cart.push({ name: name, price: prNum }); }
             localStorage.setItem('preps_cart', JSON.stringify(cart));
-            
             updateGlobalCartCount();
             document.getElementById('modal-img').src = document.getElementById('active-img').src;
             document.getElementById('modal-desc').innerText = name;
-            document.getElementById('modal-qty-text').innerText = "CANTIDAD AGREGADA: " + qty;
-            document.getElementById('modal-total').innerText = "TOTAL: " + priceText;
+            document.getElementById('modal-qty-text').innerText = "CANTIDAD AGREGADA: " + itemQty;
+            document.getElementById('modal-total').innerText = "TOTAL: " + prText;
             document.getElementById('confirm-modal').style.display = 'flex';
         }
 
@@ -351,24 +310,12 @@
         }
 
         function closeModal() { document.getElementById('confirm-modal').style.display = 'none'; }
-
-        function reveal() {
-            var reveals = document.querySelectorAll(".reveal");
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                if (elementTop < windowHeight - 150) reveals[i].classList.add("active");
-            }
-        }
-
-        window.addEventListener('load', () => {
-            updateGlobalCartCount();
-            setTimeout(() => { document.getElementById('loader').style.opacity = '0'; setTimeout(() => { document.getElementById('loader').style.display = 'none'; reveal(); }, 800); }, 1000);
-            update();
-        });
-
+        window.addEventListener('load', () => { updateGlobalCartCount(); setTimeout(() => { document.getElementById('loader').style.opacity = '0'; setTimeout(() => { document.getElementById('loader').style.display = 'none'; reveal(); }, 800); }, 1000); update(); });
+        function reveal() { var reveals = document.querySelectorAll(".reveal"); for (var i = 0; i < reveals.length; i++) { if (reveals[i].getBoundingClientRect().top < window.innerHeight - 150) reveals[i].classList.add("active"); } }
         window.addEventListener("scroll", reveal);
-        document.querySelectorAll('input[type=range], #qty-selector, #qty-sal').forEach(i => i.addEventListener('input', update));
+        document.getElementById('input-pollo').addEventListener('input', update);
+        document.getElementById('input-arroz').addEventListener('input', update);
+        document.getElementById('input-brocoli').addEventListener('input', update);
     </script>
 </body>
 </html>
