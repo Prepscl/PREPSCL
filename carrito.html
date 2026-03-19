@@ -47,6 +47,12 @@
         .form-label { font-weight:900; font-size:10px; display:block; margin-bottom:20px; opacity:0.5; letter-spacing:1px; }
         input, select { width:100%; padding:15px; margin-bottom:15px; border:1px solid #eee; font-family:inherit; font-size: 12px; text-transform: uppercase; box-sizing: border-box; }
         
+        /* CÓDIGO ACCESO ESTILOS */
+        .promo-group { display: flex; gap: 10px; margin-bottom: 15px; }
+        .btn-apply { background: #000; color: #fff; border: none; padding: 0 25px; font-weight: 900; cursor: pointer; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        #discount-msg { color: var(--accent); font-weight: 900; font-size: 11px; margin-top: 5px; animation: blink 1s infinite; display: none; }
+
         .summary-box { background: #000; color: #fff; padding: 45px 20px; text-align: center; }
         .total-amount { font-family: 'Inter'; font-weight: 900; font-size: 42px; color: #fff; margin: 15px 0; letter-spacing: -2px; }
         .btn-checkout { background: var(--accent); color: #000; padding: 22px; font-family: 'Inter'; font-weight: 900; font-size: 16px; width: 100%; border: none; cursor: pointer; transition: 0.3s; }
@@ -56,6 +62,7 @@
         #console-text { font-family: 'Courier New', monospace; font-size: 14px; text-align: left; max-width: 400px; margin-bottom: 30px; }
         .btn-wsp-final { background: var(--neon); color: #000; padding: 18px 30px; border: none; font-weight: 900; font-family: 'Inter'; cursor: pointer; display: none; text-decoration: none; font-size: 14px; }
 
+        /* TICKET EXPORT */
         #ticket-export { position: absolute; left: -9999px; top: 0; width: 600px; background: #fff; color: #000; padding: 50px; box-sizing: border-box; border: 1px solid #000; }
         .tk-header { border-bottom: 5px solid #000; padding-bottom: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end; }
         .tk-logo { height: 60px; }
@@ -66,9 +73,6 @@
         .tk-table td { padding: 15px; border: 1px solid #eee; }
         .tk-total-section { margin-left: auto; width: 250px; }
         .tk-total-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; font-weight: 900; }
-
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        #discount-msg { color: var(--accent); font-weight: 900; font-size: 11px; margin-top: 5px; animation: blink 1s infinite; display: none; }
 
         @media (max-width: 600px) { .main-header { padding: 15px 20px; } .biomass-dashboard { grid-template-columns: 1fr; } .cart-row td { padding: 12px; font-size: 10px; } }
     </style>
@@ -131,7 +135,7 @@
             }
 
             const grouped = cart.reduce((acc, item) => { acc[item.name] = acc[item.name] || { count: 0, price: item.price }; acc[item.name].count++; return acc; }, {});
-            let totalMoney = 0, totalKcal = 0, totalProt = 0, totalCarb = 0;
+            let totalMoney = 0, totalKcal = 0, totalProt = 0;
             let tableRows = "";
 
             for (const [name, data] of Object.entries(grouped)) {
@@ -151,14 +155,22 @@
                 </div>
                 <table class="cart-table">${tableRows}</table>
                 <div class="form-box">
-                    <span class="form-label">[DATOS]</span>
-                    <input type="text" id="cust-name" placeholder="NOMBRE">
-                    <input type="email" id="cust-email" placeholder="EMAIL">
+                    <span class="form-label">[DATOS DE CONTACTO]</span>
+                    <input type="text" id="cust-name" placeholder="NOMBRE COMPLETO">
+                    <input type="email" id="cust-email" placeholder="CORREO ELECTRÓNICO">
                     <select id="delivery-method" onchange="toggleDelivery()"><option value="RETIRO">RETIRO LOCAL</option><option value="DELIVERY">DELIVERY</option></select>
                     <div id="delivery-options" style="display:none; margin-top:15px;"><select id="comuna"><option value="VITACURA">VITACURA</option><option value="LAS CONDES">LAS CONDES</option><option value="PROVIDENCIA">PROVIDENCIA</option><option value="LO BARNECHEA">LO BARNECHEA</option></select></div>
                 </div>
+                <div class="form-box">
+                    <span class="form-label">[CÓDIGO DE ACCESO]</span>
+                    <div class="promo-group">
+                        <input type="text" id="promo-code" placeholder="INGRESAR CÓDIGO" style="margin-bottom:0;">
+                        <button class="btn-apply" onclick="applyPromo()">OK</button>
+                    </div>
+                    <div id="discount-msg" style="${discount > 0 ? 'display:block' : 'none'}">>> CÓDIGO ACTIVADO: -10% DE DESCUENTO</div>
+                </div>
                 <div class="summary-box">
-                    <div class="total-amount" id="display-total">$${totalMoney.toLocaleString('es-CL')}</div>
+                    <div class="total-amount" id="display-total">$${Math.round(totalMoney * (1-discount)).toLocaleString('es-CL')}</div>
                     <button class="btn-checkout" onclick="startProcess()">GENERAR TICKET Y PAGAR</button>
                 </div>
             `;
@@ -168,6 +180,11 @@
 
         function toggleDelivery() { document.getElementById('delivery-options').style.display = (document.getElementById('delivery-method').value === 'DELIVERY') ? 'block' : 'none'; }
         function changeQty(name, delta) { delta > 0 ? cart.push({...cart.find(i => i.name === name)}) : cart.splice(cart.findIndex(i => i.name === name), 1); localStorage.setItem('preps_cart', JSON.stringify(cart)); renderCart(); }
+
+        function applyPromo() {
+            const code = document.getElementById('promo-code').value.toUpperCase();
+            if (code === 'MILA10') { discount = 0.10; renderCart(); } else { alert("SISTEMA: CÓDIGO INVÁLIDO"); }
+        }
 
         function startProcess() {
             const name = document.getElementById('cust-name').value;
@@ -188,11 +205,19 @@
         function generateTicket(name, email) {
             const ticket = document.getElementById('ticket-export');
             const body = document.getElementById('tk-body-items');
+            const subtotal = cart.reduce((s, i) => s + i.price, 0);
+
             document.getElementById('tk-name-val').innerText = name.toUpperCase();
             document.getElementById('tk-email-val').innerText = email.toUpperCase();
             document.getElementById('tk-id-val').innerText = "#PRP-" + Math.floor(Math.random()*9000+1000);
             document.getElementById('tk-date-val').innerText = new Date().toLocaleDateString();
+            document.getElementById('tk-sub-val').innerText = "$" + subtotal.toLocaleString('es-CL');
             document.getElementById('tk-total-val').innerText = document.getElementById('display-total').innerText;
+
+            if(discount > 0) {
+                document.getElementById('tk-dscto-row').style.display = 'flex';
+                document.getElementById('tk-dscto-val').innerText = "-$" + Math.round(subtotal * 0.1).toLocaleString('es-CL');
+            }
 
             const grouped = cart.reduce((acc, item) => { acc[item.name] = acc[item.name] || { count: 0, price: item.price }; acc[item.name].count++; return acc; }, {});
             body.innerHTML = "";
@@ -202,7 +227,7 @@
 
             html2canvas(ticket, { scale: 2 }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = `PREPS-TICKET.png`;
+                link.download = `PREPS-TICKET-${name.split(' ')[0]}.png`;
                 link.href = canvas.toDataURL();
                 link.click();
                 
