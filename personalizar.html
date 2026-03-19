@@ -51,10 +51,14 @@
         .btn-opt { flex: 1; padding: 12px; border: 1px solid #222; background: transparent; color: #444; cursor: pointer; font-family: 'Inter'; font-weight: 900; font-size: 10px; transition: 0.3s; }
         .btn-opt.active { border-color: #fff; color: #fff; background: #0a0a0a; }
 
+        /* STEPPER CONTROLS RESTAURADOS */
+        .stepper-control { display: flex; align-items: center; border: 1px solid #333; background: #000; width: fit-content; }
+        .stepper-btn { background: none; border: none; color: #fff; font-family: 'Inter'; font-weight: 900; font-size: 20px; padding: 10px 20px; cursor: pointer; }
+        .stepper-val { width: 50px; text-align: center; font-family: 'Inter'; font-weight: 900; font-size: 16px; border-left: 1px solid #1a1a1a; border-right: 1px solid #1a1a1a; }
+
         #min-alert { font-size: 10px; color: #ff3333; margin-top: 10px; font-weight: 900; letter-spacing: 1px; display: none; }
 
         .purchase-area { display: flex; margin-top: 20px; border: 1px solid #fff; }
-        .qty-input { width: 80px; background: #fff; color: #000; border: none; font-family: 'Inter'; font-weight: 900; font-size: 18px; text-align: center; outline: none; }
         .btn-send { flex-grow: 1; background: #fff; color: #000; padding: 22px; border: none; font-family: 'Inter'; font-weight: 900; font-size: 16px; cursor: pointer; transition: 0.4s; }
         .btn-send:disabled { background: #222; color: #444; cursor: not-allowed; border-color: #222; }
 
@@ -111,7 +115,7 @@
 
     <div class="container">
         <div class="welcome-section reveal">
-            <h1 class="welcome-title">BIENVENID@S A CUSTOM LAB PERFORMANCE V1.0</h1>
+            <h1 class="welcome-title">CUSTOM LAB PERFORMANCE V1.0</h1>
             <p class="welcome-subtitle">DISEÑADO CON PRECISIÓN BY PREPS - MÁS DE 1.600 COMBINACIONES POSIBLES</p>
         </div>
 
@@ -155,9 +159,13 @@
                 </div>
 
                 <div class="step">
-                    <div class="label-group"><span>OPCIONAL: SAL ROSADA DEL HIMALAYA</span> <span id="val-sal">0G</span></div>
-                    <input type="number" id="qty-sal" class="qty-input" style="width: 100%; border: 1px solid #333; margin-top: 10px;" value="0" min="0" max="5" onkeydown="return false;" oninput="update()">
-                    <p style="font-size: 8px; color: #444; margin-top: 5px;">*MÁXIMO TÉCNICO RECOMENDADO: 5G POR RACIÓN</p>
+                    <div class="label-group"><span>SAL ROSADA DEL HIMALAYA</span> <span style="background:#fff; color:#000; padding:2px 6px; font-size:9px; font-weight:900;">OPCIONAL</span></div>
+                    <div class="stepper-control">
+                        <button class="stepper-btn" onclick="changeSal(-1)">-</button>
+                        <span class="stepper-val" id="val-sal">0G</span>
+                        <button class="stepper-btn" onclick="changeSal(1)">+</button>
+                    </div>
+                    <p style="font-size: 8px; color: #444; margin-top: 5px;">*MÁXIMO RECOMENDADO: 5G POR RACIÓN</p>
                 </div>
 
                 <div class="macros-display">
@@ -168,7 +176,11 @@
                 </div>
 
                 <div class="purchase-area">
-                    <input type="number" id="qty-selector" class="qty-input" value="1" min="1" max="10" onkeydown="return false;" oninput="update()">
+                    <div class="stepper-control" style="border:none; border-right:1px solid #000; background:#fff;">
+                        <button class="stepper-btn" style="color:#000" onclick="changeQty(-1)">-</button>
+                        <span class="stepper-val" style="color:#000" id="val-qty">1</span>
+                        <button class="stepper-btn" style="color:#000" onclick="changeQty(1)">+</button>
+                    </div>
                     <button class="btn-send" id="add-btn" onclick="addToCartCustom()">AGREGAR AL CARRO</button>
                 </div>
                 <div style="text-align: center; margin-top: 15px; font-family: 'Courier New'; font-weight: 900; font-size: 22px;" id="final-price">$0</div>
@@ -209,6 +221,10 @@
             document.getElementById('global-cart-count').innerText = cart.length;
         }
 
+        // FUNCIONES DE BOTONES +/-
+        function changeSal(v) { salGrams = Math.max(0, Math.min(5, salGrams + v)); update(); }
+        function changeQty(v) { itemQty = Math.max(1, Math.min(10, itemQty + v)); update(); }
+
         function setPrep(type) {
             prepPollo = type;
             document.getElementById('btn-cocido').classList.toggle('active', type === 'COCIDO');
@@ -232,8 +248,6 @@
             let p = parseInt(document.getElementById('input-pollo').value);
             let a = parseInt(document.getElementById('input-arroz').value);
             let b = parseInt(document.getElementById('input-brocoli').value);
-            let sal = parseInt(document.getElementById('qty-sal').value) || 0;
-            let qty = parseInt(document.getElementById('qty-selector').value) || 1;
             
             if (p + a + b > 800 && e) {
                 e.target.value = parseInt(e.target.value) - ((p + a + b) - 800);
@@ -248,12 +262,13 @@
             const kcal = (p * pollo_macros[prepPollo].k) + (a * arroz_macros.k) + (b * brocoli_macros.k);
             
             const unitPrice = (p * precios.pollo) + (a * precios.arroz) + (b * precios.brocoli) + precios.base;
-            const totalPrice = unitPrice * qty;
+            const totalPrice = unitPrice * itemQty;
 
             document.getElementById('val-pollo').innerText = p + "G";
             document.getElementById('val-arroz').innerText = a + "G";
             document.getElementById('val-brocoli').innerText = b + "G";
-            document.getElementById('val-sal').innerText = sal + "G";
+            document.getElementById('val-sal').innerText = salGrams + "G";
+            document.getElementById('val-qty').innerText = itemQty;
             
             document.getElementById('m-prot').innerText = Math.round(prot);
             document.getElementById('m-carb').innerText = Math.round(carb);
@@ -266,14 +281,8 @@
             document.getElementById('add-btn').disabled = isUnderMin;
             document.getElementById('min-alert').style.display = isUnderMin ? 'block' : 'none';
 
-            const idFoto = getImgId(p, a, b, prepPollo);
-            document.getElementById('active-img').src = `img/${idFoto}.jpg`;
-            
-            let proto = "PERSONALIZADA";
-            if (p+a+b >= 750) proto = "SOBRECARGA";
-            else if (p >= 400 && a <= 100) proto = "KETO ELITE";
-            else if (p+a+b <= 350) proto = "BASE LIGERA";
-            document.getElementById('protocol-name').innerText = "UNIDAD: " + proto;
+            document.getElementById('active-img').src = `img/${getImgId(p, a, b, prepPollo)}.jpg`;
+            document.getElementById('protocol-name').innerText = "UNIDAD: " + (p+a+b >= 750 ? "SOBRECARGA" : (p >= 400 && a <= 100 ? "KETO ELITE" : (p+a+b <= 350 ? "BASE LIGERA" : "PERSONALIZADA")));
             document.getElementById('comb-number').innerText = `ID: #${getCombinationID(p, a, b, prepPollo)}`;
         }
 
@@ -285,21 +294,19 @@
         }
 
         function addToCartCustom() {
-            const qty = parseInt(document.getElementById('qty-selector').value) || 1;
-            const sal = document.getElementById('qty-sal').value;
-            const priceText = document.getElementById('final-price').innerText;
-            const priceNum = parseInt(priceText.replace('$', '').replace('.', '')) / qty;
+            const prText = document.getElementById('final-price').innerText;
+            const prNum = parseInt(prText.replace('$', '').replace('.', '')) / itemQty;
             const pim = conPimienta ? "C/PIM" : "S/PIM";
-            const name = `CUSTOM: ${document.getElementById('protocol-name').innerText} (${document.getElementById('val-pollo').innerText}|${document.getElementById('val-arroz').innerText}) [${pim}|SAL:${sal}G]`;
-            lastAddedCount = qty;
+            const name = `CUSTOM: ${document.getElementById('protocol-name').innerText} (${document.getElementById('val-pollo').innerText}|${document.getElementById('val-arroz').innerText}) [${pim}|SAL:${salGrams}G]`;
+            lastAddedCount = itemQty;
             let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
-            for(let i=0; i<qty; i++) { cart.push({ name: name, price: priceNum }); }
+            for(let i=0; i<itemQty; i++) { cart.push({ name: name, price: prNum }); }
             localStorage.setItem('preps_cart', JSON.stringify(cart));
             updateGlobalCartCount();
             document.getElementById('modal-img').src = document.getElementById('active-img').src;
             document.getElementById('modal-desc').innerText = name;
-            document.getElementById('modal-qty-text').innerText = "CANTIDAD AGREGADA: " + qty;
-            document.getElementById('modal-total').innerText = "TOTAL: " + priceText;
+            document.getElementById('modal-qty-text').innerText = "CANTIDAD AGREGADA: " + itemQty;
+            document.getElementById('modal-total').innerText = "TOTAL: " + prText;
             document.getElementById('confirm-modal').style.display = 'flex';
         }
 
@@ -314,7 +321,7 @@
         window.addEventListener('load', () => { updateGlobalCartCount(); setTimeout(() => { document.getElementById('loader').style.opacity = '0'; setTimeout(() => { document.getElementById('loader').style.display = 'none'; reveal(); }, 800); }, 1000); update(); });
         function reveal() { var reveals = document.querySelectorAll(".reveal"); for (var i = 0; i < reveals.length; i++) { if (reveals[i].getBoundingClientRect().top < window.innerHeight - 150) reveals[i].classList.add("active"); } }
         window.addEventListener("scroll", reveal);
-        document.querySelectorAll('input[type=range], #qty-selector, #qty-sal').forEach(i => i.addEventListener('input', update));
+        document.querySelectorAll('input[type=range]').forEach(i => i.addEventListener('input', update));
     </script>
 </body>
 </html>
