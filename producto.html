@@ -5,17 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
     <title>Producto - PREPS</title>
-    
     <link rel="icon" type="image/png" href="img/logo-preps.png">
-    <link rel="apple-touch-icon" href="img/logo-preps.png">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
 
     <style>
         body { background-color: #f2f2f2; font-family: 'Courier New', Courier, monospace; margin: 0; text-transform: uppercase; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
-        
         header { display: flex; align-items: center; justify-content: space-between; padding: 15px 50px; background: #f2f2f2; border-bottom: 1px solid #000; position: sticky; top: 0; z-index: 1000; }
         .logo-link img { height: 35px; width: auto; display: block; }
         nav { display: flex; align-items: center; gap: 30px; }
@@ -33,41 +27,44 @@
         #live-price { font-family: 'Courier New'; font-size: 32px; margin-bottom: 20px; font-weight: 900; }
         .technical-desc { font-size: 13px; color: #444; margin-bottom: 30px; line-height: 1.5; max-width: 600px; }
         
-        .config-box { width: 100%; max-width: 400px; margin-bottom: 40px; border: 1px solid #000; background: #fff; padding: 20px; box-sizing: border-box; text-align: left; }
+        /* CONFIGURACIÓN PACKS AGRANDADA */
+        .config-box { width: 100%; max-width: 450px; margin-bottom: 40px; border: 1px solid #000; background: #fff; padding: 25px; box-sizing: border-box; text-align: left; }
         .config-label { font-family: 'Inter'; font-weight: 900; font-size: 11px; margin-bottom: 15px; display: block; letter-spacing: 1px; color: #888; }
         
-        .pack-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .qty-input-small { width: 100%; padding: 10px; border: 1px solid #eee; font-family: 'Inter'; font-weight: 900; text-align: center; outline: none; }
+        .pack-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
+        .pack-item label { display: block; font-size: 10px; font-weight: 900; margin-bottom: 8px; font-family: 'Inter'; }
+        .qty-input-small { width: 100%; padding: 15px; border: 2px solid #000; font-family: 'Inter'; font-weight: 900; font-size: 20px; text-align: center; outline: none; }
 
         .option-toggle { display: flex; gap: 10px; }
-        .btn-opt { flex: 1; padding: 12px; border: 1px solid #000; background: #fff; cursor: pointer; font-family: 'Inter'; font-weight: 900; font-size: 10px; transition: 0.3s; }
+        .btn-opt { flex: 1; padding: 12px; border: 1px solid #000; background: #fff; cursor: pointer; font-family: 'Inter'; font-weight: 900; font-size: 10px; }
         .btn-opt.active { background: #000; color: #fff; }
 
         .purchase-container { display: flex; width: 100%; max-width: 400px; margin: 0 auto 60px; border: 1px solid #000; }
         .qty-main { width: 80px; border: none; border-right: 1px solid #000; font-family: 'Inter'; font-weight: 900; font-size: 18px; text-align: center; outline: none; }
-        .buy-btn-new { flex-grow: 1; background: #000; color: #fff; border: none; font-family: 'Inter'; font-weight: 900; font-size: 16px; cursor: pointer; transition: 0.3s; }
+        .buy-btn-new { flex-grow: 1; background: #000; color: #fff; border: none; font-family: 'Inter'; font-weight: 900; font-size: 16px; cursor: pointer; }
 
         .macro-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: #000; border: 1px solid #000; width: 100%; margin: 40px 0; }
         .macro-item { background: #fff; padding: 20px 5px; }
         .macro-num { display: block; font-size: 20px; font-weight: 900; font-family: 'Inter'; }
         .macro-label { font-size: 9px; color: #888; font-weight: 900; }
 
-        /* MODAL CON ACCIÓN DE BORRADO */
-        .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
-        .modal-content { background: #fff; width: 100%; max-width: 500px; padding: 40px; position: relative; text-align: center; }
+        /* MODAL */
+        .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
+        .modal-content { background: #fff; width: 100%; max-width: 500px; padding: 40px; position: relative; }
+        .modal-title { font-family: 'Inter'; font-weight: 900; font-size: 20px; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 15px; text-align: center; }
         
-        .delete-x { position: absolute; top: 15px; right: 20px; font-size: 20px; cursor: pointer; color: #ccc; transition: 0.3s; }
-        .delete-x:hover { color: #ff0000; }
-        .delete-tooltip { position: absolute; top: 40px; right: 10px; font-size: 8px; color: #ff0000; font-weight: 900; opacity: 0; transition: 0.3s; }
-        .delete-x:hover + .delete-tooltip { opacity: 1; }
+        .modal-body { display: flex; align-items: flex-start; gap: 20px; text-align: left; margin-bottom: 30px; position: relative; }
+        #modal-img { width: 90px; height: 90px; object-fit: cover; border: 1px solid #eee; }
+        .modal-info-text { flex-grow: 1; font-family: 'Inter'; }
+        .modal-info-text h3 { font-weight: 900; margin: 0 0 5px; font-size: 14px; padding-right: 30px; }
+        .modal-info-text p { margin: 2px 0; font-size: 12px; color: #666; }
 
-        .modal-title { font-family: 'Inter'; font-weight: 900; font-size: 22px; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
-        .modal-body { display: flex; align-items: center; gap: 20px; text-align: left; margin-bottom: 30px; }
-        #modal-img { width: 100px; height: 100px; object-fit: cover; border: 1px solid #eee; }
-        .modal-info-text { font-family: 'Inter'; font-size: 13px; }
-        .modal-info-text h3 { font-weight: 900; margin: 0 0 5px; font-size: 14px; }
+        /* ELIMINAR POSICIONADO */
+        .delete-btn-container { position: absolute; right: 0; top: 0; text-align: right; }
+        .delete-x { font-size: 22px; cursor: pointer; color: #000; font-weight: 900; display: block; line-height: 1; }
+        .delete-label { font-size: 8px; color: #ff0000; font-weight: 900; display: block; margin-top: 4px; }
 
-        .btn-modal-black { background: #000; color: #fff; padding: 18px; text-decoration: none; font-weight: 900; display: block; margin-bottom: 10px; font-size: 14px; border: 1px solid #000; }
+        .btn-modal-black { background: #000; color: #fff; padding: 18px; text-decoration: none; font-weight: 900; display: block; text-align: center; margin-bottom: 10px; font-size: 14px; }
         .btn-modal-outline { background: #fff; color: #000; padding: 18px; border: 2px solid #000; font-weight: 900; width: 100%; cursor: pointer; font-size: 14px; }
 
         @media (max-width: 600px) { header { padding: 15px 20px; flex-direction: column; gap: 15px; } .macro-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -91,15 +88,17 @@
 
     <div id="confirm-modal" class="modal-overlay">
         <div class="modal-content">
-            <span class="delete-x" onclick="undoAddToCart()">✕</span>
-            <span class="delete-tooltip">ELIMINAR ERROR</span>
-            <h2 class="modal-title">AGREGADO AL CARRO</h2>
+            <h2 class="modal-title">SISTEMA ACTUALIZADO</h2>
             <div class="modal-body">
-                <img id="modal-img" src="" alt="Thumbnail">
+                <img id="modal-img" src="" alt="">
                 <div class="modal-info-text">
+                    <div class="delete-btn-container" onclick="undoAddToCart()">
+                        <span class="delete-x">✕</span>
+                        <span class="delete-label">ELIMINAR PEDIDO</span>
+                    </div>
                     <h3 id="modal-prod-name"></h3>
-                    <p>CANTIDAD: <span id="modal-qty"></span></p>
-                    <p style="font-weight: 900; margin-top: 5px;">TOTAL: <span id="modal-total"></span></p>
+                    <p id="modal-qty-text"></p>
+                    <p id="modal-total-text" style="font-weight: 900; color: #000; margin-top: 10px;"></p>
                 </div>
             </div>
             <a href="carrito.html" class="btn-modal-black">VER CARRO</a>
@@ -109,17 +108,17 @@
 
     <script>
         const db = {
-            highcarb: { id: 'highcarb', name: "POWER BREAST HIGH CARB", price: 5690, imgs: ["img/menu1.jpg"], k: "830", p: "73", c: "92", g: "19", grams: "200G POLLO | 300G ARROZ | 100G BRÓCOLI" },
-            lowcarb: { id: 'lowcarb', name: "POWER BREAST LOW CARB", price: 4990, imgs: ["img/menu2.jpg"], k: "632", p: "69", c: "49", g: "17", grams: "200G POLLO | 150G ARROZ | 100G BRÓCOLI" },
-            pack5: { id: 'pack5', name: "05 PACKS PERFORMANCE", price: 24900, imgs: ["img/pack5.jpg"], k: "VAR", p: "VAR", c: "VAR", g: "VAR", total: 5 },
-            pack15: { id: 'pack15', name: "15 PACKS PERFORMANCE", price: 72900, imgs: ["img/pack15.jpg"], k: "VAR", p: "VAR", c: "VAR", g: "VAR", total: 15 },
-            pack28: { id: 'pack28', name: "28 PACKS PERFORMANCE", price: 129900, imgs: ["img/pack28.jpg"], k: "VAR", p: "VAR", c: "VAR", g: "VAR", total: 28 }
+            highcarb: { id: 'highcarb', name: "POWER BREAST HIGH CARB", price: 5690, imgs: ["img/menu1.jpg"], k: "830", p: "73", c: "92", g: "19", grams: "200G POLLO | 300G ARROZ | 100G BRÓCOLI", max: 20 },
+            lowcarb: { id: 'lowcarb', name: "POWER BREAST LOW CARB", price: 4990, imgs: ["img/menu2.jpg"], k: "632", p: "69", c: "49", g: "17", grams: "200G POLLO | 150G ARROZ | 100G BRÓCOLI", max: 20 },
+            pack5: { id: 'pack5', name: "05 PACKS PERFORMANCE", price: 24900, imgs: ["img/pack5.jpg"], total: 5, max: 2 },
+            pack15: { id: 'pack15', name: "15 PACKS PERFORMANCE", price: 72900, imgs: ["img/pack15.jpg"], total: 15, max: 2 },
+            pack28: { id: 'pack28', name: "28 PACKS PERFORMANCE", price: 129900, imgs: ["img/pack28.jpg"], total: 28, max: 1 }
         };
 
         const params = new URLSearchParams(window.location.search);
         const item = db[params.get('id')] || db.highcarb;
         let conPimienta = true;
-        let lastAddedCount = 0; // Para saber cuántos borrar si hay error
+        let lastAddedCount = 0;
 
         function updateLivePrice() {
             const qty = parseInt(document.getElementById('qty-main').value) || 1;
@@ -136,12 +135,16 @@
             const isPack = item.id.includes('pack');
             let configHTML = isPack ? `
                 <div class="config-box">
-                    <span class="config-label">DISTRIBUCIÓN DEL PACK (${item.total} UNIDADES)</span>
+                    <span class="config-label">REPARTO DEL PACK (${item.total} UNIDADES)</span>
                     <div class="pack-grid">
-                        <div><label style="font-size:9px; font-weight:900;">HIGH CARB</label>
-                        <input type="number" id="qty-hc" class="qty-input-small" value="${item.total}" min="0" max="${item.total}" onchange="adjustPack(this, 'qty-lc')"></div>
-                        <div><label style="font-size:9px; font-weight:900;">LOW CARB</label>
-                        <input type="number" id="qty-lc" class="qty-input-small" value="0" min="0" max="${item.total}" onchange="adjustPack(this, 'qty-hc')"></div>
+                        <div class="pack-item">
+                            <label>HIGH CARB (200P|300A|100B)</label>
+                            <input type="number" id="qty-hc" class="qty-input-small" value="${item.total}" min="0" max="${item.total}" onchange="adjustPack(this, 'qty-lc')">
+                        </div>
+                        <div class="pack-item">
+                            <label>LOW CARB (200P|150A|100B)</label>
+                            <input type="number" id="qty-lc" class="qty-input-small" value="0" min="0" max="${item.total}" onchange="adjustPack(this, 'qty-hc')">
+                        </div>
                     </div>
                     <span class="config-label">SAZÓN GENERAL</span>
                     <div class="option-toggle">
@@ -157,23 +160,26 @@
                     </div>
                 </div>`;
 
-            document.getElementById('product-content').innerHTML = `
-                <div class="image-container"><div class="image-wrapper"><img src="${item.imgs[0]}"></div></div>
-                <div id="live-price">$${item.price.toLocaleString('es-CL')}</div>
-                <h1 class="product-title">${item.name}</h1>
-                <p style="font-family:'Inter'; font-weight:900; font-size:12px; letter-spacing:1px; margin-bottom:10px;">${item.grams || 'PACK MULTI-OBJETIVO'}</p>
-                <p class="technical-desc">POLLO A LA PLANCHA SELLADO CON ARROZ BLANCO Y BRÓCOLI COCIDO AL DENTE PARA PRESERVAR AL MÁXIMO SUS MACRONUTRIENTES Y TEXTURA.</p>
-                ${configHTML}
-                <div class="purchase-container">
-                    <input type="number" id="qty-main" class="qty-main" value="1" min="1" max="20" oninput="updateLivePrice()">
-                    <button class="buy-btn-new" onclick="addToCart()">AÑADIR AL SISTEMA</button>
-                </div>
+            const macroHTML = isPack ? '' : `
                 <div class="macro-grid">
                     <div class="macro-item"><span class="macro-num">${item.k}</span><span class="macro-label">KCAL</span></div>
                     <div class="macro-item"><span class="macro-num">${item.p}G</span><span class="macro-label">PROT</span></div>
                     <div class="macro-item"><span class="macro-num">${item.c}G</span><span class="macro-label">CARBS</span></div>
                     <div class="macro-item"><span class="macro-num">${item.g}G</span><span class="macro-label">FAT</span></div>
                 </div>`;
+
+            document.getElementById('product-content').innerHTML = `
+                <div class="image-container"><div class="image-wrapper"><img src="${item.imgs[0]}"></div></div>
+                <div id="live-price">$${item.price.toLocaleString('es-CL')}</div>
+                <h1 class="product-title">${item.name}</h1>
+                <p style="font-family:'Inter'; font-weight:900; font-size:12px; letter-spacing:1px; margin-bottom:10px;">${item.grams || 'SISTEMA DE ALIMENTACIÓN POR VOLUMEN'}</p>
+                <p class="technical-desc">POLLO A LA PLANCHA CON ARROZ BLANCO Y BRÓCOLI COCIDO AL DENTE PARA MANTENER MACRONUTRIENTES.</p>
+                ${configHTML}
+                <div class="purchase-container">
+                    <input type="number" id="qty-main" class="qty-main" value="1" min="1" max="${item.max}" oninput="updateLivePrice()">
+                    <button class="buy-btn-new" onclick="addToCart()">AGREGAR AL CARRO</button>
+                </div>
+                ${macroHTML}`;
         }
 
         function adjustPack(input, otherId) {
@@ -204,15 +210,15 @@
             
             document.getElementById('modal-img').src = item.imgs[0];
             document.getElementById('modal-prod-name').innerText = finalName;
-            document.getElementById('modal-qty').innerText = qty;
-            document.getElementById('modal-total').innerText = "$" + (item.price * qty).toLocaleString('es-CL');
+            document.getElementById('modal-qty-text').innerText = "CANTIDAD AGREGADA: " + qty;
+            document.getElementById('modal-total-text').innerText = "TOTAL: $" + (item.price * qty).toLocaleString('es-CL');
             document.getElementById('confirm-modal').style.display = 'flex';
         }
 
         function undoAddToCart() {
             let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
             if (cart.length >= lastAddedCount) {
-                cart.splice(-lastAddedCount); // Elimina los últimos N agregados
+                cart.splice(-lastAddedCount);
                 localStorage.setItem('preps_cart', JSON.stringify(cart));
             }
             updateGlobalCartCount();
