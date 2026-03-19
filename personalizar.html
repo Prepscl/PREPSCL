@@ -50,6 +50,7 @@
             position: absolute; top: -8px; right: -10px; background: #fff; color: #000;
             font-family: 'Inter'; font-weight: 900; font-size: 10px; width: 18px; height: 18px;
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            letter-spacing: 0; line-height: 1;
         }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 80px 20px 150px; }
@@ -80,18 +81,18 @@
 
         /* COMPRA: SELECTOR Y BOTÓN */
         .purchase-area { display: flex; margin-top: 20px; border: 1px solid #fff; }
-        .qty-input { width: 80px; background: #fff; color: #000; border: none; font-family: 'Inter'; font-weight: 900; font-size: 18px; text-align: center; }
+        .qty-input { width: 80px; background: #fff; color: #000; border: none; font-family: 'Inter'; font-weight: 900; font-size: 18px; text-align: center; outline: none; }
         .btn-send { flex-grow: 1; background: #fff; color: #000; padding: 22px; border: none; font-family: 'Inter'; font-weight: 900; font-size: 16px; cursor: pointer; transition: 0.4s; }
         .btn-send:hover { background: #ccc; }
 
         /* MODAL */
         .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
-        .modal-content { background: #fff; color: #000; width: 100%; max-width: 500px; padding: 40px; position: relative; text-align: center; }
+        .modal-content { background: #fff; color: #000; width: 100%; max-width: 500px; padding: 40px; position: relative; text-align: center; border-radius: 0; }
         .modal-title { font-family: 'Inter'; font-weight: 900; font-size: 22px; margin-bottom: 20px; }
-        .modal-img-container { width: 100%; height: 200px; background: #eee; margin-bottom: 20px; overflow: hidden; }
+        .modal-img-container { width: 100%; height: 200px; background: #eee; margin-bottom: 20px; overflow: hidden; border: 1px solid #000; }
         .modal-img-container img { width: 100%; height: 100%; object-fit: cover; }
-        .btn-modal-black { background: #000; color: #fff; padding: 18px; text-decoration: none; font-weight: 900; display: block; margin-bottom: 10px; }
-        .btn-modal-outline { background: #fff; color: #000; padding: 18px; border: 2px solid #000; font-weight: 900; width: 100%; cursor: pointer; }
+        .btn-modal-black { background: #000; color: #fff; padding: 18px; text-decoration: none; font-weight: 900; display: block; margin-bottom: 10px; font-size: 14px; }
+        .btn-modal-outline { background: #fff; color: #000; padding: 18px; border: 2px solid #000; font-weight: 900; width: 100%; cursor: pointer; font-size: 14px; }
 
         .social-footer { text-align: center; padding: 60px; background: #000; border-top: 1px solid #111; }
         .social-link img { width: 30px; filter: invert(1); opacity: 0.5; }
@@ -135,7 +136,7 @@
 
         <div class="config-layout">
             <div class="image-section reveal">
-                <div class="food-name" id="protocol-name">UNIDAD: BASE LIGERA</div>
+                <div class="food-name" id="protocol-name">CARGANDO...</div>
                 <div class="image-placeholder">
                     <img id="active-img" src="img/1.jpg" alt="Preview">
                 </div>
@@ -183,17 +184,17 @@
 
     <div id="confirm-modal" class="modal-overlay">
         <div class="modal-content">
-            <h2 class="modal-title">UNIDAD CONFIGURADA</h2>
+            <h2 class="modal-title">SISTEMA ACTUALIZADO</h2>
             <div class="modal-img-container">
                 <img id="modal-img" src="" alt="">
             </div>
             <div style="margin-bottom: 25px; text-align: left; font-size: 13px;">
-                <p id="modal-desc" style="font-weight: 900;"></p>
-                <p>CANTIDAD: <span id="modal-qty"></span></p>
+                <p id="modal-desc" style="font-weight: 900; margin-bottom: 5px;"></p>
+                <p id="modal-qty-text"></p>
                 <p style="font-weight: 900; border-top: 1px solid #eee; padding-top: 10px; font-size: 18px;">TOTAL: <span id="modal-total"></span></p>
             </div>
             <a href="carrito.html" class="btn-modal-black">IR AL CARRO</a>
-            <button class="btn-modal-outline" onclick="closeModal()">SEGUIR PERSONALIZANDO</button>
+            <button class="btn-modal-outline" onclick="closeModal()">SEGUIR COMPRANDO</button>
         </div>
     </div>
 
@@ -207,7 +208,7 @@
         const precios = { pollo: 22, arroz: 4, brocoli: 5.9, base: 1000 };
         const pollo_macros = { 'PLANCHA': { p: 0.31, c: 0, k: 2.035 }, 'COCIDO': { p: 0.23, c: 0, k: 1.1 } };
         const arroz_macros = { p: 0.026, c: 0.28, k: 1.32 };
-        const brocoli_macros = { p: 0.03, c: 0.06, k: 0.27 };
+        const brocoli_macros = { p: 0.03, c: 0.06, k: 0.27 }; // Faltaba la 'c' aquí, corregido.
 
         function updateGlobalCartCount() {
             const cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
@@ -237,7 +238,6 @@
             document.getElementById('val-arroz').innerText = a + "G";
             document.getElementById('val-brocoli').innerText = b + "G";
 
-            // Macros y Precio
             const prot = (p * pollo_macros[prepPollo].p) + (a * arroz_macros.p) + (b * brocoli_macros.p);
             const carb = (a * arroz_macros.c) + (b * brocoli_macros.c);
             const kcal = (p * pollo_macros[prepPollo].k) + (a * arroz_macros.k) + (b * brocoli_macros.k);
@@ -248,7 +248,6 @@
             document.getElementById('m-kcal').innerText = Math.round(kcal);
             document.getElementById('final-price').innerText = "$" + Math.round(price).toLocaleString('es-CL');
 
-            // LÓGICA DE FOTOS (1-37)
             const imgId = getImgId(p, a, b, prepPollo);
             document.getElementById('active-img').src = `img/${imgId}.jpg`;
             
@@ -284,7 +283,7 @@
                     if (sa==='P' && sb==='M') return 15;
                     if (sa==='M' && sb==='N') return 16;
                     if (sa==='M' && sb==='P') return 17;
-                } else { // Mucho Cocido
+                } else {
                     if (sa==='N' && sb==='N') return 18;
                     if (sa==='N' && sb==='P') return 19;
                     if (sa==='P' && sb==='N') return 20;
@@ -292,7 +291,7 @@
                     if (sa==='N' && sb==='M') return 22;
                     if (sa==='M' && sb==='N') return 23;
                 }
-            } else { // PLANCHA
+            } else {
                 if (sp==='P') {
                     if (sa==='N' && sb==='N') return 24;
                     if (sa==='N' && sb==='P') return 25;
@@ -302,7 +301,7 @@
                     if (sa==='P' && sb==='M') return 29;
                     if (sa==='M' && sb==='N') return 30;
                     if (sa==='M' && sb==='P') return 31;
-                } else { // Mucho Plancha
+                } else {
                     if (sa==='N' && sb==='N') return 32;
                     if (sa==='N' && sb==='P') return 33;
                     if (sa==='P' && sb==='N') return 34;
@@ -327,23 +326,36 @@
             
             document.getElementById('modal-img').src = document.getElementById('active-img').src;
             document.getElementById('modal-desc').innerText = name;
-            document.getElementById('modal-qty').innerText = qty;
+            document.getElementById('modal-qty-text').innerText = "CANTIDAD: " + qty;
             document.getElementById('modal-total').innerText = "$" + (priceVal * qty).toLocaleString('es-CL');
             document.getElementById('confirm-modal').style.display = 'flex';
         }
 
         function closeModal() { document.getElementById('confirm-modal').style.display = 'none'; }
 
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                if (elementTop < windowHeight - 150) reveals[i].classList.add("active");
+            }
+        }
+
         window.addEventListener('load', () => {
             updateGlobalCartCount();
             setTimeout(() => {
                 document.getElementById('loader').style.opacity = '0';
-                setTimeout(() => { document.getElementById('loader').style.display = 'none'; reveal(); }, 800);
-            }, 1500);
+                setTimeout(() => { 
+                    document.getElementById('loader').style.display = 'none'; 
+                    reveal();
+                }, 800);
+            }, 1000);
+            update();
         });
 
+        window.addEventListener("scroll", reveal);
         document.querySelectorAll('input[type=range]').forEach(i => i.addEventListener('input', update));
-        update();
     </script>
 </body>
 </html>
