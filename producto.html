@@ -27,29 +27,30 @@
         #live-price { font-family: 'Courier New'; font-size: 32px; margin-bottom: 20px; font-weight: 900; }
         .technical-desc { font-size: 13px; color: #444; margin-bottom: 30px; line-height: 1.5; max-width: 600px; }
         
-        /* CORRECCIÓN PACKS GRID */
         .config-box { width: 100%; max-width: 450px; margin-bottom: 40px; border: 1px solid #000; background: #fff; padding: 25px; box-sizing: border-box; text-align: left; }
         .config-label { font-family: 'Inter'; font-weight: 900; font-size: 11px; margin-bottom: 15px; display: block; letter-spacing: 1px; color: #888; }
         
         .pack-grid { display: flex; gap: 15px; margin-bottom: 25px; }
         .pack-item { flex: 1; }
         .pack-item label { display: block; font-size: 9px; font-weight: 900; margin-bottom: 8px; font-family: 'Inter'; height: 25px; }
-        .qty-input-small { width: 100%; padding: 12px; border: 2px solid #000; font-family: 'Inter'; font-weight: 900; font-size: 18px; text-align: center; outline: none; box-sizing: border-box; background: #fff; }
+
+        /* STEPPER SYSTEM */
+        .stepper { display: flex; align-items: center; border: 2px solid #000; background: #fff; width: fit-content; }
+        .stepper-btn { background: none; border: none; color: #000; font-family: 'Inter'; font-weight: 900; font-size: 20px; padding: 5px 15px; cursor: pointer; }
+        .stepper-val { width: 40px; text-align: center; font-family: 'Inter'; font-weight: 900; font-size: 16px; border-left: 1px solid #eee; border-right: 1px solid #eee; }
 
         .option-toggle { display: flex; gap: 10px; }
         .btn-opt { flex: 1; padding: 12px; border: 1px solid #000; background: #fff; cursor: pointer; font-family: 'Inter'; font-weight: 900; font-size: 10px; }
         .btn-opt.active { background: #000; color: #fff; }
 
-        .purchase-container { display: flex; width: 100%; max-width: 400px; margin: 0 auto 60px; border: 1px solid #000; }
-        .qty-main { width: 80px; border: none; border-right: 1px solid #000; font-family: 'Inter'; font-weight: 900; font-size: 18px; text-align: center; outline: none; background: #fff; }
-        .buy-btn-new { flex-grow: 1; background: #000; color: #fff; border: none; font-family: 'Inter'; font-weight: 900; font-size: 16px; cursor: pointer; }
+        .purchase-container { display: flex; width: 100%; max-width: 400px; margin: 0 auto 60px; border: 1px solid #000; align-items: stretch; }
+        .buy-btn-new { flex-grow: 1; background: #000; color: #fff; border: none; font-family: 'Inter'; font-weight: 900; font-size: 16px; cursor: pointer; padding: 15px; }
 
         .macro-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: #000; border: 1px solid #000; width: 100%; margin: 40px 0; }
         .macro-item { background: #fff; padding: 20px 5px; }
         .macro-num { display: block; font-size: 20px; font-weight: 900; font-family: 'Inter'; }
         .macro-label { font-size: 9px; color: #888; font-weight: 900; }
 
-        /* MODAL */
         .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
         .modal-content { background: #fff; width: 100%; max-width: 500px; padding: 40px; position: relative; }
         .modal-title { font-family: 'Inter'; font-weight: 900; font-size: 20px; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 15px; text-align: center; }
@@ -57,15 +58,11 @@
         .modal-body { display: flex; align-items: flex-start; gap: 20px; text-align: left; margin-bottom: 30px; position: relative; }
         #modal-img { width: 90px; height: 90px; object-fit: cover; border: 1px solid #eee; }
         .modal-info-text { flex-grow: 1; font-family: 'Inter'; }
-        .modal-info-text h3 { font-weight: 900; margin: 0 0 5px; font-size: 14px; padding-right: 40px; }
-        .modal-info-text p { margin: 2px 0; font-size: 12px; color: #666; }
-
-        /* ELIMINAR CON HOVER */
+        
         .delete-btn-container { position: absolute; right: 0; top: 0; text-align: right; cursor: pointer; }
-        .delete-x { font-size: 22px; color: #000; font-weight: 900; display: block; line-height: 1; transition: color 0.2s; }
-        .delete-label { font-size: 8px; color: #ff0000; font-weight: 900; display: block; margin-top: 4px; opacity: 0; transition: opacity 0.2s; white-space: nowrap; }
+        .delete-x { font-size: 22px; color: #000; font-weight: 900; display: block; line-height: 1; }
+        .delete-label { font-size: 8px; color: #ff0000; font-weight: 900; display: block; margin-top: 4px; opacity: 0; transition: 0.2s; }
         .delete-btn-container:hover .delete-label { opacity: 1; }
-        .delete-btn-container:hover .delete-x { color: #ff0000; }
 
         .btn-modal-black { background: #000; color: #fff; padding: 18px; text-decoration: none; font-weight: 900; display: block; text-align: center; margin-bottom: 10px; font-size: 14px; }
         .btn-modal-outline { background: #fff; color: #000; padding: 18px; border: 2px solid #000; font-weight: 900; width: 100%; cursor: pointer; font-size: 14px; }
@@ -99,9 +96,9 @@
                         <span class="delete-x">✕</span>
                         <span class="delete-label">ELIMINAR PEDIDO</span>
                     </div>
-                    <h3 id="modal-prod-name"></h3>
-                    <p id="modal-qty-text"></p>
-                    <p id="modal-total-text" style="font-weight: 900; color: #000; margin-top: 10px;"></p>
+                    <h3 id="modal-prod-name" style="margin:0; font-size:14px; font-weight:900;"></h3>
+                    <p id="modal-qty-text" style="margin:5px 0; font-size:12px;"></p>
+                    <p id="modal-total-text" style="font-weight: 900; color: #000; margin-top: 10px; font-size:16px;"></p>
                 </div>
             </div>
             <a href="carrito.html" class="btn-modal-black">VER CARRO</a>
@@ -120,18 +117,24 @@
 
         const params = new URLSearchParams(window.location.search);
         const item = db[params.get('id')] || db.highcarb;
-        let conPimienta = true;
-        let lastAddedCount = 0;
+        let conPimienta = true, lastAddedCount = 0, mainQty = 1, packHC = item.total || 0, packLC = 0;
 
         function updateLivePrice() {
-            const qty = parseInt(document.getElementById('qty-main').value) || 1;
-            document.getElementById('live-price').innerText = "$" + (item.price * qty).toLocaleString('es-CL');
+            document.getElementById('live-price').innerText = "$" + (item.price * mainQty).toLocaleString('es-CL');
         }
 
         function setPimienta(val) {
             conPimienta = val;
             document.getElementById('btn-p-si').classList.toggle('active', val);
             document.getElementById('btn-p-no').classList.toggle('active', !val);
+        }
+
+        function stepMain(v) { mainQty = Math.max(1, Math.min(item.max, mainQty + v)); document.getElementById('val-main').innerText = mainQty; updateLivePrice(); }
+        function stepPack(type, v) {
+            if(type === 'hc') { packHC = Math.max(0, Math.min(item.total, packHC + v)); packLC = item.total - packHC; }
+            else { packLC = Math.max(0, Math.min(item.total, packLC + v)); packHC = item.total - packLC; }
+            document.getElementById('val-hc').innerText = packHC;
+            document.getElementById('val-lc').innerText = packLC;
         }
 
         function renderProduct() {
@@ -141,12 +144,12 @@
                     <span class="config-label">REPARTO DEL PACK (${item.total} UNIDADES)</span>
                     <div class="pack-grid">
                         <div class="pack-item">
-                            <label>HIGH CARB<br>(200P|300A|100B)</label>
-                            <input type="number" id="qty-hc" class="qty-input-small" value="${item.total}" min="0" max="${item.total}" onchange="adjustPack(this, 'qty-lc')" onkeydown="return false;">
+                            <label>HIGH CARB</label>
+                            <div class="stepper"><button class="stepper-btn" onclick="stepPack('hc',-1)">-</button><span class="stepper-val" id="val-hc">${packHC}</span><button class="stepper-btn" onclick="stepPack('hc',1)">+</button></div>
                         </div>
                         <div class="pack-item">
-                            <label>LOW CARB<br>(200P|150A|100B)</label>
-                            <input type="number" id="qty-lc" class="qty-input-small" value="0" min="0" max="${item.total}" onchange="adjustPack(this, 'qty-hc')" onkeydown="return false;">
+                            <label>LOW CARB</label>
+                            <div class="stepper"><button class="stepper-btn" onclick="stepPack('lc',-1)">-</button><span class="stepper-val" id="val-lc">${packLC}</span><button class="stepper-btn" onclick="stepPack('lc',1)">+</button></div>
                         </div>
                     </div>
                     <span class="config-label">SAZÓN GENERAL</span>
@@ -163,78 +166,52 @@
                     </div>
                 </div>`;
 
-            const macroHTML = isPack ? '' : `
-                <div class="macro-grid">
-                    <div class="macro-item"><span class="macro-num">${item.k}</span><span class="macro-label">KCAL</span></div>
-                    <div class="macro-item"><span class="macro-num">${item.p}G</span><span class="macro-label">PROT</span></div>
-                    <div class="macro-item"><span class="macro-num">${item.c}G</span><span class="macro-label">CARBS</span></div>
-                    <div class="macro-item"><span class="macro-num">${item.g}G</span><span class="macro-label">FAT</span></div>
-                </div>`;
-
             document.getElementById('product-content').innerHTML = `
                 <div class="image-container"><div class="image-wrapper"><img src="${item.imgs[0]}"></div></div>
                 <div id="live-price">$${item.price.toLocaleString('es-CL')}</div>
                 <h1 class="product-title">${item.name}</h1>
                 <p style="font-family:'Inter'; font-weight:900; font-size:12px; letter-spacing:1px; margin-bottom:10px;">${item.grams || 'SISTEMA DE ALIMENTACIÓN POR VOLUMEN'}</p>
-                <p class="technical-desc">POLLO A LA PLANCHA CON ARROZ BLANCO Y BRÓCOLI COCIDO AL DENTE PARA MANTENER MACRONUTRIENTES.</p>
+                <p class="technical-desc">POLLO A LA PLANCHA CON ARROZ BLANCO Y BRÓCOLI COCIDO AL DENTE.</p>
                 ${configHTML}
                 <div class="purchase-container">
-                    <input type="number" id="qty-main" class="qty-main" value="1" min="1" max="${item.max}" oninput="updateLivePrice()" onkeydown="return false;">
+                    <div class="stepper" style="border:none; border-right:1px solid #000; padding:10px;"><button class="stepper-btn" onclick="stepMain(-1)">-</button><span class="stepper-val" id="val-main">1</span><button class="stepper-btn" onclick="stepMain(1)">+</button></div>
                     <button class="buy-btn-new" onclick="addToCart()">AÑADIR AL CARRO</button>
                 </div>
-                ${macroHTML}`;
-        }
-
-        function adjustPack(input, otherId) {
-            let val = parseInt(input.value) || 0;
-            if (val > item.total) val = item.total;
-            if (val < 0) val = 0;
-            input.value = val;
-            document.getElementById(otherId).value = item.total - val;
+                ${!isPack ? `
+                <div class="macro-grid">
+                    <div class="macro-item"><span class="macro-num">${item.k}</span><span class="macro-label">KCAL</span></div>
+                    <div class="macro-item"><span class="macro-num">${item.p}G</span><span class="macro-label">PROT</span></div>
+                    <div class="macro-item"><span class="macro-num">${item.c}G</span><span class="macro-label">CARBS</span></div>
+                    <div class="macro-item"><span class="macro-num">${item.g}G</span><span class="macro-label">FAT</span></div>
+                </div>` : ''}`;
         }
 
         function addToCart() {
-            const qty = parseInt(document.getElementById('qty-main').value) || 1;
-            lastAddedCount = qty;
-            const pimientaText = conPimienta ? "C/PIMIENTA" : "S/PIMIENTA";
-            let finalName = `${item.name} (${pimientaText})`;
-            
-            if (item.id.includes('pack')) {
-                const hc = document.getElementById('qty-hc').value;
-                const lc = document.getElementById('qty-lc').value;
-                finalName = `${item.name} [${hc}HC|${lc}LC] (${pimientaText})`;
-            }
+            const pim = conPimienta ? "C/PIMIENTA" : "S/PIMIENTA";
+            let name = `${item.name} (${pim})`;
+            if (item.id.includes('pack')) name = `${item.name} [${packHC}HC|${packLC}LC] (${pim})`;
 
+            lastAddedCount = mainQty;
             let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
-            for(let i=0; i<qty; i++) { cart.push({ name: finalName, price: item.price }); }
+            for(let i=0; i<mainQty; i++) { cart.push({ name: name, price: item.price }); }
             localStorage.setItem('preps_cart', JSON.stringify(cart));
             
             updateGlobalCartCount();
-            
             document.getElementById('modal-img').src = item.imgs[0];
-            document.getElementById('modal-prod-name').innerText = finalName;
-            document.getElementById('modal-qty-text').innerText = "CANTIDAD AGREGADA: " + qty;
-            document.getElementById('modal-total-text').innerText = "TOTAL: $" + (item.price * qty).toLocaleString('es-CL');
+            document.getElementById('modal-prod-name').innerText = name;
+            document.getElementById('modal-qty-text').innerText = "CANTIDAD AGREGADA: " + mainQty;
+            document.getElementById('modal-total-text').innerText = "TOTAL: $" + (item.price * mainQty).toLocaleString('es-CL');
             document.getElementById('confirm-modal').style.display = 'flex';
         }
 
         function undoAddToCart() {
             let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
-            if (cart.length >= lastAddedCount) {
-                cart.splice(-lastAddedCount);
-                localStorage.setItem('preps_cart', JSON.stringify(cart));
-            }
-            updateGlobalCartCount();
-            closeModal();
+            if (cart.length >= lastAddedCount) { cart.splice(-lastAddedCount); localStorage.setItem('preps_cart', JSON.stringify(cart)); }
+            updateGlobalCartCount(); closeModal();
         }
 
         function closeModal() { document.getElementById('confirm-modal').style.display = 'none'; }
-        
-        function updateGlobalCartCount() {
-            const cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
-            document.getElementById('global-cart-count').innerText = cart.length;
-        }
-
+        function updateGlobalCartCount() { document.getElementById('global-cart-count').innerText = (JSON.parse(localStorage.getItem('preps_cart')) || []).length; }
         window.addEventListener('load', () => { updateGlobalCartCount(); renderProduct(); });
     </script>
 </body>
