@@ -14,7 +14,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
 
     <style>
-        /* ESTÉTICA PREMIUM NEGRO ABSOLUTO */
         body {
             background-color: #000;
             color: #fff;
@@ -25,7 +24,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* 1. LOADER MÍSTICO */
         #loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -34,78 +32,74 @@
         #loader img { width: 150px; animation: pulse 2s infinite ease-in-out; }
         @keyframes pulse { 0%, 100% { transform: scale(0.9); opacity: 0.3; } 50% { transform: scale(1); opacity: 1; } }
 
-        /* 2. SCROLL REVEAL */
         .reveal { opacity: 0; transform: translateY(50px); transition: all 1.2s cubic-bezier(0.17, 0.55, 0.55, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* HEADER PREMIUM (ALINEADO IZQ-DER) */
         .main-header {
             display: flex; align-items: center; justify-content: space-between;
             padding: 15px 50px; background: #000; border-bottom: 1px solid #1a1a1a;
             position: sticky; top: 0; z-index: 1000;
         }
         .logo-link img { height: 35px; }
-        
         .main-nav { display: flex; align-items: center; gap: 30px; }
         .main-nav a { text-decoration: none; color: #fff; font-size: 13px; letter-spacing: 2px; }
 
-        /* BOLSA DE COMPRA BLANCA PARA FONDO NEGRO */
-        .cart-link-container {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            border-bottom: none !important;
-            padding-bottom: 0 !important;
-        }
+        .cart-link-container { position: relative; display: inline-flex; align-items: center; border-bottom: none !important; }
         .cart-icon-svg { width: 22px !important; height: 22px !important; color: #fff; display: block; }
         #global-cart-count {
-            position: absolute; top: -8px; right: -10px;
-            background: #fff; color: #000;
-            font-family: 'Inter', sans-serif; font-weight: 900; font-size: 10px;
-            width: 18px; height: 18px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            letter-spacing: 0; line-height: 1;
+            position: absolute; top: -8px; right: -10px; background: #fff; color: #000;
+            font-family: 'Inter'; font-weight: 900; font-size: 10px; width: 18px; height: 18px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
         }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 80px 20px 150px; }
         .welcome-section { text-align: center; margin-bottom: 100px; }
         .welcome-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 32px; letter-spacing: -1.5px; margin-bottom: 20px; line-height: 1.1; }
-        .welcome-subtitle { font-size: 14px; letter-spacing: 3px; color: #444; }
 
         .config-layout { display: flex; gap: 60px; flex-wrap: wrap; }
         .image-section { flex: 1; min-width: 320px; border: 1px solid #222; background: #050505; }
-        .food-name { background: #fff; color: #000; padding: 20px; text-align: center; font-family: 'Inter', sans-serif; font-weight: 900; font-size: 18px; letter-spacing: -0.5px; }
-        .image-placeholder { height: 450px; background: #080808; display: flex; align-items: center; justify-content: center; color: #1a1a1a; letter-spacing: 10px; font-size: 12px; }
+        .food-name { background: #fff; color: #000; padding: 20px; text-align: center; font-family: 'Inter'; font-weight: 900; font-size: 18px; }
+        .image-placeholder { height: 450px; background: #080808; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        #active-img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s; }
 
         .config-section { width: 420px; }
-        .section-label { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 15px; margin-bottom: 30px; border-left: 4px solid #fff; padding-left: 15px; letter-spacing: -0.5px; }
-        .limit-info { font-size: 11px; color: #ff3333 !important; margin-bottom: 25px; letter-spacing: 1px; border: 1px solid #441111; padding: 12px; text-align: center; background: rgba(255,0,0,0.02); pointer-events: none; }
+        .section-label { font-family: 'Inter'; font-weight: 900; font-size: 15px; margin-bottom: 30px; border-left: 4px solid #fff; padding-left: 15px; }
+        .limit-info { font-size: 11px; color: #ff3333 !important; margin-bottom: 25px; border: 1px solid #441111; padding: 12px; text-align: center; }
 
         .step { margin-bottom: 40px; }
         .label-group { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 12px; font-size: 13px; color: #666; }
         input[type=range] { width: 100%; height: 2px; background: #333; appearance: none; outline: none; accent-color: #fff; }
 
         .selector-box { display: flex; gap: 8px; margin-top: 15px; }
-        .btn-opt { flex: 1; padding: 12px; border: 1px solid #222; background: transparent; color: #444; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 900; font-size: 10px; transition: 0.3s; }
+        .btn-opt { flex: 1; padding: 12px; border: 1px solid #222; background: transparent; color: #444; cursor: pointer; font-family: 'Inter'; font-weight: 900; font-size: 10px; transition: 0.3s; }
         .btn-opt.active { border-color: #fff; color: #fff; background: #0a0a0a; }
 
         .macros-display { margin-top: 50px; padding: 30px; background: #050505; border: 1px solid #111; }
         .macro-line { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 13px; color: #555; }
         .macro-val { font-size: 22px; font-weight: 900; color: #fff; }
 
-        .action-area { margin-top: 20px; padding: 35px; background: #fff; color: #000; text-align: center; }
-        .price-display { font-size: 24px; font-weight: 900; letter-spacing: 3px; margin-bottom: 20px; font-family: 'Courier New', monospace; }
-        .btn-send { background: #000; color: #fff; padding: 18px 40px; border: none; font-family: 'Inter', sans-serif; font-weight: 900; font-size: 16px; letter-spacing: -0.5px; width: 100%; cursor: pointer; transition: 0.4s; }
+        /* COMPRA: SELECTOR Y BOTÓN */
+        .purchase-area { display: flex; margin-top: 20px; border: 1px solid #fff; }
+        .qty-input { width: 80px; background: #fff; color: #000; border: none; font-family: 'Inter'; font-weight: 900; font-size: 18px; text-align: center; }
+        .btn-send { flex-grow: 1; background: #fff; color: #000; padding: 22px; border: none; font-family: 'Inter'; font-weight: 900; font-size: 16px; cursor: pointer; transition: 0.4s; }
+        .btn-send:hover { background: #ccc; }
+
+        /* MODAL */
+        .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
+        .modal-content { background: #fff; color: #000; width: 100%; max-width: 500px; padding: 40px; position: relative; text-align: center; }
+        .modal-title { font-family: 'Inter'; font-weight: 900; font-size: 22px; margin-bottom: 20px; }
+        .modal-img-container { width: 100%; height: 200px; background: #eee; margin-bottom: 20px; overflow: hidden; }
+        .modal-img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .btn-modal-black { background: #000; color: #fff; padding: 18px; text-decoration: none; font-weight: 900; display: block; margin-bottom: 10px; }
+        .btn-modal-outline { background: #fff; color: #000; padding: 18px; border: 2px solid #000; font-weight: 900; width: 100%; cursor: pointer; }
 
         .social-footer { text-align: center; padding: 60px; background: #000; border-top: 1px solid #111; }
-        .social-link img { width: 30px; filter: invert(1); opacity: 0.5; transition: 0.3s; }
+        .social-link img { width: 30px; filter: invert(1); opacity: 0.5; }
 
         @media (max-width: 850px) {
             .main-header { padding: 20px; flex-direction: column; gap: 15px; }
-            .main-nav { gap: 15px; }
             .config-layout { flex-direction: column; }
             .config-section { width: 100%; }
-            .welcome-title { font-size: 24px; }
         }
     </style>
 </head>
@@ -135,19 +129,21 @@
 
     <div class="container">
         <div class="welcome-section reveal">
-            <h1 class="welcome-title">BIENVENID@S A CUSTOM PERFORMANCE V1.0 BY PREPS</h1>
-            <p class="welcome-subtitle">DISEÑADO PARA TI QUE BUSCAS PRECISIÓN EN TU COMIDA.</p>
+            <h1 class="welcome-title">CUSTOM PERFORMANCE V1.0</h1>
+            <p style="color: #444; letter-spacing: 3px;">DISEÑO DE COMBUSTIBLE PERSONALIZADO</p>
         </div>
 
         <div class="config-layout">
             <div class="image-section reveal">
                 <div class="food-name" id="protocol-name">UNIDAD: BASE LIGERA</div>
-                <div class="image-placeholder"><span>SYSTEM_ACTIVE_IMG</span></div>
+                <div class="image-placeholder">
+                    <img id="active-img" src="img/1.jpg" alt="Preview">
+                </div>
             </div>
 
             <div class="config-section reveal">
                 <div class="section-label">CONFIGURACIÓN DE CARGA</div>
-                <div class="limit-info">SISTEMA LIMITADO A 800G TOTALES POR UNIDAD.</div>
+                <div class="limit-info">SISTEMA LIMITADO A 800G TOTALES.</div>
 
                 <div class="step">
                     <div class="label-group"><span>POLLO</span> <span id="val-pollo">100G</span></div>
@@ -171,60 +167,52 @@
                 <div class="macros-display">
                     <div class="macro-line"><span>PROTEÍNA</span> <span class="macro-val"><span id="m-prot">0</span>G</span></div>
                     <div class="macro-line"><span>CARBOS</span> <span class="macro-val"><span id="m-carb">0</span>G</span></div>
-                    <div class="macro-line"><span>GRASAS</span> <span class="macro-val"><span id="m-fat">0</span>G</span></div>
                     <div class="macro-line" style="border:none; margin-bottom:0;"><span>ENERGÍA</span> <span class="macro-val"><span id="m-kcal">0</span> KCAL</span></div>
                 </div>
 
-                <div class="action-area">
-                    <div class="price-display">TOTAL: <span id="final-price">$0</span></div>
+                <div class="purchase-area">
+                    <select id="qty-selector" class="qty-input">
+                        <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                    </select>
                     <button class="btn-send" onclick="addToCartCustom()">AGREGAR AL CARRO</button>
                 </div>
+                <div style="text-align: center; margin-top: 15px; font-family: 'Courier New'; font-weight: 900; font-size: 22px;" id="final-price">$0</div>
             </div>
         </div>
     </div>
 
+    <div id="confirm-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 class="modal-title">UNIDAD CONFIGURADA</h2>
+            <div class="modal-img-container">
+                <img id="modal-img" src="" alt="">
+            </div>
+            <div style="margin-bottom: 25px; text-align: left; font-size: 13px;">
+                <p id="modal-desc" style="font-weight: 900;"></p>
+                <p>CANTIDAD: <span id="modal-qty"></span></p>
+                <p style="font-weight: 900; border-top: 1px solid #eee; padding-top: 10px; font-size: 18px;">TOTAL: <span id="modal-total"></span></p>
+            </div>
+            <a href="carrito.html" class="btn-modal-black">IR AL CARRO</a>
+            <button class="btn-modal-outline" onclick="closeModal()">SEGUIR PERSONALIZANDO</button>
+        </div>
+    </div>
+
     <footer class="social-footer">
-        <a href="https://www.instagram.com/prepscl/" target="_blank" class="social-link">
-            <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram">
-        </a>
-        <p style="font-size: 9px; margin-top: 30px; color: #222; letter-spacing: 3px;">© 2026 PREPS CHILE - PRECISION DINING</p>
+        <a href="https://www.instagram.com/prepscl/" target="_blank" class="social-link"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram"></a>
+        <p style="font-size: 9px; margin-top: 30px; color: #222; letter-spacing: 3px;">© 2026 PREPS CHILE</p>
     </footer>
 
     <script>
         let prepPollo = 'PLANCHA';
+        const precios = { pollo: 22, arroz: 4, brocoli: 5.9, base: 1000 };
+        const pollo_macros = { 'PLANCHA': { p: 0.31, c: 0, k: 2.035 }, 'COCIDO': { p: 0.23, c: 0, k: 1.1 } };
+        const arroz_macros = { p: 0.026, c: 0.28, k: 1.32 };
+        const brocoli_macros = { p: 0.03, c: 0.06, k: 0.27 };
 
         function updateGlobalCartCount() {
             const cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
-            const countElement = document.getElementById('global-cart-count');
-            if (countElement) {
-                countElement.innerText = cart.length;
-                countElement.style.display = cart.length > 0 ? 'flex' : 'none';
-            }
+            document.getElementById('global-cart-count').innerText = cart.length;
         }
-
-        window.addEventListener('load', () => {
-            updateGlobalCartCount();
-            setTimeout(() => {
-                const loader = document.getElementById('loader');
-                loader.style.opacity = '0';
-                setTimeout(() => { loader.style.display = 'none'; reveal(); }, 1000);
-            }, 2000);
-        });
-
-        function reveal() {
-            var reveals = document.querySelectorAll(".reveal");
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                if (elementTop < windowHeight - 150) reveals[i].classList.add("active");
-            }
-        }
-        window.addEventListener("scroll", reveal);
-
-        const pollo_macros = { 'PLANCHA': { p: 0.31, c: 0, g: 0.085, k: 2.035 }, 'COCIDO': { p: 0.23, c: 0, g: 0.015, k: 1.1 } };
-        const arroz_macros = { p: 0.0266, c: 0.2866, g: 0.0066, k: 1.32 }; 
-        const brocoli_macros = { p: 0.03, c: 0.06, g: 0, k: 0.27 };         
-        const precios = { pollo: 22.47, arroz: 2.08, brocoli: 5.69, base: 3 };
 
         function setPrep(type) {
             prepPollo = type;
@@ -237,10 +225,9 @@
             let p = parseInt(document.getElementById('input-pollo').value);
             let a = parseInt(document.getElementById('input-arroz').value);
             let b = parseInt(document.getElementById('input-brocoli').value);
-            let total = p + a + b;
-
-            if (total > 800 && e) {
-                e.target.value = parseInt(e.target.value) - (total - 800);
+            
+            if (p + a + b > 800 && e) {
+                e.target.value = parseInt(e.target.value) - ((p + a + b) - 800);
                 p = parseInt(document.getElementById('input-pollo').value);
                 a = parseInt(document.getElementById('input-arroz').value);
                 b = parseInt(document.getElementById('input-brocoli').value);
@@ -250,42 +237,110 @@
             document.getElementById('val-arroz').innerText = a + "G";
             document.getElementById('val-brocoli').innerText = b + "G";
 
-            let protTotal = (p * pollo_macros[prepPollo].p) + (a * arroz_macros.p) + (b * brocoli_macros.p);
-            let carbTotal = (a * arroz_macros.c) + (b * brocoli_macros.c);
-            let fatTotal = (p * pollo_macros[prepPollo].g) + (a * arroz_macros.g);
-            let kcalTotal = (p * pollo_macros[prepPollo].k) + (a * arroz_macros.k) + (b * brocoli_macros.k);
+            // Macros y Precio
+            const prot = (p * pollo_macros[prepPollo].p) + (a * arroz_macros.p) + (b * brocoli_macros.p);
+            const carb = (a * arroz_macros.c) + (b * brocoli_macros.c);
+            const kcal = (p * pollo_macros[prepPollo].k) + (a * arroz_macros.k) + (b * brocoli_macros.k);
+            const price = (p * precios.pollo) + (a * precios.arroz) + (b * precios.brocoli) + precios.base;
 
-            document.getElementById('m-prot').innerText = Math.round(protTotal);
-            document.getElementById('m-carb').innerText = Math.round(carbTotal);
-            document.getElementById('m-fat').innerText = Math.round(fatTotal);
-            document.getElementById('m-kcal').innerText = Math.round(kcalTotal);
+            document.getElementById('m-prot').innerText = Math.round(prot);
+            document.getElementById('m-carb').innerText = Math.round(carb);
+            document.getElementById('m-kcal').innerText = Math.round(kcal);
+            document.getElementById('final-price').innerText = "$" + Math.round(price).toLocaleString('es-CL');
 
-            let finalPrice = (p * precios.pollo) + (a * precios.arroz) + (b * precios.brocoli) + precios.base;
-            document.getElementById('final-price').innerText = "$" + Math.round(finalPrice).toLocaleString('es-CL');
-
+            // LÓGICA DE FOTOS (1-37)
+            const imgId = getImgId(p, a, b, prepPollo);
+            document.getElementById('active-img').src = `img/${imgId}.jpg`;
+            
             let proto = "UNIDAD: PERSONALIZADA";
             if (p+a+b >= 750) proto = "PROTOCOLO: SOBRECARGA";
             else if (p >= 400 && a <= 100) proto = "MODO: KETO ELITE";
-            else if (a >= 450) proto = "PROTOCOLO: CARGA CARB";
             else if (p+a+b <= 350) proto = "UNIDAD: BASE LIGERA";
             document.getElementById('protocol-name').innerText = proto;
         }
 
-        function addToCartCustom() {
-            const priceText = document.getElementById('final-price').innerText;
-            const priceNum = parseInt(priceText.replace('$', '').replace('.', ''));
-            const proto = document.getElementById('protocol-name').innerText;
-            const det = `${document.getElementById('val-pollo').innerText} P | ${document.getElementById('val-arroz').innerText} A`;
+        function getImgId(p, a, b, prep) {
+            const sp = p === 0 ? 'N' : (p < 400 ? 'P' : 'M');
+            const sa = a === 0 ? 'N' : (a < 400 ? 'P' : 'M');
+            const sb = b === 0 ? 'N' : (b < 400 ? 'P' : 'M');
 
-            let currentCart = JSON.parse(localStorage.getItem('preps_cart')) || [];
-            currentCart.push({ 
-                name: `CUSTOM: ${proto} (${det})`, 
-                price: priceNum 
-            });
-            localStorage.setItem('preps_cart', JSON.stringify(currentCart));
-            updateGlobalCartCount();
-            window.location.href = "carrito.html";
+            if (sp === 'N') {
+                if (sa==='N' && sb==='N') return 1;
+                if (sa==='N' && sb==='P') return 2;
+                if (sa==='N' && sb==='M') return 3;
+                if (sa==='P' && sb==='N') return 4;
+                if (sa==='P' && sb==='P') return 5;
+                if (sa==='P' && sb==='M') return 6;
+                if (sa==='M' && sb==='N') return 7;
+                if (sa==='M' && sb==='P') return 8;
+                if (sa==='M' && sb==='M') return 9;
+            } else if (prep === 'COCIDO') {
+                if (sp==='P') {
+                    if (sa==='N' && sb==='N') return 10;
+                    if (sa==='N' && sb==='P') return 11;
+                    if (sa==='N' && sb==='M') return 12;
+                    if (sa==='P' && sb==='N') return 13;
+                    if (sa==='P' && sb==='P') return 14;
+                    if (sa==='P' && sb==='M') return 15;
+                    if (sa==='M' && sb==='N') return 16;
+                    if (sa==='M' && sb==='P') return 17;
+                } else { // Mucho Cocido
+                    if (sa==='N' && sb==='N') return 18;
+                    if (sa==='N' && sb==='P') return 19;
+                    if (sa==='P' && sb==='N') return 20;
+                    if (sa==='P' && sb==='P') return 21;
+                    if (sa==='N' && sb==='M') return 22;
+                    if (sa==='M' && sb==='N') return 23;
+                }
+            } else { // PLANCHA
+                if (sp==='P') {
+                    if (sa==='N' && sb==='N') return 24;
+                    if (sa==='N' && sb==='P') return 25;
+                    if (sa==='N' && sb==='M') return 26;
+                    if (sa==='P' && sb==='N') return 27;
+                    if (sa==='P' && sb==='P') return 28;
+                    if (sa==='P' && sb==='M') return 29;
+                    if (sa==='M' && sb==='N') return 30;
+                    if (sa==='M' && sb==='P') return 31;
+                } else { // Mucho Plancha
+                    if (sa==='N' && sb==='N') return 32;
+                    if (sa==='N' && sb==='P') return 33;
+                    if (sa==='P' && sb==='N') return 34;
+                    if (sa==='P' && sb==='P') return 35;
+                    if (sa==='N' && sb==='M') return 36;
+                    if (sa==='M' && sb==='N') return 37;
+                }
+            }
+            return 1;
         }
+
+        function addToCartCustom() {
+            const qty = parseInt(document.getElementById('qty-selector').value);
+            const priceVal = parseInt(document.getElementById('final-price').innerText.replace('$', '').replace('.', ''));
+            const name = `CUSTOM: ${document.getElementById('protocol-name').innerText} (${document.getElementById('val-pollo').innerText} P | ${document.getElementById('val-arroz').innerText} A)`;
+            
+            let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
+            for(let i=0; i<qty; i++) { cart.push({ name: name, price: priceVal }); }
+            localStorage.setItem('preps_cart', JSON.stringify(cart));
+            
+            updateGlobalCartCount();
+            
+            document.getElementById('modal-img').src = document.getElementById('active-img').src;
+            document.getElementById('modal-desc').innerText = name;
+            document.getElementById('modal-qty').innerText = qty;
+            document.getElementById('modal-total').innerText = "$" + (priceVal * qty).toLocaleString('es-CL');
+            document.getElementById('confirm-modal').style.display = 'flex';
+        }
+
+        function closeModal() { document.getElementById('confirm-modal').style.display = 'none'; }
+
+        window.addEventListener('load', () => {
+            updateGlobalCartCount();
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => { document.getElementById('loader').style.display = 'none'; reveal(); }, 800);
+            }, 1500);
+        });
 
         document.querySelectorAll('input[type=range]').forEach(i => i.addEventListener('input', update));
         update();
