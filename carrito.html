@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -57,7 +58,17 @@
         
         .promo-group { display: flex; gap: 10px; margin-bottom: 15px; }
         .btn-apply { background: #000; color: #fff; border: none; padding: 0 25px; font-weight: 900; cursor: pointer; }
-        #discount-msg { color: var(--accent); font-weight: 900; font-size: 11px; margin-top: 5px; display: none; }
+
+        /* ANIMACIÓN DE DESCUENTO RESTAURADA */
+        #discount-msg { 
+            color: var(--accent); 
+            font-weight: 900; 
+            font-size: 11px; 
+            margin-top: 5px; 
+            display: none; 
+            animation: blink 1s infinite; 
+        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
         .summary-box { background: #000; color: #fff; padding: 45px 20px; text-align: center; }
         .total-amount { font-family: 'Inter'; font-weight: 900; font-size: 42px; color: #fff; margin: 15px 0; letter-spacing: -2px; }
