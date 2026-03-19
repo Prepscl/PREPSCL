@@ -20,35 +20,55 @@
 
         .container { max-width: 800px; margin: 0 auto 100px; padding: 0 20px; }
         
-        /* DASHBOARD DINÁMICO */
-        .biomass-dashboard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0; }
-        .macro-card { background: #000; color: #fff; padding: 15px; text-align: center; border: 1px solid #333; }
-        .macro-label { font-size: 8px; opacity: 0.6; display: block; margin-bottom: 5px; }
-        .macro-total-val { font-family: 'Inter'; font-weight: 900; font-size: 18px; color: var(--neon); }
+        /* PANTALLAS DIGITALES REALISTAS */
+        .biomass-dashboard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 25px 0; }
+        .macro-card { 
+            background: linear-gradient(145deg, #111, #000); 
+            color: #fff; 
+            padding: 20px 10px; 
+            text-align: center; 
+            border: 1px solid #333; 
+            border-radius: 4px;
+            box-shadow: inset 0 0 15px rgba(57, 255, 20, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        .macro-card::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--neon); opacity: 0.3; }
+        .macro-label { font-size: 8px; opacity: 0.5; display: block; margin-bottom: 8px; letter-spacing: 2px; }
+        .macro-total-val { font-family: 'Inter'; font-weight: 900; font-size: 22px; color: var(--neon); text-shadow: 0 0 10px rgba(57, 255, 20, 0.5); }
 
         /* BARRA */
-        .progress-container { background: #ddd; height: 8px; width: 100%; margin: 10px 0 30px; border-radius: 10px; overflow: hidden; }
-        #progress-bar { height: 100%; width: 0%; transition: 1s ease; background: #ff4444; }
+        .progress-container { background: #ddd; height: 6px; width: 100%; margin: 10px 0 30px; border-radius: 10px; overflow: hidden; }
+        #progress-bar { height: 100%; width: 0%; transition: 1.5s ease; background: #ff4444; }
         
-        .cart-title { font-family: 'Inter'; font-weight: 900; font-size: 24px; letter-spacing: -1px; margin-top: 40px; text-align: center; text-transform: uppercase; }
+        .cart-title { font-family: 'Inter'; font-weight: 900; font-size: 24px; letter-spacing: -1px; margin-top: 40px; text-align: center; }
 
         /* TABLA */
         .cart-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; background: #fff; border: 1px solid #000; }
-        .cart-row td { padding: 15px; border-bottom: 1px solid #eee; font-size: 12px; }
-        .qty-controls { display: flex; align-items: center; gap: 10px; justify-content: center; }
-        .btn-qty { background: #000; color: #fff; border: none; width: 25px; height: 25px; cursor: pointer; font-weight: 900; }
+        .cart-row td { padding: 18px; border-bottom: 1px solid #eee; font-size: 11px; }
+        .qty-controls { display: flex; align-items: center; gap: 12px; justify-content: center; background: #f9f9f9; padding: 5px; border-radius: 4px; }
+        .btn-qty { background: #000; color: #fff; border: none; width: 28px; height: 28px; cursor: pointer; font-weight: 900; transition: 0.2s; }
+        .btn-qty:active { transform: scale(0.9); }
 
-        .summary-box { background: #000; color: #fff; padding: 40px; text-align: center; margin-top: 20px; }
-        .total-amount { font-family: 'Inter'; font-weight: 900; font-size: 36px; color: #fff; margin: 15px 0; }
+        /* FORM SECTIONS */
+        .form-box { background:#fff; border:1px solid #000; padding:30px; margin-bottom:20px; text-align:left; }
+        .form-label { font-weight:900; font-size:10px; display:block; margin-bottom:20px; opacity:0.5; letter-spacing:1px; }
+        input, select { width:100%; padding:15px; margin-bottom:15px; border:1px solid #eee; font-family:inherit; font-size: 12px; text-transform: uppercase; box-sizing: border-box; }
+        
+        .promo-group { display: flex; gap: 10px; margin-bottom: 15px; }
+        .btn-apply { background: #000; color: #fff; border: none; padding: 0 25px; font-weight: 900; cursor: pointer; }
+        #discount-msg { color: var(--accent); font-weight: 900; font-size: 11px; margin-top: 5px; display: none; }
+
+        .summary-box { background: #000; color: #fff; padding: 45px 20px; text-align: center; }
+        .total-amount { font-family: 'Inter'; font-weight: 900; font-size: 42px; color: #fff; margin: 15px 0; letter-spacing: -2px; }
         .btn-checkout { background: var(--accent); color: #000; padding: 22px; font-family: 'Inter'; font-weight: 900; font-size: 16px; width: 100%; border: none; cursor: pointer; }
 
         #console-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; color: var(--neon); padding: 40px; box-sizing: border-box; }
 
         @media (max-width: 600px) {
             .main-header { padding: 15px 20px; }
-            .main-nav { gap: 15px; }
             .biomass-dashboard { grid-template-columns: 1fr; }
-            .cart-row td { padding: 10px; font-size: 10px; }
+            .cart-row td { padding: 12px; font-size: 10px; }
         }
     </style>
 </head>
@@ -68,13 +88,13 @@
     </div>
 
     <div id="console-modal">
-        <div id="console-text" style="font-family: monospace;"></div>
+        <div id="console-text" style="font-family: monospace; line-height: 1.8;"></div>
     </div>
 
     <script>
         let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
+        let discount = 0;
         
-        // Base de datos de macros exacta a tu libreta
         const macroDB = {
             "HIGH CARB": {k: 830, p: 73, c: 92},
             "LOW CARB": {k: 632, p: 69, c: 49},
@@ -96,7 +116,6 @@
                 return;
             }
 
-            // Agrupar productos
             const grouped = cart.reduce((acc, item) => {
                 acc[item.name] = acc[item.name] || { count: 0, price: item.price };
                 acc[item.name].count++;
@@ -108,25 +127,22 @@
 
             for (const [name, data] of Object.entries(grouped)) {
                 totalMoney += data.price * data.count;
-                
-                // Buscar macros en la DB
                 let key = Object.keys(macroDB).find(k => name.toUpperCase().includes(k));
                 if(key) {
                     totalKcal += macroDB[key].k * data.count;
                     totalProt += macroDB[key].p * data.count;
                     totalCarb += macroDB[key].c * data.count;
                 } else if (name.includes("CUSTOM")) {
-                    // Si es custom estimamos sobre un High Carb si no hay datos específicos
                     totalKcal += 750 * data.count; totalProt += 70 * data.count;
                 }
 
                 tableRows += `
                     <tr class="cart-row">
                         <td><span style="font-weight:900;">${name}</span></td>
-                        <td>
+                        <td width="120">
                             <div class="qty-controls">
                                 <button class="btn-qty" onclick="changeQty('${name}', -1)">-</button>
-                                <span style="font-weight:900; min-width:20px; text-align:center;">${data.count}</span>
+                                <span style="font-weight:900;">${data.count}</span>
                                 <button class="btn-qty" onclick="changeQty('${name}', 1)">+</button>
                             </div>
                         </td>
@@ -134,12 +150,11 @@
                     </tr>`;
             }
 
-            // Inyectar Dashboard + Tabla + Formulario
             container.innerHTML = `
-                <div class="cart-title">REPORTE DE ESTADO</div>
-                <div class="progress-label" style="margin-top:20px;">
-                    <span>EFICIENCIA SEMANAL</span> 
-                    <span id="status-tag" style="color:red;">CALCULANDO...</span>
+                <div class="cart-title">ESTADO DE CARGA NUTRICIONAL</div>
+                <div class="progress-label" style="margin-top:20px; font-size:9px; letter-spacing:1px; font-weight:900;">
+                    <span>VOLUMEN SEMANAL</span> 
+                    <span id="status-tag">CALCULANDO...</span>
                 </div>
                 <div class="progress-container"><div id="progress-bar"></div></div>
 
@@ -151,15 +166,18 @@
 
                 <table class="cart-table">${tableRows}</table>
 
-                <div style="background:#fff; border:1px solid #000; padding:30px; margin-bottom:20px; text-align:left;">
-                    <span style="font-weight:900; font-size:10px; display:block; margin-bottom:20px; opacity:0.5;">[DATOS DE DESPACHO]</span>
-                    <input type="text" id="cust-name" placeholder="NOMBRE COMPLETO" style="width:100%; padding:15px; margin-bottom:15px; border:1px solid #eee; font-family:inherit;">
-                    <select id="delivery-method" onchange="toggleDelivery()" style="width:100%; padding:15px; font-family:inherit;">
+                <div class="form-box">
+                    <span class="form-label">[DATOS DE CONTACTO]</span>
+                    <input type="text" id="cust-name" placeholder="NOMBRE COMPLETO">
+                    <input type="email" id="cust-email" placeholder="CORREO ELECTRÓNICO">
+                    
+                    <span class="form-label">[LOGÍSTICA]</span>
+                    <select id="delivery-method" onchange="toggleDelivery()">
                         <option value="RETIRO">RETIRO LOCAL (SANTIAGO)</option>
                         <option value="DELIVERY">DELIVERY ZONAL (SANTIAGO)</option>
                     </select>
                     <div id="delivery-options" style="display:none; margin-top:15px;">
-                        <select id="comuna" style="width:100%; padding:15px; font-family:inherit;">
+                        <select id="comuna">
                             <option value="VITACURA">VITACURA</option>
                             <option value="LAS CONDES">LAS CONDES</option>
                             <option value="PROVIDENCIA">PROVIDENCIA</option>
@@ -169,29 +187,45 @@
                     </div>
                 </div>
 
+                <div class="form-box">
+                    <span class="form-label">[CÓDIGO DE ACCESO]</span>
+                    <div class="promo-group">
+                        <input type="text" id="promo-code" placeholder="INGRESAR CÓDIGO" style="margin-bottom:0;">
+                        <button class="btn-apply" onclick="applyPromo()">OK</button>
+                    </div>
+                    <div id="discount-msg">>> CÓDIGO ACTIVADO: -10% DE DESCUENTO</div>
+                </div>
+
                 <div class="summary-box">
-                    <span style="font-size: 10px; letter-spacing: 4px; opacity: 0.5;">TOTAL SISTEMA</span>
-                    <div class="total-amount">$${totalMoney.toLocaleString('es-CL')}</div>
+                    <span style="font-size: 10px; letter-spacing: 4px; opacity: 0.5;">MONTO TOTAL NETO</span>
+                    <div class="total-amount" id="display-total">$${Math.round(totalMoney * (1-discount)).toLocaleString('es-CL')}</div>
                     <button class="btn-checkout" onclick="startConsole()">FINALIZAR PROTOCOLO (WSP)</button>
                 </div>
             `;
 
-            // Actualizar barra de progreso después de renderizar
             setTimeout(() => {
                 const bar = document.getElementById('progress-bar');
                 const tag = document.getElementById('status-tag');
-                let pct = (cart.length / 10) * 100;
-                if(pct > 100) pct = 100;
+                let pct = Math.min((cart.length / 12) * 100, 100);
                 bar.style.width = pct + "%";
                 if(pct < 40) { bar.style.background = "#ff4444"; tag.innerText = "BAJA"; }
                 else if(pct < 80) { bar.style.background = "#ffcc00"; tag.innerText = "MEDIA"; }
-                else { bar.style.background = "#39FF14"; tag.innerText = "OPTIMIZADA"; }
+                else { bar.style.background = "#39FF14"; tag.innerText = "ÓPTIMA"; }
             }, 100);
         }
 
         function toggleDelivery() {
             const options = document.getElementById('delivery-options');
             if(options) options.style.display = (document.getElementById('delivery-method').value === 'DELIVERY') ? 'block' : 'none';
+        }
+
+        function applyPromo() {
+            const code = document.getElementById('promo-code').value.toUpperCase();
+            if (code === 'MILA10') {
+                discount = 0.10;
+                document.getElementById('discount-msg').style.display = 'block';
+                renderCart();
+            } else { alert("SISTEMA: CÓDIGO INVÁLIDO"); }
         }
 
         function changeQty(name, delta) {
@@ -208,12 +242,14 @@
 
         function startConsole() {
             const name = document.getElementById('cust-name').value;
-            if(!name) { alert("INGRESA TU NOMBRE PARA EL TICKET"); return; }
+            const email = document.getElementById('cust-email').value;
+            if(!name || !email) { alert("DATOS DE CONTACTO INCOMPLETOS"); return; }
+            
             const modal = document.getElementById('console-modal');
             const text = document.getElementById('console-text');
             modal.style.display = 'flex';
             text.innerHTML = "";
-            const lines = ["> INICIANDO PROTOCOLO...", "> COMPILANDO BIOMASA...", "> GENERANDO TICKET...", "> REDIRECCIONANDO..."];
+            const lines = ["> CONEXIÓN ESTABLECIDA...", "> VALIDANDO BIOMASA...", "> GENERANDO TICKET #"+Math.floor(Math.random()*9000+1000), "> ACCESO CONCEDIDO..."];
             let i = 0;
             const intv = setInterval(() => {
                 text.innerHTML += lines[i] + "<br>"; i++;
@@ -223,13 +259,17 @@
 
         function sendToWhatsApp() {
             const name = document.getElementById('cust-name').value;
+            const email = document.getElementById('cust-email').value;
             const method = document.getElementById('delivery-method').value;
             const comuna = (method === 'DELIVERY') ? document.getElementById('comuna').value : 'RETIRO';
-            const totalVal = document.querySelector('.total-amount').innerText;
+            const totalVal = document.getElementById('display-total').innerText;
 
-            let msg = `🧪 *ORDEN PREPS*%0A👤 *CLIENTE:* ${name.toUpperCase()}%0A📍 *LOG:* ${method} (${comuna})%0A%0A`;
+            let msg = `🧪 *ORDEN DE CARGA PREPS*%0A👤 *CLIENTE:* ${name.toUpperCase()}%0A📧 *EMAIL:* ${email.toUpperCase()}%0A📍 *LOG:* ${method} (${comuna})%0A%0A`;
+            
             const grouped = cart.reduce((acc, item) => { acc[item.name] = (acc[item.name] || 0) + 1; return acc; }, {});
             for (const [n, c] of Object.entries(grouped)) { msg += `• ${c}x ${n}%0A`; }
+            
+            if(discount > 0) msg += `%0A🎟️ *CÓDIGO MILA10 APLICADO (-10%)*`;
             msg += `%0A💰 *TOTAL:* ${totalVal}`;
             window.location.href = `https://wa.me/56941892028?text=${msg}`;
         }
