@@ -233,13 +233,13 @@
                 
                 const text = document.getElementById('console-text');
                 text.innerHTML += "> TICKET DESCARGADO CON ÉXITO.<br>";
-                text.innerHTML += "> POR FAVOR, ADJUNTA LA IMAGEN EN EL SIGUIENTE PASO.";
+                text.innerHTML += "> POR FAVOR, ADJUNTA EL ARCHIVO EN EL SIGUIENTE PASO.";
                 document.getElementById('btn-goto-wsp').style.display = 'block';
             });
         }
 
         function sendToWhatsApp() {
-            let msg = `Por favor adjuntar imagen descargada para continuar.`;
+            let msg = `Por favor adjuntar archivo descargado para continuar con el proceso.`;
             window.location.href = `https://wa.me/56941892028?text=${encodeURIComponent(msg)}`;
         }
 
