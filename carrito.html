@@ -249,7 +249,7 @@
         function sendToWhatsApp() {
             // LIMPIAR CARRITO AL SALIR
             localStorage.removeItem('preps_cart');
-            let msg = `Por favor adjuntar imagen descargada para continuar.`;
+            let msg = `Por favor adjuntar archivo descargado para continuar con el proceso.`;
             window.location.href = `https://wa.me/56941892028?text=${encodeURIComponent(msg)}`;
         }
 
