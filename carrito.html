@@ -49,7 +49,6 @@
         
         .promo-group { display: flex; gap: 10px; margin-bottom: 15px; }
         .btn-apply { background: #000; color: #fff; border: none; padding: 0 25px; font-weight: 900; cursor: pointer; }
-
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         #discount-msg { color: var(--accent); font-weight: 900; font-size: 11px; margin-top: 5px; animation: blink 1s infinite; display: none; }
 
@@ -57,13 +56,10 @@
         .total-amount { font-family: 'Inter'; font-weight: 900; font-size: 42px; color: #fff; margin: 15px 0; letter-spacing: -2px; }
         .btn-checkout { background: var(--accent); color: #000; padding: 22px; font-family: 'Inter'; font-weight: 900; font-size: 16px; width: 100%; border: none; cursor: pointer; transition: 0.3s; }
 
-        /* CONSOLA / MODAL DE DESCARGA */
         #console-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; color: var(--neon); padding: 40px; box-sizing: border-box; }
         #console-text { font-family: 'Courier New', monospace; font-size: 14px; text-align: left; max-width: 400px; margin-bottom: 30px; }
         .btn-wsp-final { background: var(--neon); color: #000; padding: 18px 30px; border: none; font-weight: 900; font-family: 'Inter'; cursor: pointer; display: none; text-decoration: none; font-size: 14px; }
-
-        /* ESTILO ALERTA DESCARGA */
-        .alert-download { font-family: 'Inter'; font-weight: 900; font-size: 20px; color: var(--neon); margin-top: 15px; border: 1px solid var(--neon); padding: 10px; text-align: center; }
+        .alert-download { font-family: 'Inter'; font-weight: 900; font-size: 20px; color: var(--neon); margin-bottom: 20px; border: 1px solid var(--neon); padding: 10px; text-align: center; }
 
         #ticket-export { position: absolute; left: -9999px; top: 0; width: 600px; background: #fff; color: #000; padding: 50px; box-sizing: border-box; border: 1px solid #000; }
         .tk-header { border-bottom: 5px solid #000; padding-bottom: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end; }
@@ -127,9 +123,19 @@
         let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
         let discount = 0;
         
-        const macroDB = { "HIGH CARB": {k: 830, p: 73, c: 92}, "LOW CARB": {k: 632, p: 69, c: 49}, "PACK 5": {k: 3600, p: 350, c: 300}, "PACK 15": {k: 10800, p: 1050, c: 900}, "PACK 28": {k: 20000, p: 2000, c: 1700} };
+        const macroDB = { 
+            "HIGH CARB": {k: 830, p: 73, c: 92}, 
+            "LOW CARB": {k: 632, p: 69, c: 49}, 
+            "PACK 5": {k: 3600, p: 350, c: 300}, 
+            "PACK 15": {k: 10800, p: 1050, c: 900}, 
+            "PACK 28": {k: 20000, p: 2000, c: 1700} 
+        };
 
         function renderCart(savedName = "", savedEmail = "") {
+            // Fix para evitar que el evento de carga del window se lea como nombre
+            const nameToUse = (typeof savedName === 'string') ? savedName : "";
+            const emailToUse = (typeof savedEmail === 'string') ? savedEmail : "";
+
             const container = document.getElementById('cart-content');
             if (cart.length === 0) {
                 container.innerHTML = `<div style="text-align:center; padding:100px 20px;"><h1 class="cart-title">INVENTARIO VACÍO</h1><br><a href="catalogo.html" style="background:#000; color:#fff; padding:20px 40px; text-decoration:none; font-weight:900;">INICIAR CARGA</a></div>`;
@@ -137,13 +143,32 @@
             }
 
             const grouped = cart.reduce((acc, item) => { acc[item.name] = acc[item.name] || { count: 0, price: item.price }; acc[item.name].count++; return acc; }, {});
-            let totalMoney = 0, totalKcal = 0, totalProt = 0;
+            let totalMoney = 0, totalKcal = 0, totalProt = 0, totalCarb = 0;
             let tableRows = "";
 
             for (const [name, data] of Object.entries(grouped)) {
                 totalMoney += data.price * data.count;
-                let key = Object.keys(macroDB).find(k => name.toUpperCase().includes(k));
-                if(key) { totalKcal += macroDB[key].k * data.count; totalProt += macroDB[key].p * data.count; }
+                
+                // LÓGICA DE MACROS PARA PRODUCTOS PERSONALIZADOS (CUSTOM)
+                if (name.includes("CUSTOM")) {
+                    const matchPollo = name.match(/(\d+)G(?=\|)/);
+                    const matchArroz = name.match(/\|(\d+)G/);
+                    const pG = matchPollo ? parseInt(matchPollo[1]) : 0;
+                    const aG = matchArroz ? parseInt(matchArroz[1]) : 0;
+                    
+                    // Factores de tu libreta (Plancha por defecto para custom)
+                    totalKcal += ((pG * 2.03) + (aG * 1.306) + (100 * 0.32)) * data.count;
+                    totalProt += ((pG * 0.31) + (aG * 0.0267) + (100 * 0.03)) * data.count;
+                    totalCarb += ((aG * 0.2867) + (100 * 0.06)) * data.count;
+                } else {
+                    let key = Object.keys(macroDB).find(k => name.toUpperCase().includes(k));
+                    if(key) { 
+                        totalKcal += macroDB[key].k * data.count; 
+                        totalProt += macroDB[key].p * data.count; 
+                        totalCarb += macroDB[key].c * data.count;
+                    }
+                }
+                
                 tableRows += `<tr class="cart-row"><td><span style="font-weight:900;">${name}</span></td><td width="120"><div class="qty-controls"><button class="btn-qty" onclick="changeQty('${name}', -1)">-</button><span style="font-weight:900;">${data.count}</span><button class="btn-qty" onclick="changeQty('${name}', 1)">+</button></div></td><td style="text-align:right; font-weight:900;">$${(data.price * data.count).toLocaleString('es-CL')}</td></tr>`;
             }
 
@@ -153,13 +178,13 @@
                 <div class="biomass-dashboard">
                     <div class="macro-card"><span class="macro-label">TOTAL KCAL</span><span class="macro-total-val">${Math.round(totalKcal).toLocaleString()}</span></div>
                     <div class="macro-card"><span class="macro-label">TOTAL PROT</span><span class="macro-total-val">${Math.round(totalProt)}G</span></div>
-                    <div class="macro-card"><span class="macro-label">TOTAL CARB</span><span class="macro-total-val">${Math.round(totalProt*1.2)}G</span></div>
+                    <div class="macro-card"><span class="macro-label">TOTAL CARB</span><span class="macro-total-val">${Math.round(totalCarb)}G</span></div>
                 </div>
                 <table class="cart-table">${tableRows}</table>
                 <div class="form-box">
                     <span class="form-label">[DATOS DE CONTACTO]</span>
-                    <input type="text" id="cust-name" placeholder="NOMBRE COMPLETO" value="${savedName}">
-                    <input type="email" id="cust-email" placeholder="CORREO ELECTRÓNICO" value="${savedEmail}">
+                    <input type="text" id="cust-name" placeholder="NOMBRE COMPLETO" value="${nameToUse}">
+                    <input type="email" id="cust-email" placeholder="CORREO ELECTRÓNICO" value="${emailToUse}">
                     <select id="delivery-method" onchange="toggleDelivery()"><option value="RETIRO">RETIRO LOCAL</option><option value="DELIVERY">DELIVERY</option></select>
                     <div id="delivery-options" style="display:none; margin-top:15px;"><select id="comuna"><option value="VITACURA">VITACURA</option><option value="LAS CONDES">LAS CONDES</option><option value="PROVIDENCIA">PROVIDENCIA</option><option value="LO BARNECHEA">LO BARNECHEA</option></select></div>
                 </div>
@@ -181,7 +206,7 @@
         }
 
         function toggleDelivery() { document.getElementById('delivery-options').style.display = (document.getElementById('delivery-method').value === 'DELIVERY') ? 'block' : 'none'; }
-        function changeQty(name, delta) { delta > 0 ? cart.push({...cart.find(i => i.name === name)}) : cart.splice(cart.findIndex(i => i.name === name), 1); localStorage.setItem('preps_cart', JSON.stringify(cart)); renderCart(); }
+        function changeQty(name, delta) { delta > 0 ? cart.push({...cart.find(i => i.name === name)}) : cart.splice(cart.findIndex(i => i.name === name), 1); localStorage.setItem('preps_cart', JSON.stringify(cart)); renderCart(document.getElementById('cust-name').value, document.getElementById('cust-email').value); }
 
         function applyPromo() {
             const code = document.getElementById('promo-code').value.toUpperCase();
@@ -201,7 +226,10 @@
             const modal = document.getElementById('console-modal');
             const text = document.getElementById('console-text');
             modal.style.display = 'flex';
-            text.innerHTML = "> INICIANDO PROTOCOLO PREPS...<br>";
+            
+            // PRIMERO EL MENSAJE DE DESCARGA
+            text.innerHTML = "<div class='alert-download'>POR FAVOR DESCARGAR ARCHIVO.</div><br>";
+            text.innerHTML += "> INICIANDO PROTOCOLO PREPS...<br>";
 
             setTimeout(() => {
                 text.innerHTML += "> COMPILANDO ORDEN VISUAL...<br>";
@@ -240,20 +268,19 @@
                 
                 const text = document.getElementById('console-text');
                 text.innerHTML += "> TICKET DESCARGADO CON ÉXITO.<br>";
-                text.innerHTML += "<div class='alert-download'>POR FAVOR DESCARGAR ARCHIVO.</div>";
                 text.innerHTML += "<br>> ADJUNTA LA IMAGEN EN EL SIGUIENTE PASO.";
                 document.getElementById('btn-goto-wsp').style.display = 'block';
             });
         }
 
         function sendToWhatsApp() {
-            // LIMPIAR CARRITO AL SALIR
             localStorage.removeItem('preps_cart');
             let msg = `Por favor adjuntar archivo descargado para continuar con el proceso.`;
             window.location.href = `https://wa.me/56941892028?text=${encodeURIComponent(msg)}`;
         }
 
-        window.addEventListener('load', renderCart);
+        // Renderizado inicial limpio
+        window.addEventListener('load', () => renderCart("", ""));
     </script>
 </body>
 </html>
