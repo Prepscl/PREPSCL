@@ -132,7 +132,6 @@
         };
 
         function renderCart(savedName = "", savedEmail = "") {
-            // Fix para evitar que el evento de carga del window se lea como nombre
             const nameToUse = (typeof savedName === 'string') ? savedName : "";
             const emailToUse = (typeof savedEmail === 'string') ? savedEmail : "";
 
@@ -148,27 +147,18 @@
 
             for (const [name, data] of Object.entries(grouped)) {
                 totalMoney += data.price * data.count;
-                
-                // LÓGICA DE MACROS PARA PRODUCTOS PERSONALIZADOS (CUSTOM)
                 if (name.includes("CUSTOM")) {
                     const matchPollo = name.match(/(\d+)G(?=\|)/);
                     const matchArroz = name.match(/\|(\d+)G/);
                     const pG = matchPollo ? parseInt(matchPollo[1]) : 0;
                     const aG = matchArroz ? parseInt(matchArroz[1]) : 0;
-                    
-                    // Factores de tu libreta (Plancha por defecto para custom)
                     totalKcal += ((pG * 2.03) + (aG * 1.306) + (100 * 0.32)) * data.count;
                     totalProt += ((pG * 0.31) + (aG * 0.0267) + (100 * 0.03)) * data.count;
                     totalCarb += ((aG * 0.2867) + (100 * 0.06)) * data.count;
                 } else {
                     let key = Object.keys(macroDB).find(k => name.toUpperCase().includes(k));
-                    if(key) { 
-                        totalKcal += macroDB[key].k * data.count; 
-                        totalProt += macroDB[key].p * data.count; 
-                        totalCarb += macroDB[key].c * data.count;
-                    }
+                    if(key) { totalKcal += macroDB[key].k * data.count; totalProt += macroDB[key].p * data.count; totalCarb += macroDB[key].c * data.count; }
                 }
-                
                 tableRows += `<tr class="cart-row"><td><span style="font-weight:900;">${name}</span></td><td width="120"><div class="qty-controls"><button class="btn-qty" onclick="changeQty('${name}', -1)">-</button><span style="font-weight:900;">${data.count}</span><button class="btn-qty" onclick="changeQty('${name}', 1)">+</button></div></td><td style="text-align:right; font-weight:900;">$${(data.price * data.count).toLocaleString('es-CL')}</td></tr>`;
             }
 
@@ -188,6 +178,15 @@
                     <select id="delivery-method" onchange="toggleDelivery()"><option value="RETIRO">RETIRO LOCAL</option><option value="DELIVERY">DELIVERY</option></select>
                     <div id="delivery-options" style="display:none; margin-top:15px;"><select id="comuna"><option value="VITACURA">VITACURA</option><option value="LAS CONDES">LAS CONDES</option><option value="PROVIDENCIA">PROVIDENCIA</option><option value="LO BARNECHEA">LO BARNECHEA</option></select></div>
                 </div>
+                
+                <div class="form-box">
+                    <span class="form-label">[VALIDACIÓN DE PROTOCOLO]</span>
+                    <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; text-transform: uppercase; font-size: 11px; line-height: 1.5;">
+                        <input type="checkbox" id="protocol-check" onchange="toggleCheckoutBtn()" style="width: 20px; height: 20px; margin: 0; accent-color: var(--neon); cursor: pointer;">
+                        <span>HE LEÍDO Y ACEPTO EL <a href="protocolo.html" target="_blank" style="color: #000; font-weight: 900;">PROTOCOLO DE OPERACIÓN</a> (TIEMPOS DE PREPARACIÓN Y CADENA DE FRÍO).</span>
+                    </label>
+                </div>
+
                 <div class="form-box">
                     <span class="form-label">[CÓDIGO DE ACCESO]</span>
                     <div class="promo-group">
@@ -198,11 +197,29 @@
                 </div>
                 <div class="summary-box">
                     <div class="total-amount" id="display-total">$${Math.round(totalMoney * (1-discount)).toLocaleString('es-CL')}</div>
-                    <button class="btn-checkout" onclick="startProcess()">GENERAR TICKET Y PAGAR</button>
+                    <button class="btn-checkout" id="final-checkout-btn" onclick="startProcess()" disabled style="background: #ccc; cursor: not-allowed; opacity: 0.5;">ACEPTAR PROTOCOLO PARA CONTINUAR</button>
                 </div>
             `;
 
             setTimeout(() => { document.getElementById('progress-bar').style.width = Math.min((cart.length / 12) * 100, 100) + "%"; }, 100);
+        }
+
+        function toggleCheckoutBtn() {
+            const isChecked = document.getElementById('protocol-check').checked;
+            const btn = document.getElementById('final-checkout-btn');
+            if(isChecked) {
+                btn.disabled = false;
+                btn.style.background = "var(--accent)";
+                btn.style.cursor = "pointer";
+                btn.style.opacity = "1";
+                btn.innerText = "GENERAR TICKET Y PAGAR";
+            } else {
+                btn.disabled = true;
+                btn.style.background = "#ccc";
+                btn.style.cursor = "not-allowed";
+                btn.style.opacity = "0.5";
+                btn.innerText = "ACEPTAR PROTOCOLO PARA CONTINUAR";
+            }
         }
 
         function toggleDelivery() { document.getElementById('delivery-options').style.display = (document.getElementById('delivery-method').value === 'DELIVERY') ? 'block' : 'none'; }
@@ -212,60 +229,40 @@
             const code = document.getElementById('promo-code').value.toUpperCase();
             const currentName = document.getElementById('cust-name').value;
             const currentEmail = document.getElementById('cust-email').value;
-            if (code === 'MILA10') { 
-                discount = 0.10; 
-                renderCart(currentName, currentEmail); 
-            } else { alert("SISTEMA: CÓDIGO INVÁLIDO"); }
+            if (code === 'MILA10') { discount = 0.10; renderCart(currentName, currentEmail); } else { alert("SISTEMA: CÓDIGO INVÁLIDO"); }
         }
 
         function startProcess() {
             const name = document.getElementById('cust-name').value;
             const email = document.getElementById('cust-email').value;
             if(!name || !email) { alert("DATOS INCOMPLETOS"); return; }
-            
             const modal = document.getElementById('console-modal');
             const text = document.getElementById('console-text');
             modal.style.display = 'flex';
-            
-            // PRIMERO EL MENSAJE DE DESCARGA
             text.innerHTML = "<div class='alert-download'>POR FAVOR DESCARGAR ARCHIVO.</div><br>";
             text.innerHTML += "> INICIANDO PROTOCOLO PREPS...<br>";
-
-            setTimeout(() => {
-                text.innerHTML += "> COMPILANDO ORDEN VISUAL...<br>";
-                generateTicket(name, email);
-            }, 500);
+            setTimeout(() => { text.innerHTML += "> COMPILANDO ORDEN VISUAL...<br>"; generateTicket(name, email); }, 500);
         }
 
         function generateTicket(name, email) {
             const ticket = document.getElementById('ticket-export');
             const body = document.getElementById('tk-body-items');
             const subtotal = cart.reduce((s, i) => s + i.price, 0);
-
             document.getElementById('tk-name-val').innerText = name.toUpperCase();
             document.getElementById('tk-email-val').innerText = email.toUpperCase();
             document.getElementById('tk-id-val').innerText = "#PRP-" + Math.floor(Math.random()*9000+1000);
             document.getElementById('tk-date-val').innerText = new Date().toLocaleDateString();
             document.getElementById('tk-sub-val').innerText = "$" + subtotal.toLocaleString('es-CL');
             document.getElementById('tk-total-val').innerText = document.getElementById('display-total').innerText;
-
-            if(discount > 0) {
-                document.getElementById('tk-dscto-row').style.display = 'flex';
-                document.getElementById('tk-dscto-val').innerText = "-$" + Math.round(subtotal * 0.1).toLocaleString('es-CL');
-            }
-
+            if(discount > 0) { document.getElementById('tk-dscto-row').style.display = 'flex'; document.getElementById('tk-dscto-val').innerText = "-$" + Math.round(subtotal * 0.1).toLocaleString('es-CL'); }
             const grouped = cart.reduce((acc, item) => { acc[item.name] = acc[item.name] || { count: 0, price: item.price }; acc[item.name].count++; return acc; }, {});
             body.innerHTML = "";
-            for (const [n, data] of Object.entries(grouped)) {
-                body.innerHTML += `<tr><td>${n}</td><td align="center">${data.count}</td><td align="right">$${(data.price * data.count).toLocaleString('es-CL')}</td></tr>`;
-            }
-
+            for (const [n, data] of Object.entries(grouped)) { body.innerHTML += `<tr><td>${n}</td><td align="center">${data.count}</td><td align="right">$${(data.price * data.count).toLocaleString('es-CL')}</td></tr>`; }
             html2canvas(ticket, { scale: 2 }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = `PREPS-TICKET-${name.split(' ')[0]}.png`;
                 link.href = canvas.toDataURL();
                 link.click();
-                
                 const text = document.getElementById('console-text');
                 text.innerHTML += "> TICKET DESCARGADO CON ÉXITO.<br>";
                 text.innerHTML += "<br>> ADJUNTA LA IMAGEN EN EL SIGUIENTE PASO.";
@@ -279,7 +276,6 @@
             window.location.href = `https://wa.me/56941892028?text=${encodeURIComponent(msg)}`;
         }
 
-        // Renderizado inicial limpio
         window.addEventListener('load', () => renderCart("", ""));
     </script>
 </body>
