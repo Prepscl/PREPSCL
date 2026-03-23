@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    
+    <title>Protocolo de Operación - PREPS</title>
+    <link rel="icon" type="image/png" href="img/logo-preps.png">
+    <link rel="apple-touch-icon" href="img/logo-preps.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f2f2f2;
+            color: #000;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0; padding: 0;
+            text-transform: uppercase;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .reveal { 
+            opacity: 0; 
+            transform: translateY(30px); 
+            transition: all 1.2s cubic-bezier(0.17, 0.55, 0.55, 1); 
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* HEADER CORPORATIVO UNIFICADO */
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 50px;
+            background: #f2f2f2;
+            border-bottom: 1px solid #000;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-link img { height: 35px; width: auto; display: block; }
+        .main-nav { display: flex; align-items: center; gap: 30px; }
+        .main-nav a {
+            text-decoration: none;
+            color: #000;
+            font-size: 14px;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        .cart-link-container {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+        .cart-icon-svg { width: 22px; height: 22px; color: #000; display: block; }
+        #global-cart-count {
+            position: absolute; top: -8px; right: -10px;
+            background: #000; color: #fff;
+            font-family: 'Inter', sans-serif; font-weight: 900; font-size: 10px;
+            width: 18px; height: 18px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* CONTENIDO TÉRMICOS Y CONDICIONES */
+        .content-container {
+            max-width: 850px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+
+        .title-section {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .main-title {
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            font-size: 32px;
+            letter-spacing: -1.5px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            letter-spacing: 4px;
+            color: #666;
+        }
+
+        .protocol-box {
+            background: #fff;
+            padding: 40px;
+            border: 1px solid #000;
+            margin-bottom: 30px;
+        }
+
+        .protocol-box h3 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            font-size: 18px;
+            margin-top: 0;
+            margin-bottom: 25px;
+            border-left: 5px solid #000;
+            padding-left: 15px;
+        }
+
+        .protocol-box p, .protocol-box li {
+            font-size: 13px;
+            line-height: 1.8;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+        }
+
+        .time-tag {
+            display: inline-block;
+            background: #000;
+            color: #fff;
+            padding: 2px 8px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            font-size: 11px;
+            margin-right: 10px;
+        }
+
+        footer {
+            background: #000;
+            color: #fff;
+            padding: 60px;
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        .footer-text {
+            font-size: 10px;
+            letter-spacing: 2px;
+            opacity: 0.6;
+        }
+
+        @media (max-width: 600px) {
+            .main-header { padding: 15px 20px; flex-direction: column; gap: 15px; }
+            .main-nav { gap: 15px; }
+            .protocol-box { padding: 25px; }
+            .main-title { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <a href="index.html" class="logo-link">
+            <img src="img/logo-preps.png" alt="PREPS">
+        </a>
+        <nav class="main-nav">
+            <a href="index.html">HOME</a>
+            <a href="catalogo.html">CATÁLOGO</a>
+            <a href="nosotros.html">NOSOTROS</a>
+            <a href="carrito.html" class="cart-link-container">
+                <svg class="cart-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+                <span id="global-cart-count">0</span>
+            </a>
+        </nav>
+    </header>
+
+    <main class="content-container">
+        <div class="title-section reveal">
+            <h1 class="main-title">PROTOCOLO DE OPERACIÓN</h1>
+            <p class="subtitle">TÉRMINOS Y CONDICIONES V1.0</p>
+        </div>
+
+        <div class="protocol-box reveal">
+            <h3>01. VENTANAS DE PRODUCCIÓN</h3>
+            <p>PARA GARANTIZAR LA PRECISIÓN NUTRICIONAL, PREPS OPERA BAJO TIEMPOS ESTRICTOS DE PREPARACIÓN:</p>
+            <ul style="list-style: none; padding: 0;">
+                <li><span class="time-tag">MIN 4 HRS</span> <strong>PEDIDOS UNITARIOS:</strong> 1 UNIDAD REQUIERE ESTE MÍNIMO DE ANTELACIÓN.</li>
+                <li><span class="time-tag">MIN 24 HRS</span> <strong>PACKS INTERMEDIOS:</strong> CARGAS DE 5 UNIDADES REQUIEREN UN DÍA COMPLETO.</li>
+                <li><span class="time-tag">36 - 48 HRS</span> <strong>CARGAS VOLUMÉTRICAS:</strong> PEDIDOS SUPERIORES A 5 UNIDADES.</li>
+            </ul>
+            <p style="font-size: 10px; opacity: 0.6; margin-top: 20px;">* EL CONTEO INICIA TRAS LA VALIDACIÓN DEL COMPROBANTE DE PAGO VÍA WHATSAPP.</p>
+        </div>
+
+        <div class="protocol-box reveal">
+            <h3>02. CADENA DE FRÍO Y MANIPULACIÓN</h3>
+            <p>LOS PRODUCTOS PREPS SON PERECEDEROS. EL CLIENTE ASUME LA RESPONSABILIDAD TOTAL DE REFRIGERACIÓN (0°C A 5°C) INMEDIATAMENTE TRAS LA ENTREGA.</p>
+            <p><strong>VIDA ÚTIL:</strong> CONSUMIR PREFERENTEMENTE ANTES DE 5 DÍAS EN REFRIGERACIÓN O 15 DÍAS SI SE MANTIENE CONGELADO.</p>
+        </div>
+
+        <div class="protocol-box reveal">
+            <h3>03. POLÍTICA DE RETRACTO</h3>
+            <p>AL SER ALIMENTOS PREPARADOS BAJO DEMANDA Y PERSONALIZADOS (CUSTOM), NO SE ACEPTAN CAMBIOS NI DEVOLUCIONES UNA VEZ QUE EL TICKET HA INGRESADO A FASE DE COCCIÓN.</p>
+        </div>
+
+        <div class="reveal" style="text-align: center; margin-top: 60px;">
+            <p style="font-size: 12px; letter-spacing: 2px;">AL FINALIZAR SU COMPRA, EL CLIENTE ACEPTA ESTE PROTOCOLO.</p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-text">
+            © 2026 PREPS - DISEÑADO PARA TU RENDIMIENTO<br>
+            SANTIAGO, CHILE
+        </div>
+    </footer>
+
+    <script>
+        function updateGlobalCartCount() {
+            const cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
+            const countElement = document.getElementById('global-cart-count');
+            if (countElement) {
+                countElement.innerText = cart.length;
+                countElement.style.display = cart.length > 0 ? 'flex' : 'none';
+            }
+        }
+
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        window.addEventListener("load", () => {
+            updateGlobalCartCount();
+            reveal();
+        });
+    </script>
+
+</body>
+</html>
