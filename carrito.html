@@ -147,17 +147,34 @@
 
             for (const [name, data] of Object.entries(grouped)) {
                 totalMoney += data.price * data.count;
+                
+                // LÓGICA DE MACROS PARA PRODUCTOS PERSONALIZADOS (CUSTOM)
                 if (name.includes("CUSTOM")) {
-                    const matchPollo = name.match(/(\d+)G(?=\|)/);
-                    const matchArroz = name.match(/\|(\d+)G/);
+                    // AJUSTE CRUCIAL: Ahora busca P, A y B según tu nuevo personalizador
+                    const matchPollo = name.match(/(\d+)P/);
+                    const matchArroz = name.match(/\|(\d+)A/);
+                    const matchBrocoli = name.match(/\|(\d+)B/);
+                    const isPlancha = name.includes("PLANCHA");
+                    
                     const pG = matchPollo ? parseInt(matchPollo[1]) : 0;
                     const aG = matchArroz ? parseInt(matchArroz[1]) : 0;
-                    totalKcal += ((pG * 2.03) + (aG * 1.306) + (100 * 0.32)) * data.count;
-                    totalProt += ((pG * 0.31) + (aG * 0.0267) + (100 * 0.03)) * data.count;
-                    totalCarb += ((aG * 0.2867) + (100 * 0.06)) * data.count;
+                    const bG = matchBrocoli ? parseInt(matchBrocoli[1]) : 0;
+                    
+                    // Factores de Laboratorio PREPS
+                    const fPK = isPlancha ? 2.03 : 1.1;
+                    const fPP = isPlancha ? 0.31 : 0.23;
+
+                    // Suma multiplicada por la cantidad (data.count)
+                    totalKcal += ((pG * fPK) + (aG * 1.306) + (bG * 0.32)) * data.count;
+                    totalProt += ((pG * fPP) + (aG * 0.0267) + (bG * 0.03)) * data.count;
+                    totalCarb += ((aG * 0.2867) + (bG * 0.06)) * data.count;
                 } else {
                     let key = Object.keys(macroDB).find(k => name.toUpperCase().includes(k));
-                    if(key) { totalKcal += macroDB[key].k * data.count; totalProt += macroDB[key].p * data.count; totalCarb += macroDB[key].c * data.count; }
+                    if(key) { 
+                        totalKcal += macroDB[key].k * data.count; 
+                        totalProt += macroDB[key].p * data.count; 
+                        totalCarb += macroDB[key].c * data.count; 
+                    }
                 }
                 tableRows += `<tr class="cart-row"><td><span style="font-weight:900;">${name}</span></td><td width="120"><div class="qty-controls"><button class="btn-qty" onclick="changeQty('${name}', -1)">-</button><span style="font-weight:900;">${data.count}</span><button class="btn-qty" onclick="changeQty('${name}', 1)">+</button></div></td><td style="text-align:right; font-weight:900;">$${(data.price * data.count).toLocaleString('es-CL')}</td></tr>`;
             }
