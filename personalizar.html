@@ -32,8 +32,6 @@
         .container { max-width: 1100px; margin: 0 auto; padding: 80px 20px 150px; }
         .welcome-section { text-align: center; margin-bottom: 100px; }
         .welcome-title { font-family: 'Inter'; font-weight: 900; font-size: 32px; letter-spacing: -1.5px; margin-bottom: 20px; }
-        
-        /* CORRECCIÓN: Tono subido para visibilidad */
         .welcome-subtitle { font-size: 14px; letter-spacing: 3px; color: #aaa; }
 
         .config-layout { display: flex; gap: 60px; flex-wrap: wrap; }
@@ -46,14 +44,10 @@
         .section-label { font-family: 'Inter'; font-weight: 900; font-size: 15px; margin-bottom: 30px; border-left: 4px solid #fff; padding-left: 15px; }
 
         .step { margin-bottom: 40px; }
-        
-        /* CORRECCIÓN: Etiquetas de rango más blancas */
         .label-group { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 12px; font-size: 13px; color: #eee; }
         input[type=range] { width: 100%; height: 2px; background: #333; appearance: none; outline: none; accent-color: #fff; cursor: pointer; }
 
         .selector-box { display: flex; gap: 8px; margin-top: 15px; }
-        
-        /* CORRECCIÓN: Texto de botones inactivos más visible */
         .btn-opt { flex: 1; padding: 12px; border: 1px solid #222; background: transparent; color: #888; cursor: pointer; font-family: 'Inter'; font-weight: 900; font-size: 10px; transition: 0.3s; }
         .btn-opt.active { border-color: #fff; color: #fff; background: #0a0a0a; }
 
@@ -68,8 +62,6 @@
         .btn-send:disabled { background: #222; color: #444; cursor: not-allowed; border-color: #222; }
 
         .macros-display { margin-top: 50px; padding: 30px; background: #050505; border: 1px solid #111; }
-        
-        /* CORRECCIÓN: Labels de macros más claros */
         .macro-line { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 13px; color: #ccc; }
         .macro-val { font-size: 18px; font-weight: 900; color: #fff; }
 
@@ -261,10 +253,11 @@
                 b = parseInt(document.getElementById('input-brocoli').value);
             }
 
-            const prot = (p * pollo_macros[prepPollo].p) + (a * arroz_macros.p) + (b * brocoli_macros.p);
-            const carb = (a * arroz_macros.c) + (b * brocoli_macros.c);
-            const fat = (p * pollo_macros[prepPollo].f) + (a * arroz_macros.f) + (b * brocoli_macros.f);
-            const kcal = (p * pollo_macros[prepPollo].k) + (a * arroz_macros.k) + (b * brocoli_macros.k);
+            // CORRECCIÓN: Macros multiplicados por itemQty (cantidad de raciones)
+            const prot = ((p * pollo_macros[prepPollo].p) + (a * arroz_macros.p) + (b * brocoli_macros.p)) * itemQty;
+            const carb = ((a * arroz_macros.c) + (b * brocoli_macros.c)) * itemQty;
+            const fat = ((p * pollo_macros[prepPollo].f) + (a * arroz_macros.f) + (b * brocoli_macros.f)) * itemQty;
+            const kcal = ((p * pollo_macros[prepPollo].k) + (a * arroz_macros.k) + (b * brocoli_macros.k)) * itemQty;
             
             const unitPrice = (p * precios.pollo) + (a * precios.arroz) + (b * precios.brocoli) + precios.base;
             const totalPrice = unitPrice * itemQty;
@@ -306,7 +299,7 @@
             const prNum = parseInt(prText.replace('$', '').replace('.', '')) / itemQty;
             const pim = conPimienta ? "C/PIM" : "S/PIM";
             
-            // NOMBRE DESCRIPTIVO CORREGIDO: SE AÑADEN GRAMOS DE BRÓCOLI (|${b}B) PARA QUE EL CARRITO RECONOZCA LOS 3 INGREDIENTES
+            // NOMBRE DESCRIPTIVO CORREGIDO: SE AÑADEN GRAMOS DE BRÓCOLI (|${b}B)
             const name = `CUSTOM: ${document.getElementById('protocol-name').innerText} (${p}P ${prepPollo}|${a}A|${b}B) [${pim}|SAL:${salGrams}G]`;
             
             lastAddedCount = itemQty;
