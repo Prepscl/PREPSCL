@@ -306,7 +306,7 @@
             const prNum = parseInt(prText.replace('$', '').replace('.', '')) / itemQty;
             const pim = conPimienta ? "C/PIM" : "S/PIM";
             
-            // NOMBRE DESCRIPTIVO PARA TICKET
+            // NOMBRE DESCRIPTIVO CORREGIDO: SE AÑADEN GRAMOS DE BRÓCOLI (|${b}B) PARA QUE EL CARRITO RECONOZCA LOS 3 INGREDIENTES
             const name = `CUSTOM: ${document.getElementById('protocol-name').innerText} (${p}P ${prepPollo}|${a}A|${b}B) [${pim}|SAL:${salGrams}G]`;
             
             lastAddedCount = itemQty;
