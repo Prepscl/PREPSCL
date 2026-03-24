@@ -4,102 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
-    <title>CUSTOM LAB PERFORMANCE V1.0 - PREPS</title>
-    
+    <title>SISTEMA DE CARGA - PREPS</title>
     <link rel="icon" type="image/png" href="img/logo-preps.png">
-    <link rel="apple-touch-icon" href="img/logo-preps.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
-        body { background-color: #000; color: #fff; font-family: 'Courier New', Courier, monospace; margin: 0; text-transform: uppercase; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        :root { --accent: #25D366; --dark: #000; --light: #f2f2f2; --neon: #39FF14; }
+        body { background-color: var(--light); color: var(--dark); font-family: 'Courier New', monospace; margin: 0; text-transform: uppercase; -webkit-font-smoothing: antialiased; }
 
-        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 1s ease; }
-        #loader img { width: 150px; animation: pulse 2s infinite ease-in-out; }
-        @keyframes pulse { 0%, 100% { transform: scale(0.9); opacity: 0.3; } 50% { transform: scale(1); opacity: 1; } }
-
-        .reveal { opacity: 0; transform: translateY(50px); transition: all 1.2s cubic-bezier(0.17, 0.55, 0.55, 1); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
-        .main-header { display: flex; align-items: center; justify-content: space-between; padding: 15px 50px; background: #000; border-bottom: 1px solid #1a1a1a; position: sticky; top: 0; z-index: 1000; }
-        .logo-link img { height: 35px; }
+        /* HEADER */
+        .main-header { display: flex; align-items: center; justify-content: space-between; padding: 15px 50px; background: #f2f2f2; border-bottom: 1px solid #000; position: sticky; top: 0; z-index: 1000; }
+        .logo-link img { height: 35px; width: auto; display: block; }
         .main-nav { display: flex; align-items: center; gap: 30px; }
-        .main-nav a { text-decoration: none; color: #fff; font-size: 13px; letter-spacing: 2px; }
+        .main-nav a { text-decoration: none; color: #000; font-size: 13px; letter-spacing: 2px; }
 
-        .cart-link-container { position: relative; display: inline-flex; align-items: center; }
-        .cart-icon-svg { width: 22px; height: 22px; color: #fff; }
-        #global-cart-count { position: absolute; top: -8px; right: -10px; background: #fff; color: #000; font-family: 'Inter'; font-weight: 900; font-size: 10px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-
-        .container { max-width: 1100px; margin: 0 auto; padding: 80px 20px 150px; }
-        .welcome-section { text-align: center; margin-bottom: 100px; }
-        .welcome-title { font-family: 'Inter'; font-weight: 900; font-size: 32px; letter-spacing: -1.5px; margin-bottom: 20px; }
-        /* AJUSTE: Subida de tono de gris oscuro a gris medio para mejor visibilidad */
-        .welcome-subtitle { font-size: 14px; letter-spacing: 3px; color: #888; }
-
-        .config-layout { display: flex; gap: 60px; flex-wrap: wrap; }
-        .image-section { flex: 1; min-width: 320px; border: 1px solid #222; background: #050505; }
-        .food-name { background: #fff; color: #000; padding: 20px; text-align: center; font-family: 'Inter'; font-weight: 900; font-size: 18px; }
-        .image-placeholder { height: 450px; background: #080808; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        #active-img { width: 100%; height: 100%; object-fit: cover; }
-
-        .config-section { width: 420px; }
-        .section-label { font-family: 'Inter'; font-weight: 900; font-size: 15px; margin-bottom: 30px; border-left: 4px solid #fff; padding-left: 15px; }
-
-        .step { margin-bottom: 40px; }
-        /* AJUSTE: Etiquetas de rango ahora son más blancas para resaltar */
-        .label-group { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 12px; font-size: 13px; color: #ccc; }
-        input[type=range] { width: 100%; height: 2px; background: #333; appearance: none; outline: none; accent-color: #fff; cursor: pointer; }
-
-        .selector-box { display: flex; gap: 8px; margin-top: 15px; }
-        .btn-opt { flex: 1; padding: 12px; border: 1px solid #222; background: transparent; color: #888; cursor: pointer; font-family: 'Inter'; font-weight: 900; font-size: 10px; transition: 0.3s; }
-        .btn-opt.active { border-color: #fff; color: #fff; background: #0a0a0a; }
-
-        .stepper-control { display: flex; align-items: center; border: 1px solid #333; background: #000; width: fit-content; }
-        .stepper-btn { background: none; border: none; color: #fff; font-family: 'Inter'; font-weight: 900; font-size: 20px; padding: 10px 20px; cursor: pointer; }
-        .stepper-val { width: 50px; text-align: center; font-family: 'Inter'; font-weight: 900; font-size: 16px; border-left: 1px solid #1a1a1a; border-right: 1px solid #1a1a1a; }
-
-        #min-alert { font-size: 10px; color: #ff3333; margin-top: 10px; font-weight: 900; letter-spacing: 1px; display: none; }
-
-        .purchase-area { display: flex; margin-top: 20px; border: 1px solid #fff; }
-        .btn-send { flex-grow: 1; background: #fff; color: #000; padding: 22px; border: none; font-family: 'Inter'; font-weight: 900; font-size: 16px; cursor: pointer; transition: 0.4s; }
-        .btn-send:disabled { background: #222; color: #444; cursor: not-allowed; border-color: #222; }
-
-        .macros-display { margin-top: 50px; padding: 30px; background: #050505; border: 1px solid #111; }
-        /* AJUSTE: Etiquetas de macros más claras */
-        .macro-line { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 13px; color: #aaa; }
-        .macro-val { font-size: 18px; font-weight: 900; color: #fff; }
-
-        .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 20px; box-sizing: border-box; }
-        .modal-content { background: #fff; color: #000; width: 100%; max-width: 450px; padding: 40px 25px; position: relative; text-align: center; display: flex; flex-direction: column; align-items: center; }
+        .container { max-width: 800px; margin: 0 auto 100px; padding: 0 20px; }
         
-        .modal-body { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 20px; }
-        .modal-img-container { width: 150px; height: 150px; background: #eee; overflow: hidden; border: 1px solid #000; flex-shrink: 0; }
-        .modal-img-container img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .modal-info-text { width: 100%; text-align: center; }
-        .modal-info-text p { margin: 10px 0; line-height: 1.4; }
-
-        .delete-btn-container { position: absolute; right: 15px; top: 15px; text-align: right; cursor: pointer; }
-        .delete-x { font-size: 20px; color: #000; font-weight: 900; }
-        .delete-label { font-size: 7px; color: #ff0000; font-weight: 900; display: block; opacity: 0; transition: 0.2s; }
-        .delete-btn-container:hover .delete-label { opacity: 1; }
-
-        .btn-modal-black { background: #000; color: #fff; padding: 18px; text-decoration: none; font-weight: 900; display: block; margin-top: 20px; font-size: 14px; width: 100%; box-sizing: border-box; }
-        .btn-modal-outline { background: #fff; color: #000; padding: 18px; border: 2px solid #000; font-weight: 900; width: 100%; cursor: pointer; font-size: 14px; margin-top: 10px; box-sizing: border-box; }
-
-        @media (max-width: 850px) { 
-            .main-header { padding: 20px; } 
-            .config-layout { flex-direction: column; } 
-            .config-section { width: 100%; } 
-            .modal-content { padding: 40px 20px 30px; }
+        .biomass-dashboard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 25px 0; }
+        .macro-card { 
+            background: linear-gradient(145deg, #111, #000); 
+            color: #fff; padding: 20px 10px; text-align: center; border: 1px solid #333; border-radius: 4px;
+            box-shadow: inset 0 0 15px rgba(57, 255, 20, 0.05); position: relative; overflow: hidden;
         }
+        .macro-card::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--neon); opacity: 0.3; }
+        .macro-label { font-size: 8px; opacity: 0.5; display: block; margin-bottom: 8px; letter-spacing: 2px; }
+        .macro-total-val { font-family: 'Inter'; font-weight: 900; font-size: 22px; color: var(--neon); text-shadow: 0 0 10px rgba(57, 255, 20, 0.5); }
+
+        .progress-container { background: #ddd; height: 6px; width: 100%; margin: 10px 0 30px; border-radius: 10px; overflow: hidden; }
+        #progress-bar { height: 100%; width: 0%; transition: 1.5s ease; background: #ff4444; }
+        
+        .cart-title { font-family: 'Inter'; font-weight: 900; font-size: 24px; letter-spacing: -1px; margin-top: 40px; text-align: center; }
+
+        .cart-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; background: #fff; border: 1px solid #000; }
+        .cart-row td { padding: 18px; border-bottom: 1px solid #eee; font-size: 11px; }
+        .qty-controls { display: flex; align-items: center; gap: 12px; justify-content: center; background: #f9f9f9; padding: 5px; border-radius: 4px; }
+        .btn-qty { background: #000; color: #fff; border: none; width: 28px; height: 28px; cursor: pointer; font-weight: 900; transition: 0.2s; }
+        .btn-qty:active { transform: scale(0.9); }
+
+        .form-box { background:#fff; border:1px solid #000; padding:30px; margin-bottom:20px; text-align:left; }
+        .form-label { font-weight:900; font-size:10px; display:block; margin-bottom:20px; opacity:0.5; letter-spacing:1px; }
+        input, select { width:100%; padding:15px; margin-bottom:15px; border:1px solid #eee; font-family:inherit; font-size: 12px; text-transform: uppercase; box-sizing: border-box; }
+        
+        .promo-group { display: flex; gap: 10px; margin-bottom: 15px; }
+        .btn-apply { background: #000; color: #fff; border: none; padding: 0 25px; font-weight: 900; cursor: pointer; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        #discount-msg { color: var(--accent); font-weight: 900; font-size: 11px; margin-top: 5px; animation: blink 1s infinite; display: none; }
+
+        .summary-box { background: #000; color: #fff; padding: 45px 20px; text-align: center; }
+        .total-amount { font-family: 'Inter'; font-weight: 900; font-size: 42px; color: #fff; margin: 15px 0; letter-spacing: -2px; }
+        .btn-checkout { background: var(--accent); color: #000; padding: 22px; font-family: 'Inter'; font-weight: 900; font-size: 16px; width: 100%; border: none; cursor: pointer; transition: 0.3s; }
+
+        #console-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; color: var(--neon); padding: 40px; box-sizing: border-box; }
+        #console-text { font-family: 'Courier New', monospace; font-size: 14px; text-align: left; max-width: 400px; margin-bottom: 30px; }
+        .btn-wsp-final { background: var(--neon); color: #000; padding: 18px 30px; border: none; font-weight: 900; font-family: 'Inter'; cursor: pointer; display: none; text-decoration: none; font-size: 14px; }
+        .alert-download { font-family: 'Inter'; font-weight: 900; font-size: 20px; color: var(--neon); margin-bottom: 20px; border: 1px solid var(--neon); padding: 10px; text-align: center; }
+
+        #ticket-export { position: absolute; left: -9999px; top: 0; width: 600px; background: #fff; color: #000; padding: 50px; box-sizing: border-box; border: 1px solid #000; }
+        .tk-header { border-bottom: 5px solid #000; padding-bottom: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .tk-logo { height: 60px; }
+        .tk-factura-label { font-family: 'Inter'; font-weight: 900; font-size: 40px; }
+        .tk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px; font-size: 12px; }
+        .tk-table { width: 100%; border-collapse: collapse; margin-bottom: 40px; }
+        .tk-table thead { background: #000; color: #fff; }
+        .tk-table td { padding: 15px; border: 1px solid #eee; }
+        .tk-total-section { margin-left: auto; width: 250px; }
+        .tk-total-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; font-weight: 900; }
+
+        @media (max-width: 600px) { .main-header { padding: 15px 20px; } .biomass-dashboard { grid-template-columns: 1fr; } .cart-row td { padding: 12px; font-size: 10px; } }
     </style>
 </head>
 <body>
-
-    <div id="loader">
-        <img src="img/logo-preps.png" alt="PREPS">
-        <p style="font-size: 10px; letter-spacing: 8px; margin-top: 30px; color: #333;">ENTRANDO AL LABORATORIO...</p>
-    </div>
 
     <header class="main-header">
         <a href="index.html" class="logo-link"><img src="img/logo-preps.png" alt="PREPS"></a>
@@ -107,227 +83,211 @@
             <a href="index.html">HOME</a>
             <a href="catalogo.html">CATÁLOGO</a>
             <a href="nosotros.html">NOSOTROS</a>
-            <a href="carrito.html" class="cart-link-container">
-                <svg class="cart-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-                <span id="global-cart-count">0</span>
-            </a>
         </nav>
     </header>
 
-    <div class="container">
-        <div class="welcome-section reveal">
-            <h1 class="welcome-title">BIENVENID@S A CUSTOM LAB PERFORMANCE V1.0</h1>
-            <p class="welcome-subtitle">DISEÑADO CON PRECISIÓN BY PREPS - MÁS DE 1.600 COMBINACIONES POSIBLES</p>
-        </div>
-
-        <div class="config-layout">
-            <div class="image-section reveal">
-                <div class="food-name">
-                    <span id="protocol-name">CARGANDO...</span><br>
-                    <span id="comb-number" style="font-size: 10px; color: #888; letter-spacing: 2px;">ID: #0000</span>
-                </div>
-                <div class="image-placeholder"><img id="active-img" src="img/1.jpg" alt="Preview"></div>
-            </div>
-
-            <div class="config-section reveal">
-                <div class="section-label">PERSONALIZA A TU CONVENIENCIA</div>
-                
-                <div class="step">
-                    <div class="label-group"><span>POLLO</span> <span id="val-pollo">100G</span></div>
-                    <input type="range" id="input-pollo" min="0" max="800" step="50" value="100">
-                    <div class="selector-box">
-                        <button class="btn-opt" id="btn-cocido" onclick="setPrep('COCIDO')">COCIDO</button>
-                        <button class="btn-opt active" id="btn-plancha" onclick="setPrep('PLANCHA')">PLANCHA</button>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="label-group"><span>ARROZ</span> <span id="val-arroz">100G</span></div>
-                    <input type="range" id="input-arroz" min="0" max="800" step="50" value="100">
-                </div>
-
-                <div class="step">
-                    <div class="label-group"><span>BRÓCOLI</span> <span id="val-brocoli">100G</span></div>
-                    <input type="range" id="input-brocoli" min="0" max="800" step="50" value="100">
-                </div>
-
-                <div class="step">
-                    <div class="label-group"><span>SAZÓN: PIMIENTA NEGRA</span></div>
-                    <div class="selector-box">
-                        <button class="btn-opt active" id="btn-p-si" onclick="setPimienta(true)">CON PIMIENTA</button>
-                        <button class="btn-opt" id="btn-p-no" onclick="setPimienta(false)">SIN PIMIENTA</button>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="label-group"><span>MÁXIMO DE SAL ROSADA DEL HIMALAYA POR RACIÓN</span> <span style="background:#fff; color:#000; padding:2px 6px; font-size:9px; font-weight:900;">OPCIONAL</span></div>
-                    <div class="stepper-control">
-                        <button class="stepper-btn" onclick="changeSal(-1)">-</button>
-                        <span class="stepper-val" id="val-sal">0G</span>
-                        <button class="stepper-btn" onclick="changeSal(1)">+</button>
-                    </div>
-                    <p style="font-size: 8px; color: #888; margin-top: 5px;">*MÁXIMO RECOMENDADO: 5G POR RACIÓN</p>
-                </div>
-
-                <div class="macros-display">
-                    <div class="macro-line"><span>PROTEÍNA</span> <span class="macro-val"><span id="m-prot">0</span>G</span></div>
-                    <div class="macro-line"><span>CARBOS</span> <span class="macro-val"><span id="m-carb">0</span>G</span></div>
-                    <div class="macro-line"><span>GRASAS</span> <span class="macro-val"><span id="m-fat">0</span>G</span></div>
-                    <div class="macro-line" style="border-top: 1px solid #222; padding-top: 10px; margin-top: 10px;"><span>ENERGÍA TOTAL</span> <span class="macro-val"><span id="m-kcal">0</span> KCAL</span></div>
-                </div>
-
-                <div class="purchase-area">
-                    <div class="stepper-control" style="border:none; border-right:1px solid #000; background:#fff;">
-                        <button class="stepper-btn" style="color:#000" onclick="changeQty(-1)">-</button>
-                        <span class="stepper-val" style="color:#000" id="val-qty">1</span>
-                        <button class="stepper-btn" style="color:#000" onclick="changeQty(1)">+</button>
-                    </div>
-                    <button class="btn-send" id="add-btn" onclick="addToCartCustom()">AGREGAR AL CARRO</button>
-                </div>
-                <div style="text-align: center; margin-top: 15px; font-family: 'Courier New'; font-weight: 900; font-size: 22px;" id="final-price">$0</div>
-                <div id="min-alert" style="text-align: center; color: #ff3333; font-size: 10px; font-weight: 900;">MÍNIMO DE CONFIGURACIÓN: $4.000</div>
-            </div>
-        </div>
+    <div class="container" id="main-container">
+        <div id="cart-content"></div>
     </div>
 
-    <div id="confirm-modal" class="modal-overlay">
-        <div class="modal-content">
-            <div class="delete-btn-container" onclick="undoAddToCart()">
-                <span class="delete-x">✕</span>
-                <span class="delete-label">ELIMINAR PEDIDO</span>
-            </div>
-            <h2 class="modal-title" style="margin-top: 20px; font-size: 18px;">TUS PRODUCTOS</h2>
-            <div class="modal-body">
-                <div class="modal-img-container"><img id="modal-img" src="" alt=""></div>
-                <div class="modal-info-text">
-                    <p id="modal-desc" style="font-weight: 900; font-size: 11px;"></p>
-                    <p id="modal-qty-text" style="font-size: 11px;"></p>
-                    <p id="modal-total" style="font-weight: 900; border-top: 1px solid #eee; padding-top: 12px; font-size: 16px; margin-top: 12px;"></p>
-                </div>
-            </div>
-            <a href="carrito.html" class="btn-modal-black">IR AL CARRO</a>
-            <button class="btn-modal-outline" onclick="closeModal()">SEGUIR PERSONALIZANDO</button>
+    <div id="console-modal">
+        <div id="console-text"></div>
+        <button id="btn-goto-wsp" class="btn-wsp-final" onclick="sendToWhatsApp()">CONTINUAR A WHATSAPP</button>
+    </div>
+
+    <div id="ticket-export">
+        <div class="tk-header">
+            <img src="img/logo-preps.png" class="tk-logo">
+            <div class="tk-factura-label">ORDEN DE CARGA</div>
+        </div>
+        <div class="tk-grid">
+            <div><strong>PREPS LABS</strong><br>SANTIAGO, CHILE</div>
+            <div align="right"><strong>DESTINATARIO:</strong><br><span id="tk-name-val"></span><br><span id="tk-email-val"></span></div>
+        </div>
+        <div class="tk-grid">
+            <div><strong>TICKET ID:</strong> <span id="tk-id-val"></span></div>
+            <div align="right"><strong>FECHA:</strong> <span id="tk-date-val"></span></div>
+        </div>
+        <table class="tk-table">
+            <thead><tr><td>PRODUCTO</td><td align="center">QTY</td><td align="right">TOTAL</td></tr></thead>
+            <tbody id="tk-body-items"></tbody>
+        </table>
+        <div class="tk-total-section">
+            <div class="tk-total-row"><span>SUBTOTAL</span> <span id="tk-sub-val"></span></div>
+            <div class="tk-total-row" id="tk-dscto-row" style="display:none; color: green;"><span>DSCTO (10%)</span> <span id="tk-dscto-val"></span></div>
+            <div class="tk-total-row" style="background: #000; color: #fff; padding: 15px 10px; margin-top: 10px;"><span>TOTAL</span> <span id="tk-total-val"></span></div>
         </div>
     </div>
 
     <script>
-        let prepPollo = 'PLANCHA', conPimienta = true, salGrams = 0, itemQty = 1, lastAddedCount = 0;
-        const precios = { pollo: 22.47, arroz: 2.08, brocoli: 5.69, base: 3 };
-        const pollo_macros = { 'PLANCHA': { p: 0.31, c: 0, f: 0.085, k: 2.03 }, 'COCIDO': { p: 0.23, c: 0, f: 0.02, k: 1.1 } };
-        const arroz_macros = { p: 0.0267, c: 0.2867, f: 0.0067, k: 1.306 };
-        const brocoli_macros = { p: 0.03, c: 0.06, f: 0, k: 0.32 };
+        let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
+        let discount = 0;
+        
+        const macroDB = { 
+            "HIGH CARB": {k: 830, p: 73, c: 92}, 
+            "LOW CARB": {k: 632, p: 69, c: 49}, 
+            "PACK 5": {k: 3600, p: 350, c: 300}, 
+            "PACK 15": {k: 10800, p: 1050, c: 900}, 
+            "PACK 28": {k: 20000, p: 2000, c: 1700} 
+        };
 
-        function updateGlobalCartCount() {
-            const cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
-            document.getElementById('global-cart-count').innerText = cart.length;
-        }
+        function renderCart(savedName = "", savedEmail = "") {
+            const nameToUse = (typeof savedName === 'string') ? savedName : "";
+            const emailToUse = (typeof savedEmail === 'string') ? savedEmail : "";
 
-        function changeSal(v) { salGrams = Math.max(0, Math.min(5, salGrams + v)); update(); }
-        function changeQty(v) { itemQty = Math.max(1, Math.min(10, itemQty + v)); update(); }
-
-        function setPrep(type) {
-            prepPollo = type;
-            document.getElementById('btn-cocido').classList.toggle('active', type === 'COCIDO');
-            document.getElementById('btn-plancha').classList.toggle('active', type === 'PLANCHA');
-            update();
-        }
-
-        function setPimienta(val) {
-            conPimienta = val;
-            document.getElementById('btn-p-si').classList.toggle('active', val);
-            document.getElementById('btn-p-no').classList.toggle('active', !val);
-            update();
-        }
-
-        function getCombinationID(p, a, b, prep) {
-            const id = ((p/50)*100) + ((a/50)*10) + (b/50) + (prep==='PLANCHA'?500:0);
-            return Math.abs(Math.floor(id)).toString().padStart(4, '0');
-        }
-
-        function update(e) {
-            let p = parseInt(document.getElementById('input-pollo').value);
-            let a = parseInt(document.getElementById('input-arroz').value);
-            let b = parseInt(document.getElementById('input-brocoli').value);
-            
-            if (p + a + b > 800 && e) {
-                e.target.value = parseInt(e.target.value) - ((p + a + b) - 800);
-                p = parseInt(document.getElementById('input-pollo').value);
-                a = parseInt(document.getElementById('input-arroz').value);
-                b = parseInt(document.getElementById('input-brocoli').value);
+            const container = document.getElementById('cart-content');
+            if (cart.length === 0) {
+                container.innerHTML = `<div style="text-align:center; padding:100px 20px;"><h1 class="cart-title">INVENTARIO VACÍO</h1><br><a href="catalogo.html" style="background:#000; color:#fff; padding:20px 40px; text-decoration:none; font-weight:900;">INICIAR CARGA</a></div>`;
+                return;
             }
 
-            const prot = (p * pollo_macros[prepPollo].p) + (a * arroz_macros.p) + (b * brocoli_macros.p);
-            const carb = (a * arroz_macros.c) + (b * brocoli_macros.c);
-            const fat = (p * pollo_macros[prepPollo].f) + (a * arroz_macros.f) + (b * brocoli_macros.f);
-            const kcal = (p * pollo_macros[prepPollo].k) + (a * arroz_macros.k) + (b * brocoli_macros.k);
-            
-            const unitPrice = (p * precios.pollo) + (a * precios.arroz) + (b * precios.brocoli) + precios.base;
-            const totalPrice = unitPrice * itemQty;
+            const grouped = cart.reduce((acc, item) => { acc[item.name] = acc[item.name] || { count: 0, price: item.price }; acc[item.name].count++; return acc; }, {});
+            let totalMoney = 0, totalKcal = 0, totalProt = 0, totalCarb = 0;
+            let tableRows = "";
 
-            document.getElementById('val-pollo').innerText = p + "G";
-            document.getElementById('val-arroz').innerText = a + "G";
-            document.getElementById('val-brocoli').innerText = b + "G";
-            document.getElementById('val-sal').innerText = salGrams + "G";
-            document.getElementById('val-qty').innerText = itemQty;
-            
-            document.getElementById('m-prot').innerText = Math.round(prot);
-            document.getElementById('m-carb').innerText = Math.round(carb);
-            document.getElementById('m-fat').innerText = Math.round(fat);
-            document.getElementById('m-kcal').innerText = Math.round(kcal);
-            
-            document.getElementById('final-price').innerText = "$" + Math.round(totalPrice).toLocaleString('es-CL');
+            for (const [name, data] of Object.entries(grouped)) {
+                totalMoney += data.price * data.count;
+                
+                // LÓGICA DE MACROS CORREGIDA (Suma total según la cantidad de items)
+                if (name.includes("CUSTOM")) {
+                    const matchPollo = name.match(/(\d+)P/);
+                    const matchArroz = name.match(/\|(\d+)A/);
+                    const matchBrocoli = name.match(/\|(\d+)B/);
+                    
+                    const pG = matchPollo ? parseInt(matchPollo[1]) : 0;
+                    const aG = matchArroz ? parseInt(matchArroz[1]) : 0;
+                    const bG = matchBrocoli ? parseInt(matchBrocoli[1]) : 0;
+                    
+                    // Factores por unidad, multiplicados por la cantidad total del item agrupado
+                    totalKcal += ((pG * 2.03) + (aG * 1.306) + (bG * 0.32)) * data.count;
+                    totalProt += ((pG * 0.31) + (aG * 0.0267) + (bG * 0.03)) * data.count;
+                    totalCarb += ((aG * 0.2867) + (bG * 0.06)) * data.count;
+                } else {
+                    let key = Object.keys(macroDB).find(k => name.toUpperCase().includes(k));
+                    if(key) { 
+                        totalKcal += macroDB[key].k * data.count; 
+                        totalProt += macroDB[key].p * data.count; 
+                        totalCarb += macroDB[key].c * data.count; 
+                    }
+                }
+                tableRows += `<tr class="cart-row"><td><span style="font-weight:900;">${name}</span></td><td width="120"><div class="qty-controls"><button class="btn-qty" onclick="changeQty('${name}', -1)">-</button><span style="font-weight:900;">${data.count}</span><button class="btn-qty" onclick="changeQty('${name}', 1)">+</button></div></td><td style="text-align:right; font-weight:900;">$${(data.price * data.count).toLocaleString('es-CL')}</td></tr>`;
+            }
 
-            const isUnderMin = totalPrice < 4000;
-            document.getElementById('add-btn').disabled = isUnderMin;
-            document.getElementById('min-alert').style.display = isUnderMin ? 'block' : 'none';
+            container.innerHTML = `
+                <div class="cart-title">ESTADO DE CARGA NUTRICIONAL</div>
+                <div class="progress-container"><div id="progress-bar"></div></div>
+                <div class="biomass-dashboard">
+                    <div class="macro-card"><span class="macro-label">TOTAL KCAL</span><span class="macro-total-val">${Math.round(totalKcal).toLocaleString()}</span></div>
+                    <div class="macro-card"><span class="macro-label">TOTAL PROT</span><span class="macro-total-val">${Math.round(totalProt)}G</span></div>
+                    <div class="macro-card"><span class="macro-label">TOTAL CARB</span><span class="macro-total-val">${Math.round(totalCarb)}G</span></div>
+                </div>
+                <table class="cart-table">${tableRows}</table>
+                <div class="form-box">
+                    <span class="form-label">[DATOS DE CONTACTO]</span>
+                    <input type="text" id="cust-name" placeholder="NOMBRE COMPLETO" value="${nameToUse}">
+                    <input type="email" id="cust-email" placeholder="CORREO ELECTRÓNICO" value="${emailToUse}">
+                    <select id="delivery-method" onchange="toggleDelivery()"><option value="RETIRO">RETIRO LOCAL</option><option value="DELIVERY">DELIVERY</option></select>
+                    <div id="delivery-options" style="display:none; margin-top:15px;"><select id="comuna"><option value="VITACURA">VITACURA</option><option value="LAS CONDES">LAS CONDES</option><option value="PROVIDENCIA">PROVIDENCIA</option><option value="LO BARNECHEA">LO BARNECHEA</option></select></div>
+                </div>
+                
+                <div class="form-box">
+                    <span class="form-label">[VALIDACIÓN DE PROTOCOLO]</span>
+                    <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; text-transform: uppercase; font-size: 11px; line-height: 1.5;">
+                        <input type="checkbox" id="protocol-check" onchange="toggleCheckoutBtn()" style="width: 20px; height: 20px; margin: 0; accent-color: var(--neon); cursor: pointer;">
+                        <span>HE LEÍDO Y ACEPTO EL <a href="protocolo.html" target="_blank" style="color: #000; font-weight: 900;">PROTOCOLO DE OPERACIÓN</a> (TIEMPOS DE PREPARACIÓN Y CADENA DE FRÍO).</span>
+                    </label>
+                </div>
 
-            document.getElementById('active-img').src = `img/${getImgId(p, a, b, prepPollo)}.jpg`;
-            document.getElementById('protocol-name').innerText = "UNIDAD: " + (p+a+b >= 750 ? "SOBRECARGA" : (p >= 400 && a <= 100 ? "KETO ELITE" : (p+a+b <= 350 ? "BASE LIGERA" : "PERSONALIZADA")));
-            document.getElementById('comb-number').innerText = `ID: #${getCombinationID(p, a, b, prepPollo)}`;
+                <div class="form-box">
+                    <span class="form-label">[CÓDIGO DE ACCESO]</span>
+                    <div class="promo-group">
+                        <input type="text" id="promo-code" placeholder="INGRESAR CÓDIGO" style="margin-bottom:0;">
+                        <button class="btn-apply" onclick="applyPromo()">OK</button>
+                    </div>
+                    <div id="discount-msg" style="${discount > 0 ? 'display:block' : 'none'}">>> CÓDIGO ACTIVADO: -10% DE DESCUENTO</div>
+                </div>
+                <div class="summary-box">
+                    <div class="total-amount" id="display-total">$${Math.round(totalMoney * (1-discount)).toLocaleString('es-CL')}</div>
+                    <button class="btn-checkout" id="final-checkout-btn" onclick="startProcess()" disabled style="background: #ccc; cursor: not-allowed; opacity: 0.5;">ACEPTAR PROTOCOLO PARA CONTINUAR</button>
+                </div>
+            `;
+
+            setTimeout(() => { document.getElementById('progress-bar').style.width = Math.min((cart.length / 12) * 100, 100) + "%"; }, 100);
         }
 
-        function getImgId(p, a, b, prep) {
-            const sp = p === 0 ? 'N' : (p < 400 ? 'P' : 'M'), sa = a === 0 ? 'N' : (a < 400 ? 'P' : 'M'), sb = b === 0 ? 'N' : (b < 400 ? 'P' : 'M');
-            if (sp === 'N') { if (sa==='N' && sb==='N') return 1; if (sa==='N' && sb==='P') return 2; if (sa==='N' && sb==='M') return 3; if (sa==='P' && sb==='N') return 4; if (sa==='P' && sb==='P') return 5; if (sa==='P' && sb==='M') return 6; if (sa==='M' && sb==='N') return 7; if (sa==='M' && sb==='P') return 8; return 9; }
-            if (prep === 'COCIDO') { if (sp==='P') { if (sa==='N' && sb==='N') return 10; if (sa==='N' && sb==='P') return 11; if (sa==='N' && sb==='M') return 12; if (sa==='P' && sb==='N') return 13; if (sa==='P' && sb==='P') return 14; if (sa==='P' && sb==='M') return 15; if (sa==='M' && sb==='N') return 16; return 17; } else { if (sa==='N' && sb==='N') return 18; if (sa==='N' && sb==='P') return 19; if (sa==='P' && sb==='N') return 20; if (sa==='P' && sb==='P') return 21; if (sa==='N' && sb==='M') return 22; return 23; } }
-            else { if (sp==='P') { if (sa==='N' && sb==='N') return 24; if (sa==='N' && sb==='P') return 25; if (sa==='N' && sb==='M') return 26; if (sa==='P' && sb==='N') return 27; if (sa==='P' && sb==='P') return 28; if (sa==='P' && sb==='M') return 29; if (sa==='M' && sb==='N') return 30; return 31; } else { if (sa==='N' && sb==='N') return 32; if (sa==='N' && sb==='P') return 33; if (sa==='P' && sb==='N') return 34; if (sa==='P' && sb==='P') return 35; if (sa==='N' && sb==='M') return 36; return 37; } }
+        function toggleCheckoutBtn() {
+            const isChecked = document.getElementById('protocol-check').checked;
+            const btn = document.getElementById('final-checkout-btn');
+            if(isChecked) {
+                btn.disabled = false;
+                btn.style.background = "var(--accent)";
+                btn.style.cursor = "pointer";
+                btn.style.opacity = "1";
+                btn.innerText = "GENERAR TICKET Y PAGAR";
+            } else {
+                btn.disabled = true;
+                btn.style.background = "#ccc";
+                btn.style.cursor = "not-allowed";
+                btn.style.opacity = "0.5";
+                btn.innerText = "ACEPTAR PROTOCOLO PARA CONTINUAR";
+            }
         }
 
-        function addToCartCustom() {
-            const p = document.getElementById('input-pollo').value;
-            const a = document.getElementById('input-arroz').value;
-            const b = document.getElementById('input-brocoli').value;
-            const prText = document.getElementById('final-price').innerText;
-            const prNum = parseInt(prText.replace('$', '').replace('.', '')) / itemQty;
-            const pim = conPimienta ? "C/PIM" : "S/PIM";
-            
-            // NOMBRE DESCRIPTIVO CON TIPO DE COCCIÓN DE POLLO
-            const name = `CUSTOM: ${document.getElementById('protocol-name').innerText} (${p}P ${prepPollo}|${a}A|${b}B) [${pim}|SAL:${salGrams}G]`;
-            
-            lastAddedCount = itemQty;
-            let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
-            for(let i=0; i<itemQty; i++) { cart.push({ name: name, price: prNum }); }
-            localStorage.setItem('preps_cart', JSON.stringify(cart));
-            updateGlobalCartCount();
-            document.getElementById('modal-img').src = document.getElementById('active-img').src;
-            document.getElementById('modal-desc').innerText = name;
-            document.getElementById('modal-qty-text').innerText = "CANTIDAD AGREGADA: " + itemQty;
-            document.getElementById('modal-total').innerText = "TOTAL: " + prText;
-            document.getElementById('confirm-modal').style.display = 'flex';
+        function toggleDelivery() { document.getElementById('delivery-options').style.display = (document.getElementById('delivery-method').value === 'DELIVERY') ? 'block' : 'none'; }
+        function changeQty(name, delta) { delta > 0 ? cart.push({...cart.find(i => i.name === name)}) : cart.splice(cart.findIndex(i => i.name === name), 1); localStorage.setItem('preps_cart', JSON.stringify(cart)); renderCart(document.getElementById('cust-name').value, document.getElementById('cust-email').value); }
+
+        function applyPromo() {
+            const code = document.getElementById('promo-code').value.toUpperCase();
+            const currentName = document.getElementById('cust-name').value;
+            const currentEmail = document.getElementById('cust-email').value;
+            if (code === 'MILA10') { discount = 0.10; renderCart(currentName, currentEmail); } else { alert("SISTEMA: CÓDIGO INVÁLIDO"); }
         }
 
-        function undoAddToCart() {
-            let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
-            if (cart.length >= lastAddedCount) { cart.splice(-lastAddedCount); localStorage.setItem('preps_cart', JSON.stringify(cart)); }
-            updateGlobalCartCount();
-            closeModal();
+        function startProcess() {
+            const name = document.getElementById('cust-name').value;
+            const email = document.getElementById('cust-email').value;
+            if(!name || !email) { alert("DATOS INCOMPLETOS"); return; }
+            const modal = document.getElementById('console-modal');
+            const text = document.getElementById('console-text');
+            modal.style.display = 'flex';
+            text.innerHTML = "<div class='alert-download'>POR FAVOR DESCARGAR ARCHIVO.</div><br>";
+            text.innerHTML += "> INICIANDO PROTOCOLO PREPS...<br>";
+            setTimeout(() => { text.innerHTML += "> COMPILANDO ORDEN VISUAL...<br>"; generateTicket(name, email); }, 500);
         }
 
-        function closeModal() { document.getElementById('confirm-modal').style.display = 'none'; }
-        window.addEventListener('load', () => { updateGlobalCartCount(); setTimeout(() => { document.getElementById('loader').style.opacity = '0'; setTimeout(() => { document.getElementById('loader').style.display = 'none'; reveal(); }, 800); }, 1000); update(); });
-        function reveal() { var reveals = document.querySelectorAll(".reveal"); for (var i = 0; i < reveals.length; i++) { if (reveals[i].getBoundingClientRect().top < window.innerHeight - 150) reveals[i].classList.add("active"); } }
-        window.addEventListener("scroll", reveal);
-        document.querySelectorAll('input[type=range]').forEach(i => i.addEventListener('input', update));
+        function generateTicket(name, email) {
+            const ticket = document.getElementById('ticket-export');
+            const body = document.getElementById('tk-body-items');
+            const subtotal = cart.reduce((s, i) => s + i.price, 0);
+            document.getElementById('tk-name-val').innerText = name.toUpperCase();
+            document.getElementById('tk-email-val').innerText = email.toUpperCase();
+            document.getElementById('tk-id-val').innerText = "#PRP-" + Math.floor(Math.random()*9000+1000);
+            document.getElementById('tk-date-val').innerText = new Date().toLocaleDateString();
+            document.getElementById('tk-sub-val').innerText = "$" + subtotal.toLocaleString('es-CL');
+            document.getElementById('tk-total-val').innerText = document.getElementById('display-total').innerText;
+            if(discount > 0) { document.getElementById('tk-dscto-row').style.display = 'flex'; document.getElementById('tk-dscto-val').innerText = "-$" + Math.round(subtotal * 0.1).toLocaleString('es-CL'); }
+            const grouped = cart.reduce((acc, item) => { acc[item.name] = acc[item.name] || { count: 0, price: item.price }; acc[item.name].count++; return acc; }, {});
+            body.innerHTML = "";
+            for (const [n, data] of Object.entries(grouped)) { body.innerHTML += `<tr><td>${n}</td><td align="center">${data.count}</td><td align="right">$${(data.price * data.count).toLocaleString('es-CL')}</td></tr>`; }
+            html2canvas(ticket, { scale: 2 }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `PREPS-TICKET-${name.split(' ')[0]}.png`;
+                link.href = canvas.toDataURL();
+                link.click();
+                const text = document.getElementById('console-text');
+                text.innerHTML += "> TICKET DESCARGADO CON ÉXITO.<br>";
+                text.innerHTML += "<br>> ADJUNTA LA IMAGEN EN EL SIGUIENTE PASO.";
+                document.getElementById('btn-goto-wsp').style.display = 'block';
+            });
+        }
+
+        function sendToWhatsApp() {
+            localStorage.removeItem('preps_cart');
+            let msg = `Por favor adjuntar archivo descargado para continuar con el proceso.`;
+            window.location.href = `https://wa.me/56941892028?text=${encodeURIComponent(msg)}`;
+        }
+
+        window.addEventListener('load', () => renderCart("", ""));
     </script>
 </body>
 </html>
