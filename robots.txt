@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://prepscl.vercel.app/sitemap.xml
