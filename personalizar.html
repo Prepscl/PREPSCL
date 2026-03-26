@@ -278,17 +278,17 @@
             } else {
                 if (sp==='P') {
                     if (sa==='N' && sb==='N') return 24;
-                    if (sa==='N' && sb==='P') return 25;
+                    if (sa==='N' && sb==='P') return 26; // PARCHE: 25 -> 26
                     if (sa==='N' && sb==='M') return 26;
                     if (sa==='P' && sb==='N') return 27;
-                    if (sa==='P' && sb==='P') return 31;
+                    if (sa==='P' && sb==='P') return 31; // PARCHE: 28 -> 31
                     if (sa==='P' && sb==='M') return 29;
-                    if (sa==='M' && sb==='N') return 30;
+                    if (sa==='M' && sb==='N') return 27; // PARCHE: 30 -> 27
                     if (sa==='M' && sb==='P') return 31;
                 } else {
                     if (sa==='N' && sb==='N') return 32;
                     if (sa==='N' && sb==='P') return 33;
-                    if (sa==='P' && sb==='N') return 34;
+                    if (sa==='P' && sb==='N') return 37; // PARCHE: 34 -> 37
                     if (sa==='P' && sb==='P') return 35;
                     if (sa==='N' && sb==='M') return 36;
                     if (sa==='M' && sb==='N') return 37;
