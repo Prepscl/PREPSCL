@@ -123,7 +123,7 @@
                     <span id="protocol-name">CARGANDO...</span><br>
                     <span id="comb-number" style="font-size: 10px; color: #888; letter-spacing: 2px;">ID: #0000</span>
                 </div>
-                <div class="image-placeholder"><img id="active-img" src="img/1.jpg" alt="Preview"></div>
+                <div class="image-placeholder"><img id="active-img" src="img/1.png" alt="Preview"></div>
             </div>
 
             <div class="config-section reveal">
@@ -241,6 +241,62 @@
             return Math.abs(Math.floor(id)).toString().padStart(4, '0');
         }
 
+        function getImgId(p, a, b, prep) {
+            const sp = p === 0 ? 'N' : (p < 400 ? 'P' : 'M');
+            const sa = a === 0 ? 'N' : (a < 400 ? 'P' : 'M');
+            const sb = b === 0 ? 'N' : (b < 400 ? 'P' : 'M');
+
+            if (sp === 'N') {
+                if (sa==='N' && sb==='N') return 1;
+                if (sa==='N' && sb==='P') return 2;
+                if (sa==='N' && sb==='M') return 3;
+                if (sa==='P' && sb==='N') return 4;
+                if (sa==='P' && sb==='P') return 5;
+                if (sa==='P' && sb==='M') return 6;
+                if (sa==='M' && sb==='N') return 7;
+                if (sa==='M' && sb==='P') return 8;
+                if (sa==='M' && sb==='M') return 9;
+            }
+            if (prep === 'COCIDO') {
+                if (sp==='P') {
+                    if (sa==='N' && sb==='N') return 10;
+                    if (sa==='N' && sb==='P') return 11;
+                    if (sa==='N' && sb==='M') return 12;
+                    if (sa==='P' && sb==='N') return 13;
+                    if (sa==='P' && sb==='P') return 14;
+                    if (sa==='P' && sb==='M') return 15;
+                    if (sa==='M' && sb==='N') return 16;
+                    if (sa==='M' && sb==='P') return 17;
+                } else {
+                    if (sa==='N' && sb==='N') return 18;
+                    if (sa==='N' && sb==='P') return 19;
+                    if (sa==='P' && sb==='N') return 20;
+                    if (sa==='P' && sb==='P') return 21;
+                    if (sa==='N' && sb==='M') return 22;
+                    if (sa==='M' && sb==='N') return 23;
+                }
+            } else {
+                if (sp==='P') {
+                    if (sa==='N' && sb==='N') return 24;
+                    if (sa==='N' && sb==='P') return 25;
+                    if (sa==='N' && sb==='M') return 26;
+                    if (sa==='P' && sb==='N') return 27;
+                    if (sa==='P' && sb==='P') return 28;
+                    if (sa==='P' && sb==='M') return 29;
+                    if (sa==='M' && sb==='N') return 30;
+                    if (sa==='M' && sb==='P') return 31;
+                } else {
+                    if (sa==='N' && sb==='N') return 32;
+                    if (sa==='N' && sb==='P') return 33;
+                    if (sa==='P' && sb==='N') return 34;
+                    if (sa==='P' && sb==='P') return 35;
+                    if (sa==='N' && sb==='M') return 36;
+                    if (sa==='M' && sb==='N') return 37;
+                }
+            }
+            return 1;
+        }
+
         function update(e) {
             let p = parseInt(document.getElementById('input-pollo').value);
             let a = parseInt(document.getElementById('input-arroz').value);
@@ -253,7 +309,6 @@
                 b = parseInt(document.getElementById('input-brocoli').value);
             }
 
-            // CORRECCIÓN: Macros multiplicados por itemQty (cantidad de raciones)
             const prot = ((p * pollo_macros[prepPollo].p) + (a * arroz_macros.p) + (b * brocoli_macros.p)) * itemQty;
             const carb = ((a * arroz_macros.c) + (b * brocoli_macros.c)) * itemQty;
             const fat = ((p * pollo_macros[prepPollo].f) + (a * arroz_macros.f) + (b * brocoli_macros.f)) * itemQty;
@@ -279,16 +334,9 @@
             document.getElementById('add-btn').disabled = isUnderMin;
             document.getElementById('min-alert').style.display = isUnderMin ? 'block' : 'none';
 
-            document.getElementById('active-img').src = `img/${getImgId(p, a, b, prepPollo)}.jpg`;
+            document.getElementById('active-img').src = `img/${getImgId(p, a, b, prepPollo)}.png`;
             document.getElementById('protocol-name').innerText = "UNIDAD: " + (p+a+b >= 750 ? "SOBRECARGA" : (p >= 400 && a <= 100 ? "KETO ELITE" : (p+a+b <= 350 ? "BASE LIGERA" : "PERSONALIZADA")));
             document.getElementById('comb-number').innerText = `ID: #${getCombinationID(p, a, b, prepPollo)}`;
-        }
-
-        function getImgId(p, a, b, prep) {
-            const sp = p === 0 ? 'N' : (p < 400 ? 'P' : 'M'), sa = a === 0 ? 'N' : (a < 400 ? 'P' : 'M'), sb = b === 0 ? 'N' : (b < 400 ? 'P' : 'M');
-            if (sp === 'N') { if (sa==='N' && sb==='N') return 1; if (sa==='N' && sb==='P') return 2; if (sa==='N' && sb==='M') return 3; if (sa==='P' && sb==='N') return 4; if (sa==='P' && sb==='P') return 5; if (sa==='P' && sb==='M') return 6; if (sa==='M' && sb==='N') return 7; if (sa==='M' && sb==='P') return 8; return 9; }
-            if (prep === 'COCIDO') { if (sp==='P') { if (sa==='N' && sb==='N') return 10; if (sa==='N' && sb==='P') return 11; if (sa==='N' && sb==='M') return 12; if (sa==='P' && sb==='N') return 13; if (sa==='P' && sb==='P') return 14; if (sa==='P' && sb==='M') return 15; if (sa==='M' && sb==='N') return 16; return 17; } else { if (sa==='N' && sb==='N') return 18; if (sa==='N' && sb==='P') return 19; if (sa==='P' && sb==='N') return 20; if (sa==='P' && sb==='P') return 21; if (sa==='N' && sb==='M') return 22; return 23; } }
-            else { if (sp==='P') { if (sa==='N' && sb==='N') return 24; if (sa==='N' && sb==='P') return 25; if (sa==='N' && sb==='M') return 26; if (sa==='P' && sb==='N') return 27; if (sa==='P' && sb==='P') return 28; if (sa==='P' && sb==='M') return 29; if (sa==='M' && sb==='N') return 30; return 31; } else { if (sa==='N' && sb==='N') return 32; if (sa==='N' && sb==='P') return 33; if (sa==='P' && sb==='N') return 34; if (sa==='P' && sb==='P') return 35; if (sa==='N' && sb==='M') return 36; return 37; } }
         }
 
         function addToCartCustom() {
@@ -299,7 +347,6 @@
             const prNum = parseInt(prText.replace('$', '').replace('.', '')) / itemQty;
             const pim = conPimienta ? "C/PIM" : "S/PIM";
             
-            // NOMBRE DESCRIPTIVO CORREGIDO: SE AÑADEN GRAMOS DE BRÓCOLI (|${b}B)
             const name = `CUSTOM: ${document.getElementById('protocol-name').innerText} (${p}P ${prepPollo}|${a}A|${b}B) [${pim}|SAL:${salGrams}G]`;
             
             lastAddedCount = itemQty;
