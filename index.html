@@ -3,212 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PREPS - ENGINEERED PERFORMANCE</title>
+    <title>PREPS - DISEÑADO PARA TU RENDIMIENTO</title>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
     
     <link rel="icon" type="image/png" href="img/logo-preps.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
     
     <style>
-        :root { --accent: #fff; --bg: #000; --text-muted: #666; }
-        
-        * { cursor: none !important; } /* Ocultamos el mouse real */
-
         body {
-            background-color: var(--bg); 
-            color: #fff;
-            font-family: 'Inter', sans-serif;
+            background-color: #f2f2f2; 
+            color: #000;
+            font-family: 'Courier New', Courier, monospace;
             margin: 0; padding: 0;
             text-transform: uppercase;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* 1. CURSOR DE PRECISIÓN */
-        #cursor-dot { width: 4px; height: 4px; background: #fff; position: fixed; border-radius: 50%; z-index: 10001; pointer-events: none; }
-        #cursor-ring { width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.2); position: fixed; border-radius: 50%; z-index: 10000; pointer-events: none; transition: transform 0.15s ease-out; }
-
-        /* 2. LOADER DE SISTEMA */
+        /* LOADER */
         #loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; display: flex; flex-direction: column;
             align-items: center; justify-content: center; z-index: 9999;
+            transition: opacity 1s ease;
         }
-        #loader img { width: 120px; filter: drop-shadow(0 0 15px rgba(255,255,255,0.2)); }
-        .loading-bar { width: 200px; height: 1px; background: #222; margin-top: 30px; position: relative; }
-        .loading-progress { width: 0%; height: 100%; background: #fff; position: absolute; }
+        #loader img { width: 150px; animation: pulse 2s infinite ease-in-out; }
+        @keyframes pulse { 0%, 100% { transform: scale(0.9); opacity: 0.3; } 50% { transform: scale(1); opacity: 1; } }
 
-        /* HEADER TÉCNICO */
-        header { 
-            position: fixed; top: 0; width: 100%; z-index: 100;
-            padding: 30px 50px; display: flex; justify-content: space-between; align-items: center;
-            box-sizing: border-box; mix-blend-mode: difference;
-        }
-        .logo-nav img { width: 120px; }
-        nav { display: flex; gap: 40px; align-items: center; }
-        nav a { text-decoration: none; color: #fff; font-size: 11px; letter-spacing: 3px; font-weight: 400; transition: opacity 0.3s; }
-        nav a:hover { opacity: 0.5; }
-        .cart-icon { width: 20px; filter: invert(1); }
+        /* HEADER CENTRADO ORIGINAL */
+        header { width: 100%; text-align: center; padding: 60px 0 40px; background: #f2f2f2; }
+        .logo-link img { width: 180px; margin-bottom: 30px; display: inline-block; }
+        nav { display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap; }
+        nav a { text-decoration: none; color: #000; font-size: 14px; letter-spacing: 2px; border-bottom: 2px solid transparent; transition: 0.3s; }
+        nav a.active { border-bottom: 2px solid #000; font-weight: bold; }
+        .cart-icon-svg { width: 22px; height: 22px; color: #000; vertical-align: middle; }
 
-        /* SECCIÓN HERO (LA MAGIA PNG) */
-        .hero {
-            height: 100vh; width: 100%;
+        /* HERO INMERSIVO (REPARADO) */
+        .hero-section {
+            width: 100%; height: 90vh;
+            background: #000; position: relative;
             display: flex; align-items: center; justify-content: center;
-            background: radial-gradient(circle at center, #111 0%, #000 100%);
-            perspective: 1000px;
+            overflow: hidden;
         }
-        .hero-title-container { position: absolute; z-index: 2; text-align: center; pointer-events: none; }
-        .hero-title { font-size: 8vw; font-weight: 900; letter-spacing: -4px; line-height: 0.8; margin: 0; }
+        .hero-img-bg {
+            position: absolute; width: 100%; height: 100%;
+            object-fit: cover; opacity: 0.6;
+            filter: blur(10px); /* Comienza borroso */
+        }
+        .hero-content { position: relative; z-index: 10; text-align: center; color: #fff; width: 90%; }
+        .hero-title { font-family: 'Inter', sans-serif; font-size: 5vw; font-weight: 900; letter-spacing: -2px; line-height: 1; margin: 0; }
+
+        /* SLIDER (REPARADO) */
+        .slider-container { max-width: 1300px; margin: 80px auto; padding: 0 20px; }
+        .section-header h2 { font-family: 'Inter', sans-serif; text-align: center; font-size: 32px; font-weight: 900; margin-bottom: 40px; }
         
-        .hero-img-wrap {
-            position: relative; z-index: 3;
-            width: 70%; max-width: 1000px;
-            filter: drop-shadow(0 50px 100px rgba(0,0,0,0.8));
+        .product-slider { 
+            display: flex; overflow-x: auto; gap: 20px; 
+            scroll-snap-type: x mandatory; scrollbar-width: none;
+            padding-bottom: 20px;
         }
-        .hero-img-wrap img { width: 100%; height: auto; display: block; }
-
-        /* SLIDER DE PRODUCTOS DINÁMICO */
-        .catalog-section { padding: 150px 0; background: #fff; color: #000; }
-        .section-label { text-align: center; font-size: 10px; letter-spacing: 10px; color: #999; margin-bottom: 20px; }
-        .section-title { text-align: center; font-size: 40px; font-weight: 900; margin-bottom: 80px; letter-spacing: -2px; }
-
-        .slider-wrapper { overflow: hidden; position: relative; padding: 0 50px; }
-        .product-slider { display: flex; gap: 40px; }
+        .product-slider::-webkit-scrollbar { display: none; }
         
         .slide-card { 
-            min-width: 400px; background: #f9f9f9; border: 1px solid #eee;
-            text-decoration: none; color: #000; position: relative;
+            min-width: 320px; flex: 0 0 320px;
+            background: #fff; border: 1px solid #ddd;
+            scroll-snap-align: center; text-decoration: none; color: #000;
         }
-        .slide-card:hover { border-color: #000; }
-        .slide-img { width: 100%; height: 450px; object-fit: cover; }
-        .slide-info { padding: 30px; }
-        .slide-info h3 { margin: 0; font-size: 14px; font-weight: 900; }
-        .price { margin-top: 15px; font-family: 'monospace'; font-size: 20px; }
+        .slide-card img { width: 100%; height: 350px; object-fit: cover; }
+        .slide-info { padding: 25px; border-top: 1px solid #eee; }
+        .slide-info h3 { font-family: 'Inter'; font-size: 14px; font-weight: 900; margin: 0; min-height: 35px; }
+        .price { font-weight: bold; margin-top: 15px; font-size: 18px; }
+        .custom-card { background: #000; color: #fff; border-color: #000; }
+        .custom-card .slide-info { border-top-color: #222; }
 
-        /* FOOTER */
-        footer { padding: 100px 50px; background: #000; text-align: center; }
-        .social-link img { width: 24px; filter: invert(1); opacity: 0.4; transition: 0.3s; }
-        .social-link:hover img { opacity: 1; }
+        .slider-nav { display: flex; align-items: center; justify-content: center; gap: 40px; margin-top: 40px; }
+        .nav-arrow { background: #fff; border: 1px solid #000; width: 50px; height: 50px; cursor: pointer; border-radius: 50%; font-size: 20px; }
+
+        footer { background: #000; color: #fff; padding: 60px 20px; text-align: center; font-size: 10px; letter-spacing: 2px; }
+        .social-img { width: 24px; filter: invert(1); opacity: 0.5; margin-bottom: 20px; }
+
+        /* MÓVIL */
+        @media (max-width: 850px) {
+            .hero-title { font-size: 32px; }
+            .hero-section { height: 60vh; }
+            .slide-card { min-width: 280px; flex: 0 0 280px; }
+            header { padding: 30px 10px; }
+            nav a { font-size: 11px; margin: 0 10px; }
+        }
     </style>
 </head>
 <body>
 
-    <div id="cursor-dot"></div>
-    <div id="cursor-ring"></div>
-
     <div id="loader">
         <img src="img/logo-preps.png" alt="PREPS">
-        <div class="loading-bar"><div class="loading-progress" id="lp"></div></div>
     </div>
 
     <header>
-        <a href="index.html" class="logo-nav"><img src="img/logo-preps.png" alt="PREPS"></a>
+        <a href="index.html" class="logo-link"><img src="img/logo-preps.png" alt="PREPS"></a>
         <nav>
-            <a href="index.html">HOME</a>
+            <a href="index.html" class="active">HOME</a>
             <a href="catalogo.html">CATÁLOGO</a>
             <a href="nosotros.html">NOSOTROS</a>
-            <a href="carrito.html" class="social-link"><img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" class="cart-icon"></a>
+            <a href="carrito.html">
+                <svg class="cart-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+            </a>
         </nav>
     </header>
 
     <main>
-        <section class="hero">
-            <div class="hero-title-container">
-                <h1 class="hero-title" id="mainTitle">DISEÑADO PARA<br>RENDIR</h1>
-            </div>
-            <div class="hero-img-wrap" id="heroTarget">
-                <img src="img/home.png" alt="PREPS PERFORMANCE">
+        <section class="hero-section">
+            <img src="img/home.png" class="hero-img-bg" id="heroImg">
+            <div class="hero-content">
+                <h1 class="hero-title" id="heroText">DISEÑADO PARA<br>TU RENDIMIENTO</h1>
             </div>
         </section>
 
-        <section class="catalog-section">
-            <div class="section-label">LABORATORY INVENTORY</div>
-            <h2 class="section-title">NUESTROS PROTOCOLOS</h2>
-            
-            <div class="slider-wrapper">
-                <div class="product-slider" id="ps">
-                    <a href="personalizar.html" class="slide-card" style="background:#000; color:#fff;">
-                        <img src="img/2.png" class="slide-img">
-                        <div class="slide-info"><h3>CUSTOM LAB PERFORMANCE</h3><div class="price">DESDE $4.000</div></div>
-                    </a>
-                    <a href="#" class="slide-card"><img src="img/menu1.png" class="slide-img"><div class="slide-info"><h3>POWER BREAST HIGH CARB</h3><div class="price">$5.690</div></div></a>
-                    <a href="#" class="slide-card"><img src="img/menu2.png" class="slide-img"><div class="slide-info"><h3>POWER BREAST LOW CARB</h3><div class="price">$4.900</div></div></a>
-                    <a href="#" class="slide-card"><img src="img/pack5.png" class="slide-img"><div class="slide-info"><h3>05 PACKS PERFORMANCE</h3><div class="price">$24.900</div></div></a>
-                    <a href="#" class="slide-card"><img src="img/pack15.jpg" class="slide-img"><div class="slide-info"><h3>15 PACKS PERFORMANCE</h3><div class="price">$72.900</div></div></a>
-                    <a href="#" class="slide-card"><img src="img/pack28.jpg" class="slide-img"><div class="slide-info"><h3>28 PACKS PERFORMANCE</h3><div class="price">$129.900</div></div></a>
-                </div>
+        <section class="slider-container">
+            <div class="section-header"><h2>FUEL REPOSITORY</h2></div>
+            <div class="product-slider" id="ps">
+                <a href="personalizar.html" class="slide-card custom-card">
+                    <img src="img/2.png">
+                    <div class="slide-info"><h3>CUSTOM LAB PERFORMANCE</h3><div class="price">DESDE $4.000</div></div>
+                </a>
+                <a href="#" class="slide-card">
+                    <img src="img/menu1.png">
+                    <div class="slide-info"><h3>POWER BREAST HIGH CARB</h3><div class="price">$5.690</div></div>
+                </a>
+                <a href="#" class="slide-card">
+                    <img src="img/menu2.png">
+                    <div class="slide-info"><h3>POWER BREAST LOW CARB</h3><div class="price">$4.900</div></div>
+                </a>
+                <a href="#" class="slide-card">
+                    <img src="img/pack5.png">
+                    <div class="slide-info"><h3>05 PACKS PERFORMANCE</h3><div class="price">$24.900</div></div>
+                </a>
+                <a href="#" class="slide-card">
+                    <img src="img/pack15.jpg">
+                    <div class="slide-info"><h3>15 PACKS PERFORMANCE</h3><div class="price">$72.900</div></div>
+                </a>
+                <a href="#" class="slide-card">
+                    <img src="img/pack28.jpg">
+                    <div class="slide-info"><h3>28 PACKS PERFORMANCE</h3><div class="price">$129.900</div></div>
+                </a>
+            </div>
+
+            <div class="slider-nav">
+                <button class="nav-arrow" onclick="scrollBtn(-1)">&#10094;</button>
+                <div class="counter" id="counter">1 / 6</div>
+                <button class="nav-arrow" onclick="scrollBtn(1)">&#10095;</button>
             </div>
         </section>
     </main>
 
     <footer>
-        <a href="https://www.instagram.com/prepscl/" class="social-link"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png"></a>
-        <p style="margin-top:40px; font-size:9px; color:#444;">© 2026 PREPS CHILE - SCIENTIFIC NUTRITION</p>
+        <a href="https://www.instagram.com/prepscl/" target="_blank">
+            <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" class="social-img">
+        </a>
+        <p>© 2026 PREPS CHILE - SCIENTIFIC NUTRITION</p>
     </footer>
 
     <script>
-        // 1. AUDIO ENGINE (SONIDOS DE LABORATORIO)
-        const clickSound = new Audio('https://www.fesliyanstudios.com/play-mp3/638'); // Click corto metálico
-        clickSound.volume = 0.2;
-        document.querySelectorAll('a').forEach(el => el.addEventListener('mouseenter', () => clickSound.play()));
-
-        // 2. CURSOR PRO
-        const dot = document.getElementById('cursor-dot');
-        const ring = document.getElementById('cursor-ring');
-        document.addEventListener('mousemove', (e) => {
-            gsap.to(dot, {x: e.clientX, y: e.clientY, duration: 0});
-            gsap.to(ring, {x: e.clientX - 20, y: e.clientY - 20, duration: 0.15});
-        });
-
-        // 3. SCROLL SUAVE LENIS
-        const lenis = new Lenis({ lerp: 0.05 });
-        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-        requestAnimationFrame(raf);
-
-        // 4. ANIMACIONES GSAP (SCROLLYTELLING)
-        gsap.registerPlugin(ScrollTrigger);
-
+        // CARGA INICIAL
         window.addEventListener('load', () => {
-            // Loader progress
-            gsap.to("#lp", { width: "100%", duration: 2, ease: "power4.inOut", onComplete: () => {
-                gsap.to("#loader", { y: "-100%", duration: 1, ease: "expo.inOut" });
-                initHero();
-            }});
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => { 
+                    document.getElementById('loader').style.display = 'none';
+                    initHero();
+                }, 800);
+            }, 1000);
         });
 
+        // ANIMACIÓN HERO (OPTIMIZADA)
         function initHero() {
-            // Entrada con desenfoque (Motion Blur style)
-            gsap.from("#heroTarget", { 
-                scale: 1.5, filter: "blur(30px)", opacity: 0, duration: 2.5, ease: "expo.out" 
-            });
-            
-            // Parallax del plato al mover el mouse
-            document.addEventListener('mousemove', (e) => {
-                const x = (e.clientX - window.innerWidth / 2) / 30;
-                const y = (e.clientY - window.innerHeight / 2) / 30;
-                gsap.to("#heroTarget", { rotationY: x, rotationX: -y, duration: 1 });
-            });
-
-            // Parallax del título al scroll
-            gsap.to("#mainTitle", {
-                y: 300, scale: 0.8, opacity: 0,
-                scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true }
-            });
+            gsap.to("#heroImg", { filter: "blur(0px)", scale: 1.1, duration: 2, ease: "power2.out" });
+            gsap.from("#heroText", { y: 30, opacity: 0, duration: 1.5, delay: 0.5 });
         }
 
-        // 5. SLIDER AUTOMÁTICO + MANUAL
+        // SLIDER MANUAL + AUTOMÁTICO 5S
         const slider = document.getElementById('ps');
-        let scrollPos = 0;
-        
-        function autoScroll() {
-            scrollPos += 1;
-            if (scrollPos >= slider.scrollWidth - window.innerWidth) scrollPos = 0;
-            slider.style.transform = `translateX(-${scrollPos}px)`;
-            requestAnimationFrame(autoScroll);
+        const counter = document.getElementById('counter');
+
+        function updateCounter() {
+            const index = Math.round(slider.scrollLeft / 340) + 1;
+            counter.innerText = `${Math.min(index, 6)} / 6`;
         }
-        // Desactivado para no romper la experiencia táctil, pero aquí está la base
+
+        function scrollBtn(dir) {
+            slider.scrollBy({ left: dir * 340, behavior: 'smooth' });
+        }
+
+        slider.addEventListener('scroll', updateCounter);
+
+        // AUTO SCROLL 5 SEG
+        let autoPlay = setInterval(() => {
+            if (slider.scrollLeft + slider.offsetWidth >= slider.scrollWidth - 10) {
+                slider.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+                scrollBtn(1);
+            }
+        }, 5000);
+
+        // Detener autoplay si el usuario interactúa
+        slider.addEventListener('mousedown', () => clearInterval(autoPlay));
+        slider.addEventListener('touchstart', () => clearInterval(autoPlay));
     </script>
 </body>
 </html>
