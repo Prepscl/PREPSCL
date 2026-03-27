@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -32,7 +32,7 @@
         #loader img { width: 150px; animation: pulse 2s infinite ease-in-out; }
         @keyframes pulse { 0%, 100% { transform: scale(0.9); opacity: 0.3; } 50% { transform: scale(1); opacity: 1; } }
 
-        /* HEADER CENTRADO ORIGINAL */
+        /* HEADER */
         header { width: 100%; text-align: center; padding: 60px 0 40px; background: #f2f2f2; }
         .logo-link img { width: 180px; margin-bottom: 30px; display: inline-block; }
         nav { display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap; }
@@ -40,57 +40,68 @@
         nav a.active { border-bottom: 2px solid #000; font-weight: bold; }
         .cart-icon-svg { width: 22px; height: 22px; color: #000; vertical-align: middle; }
 
-        /* HERO INMERSIVO (REPARADO) */
+        /* HERO */
         .hero-section {
             width: 100%; height: 90vh;
             background: #000; position: relative;
             display: flex; align-items: center; justify-content: center;
             overflow: hidden;
         }
-        .hero-img-bg {
-            position: absolute; width: 100%; height: 100%;
-            object-fit: cover; opacity: 0.6;
-            filter: blur(10px); /* Comienza borroso */
-        }
+        .hero-img-bg { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
         .hero-content { position: relative; z-index: 10; text-align: center; color: #fff; width: 90%; }
         .hero-title { font-family: 'Inter', sans-serif; font-size: 5vw; font-weight: 900; letter-spacing: -2px; line-height: 1; margin: 0; }
 
-        /* SLIDER (REPARADO) */
-        .slider-container { max-width: 1300px; margin: 80px auto; padding: 0 20px; }
-        .section-header h2 { font-family: 'Inter', sans-serif; text-align: center; font-size: 32px; font-weight: 900; margin-bottom: 40px; }
+        /* SLIDER OPTIMIZADO: IMÁGENES FLOTANTES */
+        .slider-container { max-width: 1400px; margin: 100px auto; padding: 0 20px; }
+        .section-header h2 { font-family: 'Inter', sans-serif; text-align: center; font-size: 32px; font-weight: 900; margin-bottom: 60px; }
         
         .product-slider { 
-            display: flex; overflow-x: auto; gap: 20px; 
+            display: flex; overflow-x: auto; gap: 40px; 
             scroll-snap-type: x mandatory; scrollbar-width: none;
-            padding-bottom: 20px;
+            padding-bottom: 40px;
         }
         .product-slider::-webkit-scrollbar { display: none; }
         
         .slide-card { 
-            min-width: 320px; flex: 0 0 320px;
-            background: #fff; border: 1px solid #ddd;
-            scroll-snap-align: center; text-decoration: none; color: #000;
+            min-width: 380px; flex: 0 0 380px;
+            text-decoration: none; color: #000;
+            scroll-snap-align: center;
+            transition: transform 0.4s ease;
+            display: flex; flex-direction: column; align-items: center;
         }
-        .slide-card img { width: 100%; height: 350px; object-fit: cover; }
-        .slide-info { padding: 25px; border-top: 1px solid #eee; }
-        .slide-info h3 { font-family: 'Inter'; font-size: 14px; font-weight: 900; margin: 0; min-height: 35px; }
-        .price { font-weight: bold; margin-top: 15px; font-size: 18px; }
-        .custom-card { background: #000; color: #fff; border-color: #000; }
-        .custom-card .slide-info { border-top-color: #222; }
+        
+        /* Imagen flotante: sin fondo ni bordes */
+        .slide-card img { 
+            width: 100%; height: 400px; 
+            object-fit: contain; /* Para que el plato no se corte y flote bien */
+            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.1)); 
+            transition: transform 0.4s ease;
+        }
+        .slide-card:hover img { transform: scale(1.05); }
 
-        .slider-nav { display: flex; align-items: center; justify-content: center; gap: 40px; margin-top: 40px; }
-        .nav-arrow { background: #fff; border: 1px solid #000; width: 50px; height: 50px; cursor: pointer; border-radius: 50%; font-size: 20px; }
+        .slide-info { text-align: center; margin-top: 20px; width: 100%; }
+        .slide-info h3 { font-family: 'Inter'; font-size: 16px; font-weight: 900; margin: 0; letter-spacing: -0.5px; }
+        .price { font-weight: bold; margin-top: 10px; font-size: 20px; color: #000; }
+
+        /* Custom Lab: Único que mantiene el bloque negro */
+        .custom-card { 
+            background: #000; padding-bottom: 20px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+        }
+        .custom-card img { height: 350px; object-fit: cover; }
+        .custom-card .slide-info h3, .custom-card .price { color: #fff; }
+
+        .slider-nav { display: flex; align-items: center; justify-content: center; gap: 40px; margin-top: 50px; }
+        .nav-arrow { background: #fff; border: 1px solid #000; width: 55px; height: 55px; cursor: pointer; border-radius: 50%; font-size: 20px; transition: 0.3s; }
+        .nav-arrow:hover { background: #000; color: #fff; }
 
         footer { background: #000; color: #fff; padding: 60px 20px; text-align: center; font-size: 10px; letter-spacing: 2px; }
         .social-img { width: 24px; filter: invert(1); opacity: 0.5; margin-bottom: 20px; }
 
-        /* MÓVIL */
         @media (max-width: 850px) {
             .hero-title { font-size: 32px; }
-            .hero-section { height: 60vh; }
-            .slide-card { min-width: 280px; flex: 0 0 280px; }
-            header { padding: 30px 10px; }
-            nav a { font-size: 11px; margin: 0 10px; }
+            .slide-card { min-width: 300px; flex: 0 0 300px; }
+            .slide-card img { height: 300px; }
         }
     </style>
 </head>
@@ -127,10 +138,6 @@
         <section class="slider-container">
             <div class="section-header"><h2>FUEL REPOSITORY</h2></div>
             <div class="product-slider" id="ps">
-                <a href="personalizar.html" class="slide-card custom-card">
-                    <img src="img/2.png">
-                    <div class="slide-info"><h3>CUSTOM LAB PERFORMANCE</h3><div class="price">DESDE $4.000</div></div>
-                </a>
                 <a href="#" class="slide-card">
                     <img src="img/menu1.png">
                     <div class="slide-info"><h3>POWER BREAST HIGH CARB</h3><div class="price">$5.690</div></div>
@@ -139,6 +146,12 @@
                     <img src="img/menu2.png">
                     <div class="slide-info"><h3>POWER BREAST LOW CARB</h3><div class="price">$4.900</div></div>
                 </a>
+
+                <a href="personalizar.html" class="slide-card custom-card">
+                    <img src="img/2.png">
+                    <div class="slide-info"><h3>CUSTOM LAB PERFORMANCE</h3><div class="price">DESDE $4.000</div></div>
+                </a>
+
                 <a href="#" class="slide-card">
                     <img src="img/pack5.png">
                     <div class="slide-info"><h3>05 PACKS PERFORMANCE</h3><div class="price">$24.900</div></div>
@@ -169,48 +182,41 @@
     </footer>
 
     <script>
-        // CARGA INICIAL
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('loader').style.opacity = '0';
                 setTimeout(() => { 
                     document.getElementById('loader').style.display = 'none';
-                    initHero();
+                    gsap.from("#heroText", { y: 30, opacity: 0, duration: 1.5, delay: 0.5 });
                 }, 800);
             }, 1000);
         });
 
-        // ANIMACIÓN HERO (OPTIMIZADA)
-        function initHero() {
-            gsap.to("#heroImg", { filter: "blur(0px)", scale: 1.1, duration: 2, ease: "power2.out" });
-            gsap.from("#heroText", { y: 30, opacity: 0, duration: 1.5, delay: 0.5 });
-        }
-
-        // SLIDER MANUAL + AUTOMÁTICO 5S
         const slider = document.getElementById('ps');
         const counter = document.getElementById('counter');
 
         function updateCounter() {
-            const index = Math.round(slider.scrollLeft / 340) + 1;
+            const cardWidth = slider.querySelector('.slide-card').offsetWidth + 40;
+            const index = Math.round(slider.scrollLeft / cardWidth) + 1;
             counter.innerText = `${Math.min(index, 6)} / 6`;
         }
 
         function scrollBtn(dir) {
-            slider.scrollBy({ left: dir * 340, behavior: 'smooth' });
+            const cardWidth = slider.querySelector('.slide-card').offsetWidth + 40;
+            slider.scrollBy({ left: dir * cardWidth, behavior: 'smooth' });
         }
 
         slider.addEventListener('scroll', updateCounter);
 
-        // AUTO SCROLL 5 SEG
+        // AUTO SCROLL 6 SEGUNDOS (Aumentado para mejor lectura)
         let autoPlay = setInterval(() => {
-            if (slider.scrollLeft + slider.offsetWidth >= slider.scrollWidth - 10) {
+            if (slider.scrollLeft + slider.offsetWidth >= slider.scrollWidth - 50) {
                 slider.scrollTo({ left: 0, behavior: 'smooth' });
             } else {
                 scrollBtn(1);
             }
-        }, 5000);
+        }, 6000);
 
-        // Detener autoplay si el usuario interactúa
         slider.addEventListener('mousedown', () => clearInterval(autoPlay));
         slider.addEventListener('touchstart', () => clearInterval(autoPlay));
     </script>
