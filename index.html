@@ -66,7 +66,7 @@
         .product-slider::-webkit-scrollbar { display: none; }
         
         .slide-card { 
-            min-width: 480px; flex: 0 0 480px; 
+            min-width: 480px; flex: 0 0 480px; /* Tarjetas más anchas */
             text-decoration: none; color: #000;
             scroll-snap-align: center;
             transition: transform 0.4s ease;
@@ -78,8 +78,8 @@
             width: 100%; height: 500px; 
             object-fit: contain;
             filter: drop-shadow(0 30px 40px rgba(0,0,0,0.15));
-            transform: scale(1.3); 
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            transform: scale(1.3); /* Acercamos la imagen brutalmente */
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efecto rebote */
         }
         .slide-card:hover img { transform: translateY(-15px) scale(1.4); }
 
@@ -111,9 +111,15 @@
         /* === CONFIGURACIÓN ESPECÍFICA PARA CELULARES === */
         @media (max-width: 850px) {
             .hero-section { height: 80vh; }
-            /* Texto del hero adaptado para móvil como en la foto */
+            /* Texto del hero adaptado para móvil como en la foto - LEAVE THIS ALONE */
             .hero-title { font-size: 12vw; line-height: 1; letter-spacing: -2px; }
             
+            /* MODIFICACIÓN SOLO PARA LA IMAGEN DEL HERO EN MÓVIL */
+            .hero-img-bg {
+                /* Aseguramos que object-fit siga en cover y ajustamos la posición para centrar los platos técnicos */
+                object-position: top center; /* Priorizamos la parte superior (los platos) */
+            }
+
             .product-slider { gap: 30px; padding: 40px 10px; }
             .slide-card { min-width: 290px; flex: 0 0 290px; } /* Tarjeta adaptada a la pantalla */
             
