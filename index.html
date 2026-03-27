@@ -54,7 +54,7 @@
         .hero-content { position: relative; z-index: 10; text-align: center; color: #fff; width: 90%; }
         .hero-title { font-family: 'Inter', sans-serif; font-size: 5vw; font-weight: 900; letter-spacing: -2px; line-height: 1; margin: 0; }
 
-        /* SLIDER OPTIMIZADO (SUPER ZOOM) */
+        /* SLIDER OPTIMIZADO (SUPER ZOOM EN PC) */
         .slider-container { max-width: 1600px; margin: 100px auto; padding: 0 20px; }
         .section-header h2 { font-family: 'Inter', sans-serif; text-align: center; font-size: 32px; font-weight: 900; margin-bottom: 80px; }
         
@@ -66,7 +66,7 @@
         .product-slider::-webkit-scrollbar { display: none; }
         
         .slide-card { 
-            min-width: 480px; flex: 0 0 480px; /* Tarjetas más anchas */
+            min-width: 480px; flex: 0 0 480px; 
             text-decoration: none; color: #000;
             scroll-snap-align: center;
             transition: transform 0.4s ease;
@@ -74,13 +74,12 @@
             position: relative;
         }
         
-        /* SUPER ZOOM: scale(1.2) por defecto, y más en hover */
         .slide-card img { 
             width: 100%; height: 500px; 
             object-fit: contain;
             filter: drop-shadow(0 30px 40px rgba(0,0,0,0.15));
-            transform: scale(1.3); /* Acercamos la imagen brutalmente */
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efecto rebote */
+            transform: scale(1.3); 
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
         }
         .slide-card:hover img { transform: translateY(-15px) scale(1.4); }
 
@@ -88,15 +87,15 @@
         .slide-info h3 { font-family: 'Inter'; font-size: 18px; font-weight: 900; margin: 0; letter-spacing: -0.5px; height: 45px; display: flex; align-items: center; justify-content: center; }
         .price { font-weight: bold; margin-top: 10px; font-size: 22px; color: #000; font-family: 'Inter', sans-serif; }
 
-        /* CUSTOM LAB (SÍMBOLO NEGRO) */
+        /* CUSTOM LAB (AHORA FULL NEGRO) */
         .custom-card { 
-            border: 2px dashed #000;
-            padding: 20px;
-            background: rgba(0,0,0,0.03);
-            border-radius: 10px;
+            background: #000; /* Fondo negro sólido */
+            border: none;
+            border-radius: 15px; /* Bordes suavemente redondeados */
         }
+        .custom-card .slide-info h3, .custom-card .price { color: #fff; } /* Texto blanco */
         .lab-icon-svg {
-            position: absolute; top: 20px; left: 20px;
+            position: absolute; top: 30px; left: 30px;
             width: 40px; height: 40px;
             z-index: 5;
         }
@@ -109,11 +108,23 @@
         footer { background: #000; color: #fff; padding: 60px 20px; text-align: center; font-size: 10px; letter-spacing: 2px; }
         .social-img { width: 24px; filter: invert(1); opacity: 0.5; margin-bottom: 20px; }
 
+        /* === CONFIGURACIÓN ESPECÍFICA PARA CELULARES === */
         @media (max-width: 850px) {
-            .hero-title { font-size: 32px; }
-            .slide-card { min-width: 340px; flex: 0 0 340px; }
-            .slide-card img { height: 350px; transform: scale(1.1); }
-            .slide-card:hover img { transform: translateY(-10px) scale(1.15); }
+            .hero-section { height: 80vh; }
+            /* Texto del hero adaptado para móvil como en la foto */
+            .hero-title { font-size: 12vw; line-height: 1; letter-spacing: -2px; }
+            
+            .product-slider { gap: 30px; padding: 40px 10px; }
+            .slide-card { min-width: 290px; flex: 0 0 290px; } /* Tarjeta adaptada a la pantalla */
+            
+            /* SÚPER ZOOM EXCLUSIVO PARA MÓVIL */
+            .slide-card img { 
+                height: 300px; 
+                transform: scale(1.6); /* El plato revienta la pantalla */
+            }
+            .slide-card:hover img { transform: translateY(-10px) scale(1.65); }
+            
+            .slide-info { margin-top: 40px; }
         }
     </style>
 </head>
@@ -160,7 +171,7 @@
                 </a>
 
                 <a href="personalizar.html" class="slide-card custom-card">
-                    <svg class="lab-icon-svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg class="lab-icon-svg" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M10 2v7.31"></path>
                         <path d="M14 9.3V1.99"></path>
                         <path d="M8.5 2h7"></path>
@@ -218,7 +229,7 @@
             gsap.to("#heroImg", { filter: "blur(0px)", opacity: 0.6, scale: 1, duration: 2.5, ease: "power3.out" });
             gsap.from("#heroText", { y: 50, opacity: 0, duration: 1.5, delay: 0.8, ease: "power2.out" });
 
-            // EFECTO PARALLAX MOUSE EN HERO
+            // EFECTO PARALLAX MOUSE EN HERO (Solo visible en PC)
             document.addEventListener('mousemove', (e) => {
                 const x = (e.clientX - window.innerWidth / 2) / 40;
                 const y = (e.clientY - window.innerHeight / 2) / 40;
@@ -230,13 +241,16 @@
         const counter = document.getElementById('counter');
 
         function updateCounter() {
-            const cardWidth = slider.querySelector('.slide-card').offsetWidth + 60;
+            // El ancho cambia según móvil o PC, lo calculamos dinámicamente
+            const slideStyle = window.getComputedStyle(slider.querySelector('.slide-card'));
+            const cardWidth = slider.querySelector('.slide-card').offsetWidth + parseInt(slideStyle.marginRight || 0) + 60; 
             const index = Math.round(slider.scrollLeft / cardWidth) + 1;
             counter.innerText = `${Math.min(index, 6)} / 6`;
         }
 
         function scrollBtn(dir) {
-            const cardWidth = slider.querySelector('.slide-card').offsetWidth + 60;
+            const slideStyle = window.getComputedStyle(slider.querySelector('.slide-card'));
+            const cardWidth = slider.querySelector('.slide-card').offsetWidth + parseInt(slideStyle.marginRight || 0) + 60;
             slider.scrollBy({ left: dir * cardWidth, behavior: 'smooth' });
         }
 
