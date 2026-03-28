@@ -50,7 +50,7 @@
         .hero-img-bg { 
             position: absolute; width: 100%; height: 100%; 
             object-fit: cover; opacity: 0; filter: blur(30px); transform: scale(1.5);
-            will-change: transform, filter, opacity; /* Optimización */
+            will-change: transform, filter, opacity; 
         }
         .hero-content { position: relative; z-index: 10; text-align: center; color: #fff; width: 90%; }
         .hero-title { font-family: 'Inter', sans-serif; font-size: 5vw; font-weight: 900; letter-spacing: -2px; line-height: 1; margin: 0; }
@@ -63,7 +63,6 @@
             display: flex; overflow-x: auto; gap: 60px; 
             scroll-snap-type: x mandatory; scrollbar-width: none;
             padding: 40px 20px;
-            /* Aceleración por hardware para eliminar lag */
             -webkit-overflow-scrolling: touch;
         }
         .product-slider::-webkit-scrollbar { display: none; }
@@ -74,33 +73,39 @@
             scroll-snap-align: center;
             display: flex; flex-direction: column; align-items: center;
             position: relative;
-            will-change: transform; /* Adiós lag */
+            will-change: transform; 
             transform: translateZ(0); 
         }
         
+        /* CORRECCIÓN DEL LAG EN HOVER */
         .slide-card img { 
             width: 100%; height: 500px; 
             object-fit: contain;
             filter: drop-shadow(0 30px 40px rgba(0,0,0,0.15));
             transform: scale(1.3) translateZ(0); 
+            /* Se aplica transición SOLO a transform, ignorando recalcular el filter */
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             will-change: transform;
         }
-        .slide-card:hover img { transform: translateY(-15px) scale(1.4) translateZ(0); }
+        .slide-card:hover img { 
+            transform: translateY(-15px) scale(1.4) translateZ(0); 
+            /* Mantenemos el drop-shadow estático para evitar lag */
+            filter: drop-shadow(0 30px 40px rgba(0,0,0,0.15)); 
+        }
 
         /* === SOLUCIÓN PARA LAS IMÁGENES CON FONDO (PACKS) === */
         .pack-img {
-            filter: none !important; /* Quitamos el drop-shadow que laguea los JPGs */
-            border-radius: 15px; /* Bordes suaves */
+            filter: none !important; 
+            border-radius: 15px; 
             object-fit: cover !important;
-            width: 90% !important; /* Margen para que respire */
+            width: 90% !important; 
             height: 450px !important;
             margin-top: 25px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15); /* Sombra de caja limpia */
-            transform: scale(1) translateZ(0) !important; /* Sin super zoom para no cortar la foto */
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15); 
+            transform: scale(1) translateZ(0) !important; 
         }
         .slide-card:hover .pack-img {
-            transform: translateY(-10px) scale(1.02) translateZ(0) !important; /* Hover sutil */
+            transform: translateY(-10px) scale(1.02) translateZ(0) !important; 
         }
 
         .slide-info { text-align: center; margin-top: 50px; width: 100%; position: relative; z-index: 2; }
