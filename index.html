@@ -40,7 +40,7 @@
         nav a.active { border-bottom: 2px solid #000; font-weight: bold; }
         .cart-icon-svg { width: 22px; height: 22px; color: #000; vertical-align: middle; }
 
-        /* HERO INMERSIVO (RESTAURADO) */
+        /* HERO INMERSIVO */
         .hero-section {
             width: 100%; height: 90vh;
             background: #000; position: relative;
@@ -55,7 +55,7 @@
         .hero-content { position: relative; z-index: 10; text-align: center; color: #fff; width: 90%; }
         .hero-title { font-family: 'Inter', sans-serif; font-size: 5vw; font-weight: 900; letter-spacing: -2px; line-height: 1; margin: 0; }
 
-        /* SLIDER OPTIMIZADO (SUPER ZOOM EN PC) */
+        /* SLIDER */
         .slider-container { max-width: 1600px; margin: 100px auto; padding: 0 20px; }
         .section-header h2 { font-family: 'Inter', sans-serif; text-align: center; font-size: 32px; font-weight: 900; margin-bottom: 80px; }
         
@@ -77,23 +77,19 @@
             transform: translateZ(0); 
         }
         
-        /* CORRECCIÓN DEL LAG EN HOVER */
         .slide-card img { 
             width: 100%; height: 500px; 
             object-fit: contain;
             filter: drop-shadow(0 30px 40px rgba(0,0,0,0.15));
             transform: scale(1.3) translateZ(0); 
-            /* Se aplica transición SOLO a transform, ignorando recalcular el filter */
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             will-change: transform;
         }
-        .slide-card:hover img { 
+        .slide-card:hover img:not(.lab-mesh-bg) { 
             transform: translateY(-15px) scale(1.4) translateZ(0); 
-            /* Mantenemos el drop-shadow estático para evitar lag */
-            filter: drop-shadow(0 30px 40px rgba(0,0,0,0.15)); 
         }
 
-        /* === SOLUCIÓN PARA LAS IMÁGENES CON FONDO (PACKS) === */
+        /* PACKS JPG FIX */
         .pack-img {
             filter: none !important; 
             border-radius: 15px; 
@@ -104,67 +100,83 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.15); 
             transform: scale(1) translateZ(0) !important; 
         }
-        .slide-card:hover .pack-img {
-            transform: translateY(-10px) scale(1.02) translateZ(0) !important; 
+
+        /* === NUEVA TARJETA CUSTOM LAB: GENOME MESH === */
+        .custom-card-lab { 
+            background: #000;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #333;
+            min-height: 700px; /* Asegura verticalidad */
         }
 
-        .slide-info { text-align: center; margin-top: 50px; width: 100%; position: relative; z-index: 2; }
-        .slide-info h3 { font-family: 'Inter'; font-size: 18px; font-weight: 900; margin: 0; letter-spacing: -0.5px; height: 45px; display: flex; align-items: center; justify-content: center; }
-        .price { font-weight: bold; margin-top: 10px; font-size: 22px; color: #000; font-family: 'Inter', sans-serif; }
+        .genome-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; overflow: hidden;
+        }
 
-        /* CUSTOM LAB (AHORA FULL NEGRO) */
-        .custom-card { 
-            background: #000; 
-            border: none;
-            border-radius: 15px; 
-            transition: transform 0.4s ease;
+        /* La Malla Animada de Fondo */
+        .lab-mesh-bg {
+            width: 150% !important; height: 150% !important;
+            position: absolute; top: -25%; left: -25%;
+            object-fit: cover !important;
+            opacity: 0.4;
+            filter: grayscale(1) brightness(0.8) !important;
+            animation: genomeDrift 20s linear infinite;
         }
-        .custom-card:hover { transform: translateY(-10px); }
-        .custom-card .slide-info h3, .custom-card .price { color: #fff; } 
-        .lab-icon-svg {
-            position: absolute; top: 30px; left: 30px;
-            width: 40px; height: 40px;
-            z-index: 5;
+
+        @keyframes genomeDrift {
+            0% { transform: rotate(0deg) scale(1.1); }
+            50% { transform: rotate(5deg) scale(1.2); }
+            100% { transform: rotate(0deg) scale(1.1); }
         }
+
+        /* Carrusel de fotos dinámico */
+        .lab-photo-display {
+            position: relative; z-index: 2;
+            width: 100%; height: 400px;
+            margin-top: 40px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .lab-photo-display img {
+            position: absolute;
+            width: 85%; height: 100%;
+            object-fit: contain;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            filter: drop-shadow(0 0 20px rgba(0,255,100,0.2)) !important;
+            transform: scale(1.2) !important;
+        }
+
+        .lab-photo-display img.active { opacity: 1; }
+
+        /* HUD Technical Info */
+        .lab-hud-overlay {
+            position: absolute; bottom: 120px; left: 0; width: 100%;
+            z-index: 3; padding: 20px; box-sizing: border-box;
+            color: #00ff66; font-family: 'Courier New'; font-size: 10px;
+            text-align: left; pointer-events: none;
+        }
+
+        .slide-info-lab { position: relative; z-index: 4; margin-top: auto; padding-bottom: 40px; }
+        .slide-info-lab h3, .slide-info-lab .price { color: #fff !important; }
 
         .slider-nav { display: flex; align-items: center; justify-content: center; gap: 40px; margin-top: 80px; }
         .nav-arrow { background: #fff; border: 1px solid #000; width: 60px; height: 60px; cursor: pointer; border-radius: 50%; font-size: 24px; transition: 0.3s; }
         .nav-arrow:hover { background: #000; color: #fff; }
-        .counter { font-size: 20px; font-weight: 900; font-family: 'Inter'; }
 
         footer { background: #000; color: #fff; padding: 60px 20px; text-align: center; font-size: 10px; letter-spacing: 2px; }
         .social-img { width: 24px; filter: invert(1); opacity: 0.5; margin-bottom: 20px; }
 
-        /* === CONFIGURACIÓN ESPECÍFICA PARA CELULARES === */
         @media (max-width: 850px) {
             .hero-section { height: 60vh; } 
-            
-            .hero-title { font-size: 32px; line-height: 1.2; letter-spacing: -1px; }
-            
-            .hero-img-bg {
-                width: 140%; 
-                left: -20%; 
-                object-fit: contain; 
-            }
-
-            .product-slider { gap: 30px; padding: 40px 10px; }
-            .slide-card { min-width: 290px; flex: 0 0 290px; } 
-            
-            /* SÚPER ZOOM EXCLUSIVO PARA MÓVIL (SÓLO PNGs) */
-            .slide-card img:not(.pack-img) { 
-                height: 300px; 
-                transform: scale(1.6) translateZ(0); 
-            }
-            .slide-card:hover img:not(.pack-img) { transform: translateY(-10px) scale(1.65) translateZ(0); }
-            
-            /* Ajuste de los packs en celular */
-            .pack-img {
-                width: 90% !important;
-                height: 250px !important;
-                margin-top: 15px;
-            }
-
-            .slide-info { margin-top: 40px; }
+            .hero-title { font-size: 32px; }
+            .hero-img-bg { width: 140%; left: -20%; object-fit: contain; }
+            .slide-card { min-width: 320px; flex: 0 0 320px; } 
+            .slide-card img:not(.lab-mesh-bg):not(.pack-img) { height: 300px; transform: scale(1.6); }
+            .pack-img { height: 250px !important; }
+            .custom-card-lab { min-height: 550px; }
         }
     </style>
 </head>
@@ -210,16 +222,31 @@
                     <div class="slide-info"><h3>POWER BREAST LOW CARB</h3><div class="price">$4.900</div></div>
                 </a>
 
-                <a href="personalizar.html" class="slide-card custom-card">
-                    <svg class="lab-icon-svg" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M10 2v7.31"></path>
-                        <path d="M14 9.3V1.99"></path>
-                        <path d="M8.5 2h7"></path>
-                        <path d="M14 9.3a6.5 6.5 0 1 1-4 0"></path>
-                        <path d="M5.5 16h13"></path>
-                    </svg>
-                    <img src="img/2.png">
-                    <div class="slide-info"><h3>CUSTOM LAB PERFORMANCE</h3><div class="price">DESDE $4.000</div></div>
+                <a href="personalizar.html" class="slide-card custom-card-lab">
+                    <div class="genome-container">
+                        <img src="img/sample-lab-icon-objects-commonly-found-in-laboratories-with-simple-shapes-and-line-styles-vector.jpg" class="lab-mesh-bg">
+                    </div>
+                    
+                    <div class="lab-photo-display" id="labCarousel">
+                        <img src="img/26.png" class="active">
+                        <img src="img/29.png">
+                        <img src="img/37.png">
+                        <img src="img/22.png">
+                        <img src="img/19.png">
+                        <img src="img/17.png">
+                        <img src="img/9.png">
+                    </div>
+
+                    <div class="lab-hud-overlay">
+                        GENOME_MESH: ACTIVATED<br>
+                        SCANNING_FORMULA... OK<br>
+                        NUTRITIONAL_SYMMETRY: OPTIMIZED
+                    </div>
+
+                    <div class="slide-info slide-info-lab">
+                        <h3>CUSTOM LAB PERFORMANCE</h3>
+                        <div class="price">DESDE $4.000</div>
+                    </div>
                 </a>
 
                 <a href="producto.html?id=pack5" class="slide-card">
@@ -260,6 +287,7 @@
                 setTimeout(() => { 
                     document.getElementById('loader').style.display = 'none';
                     initHero();
+                    startLabCarousel();
                 }, 800);
             }, 1000);
         });
@@ -267,12 +295,18 @@
         function initHero() {
             gsap.to("#heroImg", { filter: "blur(0px)", opacity: 0.6, scale: 1, duration: 2.5, ease: "power3.out" });
             gsap.from("#heroText", { y: 50, opacity: 0, duration: 1.5, delay: 0.8, ease: "power2.out" });
+        }
 
-            document.addEventListener('mousemove', (e) => {
-                const x = (e.clientX - window.innerWidth / 2) / 40;
-                const y = (e.clientY - window.innerHeight / 2) / 40;
-                gsap.to("#heroImg", { x: x, y: y, duration: 1, ease: "power1.out" });
-            });
+        // LÓGICA DEL CARRUSEL DE FOTOS (CADA 2 SEGUNDOS)
+        function startLabCarousel() {
+            const images = document.querySelectorAll('#labCarousel img');
+            let current = 0;
+            
+            setInterval(() => {
+                images[current].classList.remove('active');
+                current = (current + 1) % images.length;
+                images[current].classList.add('active');
+            }, 2000);
         }
 
         const slider = document.getElementById('ps');
