@@ -40,7 +40,7 @@
         nav a.active { border-bottom: 2px solid #000; font-weight: bold; }
         .cart-icon-svg { width: 22px; height: 22px; color: #000; vertical-align: middle; }
 
-        /* HERO INMERSIVO */
+        /* HERO */
         .hero-section {
             width: 100%; height: 90vh;
             background: #000; position: relative;
@@ -50,7 +50,6 @@
         .hero-img-bg { 
             position: absolute; width: 100%; height: 100%; 
             object-fit: cover; opacity: 0; filter: blur(30px); transform: scale(1.5);
-            will-change: transform, filter, opacity; 
         }
         .hero-content { position: relative; z-index: 10; text-align: center; color: #fff; width: 90%; }
         .hero-title { font-family: 'Inter', sans-serif; font-size: 5vw; font-weight: 900; letter-spacing: -2px; line-height: 1; margin: 0; }
@@ -63,7 +62,6 @@
             display: flex; overflow-x: auto; gap: 60px; 
             scroll-snap-type: x mandatory; scrollbar-width: none;
             padding: 40px 20px;
-            -webkit-overflow-scrolling: touch;
         }
         .product-slider::-webkit-scrollbar { display: none; }
         
@@ -73,123 +71,68 @@
             scroll-snap-align: center;
             display: flex; flex-direction: column; align-items: center;
             position: relative;
-            will-change: transform; 
-            transform: translateZ(0); 
+            transition: transform 0.4s ease;
         }
-        
-        .slide-card img:not(.adn-helix):not(.pack-img) { 
+
+        /* IMÁGENES GENERALES */
+        .slide-card img:not(.adn-helix):not(.pack-img):not(.lab-photo) { 
             width: 100%; height: 500px; 
             object-fit: contain;
             filter: drop-shadow(0 30px 40px rgba(0,0,0,0.15));
-            transform: scale(1.3) translateZ(0); 
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            will-change: transform;
+            transform: scale(1.3);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .slide-card:hover img:not(.adn-helix):not(.pack-img) { 
-            transform: translateY(-15px) scale(1.4) translateZ(0); 
-        }
+        .slide-card:hover img:not(.adn-helix):not(.pack-img):not(.lab-photo) { transform: translateY(-15px) scale(1.4); }
 
-        /* PACKS JPG FIX */
+        /* PACKS FIX */
         .pack-img {
-            filter: none !important; 
-            border-radius: 15px; 
-            object-fit: cover !important;
-            width: 90% !important; 
-            height: 450px !important;
-            margin-top: 25px;
+            filter: none !important; border-radius: 15px; object-fit: cover !important;
+            width: 90% !important; height: 500px !important;
             box-shadow: 0 20px 40px rgba(0,0,0,0.15); 
-            transform: scale(1) translateZ(0) !important; 
         }
 
-        /* === TARJETA CUSTOM LAB ESTILO HUD INDUSTRIAL (image_22.png) === */
+        /* === TARJETA CUSTOM LAB ARMONIZADA === */
         .custom-card-lab {
-            background-color: #000 !important;
-            min-width: 480px;
-            flex: 0 0 480px;
-            height: 700px;
+            background-color: #000;
+            width: 100%;
+            height: 500px; /* Igual que la altura de las imágenes de los otros productos */
             position: relative;
             overflow: hidden;
-            clip-path: polygon(
-                15% 0%, 85% 0%, 100% 10%, 
-                100% 90%, 85% 100%, 15% 100%, 
-                0% 90%, 0% 10%
-            );
-            border: 1px solid #333;
+            border-radius: 15px;
+            clip-path: polygon(0 0, 85% 0, 100% 15%, 100% 100%, 0 100%);
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            border: 1px solid #333;
         }
 
-        .genome-bg-container {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; opacity: 0.4;
+        .genome-bg-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.3; }
+        .adn-helix { width: 150%; height: 150%; object-fit: contain; position: absolute; top: -25%; left: -25%; filter: grayscale(1) brightness(1.2); animation: adnRotate 40s linear infinite; }
+        @keyframes adnRotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .lab-preps-header {
+            position: relative; z-index: 10; padding: 25px;
+            color: #fff; font-family: 'Inter', sans-serif; font-weight: 900; font-size: 18px; letter-spacing: 2px;
         }
-
-        .adn-helix {
-            width: 150%; height: 150%;
-            object-fit: contain;
-            position: absolute; top: -25%; left: -25%;
-            filter: grayscale(1) brightness(1.2);
-            animation: adnRotate 40s linear infinite;
-        }
-
-        @keyframes adnRotate {
-            0% { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(5deg) scale(1.1); }
-            100% { transform: rotate(0deg) scale(1); }
-        }
-
-        .hud-header {
-            position: relative; z-index: 10;
-            padding: 40px 30px;
-            display: flex; justify-content: space-between; align-items: flex-start;
-        }
-
-        .hud-header h3 {
-            color: #fff; font-family: 'Inter', sans-serif; font-weight: 900;
-            font-size: 20px; margin: 0; line-height: 1.1; max-width: 200px;
-        }
-
-        .hud-logo { width: 70px; filter: invert(1); }
-
-        .hud-data-left {
-            position: absolute; left: 30px; top: 45%; z-index: 10;
-            color: #fff; font-family: 'Courier New', monospace; font-size: 11px;
-            line-height: 1.8; text-align: left;
-        }
-
-        .hud-data-right {
-            position: absolute; right: 30px; bottom: 25%; z-index: 10;
-            color: #fff; font-family: 'Courier New', monospace; font-size: 11px;
-            line-height: 1.8; text-align: right;
-        }
-
-        .hud-footer-price {
-            position: relative; z-index: 10;
-            background-color: #00ff66; /* Verde Milo */
-            width: 100%; height: 70px;
-            display: flex; align-items: center; justify-content: center;
-            clip-path: polygon(0% 30%, 15% 0%, 100% 0%, 100% 100%, 0% 100%);
-        }
-
-        .hud-footer-price span { color: #000; font-family: 'Inter', sans-serif; font-weight: 900; font-size: 24px; }
 
         .lab-photo-carousel {
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 70%; height: 350px;
-            z-index: 5;
-            display: flex; align-items: center; justify-content: center;
+            position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%);
+            width: 85%; height: 80%; z-index: 5; display: flex; align-items: center; justify-content: center;
         }
-
         .lab-photo-carousel img {
-            position: absolute; width: 100%; height: 100%;
-            object-fit: contain; opacity: 0;
-            transition: opacity 0.8s ease;
-            transform: scale(1.1);
+            position: absolute; width: 100%; height: 100%; object-fit: contain;
+            opacity: 0; transition: opacity 0.8s ease; transform: scale(1.4) !important; /* Imágenes más grandes */
         }
-
         .lab-photo-carousel img.active { opacity: 1; }
+
+        /* INFO ABAJO (IGUAL A TODOS) */
+        .slide-info { text-align: center; margin-top: 50px; width: 100%; }
+        .slide-info h3 { font-family: 'Inter'; font-size: 18px; font-weight: 900; margin: 0; letter-spacing: -0.5px; height: 45px; display: flex; align-items: center; justify-content: center; }
+        .price { font-weight: bold; margin-top: 10px; font-size: 22px; color: #000; font-family: 'Inter', sans-serif; }
+
+        .slider-nav { display: flex; align-items: center; justify-content: center; gap: 40px; margin-top: 80px; }
+        .nav-arrow { background: #fff; border: 1px solid #000; width: 60px; height: 60px; cursor: pointer; border-radius: 50%; font-size: 24px; transition: 0.3s; }
+        .nav-arrow:hover { background: #000; color: #fff; }
+        .counter { font-size: 20px; font-weight: 900; font-family: 'Inter'; }
 
         footer { background: #000; color: #fff; padding: 60px 20px; text-align: center; font-size: 10px; letter-spacing: 2px; }
         .social-img { width: 24px; filter: invert(1); opacity: 0.5; margin-bottom: 20px; }
@@ -199,9 +142,9 @@
             .hero-title { font-size: 32px; }
             .hero-img-bg { width: 140%; left: -20%; object-fit: contain; }
             .slide-card { min-width: 320px; flex: 0 0 320px; } 
-            .custom-card-lab { height: 550px; }
-            .hud-header h3 { font-size: 16px; }
-            .hud-footer-price span { font-size: 18px; }
+            .custom-card-lab { height: 350px; }
+            .slide-card img:not(.adn-helix):not(.pack-img) { height: 300px; transform: scale(1.6); }
+            .pack-img { height: 300px !important; }
         }
     </style>
 </head>
@@ -238,49 +181,36 @@
         <section class="slider-container">
             <div class="section-header"><h2>MENÚS Y PAQUETES</h2></div>
             <div class="product-slider" id="ps">
+                
                 <a href="producto.html?id=highcarb" class="slide-card">
                     <img src="img/menu1.png">
                     <div class="slide-info"><h3>POWER BREAST HIGH CARB</h3><div class="price">$5.690</div></div>
                 </a>
+
                 <a href="producto.html?id=lowcarb" class="slide-card">
                     <img src="img/menu2.png">
                     <div class="slide-info"><h3>POWER BREAST LOW CARB</h3><div class="price">$4.900</div></div>
                 </a>
 
-                <a href="personalizar.html" class="slide-card custom-card-lab">
-                    <div class="genome-bg-container">
-                        <img src="img/sample-technical-data-dna-helix.jpg" class="adn-helix">
+                <a href="personalizar.html" class="slide-card">
+                    <div class="custom-card-lab">
+                        <div class="genome-bg-container">
+                            <img src="img/sample-technical-data-dna-helix.jpg" class="adn-helix">
+                        </div>
+                        <div class="lab-preps-header">PREPS</div>
+                        <div class="lab-photo-carousel" id="labCarousel">
+                            <img src="img/26.png" class="lab-photo active">
+                            <img src="img/29.png" class="lab-photo">
+                            <img src="img/37.png" class="lab-photo">
+                            <img src="img/22.png" class="lab-photo">
+                            <img src="img/19.png" class="lab-photo">
+                            <img src="img/17.png" class="lab-photo">
+                            <img src="img/9.png" class="lab-photo">
+                        </div>
                     </div>
-
-                    <div class="hud-header">
+                    <div class="slide-info">
                         <h3>CUSTOM LAB PERFORMANCE</h3>
-                
-                    </div>
-
-                    <div class="hud-data-left">
-                        Carbs: 132.39%<br>
-                        Protein: 98.00%<br>
-                        Fat: 1.69%
-                    </div>
-
-                    <div class="hud-data-right">
-                        Technical data<br>
-                        Units: 0.1-25%<br>
-                        Ref: 1.0G
-                    </div>
-
-                    <div class="lab-photo-carousel" id="labCarousel">
-                        <img src="img/26.png" class="active">
-                        <img src="img/29.png">
-                        <img src="img/37.png">
-                        <img src="img/22.png">
-                        <img src="img/19.png">
-                        <img src="img/17.png">
-                        <img src="img/9.png">
-                    </div>
-
-                    <div class="hud-footer-price">
-                        <span>DESDE $4.000</span>
+                        <div class="price">DESDE $4.000</div>
                     </div>
                 </a>
 
@@ -288,14 +218,17 @@
                     <img src="img/pack5.png" class="pack-img">
                     <div class="slide-info"><h3>05 PACKS PERFORMANCE</h3><div class="price">$24.900</div></div>
                 </a>
+
                 <a href="producto.html?id=pack15" class="slide-card">
                     <img src="img/pack15.jpg" class="pack-img">
                     <div class="slide-info"><h3>15 PACKS PERFORMANCE</h3><div class="price">$72.900</div></div>
                 </a>
+
                 <a href="producto.html?id=pack28" class="slide-card">
                     <img src="img/pack28.jpg" class="pack-img">
                     <div class="slide-info"><h3>28 PACKS PERFORMANCE</h3><div class="price">$129.900</div></div>
                 </a>
+
             </div>
 
             <div class="slider-nav">
@@ -346,15 +279,13 @@
         const counter = document.getElementById('counter');
 
         function updateCounter() {
-            const slideStyle = window.getComputedStyle(slider.querySelector('.slide-card'));
-            const cardWidth = slider.querySelector('.slide-card').offsetWidth + parseInt(slideStyle.marginRight || 0) + 60; 
+            const cardWidth = slider.querySelector('.slide-card').offsetWidth + 60; 
             const index = Math.round(slider.scrollLeft / cardWidth) + 1;
             counter.innerText = `${Math.min(index, 6)} / 6`;
         }
 
         function scrollBtn(dir) {
-            const slideStyle = window.getComputedStyle(slider.querySelector('.slide-card'));
-            const cardWidth = slider.querySelector('.slide-card').offsetWidth + parseInt(slideStyle.marginRight || 0) + 60;
+            const cardWidth = slider.querySelector('.slide-card').offsetWidth + 60;
             slider.scrollBy({ left: dir * cardWidth, behavior: 'smooth' });
         }
 
