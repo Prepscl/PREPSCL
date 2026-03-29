@@ -20,6 +20,7 @@
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             font-family: 'Courier New', Courier, monospace;
+            touch-action: pan-y; /* Previene zoom accidental */
         }
 
         /* LOADER */
@@ -40,14 +41,18 @@
         nav a.active { border-bottom: 2px solid #000; font-weight: bold; }
         .cart-icon-svg { width: 22px; height: 22px; color: #000; vertical-align: middle; }
 
-        /* HERO */
+        /* HERO - RESTAURADO A VERSIÓN ANTERIOR */
         .hero-section {
             width: 100%; height: 90vh;
             background: #000; position: relative;
             display: flex; align-items: center; justify-content: center;
             overflow: hidden;
         }
-        .hero-img-bg { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; filter: blur(30px); transform: scale(1.5); }
+        .hero-img-bg { 
+            position: absolute; width: 100%; height: 100%; 
+            object-fit: cover; opacity: 0; filter: blur(30px); transform: scale(1.5);
+            will-change: transform, filter, opacity;
+        }
         .hero-content { position: relative; z-index: 10; text-align: center; color: #fff; width: 90%; }
         .hero-title { font-family: 'Inter', sans-serif; font-size: 5vw; font-weight: 900; letter-spacing: -2px; line-height: 1; margin: 0; }
 
@@ -64,7 +69,7 @@
         .standard-img { width: 100%; height: 500px; object-fit: contain; filter: drop-shadow(0 30px 40px rgba(0,0,0,0.15)); transform: scale(1.3); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .slide-card:hover .standard-img { transform: translateY(-15px) scale(1.4); }
 
-        /* ESTRUCTURA BASE TARJETAS (LABS Y PACKS) */
+        /* BASE TARJETAS */
         .base-card {
             width: 100%; height: 650px;
             position: relative; overflow: hidden;
@@ -73,13 +78,9 @@
             display: flex; flex-direction: column;
         }
 
-        /* LABS (NEGRA) */
         .custom-card-lab { background-color: #000; border: 1px solid #333; }
-        
-        /* PACKS (BLANCA) */
         .custom-card-pack { background-color: #fff; border: 1px solid #ddd; }
 
-        /* ÁREAS DE IMAGEN - CORREGIDO PARA QUE SE VEA LAB */
         .card-image-area { 
             width: 100%; height: 480px; 
             position: relative; 
@@ -88,54 +89,55 @@
             z-index: 5;
         }
         
-        /* CARRUSEL LAB - IMÁGENES VISIBLES */
         .lab-photo-carousel { width: 100%; height: 100%; position: relative; display: flex; align-items: center; justify-content: center; }
         .lab-photo-carousel img { 
-            position: absolute; 
-            width: 90%; height: 90%; 
-            object-fit: contain; 
-            opacity: 0; 
+            position: absolute; width: 90%; height: 90%; 
+            object-fit: contain; opacity: 0; 
             transition: opacity 0.6s ease-in-out; 
-            z-index: 6;
-            transform: scale(1.2); /* Ajuste de tamaño para que se vea bien */
+            z-index: 6; transform: scale(1.2); 
         }
         .lab-photo-carousel img.active { opacity: 1; }
 
-        /* FONDO ADN SUTIL */
-        .genome-bg-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.15; pointer-events: none; }
-        .adn-helix { width: 100%; height: 100%; object-fit: cover; }
-
-        /* PACKS IMAGES */
         .pack-img-full { width: 100%; height: 100%; object-fit: contain; padding: 20px; box-sizing: border-box; transition: 0.4s ease; }
-
         .lab-icon-svg { position: absolute; top: 30px; left: 30px; width: 40px; height: 40px; z-index: 10; }
-        
-        /* LÍNEA SEPARADORA BLANCA */
         .lab-separator { width: 100%; height: 1px; position: relative; z-index: 10; }
-        .sep-white { background-color: rgba(255,255,255,0.8); } /* Más visible */
+        .sep-white { background-color: rgba(255,255,255,0.8); }
         .sep-black { background-color: rgba(0,0,0,0.1); }
 
-        /* ÁREA TEXTO */
         .card-info-area { position: relative; z-index: 10; text-align: center; padding: 20px; flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .info-white { color: #fff !important; }
         .info-black { color: #000 !important; }
 
-        /* FUENTES DIFERENCIADAS */
+        /* FUENTES */
         .slide-card h3 { font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 900; margin: 0; letter-spacing: -0.5px; height: 45px; display: flex; align-items: center; justify-content: center; }
         .price { font-family: 'Courier New', Courier, monospace; font-weight: bold; margin-top: 10px; font-size: 22px; }
 
-        /* Nav y contador */
+        /* NAV */
         .slider-nav { display: flex; align-items: center; justify-content: center; gap: 40px; margin-top: 80px; }
         .nav-arrow { background: #fff; border: 1px solid #000; width: 60px; height: 60px; cursor: pointer; border-radius: 50%; font-size: 24px; transition: 0.3s; }
         .nav-arrow:hover { background: #000; color: #fff; }
         .counter { font-size: 20px; font-weight: 900; }
 
+        /* FOOTER */
+        footer { background: #000; color: #fff; padding: 60px 20px; text-align: center; margin-top: 50px; position: relative; z-index: 100; }
+        .footer-social-img { width: 24px; filter: invert(1); opacity: 0.5; margin-bottom: 20px; transition: 0.3s; }
+        .footer-social-img:hover { opacity: 1; }
+        .protocolo-link { color: #fff; text-decoration: none; font-size: 10px; letter-spacing: 2px; opacity: 0.6; border: 1px solid #333; padding: 5px 10px; display: inline-block; margin-bottom: 15px; transition: 0.3s; }
+        .protocolo-link:hover { opacity: 1; border-color: #fff; }
+        .copyright { font-size: 10px; letter-spacing: 2px; opacity: 0.6; margin: 0; }
+
+        /* MEDIA QUERIES CELULAR - FIXES */
         @media (max-width: 850px) {
+            .hero-section { height: 70vh; }
+            .hero-img-bg { width: 140%; left: -20%; }
             .hero-title { font-size: 32px; }
-            .slide-card { min-width: 320px; flex: 0 0 320px; } 
+            .slider-container { margin: 60px auto 100px; } /* Ajuste de margen para ver footer */
+            .slide-card { min-width: 300px; flex: 0 0 300px; } 
             .base-card { height: 480px; }
             .card-image-area { height: 350px; }
-            .standard-img { height: 320px; transform: scale(1.4); }
+            .standard-img { height: 280px; transform: scale(1.6); }
+            header { padding: 40px 0 20px; }
+            .logo-link img { width: 140px; }
         }
     </style>
 </head>
@@ -192,9 +194,6 @@
                         <svg class="lab-icon-svg" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
                             <path d="M10 2v7.31M14 9.3V1.99M8.5 2h7M14 9.3a6.5 6.5 0 1 1-4 0M5.5 16h13"></path>
                         </svg>
-                        <div class="genome-bg-container">
-                            <img src="img/sample-technical-data-dna-helix.jpg" class="adn-helix">
-                        </div>
                         <div class="card-image-area">
                             <div class="lab-photo-carousel" id="labCarousel">
                                 <img src="img/26.png" class="active"><img src="img/29.png"><img src="img/37.png"><img src="img/22.png"><img src="img/19.png"><img src="img/17.png"><img src="img/9.png">
@@ -210,9 +209,7 @@
 
                 <a href="producto.html?id=pack5" class="slide-card">
                     <div class="base-card custom-card-pack">
-                        <div class="card-image-area">
-                            <img src="img/pack5.png" class="pack-img-full">
-                        </div>
+                        <div class="card-image-area"><img src="img/pack5.png" class="pack-img-full"></div>
                         <div class="lab-separator sep-black"></div>
                         <div class="card-info-area info-black">
                             <h3>05 PACKS PERFORMANCE</h3>
@@ -223,9 +220,7 @@
 
                 <a href="producto.html?id=pack15" class="slide-card">
                     <div class="base-card custom-card-pack">
-                        <div class="card-image-area">
-                            <img src="img/pack15.jpg" class="pack-img-full">
-                        </div>
+                        <div class="card-image-area"><img src="img/pack15.png" class="pack-img-full"></div>
                         <div class="lab-separator sep-black"></div>
                         <div class="card-info-area info-black">
                             <h3>15 PACKS PERFORMANCE</h3>
@@ -236,9 +231,7 @@
 
                 <a href="producto.html?id=pack28" class="slide-card">
                     <div class="base-card custom-card-pack">
-                        <div class="card-image-area">
-                            <img src="img/pack28.jpg" class="pack-img-full">
-                        </div>
+                        <div class="card-image-area"><img src="img/pack28.png" class="pack-img-full"></div>
                         <div class="lab-separator sep-black"></div>
                         <div class="card-info-area info-black">
                             <h3>28 PACKS PERFORMANCE</h3>
@@ -246,7 +239,6 @@
                         </div>
                     </div>
                 </a>
-
             </div>
 
             <div class="slider-nav">
@@ -258,8 +250,17 @@
     </main>
 
     <footer>
-        <a href="https://www.instagram.com/prepscl/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" class="social-img"></a>
-        <p>© 2026 PREPS CHILE - DISEÑADO PARA TU RENDIMIENTO</p>
+        <div style="margin-bottom: 20px;">
+            <a href="https://www.instagram.com/prepscl/" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram" class="footer-social-img">
+            </a>
+        </div>
+        <div>
+            <a href="protocolo.html" class="protocolo-link">
+                [ VER PROTOCOLO DE OPERACIÓN ]
+            </a>
+        </div>
+        <p class="copyright">© 2026 PREPS CHILE - DISEÑADO PARA TU RENDIMIENTO</p>
     </footer>
 
     <script>
@@ -302,7 +303,6 @@
             const cardWidth = slider.querySelector('.slide-card').offsetWidth + 60;
             slider.scrollBy({ left: dir * cardWidth, behavior: 'smooth' });
         }
-
         slider.addEventListener('scroll', updateCounter);
     </script>
 </body>
