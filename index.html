@@ -77,7 +77,7 @@
             transform: translateZ(0); 
         }
         
-        .slide-card img:not(.genome-adn-bg) { 
+        .slide-card img:not(.genome-adn-bg):not(.pack-img) { 
             width: 100%; height: 500px; 
             object-fit: contain;
             filter: drop-shadow(0 30px 40px rgba(0,0,0,0.15));
@@ -101,18 +101,16 @@
             transform: scale(1) translateZ(0) !important; 
         }
 
-        /* === TARJETA CUSTOM LAB: GENOME ADN (image_22.png) RESTAURADA === */
+        /* === NUEVA TARJETA CUSTOM LAB: GENOME ADN COLOR NEGRO (image_22.png) === */
         .custom-card-lab { 
-            background: #000;
+            background: #000; /* Fondo negro original */
             overflow: hidden;
             border: 1px solid #333;
             min-height: 700px; /* Asegura verticalidad industrial */
-            
-            /* Recorte angular y irregular del HUD de image_22.png */
             clip-path: polygon(
                 0 0, 85% 0, 100% 15%, 
                 100% 100%, 0 100%
-            );
+            ); /* Recorte industrial angular */
         }
 
         .genome-container {
@@ -120,12 +118,13 @@
             z-index: 1; overflow: hidden;
         }
 
-        /* La Doble Hélice de ADN de Fondo (image_22.png) */
+        /* La Doble Hélice de ADN de Fondo de image_22.png COLOR NEGRO */
         .genome-adn-bg {
             width: 140% !important; height: 140% !important;
             position: absolute; top: -20%; left: -20%;
             object-fit: contain !important;
             opacity: 0.5;
+            filter: grayscale(1) !important; /* Asegura modo oscuro original */
             will-change: transform;
             animation: adnDrift 30s linear infinite;
         }
@@ -136,7 +135,7 @@
             100% { transform: rotate(0deg) scale(1.1); }
         }
 
-        /* Carrusel de fotos dinámico ( Detrás del ADN) */
+        /* Carrusel de fotos dinámico */
         .lab-photo-display {
             position: relative; z-index: 2;
             width: 100%; height: 400px;
@@ -155,7 +154,7 @@
 
         .lab-photo-display img.active { opacity: 1; }
 
-        /* HUD Technical Info (image_22.png) */
+        /* HUD Technical Info COLOR NEGRO original */
         .lab-hud-overlay {
             position: absolute; bottom: 120px; left: 0; width: 100%;
             z-index: 3; padding: 20px; box-sizing: border-box;
@@ -163,7 +162,7 @@
             text-align: left; pointer-events: none;
         }
 
-        /* Título y Logo de image_22.png */
+        /* Título y Logo Mono-spaced original */
         .lab-title-info {
             position: absolute; top: 20px; left: 0; width: 100%;
             z-index: 4; padding: 20px; text-align: left;
@@ -172,11 +171,11 @@
         .lab-title-info h3 { color: #fff; font-family: 'Inter'; font-size: 18px; font-weight: 900; margin: 0; letter-spacing: -0.5px; }
         .lab-logo-img { width: 80px; filter: invert(1); }
 
-        /* Barra Inferior Verde (image_22.png) */
+        /* Barra Inferior Verde Clínica original */
         .slide-info-lab {
             position: relative; z-index: 5;
             margin-top: auto; padding-bottom: 20px;
-            width: 100%; background: #00ff66; /* Verde Clínico Milo */
+            width: 100%; background: #00ff66; /* Verde Clínico */
             display: flex; align-items: center; justify-content: center;
             height: 60px;
         }
@@ -299,7 +298,7 @@
         <a href="https://www.instagram.com/prepscl/" target="_blank">
             <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" class="social-img">
         </a>
-        <p>© 2026 PREPS CHILE - DISEÑADO PARA TU RENDIMIENTO</p>
+        <p>© 2026 PREPS CHILE - SCIENTIFIC NUTRITION</p>
     </footer>
 
     <script>
