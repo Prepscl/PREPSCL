@@ -101,16 +101,18 @@
             transform: scale(1) translateZ(0) !important; 
         }
 
-        /* === NUEVA TARJETA CUSTOM LAB: GENOME ADN COLOR NEGRO (image_22.png) === */
+        /* === SOLUCIÓN FINAL PARA CUSTOM LAB: GENOME MESH VERTICAL (image_22.png) === */
         .custom-card-lab { 
-            background: #000; /* Fondo negro original */
+            background: #000; /* Fondo negro profundo original */
             overflow: hidden;
             border: 1px solid #333;
             min-height: 700px; /* Asegura verticalidad industrial */
+            
+            /* Recorte angular y irregular del HUD de image_22.png FIEL */
             clip-path: polygon(
-                0 0, 85% 0, 100% 15%, 
-                100% 100%, 0 100%
-            ); /* Recorte industrial angular */
+                0% 0%, 88% 0%, 100% 12%, 
+                100% 100%, 0% 100%
+            );
         }
 
         .genome-container {
@@ -118,13 +120,13 @@
             z-index: 1; overflow: hidden;
         }
 
-        /* La Doble Hélice de ADN de Fondo de image_22.png COLOR NEGRO */
+        /* La Doble Hélice de ADN de Fondo de image_22.png NEGRO profundo */
         .genome-adn-bg {
             width: 140% !important; height: 140% !important;
             position: absolute; top: -20%; left: -20%;
             object-fit: contain !important;
             opacity: 0.5;
-            filter: grayscale(1) !important; /* Asegura modo oscuro original */
+            filter: grayscale(1) brightness(0.9) !important; /* Asegura modo oscuro original */
             will-change: transform;
             animation: adnDrift 30s linear infinite;
         }
@@ -135,7 +137,7 @@
             100% { transform: rotate(0deg) scale(1.1); }
         }
 
-        /* Carrusel de fotos dinámico */
+        /* Carrusel de fotos dinámico ( Detrás del ADN) */
         .lab-photo-display {
             position: relative; z-index: 2;
             width: 100%; height: 400px;
@@ -298,7 +300,7 @@
         <a href="https://www.instagram.com/prepscl/" target="_blank">
             <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" class="social-img">
         </a>
-        <p>© 2026 PREPS CHILE - SCIENTIFIC NUTRITION</p>
+        <p>© 2026 PREPS CHILE - DISEÑADO PARA TU RENDIMIENTO</p>
     </footer>
 
     <script>
