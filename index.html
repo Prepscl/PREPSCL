@@ -15,7 +15,7 @@
         body {
             background-color: #f2f2f2; 
             color: #000;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Courier New', Courier, monospace;
             margin: 0; padding: 0;
             text-transform: uppercase;
             overflow-x: hidden;
@@ -32,11 +32,11 @@
         #loader img { width: 150px; animation: pulse 2s infinite ease-in-out; }
         @keyframes pulse { 0%, 100% { transform: scale(0.9); opacity: 0.3; } 50% { transform: scale(1); opacity: 1; } }
 
-        /* HEADER */
+        /* HEADER RESTAURADO */
         header { width: 100%; text-align: center; padding: 60px 0 40px; background: #f2f2f2; }
         .logo-link img { width: 180px; margin-bottom: 30px; display: inline-block; }
         nav { display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap; }
-        nav a { text-decoration: none; color: #000; font-size: 14px; letter-spacing: 2px; border-bottom: 2px solid transparent; transition: 0.3s; }
+        nav a { text-decoration: none; color: #000; font-size: 14px; letter-spacing: 2px; border-bottom: 2px solid transparent; transition: 0.3s; font-family: 'Courier New', Courier, monospace; }
         nav a.active { border-bottom: 2px solid #000; font-weight: bold; }
         .cart-icon-svg { width: 22px; height: 22px; color: #000; vertical-align: middle; }
 
@@ -56,7 +56,7 @@
 
         /* SLIDER */
         .slider-container { max-width: 1600px; margin: 100px auto; padding: 0 20px; }
-        .section-header h2 { text-align: center; font-size: 32px; font-weight: 900; margin-bottom: 80px; }
+        .section-header h2 { font-family: 'Inter', sans-serif; text-align: center; font-size: 32px; font-weight: 900; margin-bottom: 80px; }
         
         .product-slider { 
             display: flex; overflow-x: auto; gap: 60px; 
@@ -71,71 +71,65 @@
             scroll-snap-align: center;
             display: flex; flex-direction: column; align-items: center;
             position: relative;
+            transition: transform 0.4s ease;
         }
 
         /* IMÁGENES GENERALES */
-        .slide-card img:not(.adn-helix):not(.pack-img):not(.lab-photo):not(.lab-logo-img) { 
+        .slide-card img:not(.lab-photo) { 
             width: 100%; height: 500px; 
             object-fit: contain;
             filter: drop-shadow(0 30px 40px rgba(0,0,0,0.15));
             transform: scale(1.3);
             transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .slide-card:hover img:not(.adn-helix):not(.pack-img):not(.lab-photo):not(.lab-logo-img) { transform: translateY(-15px) scale(1.4); }
+        .slide-card:hover img:not(.lab-photo) { transform: translateY(-15px) scale(1.4); }
 
         /* PACKS FIX */
         .pack-img {
             filter: none !important; border-radius: 15px; object-fit: cover !important;
             width: 90% !important; height: 500px !important;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15); 
         }
 
-        /* === TARJETA CUSTOM LAB - ESTILO CATÁLOGO === */
+        /* === TARJETA CUSTOM LAB V1 RESTAURADA === */
         .custom-card-lab {
-            background-color: #000;
-            width: 100%; height: 500px;
-            position: relative; overflow: hidden;
+            background: #000;
+            width: 100%;
+            height: 500px;
+            position: relative;
+            overflow: hidden;
             border-radius: 15px;
-            clip-path: polygon(0 0, 85% 0, 100% 15%, 100% 100%, 0 100%);
-            border: 1px solid #333;
-            background-image: radial-gradient(circle at center, #111 0%, #000 100%);
+            display: flex;
+            flex-direction: column;
+            border: none;
         }
 
-        /* Logo pequeño arriba a la izquierda */
-        .lab-logo-img {
-            position: absolute; top: 20px; left: 20px;
-            width: 45px; z-index: 20; filter: invert(1);
-            opacity: 0.8;
+        .lab-icon-svg {
+            position: absolute; top: 30px; left: 30px;
+            width: 40px; height: 40px;
+            z-index: 10;
         }
 
-        /* ADN de fondo suave para no laguear */
-        .genome-bg-container { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            z-index: 1; opacity: 0.2; pointer-events: none;
-        }
-        .adn-helix { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); }
-
-        /* Fotos centrales mas grandes */
         .lab-photo-carousel {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
             z-index: 5; display: flex; align-items: center; justify-content: center;
         }
         .lab-photo-carousel img {
-            position: absolute; width: 90%; height: 90%; object-fit: contain;
-            opacity: 0; transition: opacity 0.5s ease-in-out;
-            transform: scale(1.4);
+            position: absolute; width: 85%; height: 85%; object-fit: contain;
+            opacity: 0; transition: opacity 0.8s ease; transform: scale(1.3) !important;
         }
         .lab-photo-carousel img.active { opacity: 1; }
 
-        /* TEXTO ABAJO - FUENTES DIFERENCIADAS */
+        /* INFO ABAJO */
         .slide-info { text-align: center; margin-top: 50px; width: 100%; }
-        .slide-info h3 { font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 900; margin: 0; height: 45px; display: flex; align-items: center; justify-content: center; }
-        .price { font-family: 'Courier New', monospace; font-weight: bold; margin-top: 10px; font-size: 22px; color: #000; }
+        .slide-info h3 { font-family: 'Inter'; font-size: 18px; font-weight: 900; margin: 0; letter-spacing: -0.5px; height: 45px; display: flex; align-items: center; justify-content: center; }
+        .price { font-weight: bold; margin-top: 10px; font-size: 22px; color: #000; font-family: 'Inter', sans-serif; }
 
         .slider-nav { display: flex; align-items: center; justify-content: center; gap: 40px; margin-top: 80px; }
         .nav-arrow { background: #fff; border: 1px solid #000; width: 60px; height: 60px; cursor: pointer; border-radius: 50%; font-size: 24px; transition: 0.3s; }
         .nav-arrow:hover { background: #000; color: #fff; }
-        .counter { font-size: 20px; font-weight: 900; }
+        .counter { font-size: 20px; font-weight: 900; font-family: 'Inter'; }
 
         footer { background: #000; color: #fff; padding: 60px 20px; text-align: center; font-size: 10px; letter-spacing: 2px; }
         .social-img { width: 24px; filter: invert(1); opacity: 0.5; margin-bottom: 20px; }
@@ -143,11 +137,11 @@
         @media (max-width: 850px) {
             .hero-section { height: 60vh; } 
             .hero-title { font-size: 32px; }
+            .hero-img-bg { width: 140%; left: -20%; object-fit: contain; }
             .slide-card { min-width: 320px; flex: 0 0 320px; } 
-            /* Armonía total en móvil */
-            .custom-card-lab, .pack-img { height: 320px !important; width: 90% !important; }
-            .slide-card img:not(.adn-helix):not(.pack-img):not(.lab-photo):not(.lab-logo-img) { height: 320px; transform: scale(1.4); }
-            .slide-info { margin-top: 30px; }
+            .custom-card-lab { height: 320px; }
+            .slide-card img:not(.pack-img) { height: 300px; transform: scale(1.6); }
+            .pack-img { height: 300px !important; }
         }
     </style>
 </head>
@@ -197,10 +191,13 @@
 
                 <a href="personalizar.html" class="slide-card">
                     <div class="custom-card-lab">
-                        <img src="img/logo-preps.png" class="lab-logo-img">
-                        <div class="genome-bg-container">
-                            <img src="img/sample-technical-data-dna-helix.jpg" class="adn-helix">
-                        </div>
+                        <svg class="lab-icon-svg" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M10 2v7.31"></path>
+                            <path d="M14 9.3V1.99"></path>
+                            <path d="M8.5 2h7"></path>
+                            <path d="M14 9.3a6.5 6.5 0 1 1-4 0"></path>
+                            <path d="M5.5 16h13"></path>
+                        </svg>
                         <div class="lab-photo-carousel" id="labCarousel">
                             <img src="img/26.png" class="lab-photo active">
                             <img src="img/29.png" class="lab-photo">
@@ -246,7 +243,7 @@
         <a href="https://www.instagram.com/prepscl/" target="_blank">
             <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" class="social-img">
         </a>
-        <p>© 2026 PREPS CHILE - SCIENTIFIC NUTRITION</p>
+        <p>© 2026 PREPS CHILE - DISEÑADO PARA TU RENDIMIENTO</p>
     </footer>
 
     <script>
