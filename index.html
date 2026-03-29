@@ -77,7 +77,7 @@
             transform: translateZ(0); 
         }
         
-        .slide-card img:not(.genome-adn-bg):not(.pack-img) { 
+        .slide-card img:not(.adn-helix):not(.pack-img) { 
             width: 100%; height: 500px; 
             object-fit: contain;
             filter: drop-shadow(0 30px 40px rgba(0,0,0,0.15));
@@ -85,7 +85,7 @@
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             will-change: transform;
         }
-        .slide-card:hover img:not(.genome-adn-bg):not(.pack-img) { 
+        .slide-card:hover img:not(.adn-helix):not(.pack-img) { 
             transform: translateY(-15px) scale(1.4) translateZ(0); 
         }
 
@@ -101,91 +101,95 @@
             transform: scale(1) translateZ(0) !important; 
         }
 
-        /* === SOLUCIÓN FINAL PARA CUSTOM LAB: RECREACIÓN FIEL DE image_22.png === */
-        .custom-card-lab { 
-            background: #000; /* Fondo negro profundo original */
+        /* === TARJETA CUSTOM LAB ESTILO HUD INDUSTRIAL (image_22.png) === */
+        .custom-card-lab {
+            background-color: #000 !important;
+            min-width: 480px;
+            flex: 0 0 480px;
+            height: 700px;
+            position: relative;
             overflow: hidden;
-            border: 1px solid #333;
-            min-height: 700px; /* Asegura verticalidad industrial */
-            
-            /* Recorte angular y irregular del HUD de image_22.png */
             clip-path: polygon(
-                0 0, 88% 0, 100% 12%, 
-                100% 100%, 0 100%
+                15% 0%, 85% 0%, 100% 10%, 
+                100% 90%, 85% 100%, 15% 100%, 
+                0% 90%, 0% 10%
             );
+            border: 1px solid #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        .genome-container {
+        .genome-bg-container {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; overflow: hidden;
+            z-index: 1; opacity: 0.4;
         }
 
-        /* La Doble Hélice de ADN de Fondo de image_22.png NEGRO */
-        .genome-adn-bg {
-            width: 140% !important; height: 140% !important;
-            position: absolute; top: -20%; left: -20%;
-            object-fit: contain !important;
-            opacity: 0.5;
-            filter: grayscale(1) brightness(0.9) !important; /* Asegura modo oscuro original */
-            will-change: transform;
-            animation: adnDrift 30s linear infinite;
-        }
-
-        @keyframes adnDrift {
-            0% { transform: rotate(0deg) scale(1.1); }
-            50% { transform: rotate(8deg) scale(1.2) translateY(-10px); }
-            100% { transform: rotate(0deg) scale(1.1); }
-        }
-
-        /* Carrusel de fotos dinámico */
-        .lab-photo-display {
-            position: relative; z-index: 2;
-            width: 100%; height: 400px;
-            margin-top: 60px;
-            display: flex; align-items: center; justify-content: center;
-        }
-
-        .lab-photo-display img {
-            position: absolute;
-            width: 85%; height: 100%;
+        .adn-helix {
+            width: 150%; height: 150%;
             object-fit: contain;
-            opacity: 0;
-            transition: opacity 0.8s ease;
-            transform: scale(1.2) !important;
+            position: absolute; top: -25%; left: -25%;
+            filter: grayscale(1) brightness(1.2);
+            animation: adnRotate 40s linear infinite;
         }
 
-        .lab-photo-display img.active { opacity: 1; }
-
-        /* HUD Technical Info COLOR NEGRO original */
-        .lab-hud-overlay {
-            position: absolute; bottom: 120px; left: 0; width: 100%;
-            z-index: 3; padding: 20px; box-sizing: border-box;
-            color: #ccc; font-family: 'Courier New'; font-size: 10px;
-            text-align: left; pointer-events: none;
+        @keyframes adnRotate {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(5deg) scale(1.1); }
+            100% { transform: rotate(0deg) scale(1); }
         }
 
-        /* Título y Logo Mono-spaced original */
-        .lab-title-info {
-            position: absolute; top: 20px; left: 0; width: 100%;
-            z-index: 4; padding: 20px; text-align: left;
-            box-sizing: border-box; display: flex; justify-content: space-between;
+        .hud-header {
+            position: relative; z-index: 10;
+            padding: 40px 30px;
+            display: flex; justify-content: space-between; align-items: flex-start;
         }
-        .lab-title-info h3 { color: #fff; font-family: 'Inter'; font-size: 18px; font-weight: 900; margin: 0; letter-spacing: -0.5px; }
-        .lab-logo-img { width: 80px; filter: invert(1); }
 
-        /* Barra Inferior Verde Clínica original */
-        .slide-info-lab {
-            position: relative; z-index: 5;
-            margin-top: auto; padding-bottom: 20px;
-            width: 100%; background: #00ff66; /* Verde Clínico */
+        .hud-header h3 {
+            color: #fff; font-family: 'Inter', sans-serif; font-weight: 900;
+            font-size: 20px; margin: 0; line-height: 1.1; max-width: 200px;
+        }
+
+        .hud-logo { width: 70px; filter: invert(1); }
+
+        .hud-data-left {
+            position: absolute; left: 30px; top: 45%; z-index: 10;
+            color: #fff; font-family: 'Courier New', monospace; font-size: 11px;
+            line-height: 1.8; text-align: left;
+        }
+
+        .hud-data-right {
+            position: absolute; right: 30px; bottom: 25%; z-index: 10;
+            color: #fff; font-family: 'Courier New', monospace; font-size: 11px;
+            line-height: 1.8; text-align: right;
+        }
+
+        .hud-footer-price {
+            position: relative; z-index: 10;
+            background-color: #00ff66; /* Verde Milo */
+            width: 100%; height: 70px;
             display: flex; align-items: center; justify-content: center;
-            height: 60px;
+            clip-path: polygon(0% 30%, 15% 0%, 100% 0%, 100% 100%, 0% 100%);
         }
-        .slide-info-lab .price { color: #000 !important; font-size: 22px; }
 
-        .slider-nav { display: flex; align-items: center; justify-content: center; gap: 40px; margin-top: 80px; }
-        .nav-arrow { background: #fff; border: 1px solid #000; width: 60px; height: 60px; cursor: pointer; border-radius: 50%; font-size: 24px; transition: 0.3s; }
-        .nav-arrow:hover { background: #000; color: #fff; }
+        .hud-footer-price span { color: #000; font-family: 'Inter', sans-serif; font-weight: 900; font-size: 24px; }
+
+        .lab-photo-carousel {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70%; height: 350px;
+            z-index: 5;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .lab-photo-carousel img {
+            position: absolute; width: 100%; height: 100%;
+            object-fit: contain; opacity: 0;
+            transition: opacity 0.8s ease;
+            transform: scale(1.1);
+        }
+
+        .lab-photo-carousel img.active { opacity: 1; }
 
         footer { background: #000; color: #fff; padding: 60px 20px; text-align: center; font-size: 10px; letter-spacing: 2px; }
         .social-img { width: 24px; filter: invert(1); opacity: 0.5; margin-bottom: 20px; }
@@ -195,9 +199,9 @@
             .hero-title { font-size: 32px; }
             .hero-img-bg { width: 140%; left: -20%; object-fit: contain; }
             .slide-card { min-width: 320px; flex: 0 0 320px; } 
-            .slide-card img:not(.genome-adn-bg):not(.pack-img) { height: 300px; transform: scale(1.6); }
-            .pack-img { height: 250px !important; }
-            .custom-card-lab { min-height: 550px; }
+            .custom-card-lab { height: 550px; }
+            .hud-header h3 { font-size: 16px; }
+            .hud-footer-price span { font-size: 18px; }
         }
     </style>
 </head>
@@ -244,16 +248,28 @@
                 </a>
 
                 <a href="personalizar.html" class="slide-card custom-card-lab">
-                    <div class="lab-title-info">
-                        <h3>CUSTOM LAB PERFORMANCE</h3>
-                        <img src="img/logo-preps.png" class="lab-logo-img">
+                    <div class="genome-bg-container">
+                        <img src="img/sample-technical-data-dna-helix.jpg" class="adn-helix">
                     </div>
 
-                    <div class="genome-container">
-                        <img src="img/sample-technical-data-dna-helix.jpg" class="genome-adn-bg">
+                    <div class="hud-header">
+                        <h3>CUSTOM LAB PERFORMANCE</h3>
+                        <img src="img/logo-preps.png" class="hud-logo">
                     </div>
-                    
-                    <div class="lab-photo-display" id="labCarousel">
+
+                    <div class="hud-data-left">
+                        Carbs: 132.39%<br>
+                        Protein: 98.00%<br>
+                        Fat: 1.69%
+                    </div>
+
+                    <div class="hud-data-right">
+                        Technical data<br>
+                        Units: 0.1-25%<br>
+                        Ref: 1.0G
+                    </div>
+
+                    <div class="lab-photo-carousel" id="labCarousel">
                         <img src="img/26.png" class="active">
                         <img src="img/29.png">
                         <img src="img/37.png">
@@ -263,14 +279,8 @@
                         <img src="img/9.png">
                     </div>
 
-                    <div class="lab-hud-overlay">
-                        Carbs: 132.39%<br>
-                        Protein: 98.00%<br>
-                        Fat: 1.69%
-                    </div>
-
-                    <div class="slide-info slide-info-lab">
-                        <div class="price">DESDE $4.000</div>
+                    <div class="hud-footer-price">
+                        <span>DESDE $4.000</span>
                     </div>
                 </a>
 
@@ -300,7 +310,7 @@
         <a href="https://www.instagram.com/prepscl/" target="_blank">
             <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" class="social-img">
         </a>
-        <p>© 2026 PREPS CHILE - SCIENTIFIC NUTRITION</p>
+        <p>© 2026 PREPS CHILE - DISEÑADO PARA TU RENDIMIENTO</p>
     </footer>
 
     <script>
@@ -320,19 +330,11 @@
         function initHero() {
             gsap.to("#heroImg", { filter: "blur(0px)", opacity: 0.6, scale: 1, duration: 2.5, ease: "power3.out" });
             gsap.from("#heroText", { y: 50, opacity: 0, duration: 1.5, delay: 0.8, ease: "power2.out" });
-
-            document.addEventListener('mousemove', (e) => {
-                const x = (e.clientX - window.innerWidth / 2) / 40;
-                const y = (e.clientY - window.innerHeight / 2) / 40;
-                gsap.to("#heroImg", { x: x, y: y, duration: 1, ease: "power1.out" });
-            });
         }
 
-        // LÓGICA DEL CARRUSEL DE FOTOS (CADA 2 SEGUNDOS)
         function startLabCarousel() {
             const images = document.querySelectorAll('#labCarousel img');
             let current = 0;
-            
             setInterval(() => {
                 images[current].classList.remove('active');
                 current = (current + 1) % images.length;
