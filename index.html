@@ -20,6 +20,7 @@
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             font-family: 'Courier New', Courier, monospace;
+            touch-action: pan-y;
         }
 
         /* LOADER */
@@ -117,17 +118,17 @@
         .counter { font-size: 20px; font-weight: 900; }
 
         /* FOOTER */
-        footer { background: #000; color: #fff; padding: 60px; text-align: center; margin-top: 100px; }
+        footer { background: #000; color: #fff; padding: 60px 20px; text-align: center; margin-top: 50px; position: relative; z-index: 100; }
         .footer-social-img { width: 24px; filter: invert(1); opacity: 0.5; margin-bottom: 20px; transition: 0.3s; }
         .footer-social-img:hover { opacity: 1; }
         .protocolo-link { color: #fff; text-decoration: none; font-size: 10px; letter-spacing: 2px; opacity: 0.6; border: 1px solid #333; padding: 5px 10px; display: inline-block; margin-bottom: 15px; transition: 0.3s; }
         .protocolo-link:hover { opacity: 1; border-color: #fff; }
         .copyright { font-size: 10px; letter-spacing: 2px; opacity: 0.6; margin: 0; }
 
-        /* MEDIA QUERIES CELULAR - FIX HERO Y PAQUETES */
+        /* MEDIA QUERIES CELULAR - FIX HERO BRUTAL */
         @media (max-width: 850px) {
-            .hero-section { height: 90vh; } /* Restaurado */
-            .hero-img-bg { width: 100%; left: 0; object-fit: cover; } /* Restaurado */
+            .hero-section { height: 90vh !important; }
+            .hero-img-bg { width: 100% !important; height: 100% !important; left: 0 !important; object-fit: cover !important; }
             .hero-title { font-size: 32px; }
             .slide-card { min-width: 320px; flex: 0 0 320px; } 
             .base-card { height: 450px; }
@@ -189,6 +190,9 @@
                         <svg class="lab-icon-svg" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
                             <path d="M10 2v7.31M14 9.3V1.99M8.5 2h7M14 9.3a6.5 6.5 0 1 1-4 0M5.5 16h13"></path>
                         </svg>
+                        <div class="genome-bg-container">
+                            <img src="img/sample-technical-data-dna-helix.jpg" class="adn-helix">
+                        </div>
                         <div class="card-image-area">
                             <div class="lab-photo-carousel" id="labCarousel">
                                 <img src="img/26.png" class="active"><img src="img/29.png"><img src="img/37.png"><img src="img/22.png"><img src="img/19.png"><img src="img/17.png"><img src="img/9.png">
@@ -215,7 +219,7 @@
 
                 <a href="producto.html?id=pack15" class="slide-card">
                     <div class="base-card custom-card-pack">
-                        <div class="card-image-area"><img src="img/pack15.jpg" class="pack-img-full"></div>
+                        <div class="card-image-area"><img src="img/pack15.png" class="pack-img-full"></div>
                         <div class="lab-separator sep-black"></div>
                         <div class="card-info-area info-black">
                             <h3>15 PACKS PERFORMANCE</h3>
@@ -226,7 +230,7 @@
 
                 <a href="producto.html?id=pack28" class="slide-card">
                     <div class="base-card custom-card-pack">
-                        <div class="card-image-area"><img src="img/pack28.jpg" class="pack-img-full"></div>
+                        <div class="card-image-area"><img src="img/pack28.png" class="pack-img-full"></div>
                         <div class="lab-separator sep-black"></div>
                         <div class="card-info-area info-black">
                             <h3>28 PACKS PERFORMANCE</h3>
