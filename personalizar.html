@@ -34,17 +34,17 @@
         .welcome-title { font-family: 'Inter'; font-weight: 900; font-size: 32px; letter-spacing: -1.5px; margin-bottom: 20px; }
         .welcome-subtitle { font-size: 14px; letter-spacing: 3px; color: #aaa; }
 
-        .config-layout { display: flex; gap: 60px; flex-wrap: wrap; }
+        .config-layout { display: flex; gap: 60px; flex-wrap: wrap; align-items: flex-start; }
         
-        /* ESTILO IMAGEN FLOTANTE Y ISLA BLANCA */
-        .image-section { flex: 1; min-width: 320px; border: 1px solid #222; background: #000; position: relative; }
+        /* IMAGEN GRANDE Y CENTRADA */
+        .image-section { flex: 1.2; min-width: 320px; border: 1px solid #222; background: #000; position: relative; display: flex; flex-direction: column; }
         .isla-info { 
             background: #fff; color: #000; padding: 15px; text-align: center; 
             font-family: 'Inter'; font-weight: 900; width: 80%; margin: -20px auto 0;
             position: relative; z-index: 10; clip-path: polygon(0 0, 95% 0, 100% 20%, 100% 100%, 5% 100%, 0 80%);
         }
-        .image-placeholder { height: 500px; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        #active-img { width: 90%; height: 90%; object-fit: contain; filter: drop-shadow(0 20px 50px rgba(255,255,255,0.1)); }
+        .image-placeholder { height: 600px; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        #active-img { width: 110%; height: 110%; object-fit: contain; transform: scale(1.1); }
 
         .config-section { width: 420px; }
         .section-label { font-family: 'Inter'; font-weight: 900; font-size: 15px; margin-bottom: 30px; border-left: 4px solid #fff; padding-left: 15px; }
@@ -53,12 +53,11 @@
         .label-group { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 12px; font-size: 13px; color: #eee; }
         input[type=range] { width: 100%; height: 2px; background: #333; appearance: none; outline: none; accent-color: #fff; cursor: pointer; }
 
-        /* NUEVA PERSONALIZACIÓN ETIQUETA */
-        .input-label-custom { width: 100%; background: transparent; border: 1px solid #333; color: #fff; padding: 12px; font-family: 'Courier New'; text-transform: uppercase; margin-bottom: 10px; }
-        .color-selector-wrapper { display: flex; align-items: center; gap: 15px; }
-        .color-preview { width: 40px; height: 40px; border: 2px solid #fff; cursor: pointer; background: #fff; }
-        .color-grid { display: none; gap: 5px; margin-top: 10px; background: #111; padding: 10px; border: 1px solid #333; grid-template-columns: repeat(5, 1fr); }
-        .color-dot { width: 25px; height: 25px; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); }
+        /* PERSONALIZACIÓN ETIQUETA AL FINAL */
+        .input-label-custom { width: 100%; background: transparent; border: 1px solid #333; color: #fff; padding: 12px; font-family: 'Courier New'; text-transform: uppercase; margin-bottom: 15px; box-sizing: border-box; }
+        .color-selector-wrapper { display: flex; align-items: center; justify-content: space-between; background: #0a0a0a; padding: 10px; border: 1px solid #222; }
+        .color-preview-container { display: flex; align-items: center; gap: 10px; }
+        input[type="color"] { border: none; width: 40px; height: 40px; cursor: pointer; background: none; padding: 0; }
 
         .selector-box { display: flex; gap: 8px; margin-top: 15px; }
         .btn-opt { flex: 1; padding: 12px; border: 1px solid #222; background: transparent; color: #888; cursor: pointer; font-family: 'Inter'; font-weight: 900; font-size: 10px; transition: 0.3s; }
@@ -88,7 +87,8 @@
             .main-header { padding: 20px; } 
             .config-layout { flex-direction: column; } 
             .config-section { width: 100%; } 
-            .image-placeholder { height: 350px; }
+            .image-placeholder { height: 450px; }
+            #active-img { width: 130%; height: 130%; }
         }
     </style>
 </head>
@@ -131,27 +131,6 @@
                 <div class="section-label">PERSONALIZA A TU CONVENIENCIA MAX 800G</div>
                 
                 <div class="step">
-                    <div class="label-group"><span>NOMBRE EN ETIQUETA</span></div>
-                    <input type="text" id="custom-label-name" class="input-label-custom" placeholder="EJ: TU NOMBRE O META" maxlength="15">
-                    <div class="color-selector-wrapper">
-                        <span style="font-size: 10px; font-weight: 900; color: #888;">COLOR ETIQUETA:</span>
-                        <div id="color-preview" class="color-preview" onclick="toggleColors()"></div>
-                    </div>
-                    <div id="color-grid" class="color-grid">
-                        <div class="color-dot" style="background: #fff;" onclick="selectColor('#fff')"></div>
-                        <div class="color-dot" style="background: #ffec00;" onclick="selectColor('#ffec00')"></div>
-                        <div class="color-dot" style="background: #ff3333;" onclick="selectColor('#ff3333')"></div>
-                        <div class="color-dot" style="background: #00ff41;" onclick="selectColor('#00ff41')"></div>
-                        <div class="color-dot" style="background: #007bff;" onclick="selectColor('#007bff')"></div>
-                        <div class="color-dot" style="background: #ff00ff;" onclick="selectColor('#ff00ff')"></div>
-                        <div class="color-dot" style="background: #ff8000;" onclick="selectColor('#ff8000')"></div>
-                        <div class="color-dot" style="background: #a0a0a0;" onclick="selectColor('#a0a0a0')"></div>
-                        <div class="color-dot" style="background: #000; border: 1px solid #444;" onclick="selectColor('#000')"></div>
-                        <div class="color-dot" style="background: #8b4513;" onclick="selectColor('#8b4513')"></div>
-                    </div>
-                </div>
-
-                <div class="step">
                     <div class="label-group"><span>POLLO</span> <span id="val-pollo">100G</span></div>
                     <input type="range" id="input-pollo" min="0" max="800" step="50" value="100">
                     <div class="selector-box">
@@ -184,6 +163,20 @@
                         <button class="stepper-btn" onclick="changeSal(-1)">-</button>
                         <span class="stepper-val" id="val-sal">0G</span>
                         <button class="stepper-btn" onclick="changeSal(1)">+</button>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="section-label" style="margin-bottom:20px; border-color: #888;">DATOS DE ETIQUETA</div>
+                    <div class="label-group"><span>NOMBRE EN ETIQUETA</span></div>
+                    <input type="text" id="custom-label-name" class="input-label-custom" placeholder="EJ: TU NOMBRE O META" maxlength="15">
+                    
+                    <div class="label-group"><span>COLOR DE REFERENCIA</span></div>
+                    <div class="color-selector-wrapper">
+                        <span style="font-size: 11px; font-weight: 900; color: #eee;">ELEGIR TONO:</span>
+                        <div class="color-preview-container">
+                            <input type="color" id="color-picker" value="#ffffff" onchange="updateColorPreview(this.value)">
+                        </div>
                     </div>
                 </div>
 
@@ -224,7 +217,7 @@
     </div>
 
     <script>
-        let prepPollo = 'PLANCHA', conPimienta = true, salGrams = 0, itemQty = 1, selectedColor = '#fff';
+        let prepPollo = 'PLANCHA', conPimienta = true, salGrams = 0, itemQty = 1, selectedColor = '#ffffff';
         const precios = { pollo: 22.47, arroz: 2.08, brocoli: 5.69, base: 3 };
         const pollo_macros = { 'PLANCHA': { p: 0.31, c: 0, f: 0.085, k: 2.03 }, 'COCIDO': { p: 0.23, c: 0, f: 0.02, k: 1.1 } };
         const arroz_macros = { p: 0.0267, c: 0.2867, f: 0.0067, k: 1.306 };
@@ -235,15 +228,8 @@
             document.getElementById('global-cart-count').innerText = cart.length;
         }
 
-        function toggleColors() {
-            const grid = document.getElementById('color-grid');
-            grid.style.display = grid.style.display === 'grid' ? 'none' : 'grid';
-        }
-
-        function selectColor(hex) {
+        function updateColorPreview(hex) {
             selectedColor = hex;
-            document.getElementById('color-preview').style.background = hex;
-            document.getElementById('color-grid').style.display = 'none';
         }
 
         function changeSal(v) { salGrams = Math.max(0, Math.min(5, salGrams + v)); update(); }
@@ -303,8 +289,11 @@
         }
 
         function addToCartCustom() {
-            const labelName = document.getElementById('custom-label-name').value || "SIN NOMBRE";
-            const name = `CUSTOM: ${labelName} [COLOR:${selectedColor}] (${document.getElementById('input-pollo').value}P|${document.getElementById('input-arroz').value}A|${document.getElementById('input-brocoli').value}B)`;
+            const labelName = document.getElementById('custom-label-name').value || "PREPS USER";
+            const p = document.getElementById('input-pollo').value;
+            const a = document.getElementById('input-arroz').value;
+            const b = document.getElementById('input-brocoli').value;
+            const name = `CUSTOM: ${labelName} [HEX:${selectedColor}] (${p}P|${a}A|${b}B)`;
             const price = parseInt(document.getElementById('final-price').innerText.replace('$', '').replace('.', '')) / itemQty;
             let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
             for(let i=0; i<itemQty; i++) { cart.push({ name: name, price: price }); }
