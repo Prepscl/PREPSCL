@@ -36,7 +36,6 @@
 
         .config-layout { display: flex; gap: 60px; flex-wrap: wrap; align-items: flex-start; }
         
-        /* IMAGEN GRANDE Y CENTRADA */
         .image-section { flex: 1.2; min-width: 320px; border: 1px solid #222; background: #000; position: relative; display: flex; flex-direction: column; }
         .isla-info { 
             background: #fff; color: #000; padding: 15px; text-align: center; 
@@ -53,7 +52,6 @@
         .label-group { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 12px; font-size: 13px; color: #eee; }
         input[type=range] { width: 100%; height: 2px; background: #333; appearance: none; outline: none; accent-color: #fff; cursor: pointer; }
 
-        /* PERSONALIZACIÓN ETIQUETA AL FINAL */
         .input-label-custom { width: 100%; background: transparent; border: 1px solid #333; color: #fff; padding: 12px; font-family: 'Courier New'; text-transform: uppercase; margin-bottom: 15px; box-sizing: border-box; }
         .color-selector-wrapper { display: flex; align-items: center; justify-content: space-between; background: #0a0a0a; padding: 10px; border: 1px solid #222; }
         .color-preview-container { display: flex; align-items: center; gap: 10px; }
@@ -234,8 +232,20 @@
 
         function changeSal(v) { salGrams = Math.max(0, Math.min(5, salGrams + v)); update(); }
         function changeQty(v) { itemQty = Math.max(1, Math.min(10, itemQty + v)); update(); }
-        function setPrep(type) { prepPollo = type; update(); }
-        function setPimienta(val) { conPimienta = val; update(); }
+        
+        function setPrep(type) { 
+            prepPollo = type; 
+            document.getElementById('btn-cocido').classList.toggle('active', type === 'COCIDO');
+            document.getElementById('btn-plancha').classList.toggle('active', type === 'PLANCHA');
+            update(); 
+        }
+
+        function setPimienta(val) { 
+            conPimienta = val; 
+            document.getElementById('btn-p-si').classList.toggle('active', val);
+            document.getElementById('btn-p-no').classList.toggle('active', !val);
+            update(); 
+        }
 
         function getImgId(p, a, b, prep) {
             const sp = p === 0 ? 'N' : (p < 400 ? 'P' : 'M');
@@ -273,11 +283,11 @@
             let a = parseInt(document.getElementById('input-arroz').value);
             let b = parseInt(document.getElementById('input-brocoli').value);
             if (p + a + b > 800 && e) { e.target.value = parseInt(e.target.value) - ((p + a + b) - 800); p = parseInt(document.getElementById('input-pollo').value); a = parseInt(document.getElementById('input-arroz').value); b = parseInt(document.getElementById('input-brocoli').value); }
-            const prot = ((p * pollo_macros[prepPollo].p) + (a * arroz_macros.p) + (b * brocoli_macros.p)) * itemQty;
-            const carb = ((a * arroz_macros.c) + (b * brocoli_macros.c)) * itemQty;
-            const kcal = ((p * pollo_macros[prepPollo].k) + (a * arroz_macros.k) + (b * brocoli_macros.k)) * itemQty;
             const unitPrice = (p * precios.pollo) + (a * precios.arroz) + (b * precios.brocoli) + precios.base;
             const totalPrice = unitPrice * itemQty;
+            const kcal = ((p * pollo_macros[prepPollo].k) + (a * arroz_macros.k) + (b * brocoli_macros.k)) * itemQty;
+            const prot = ((p * pollo_macros[prepPollo].p) + (a * arroz_macros.p) + (b * brocoli_macros.p)) * itemQty;
+            const carb = ((a * arroz_macros.c) + (b * brocoli_macros.c)) * itemQty;
             document.getElementById('val-pollo').innerText = p + "G"; document.getElementById('val-arroz').innerText = a + "G"; document.getElementById('val-brocoli').innerText = b + "G"; document.getElementById('val-sal').innerText = salGrams + "G"; document.getElementById('val-qty').innerText = itemQty;
             document.getElementById('m-prot').innerText = Math.round(prot); document.getElementById('m-carb').innerText = Math.round(carb); document.getElementById('m-kcal').innerText = Math.round(kcal);
             document.getElementById('final-price').innerText = "$" + Math.round(totalPrice).toLocaleString('es-CL');
