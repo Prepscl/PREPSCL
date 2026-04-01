@@ -35,10 +35,16 @@
         .welcome-subtitle { font-size: 14px; letter-spacing: 3px; color: #aaa; }
 
         .config-layout { display: flex; gap: 60px; flex-wrap: wrap; }
-        .image-section { flex: 1; min-width: 320px; border: 1px solid #222; background: #050505; }
-        .food-name { background: #fff; color: #000; padding: 20px; text-align: center; font-family: 'Inter'; font-weight: 900; font-size: 18px; }
-        .image-placeholder { height: 450px; background: #080808; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        #active-img { width: 100%; height: 100%; object-fit: cover; }
+        
+        /* ESTILO IMAGEN FLOTANTE Y ISLA BLANCA */
+        .image-section { flex: 1; min-width: 320px; border: 1px solid #222; background: #000; position: relative; }
+        .isla-info { 
+            background: #fff; color: #000; padding: 15px; text-align: center; 
+            font-family: 'Inter'; font-weight: 900; width: 80%; margin: -20px auto 0;
+            position: relative; z-index: 10; clip-path: polygon(0 0, 95% 0, 100% 20%, 100% 100%, 5% 100%, 0 80%);
+        }
+        .image-placeholder { height: 500px; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        #active-img { width: 90%; height: 90%; object-fit: contain; filter: drop-shadow(0 20px 50px rgba(255,255,255,0.1)); }
 
         .config-section { width: 420px; }
         .section-label { font-family: 'Inter'; font-weight: 900; font-size: 15px; margin-bottom: 30px; border-left: 4px solid #fff; padding-left: 15px; }
@@ -47,6 +53,13 @@
         .label-group { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 12px; font-size: 13px; color: #eee; }
         input[type=range] { width: 100%; height: 2px; background: #333; appearance: none; outline: none; accent-color: #fff; cursor: pointer; }
 
+        /* NUEVA PERSONALIZACIÓN ETIQUETA */
+        .input-label-custom { width: 100%; background: transparent; border: 1px solid #333; color: #fff; padding: 12px; font-family: 'Courier New'; text-transform: uppercase; margin-bottom: 10px; }
+        .color-selector-wrapper { display: flex; align-items: center; gap: 15px; }
+        .color-preview { width: 40px; height: 40px; border: 2px solid #fff; cursor: pointer; background: #fff; }
+        .color-grid { display: none; gap: 5px; margin-top: 10px; background: #111; padding: 10px; border: 1px solid #333; grid-template-columns: repeat(5, 1fr); }
+        .color-dot { width: 25px; height: 25px; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); }
+
         .selector-box { display: flex; gap: 8px; margin-top: 15px; }
         .btn-opt { flex: 1; padding: 12px; border: 1px solid #222; background: transparent; color: #888; cursor: pointer; font-family: 'Inter'; font-weight: 900; font-size: 10px; transition: 0.3s; }
         .btn-opt.active { border-color: #fff; color: #fff; background: #0a0a0a; }
@@ -54,8 +67,6 @@
         .stepper-control { display: flex; align-items: center; border: 1px solid #333; background: #000; width: fit-content; }
         .stepper-btn { background: none; border: none; color: #fff; font-family: 'Inter'; font-weight: 900; font-size: 20px; padding: 10px 20px; cursor: pointer; }
         .stepper-val { width: 50px; text-align: center; font-family: 'Inter'; font-weight: 900; font-size: 16px; border-left: 1px solid #1a1a1a; border-right: 1px solid #1a1a1a; }
-
-        #min-alert { font-size: 10px; color: #ff3333; margin-top: 10px; font-weight: 900; letter-spacing: 1px; display: none; }
 
         .purchase-area { display: flex; margin-top: 20px; border: 1px solid #fff; }
         .btn-send { flex-grow: 1; background: #fff; color: #000; padding: 22px; border: none; font-family: 'Inter'; font-weight: 900; font-size: 16px; cursor: pointer; transition: 0.4s; }
@@ -67,19 +78,9 @@
 
         .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 20px; box-sizing: border-box; }
         .modal-content { background: #fff; color: #000; width: 100%; max-width: 450px; padding: 40px 25px; position: relative; text-align: center; display: flex; flex-direction: column; align-items: center; }
-        
         .modal-body { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 20px; }
-        .modal-img-container { width: 150px; height: 150px; background: #eee; overflow: hidden; border: 1px solid #000; flex-shrink: 0; }
-        .modal-img-container img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .modal-info-text { width: 100%; text-align: center; }
-        .modal-info-text p { margin: 10px 0; line-height: 1.4; }
-
-        .delete-btn-container { position: absolute; right: 15px; top: 15px; text-align: right; cursor: pointer; }
-        .delete-x { font-size: 20px; color: #000; font-weight: 900; }
-        .delete-label { font-size: 7px; color: #ff0000; font-weight: 900; display: block; opacity: 0; transition: 0.2s; }
-        .delete-btn-container:hover .delete-label { opacity: 1; }
-
+        .modal-img-container { width: 150px; height: 150px; background: #000; overflow: hidden; border: 1px solid #000; }
+        .modal-img-container img { width: 100%; height: 100%; object-fit: contain; }
         .btn-modal-black { background: #000; color: #fff; padding: 18px; text-decoration: none; font-weight: 900; display: block; margin-top: 20px; font-size: 14px; width: 100%; box-sizing: border-box; }
         .btn-modal-outline { background: #fff; color: #000; padding: 18px; border: 2px solid #000; font-weight: 900; width: 100%; cursor: pointer; font-size: 14px; margin-top: 10px; box-sizing: border-box; }
 
@@ -87,7 +88,7 @@
             .main-header { padding: 20px; } 
             .config-layout { flex-direction: column; } 
             .config-section { width: 100%; } 
-            .modal-content { padding: 40px 20px 30px; }
+            .image-placeholder { height: 350px; }
         }
     </style>
 </head>
@@ -113,13 +114,13 @@
 
     <div class="container">
         <div class="welcome-section reveal">
-            <h1 class="welcome-title">BIENVENID@S A CUSTOM LAB PERFORMANCE V1.0</h1>
+            <h1 class="welcome-title">CUSTOM LAB PERFORMANCE V1.0</h1>
             <p class="welcome-subtitle">DISEÑADO CON PRECISIÓN BY PREPS - MÁS DE 1.600 COMBINACIONES POSIBLES</p>
         </div>
 
         <div class="config-layout">
             <div class="image-section reveal">
-                <div class="food-name">
+                <div class="isla-info">
                     <span id="protocol-name">CARGANDO...</span><br>
                     <span id="comb-number" style="font-size: 10px; color: #888; letter-spacing: 2px;">ID: #0000</span>
                 </div>
@@ -129,6 +130,27 @@
             <div class="config-section reveal">
                 <div class="section-label">PERSONALIZA A TU CONVENIENCIA MAX 800G</div>
                 
+                <div class="step">
+                    <div class="label-group"><span>NOMBRE EN ETIQUETA</span></div>
+                    <input type="text" id="custom-label-name" class="input-label-custom" placeholder="EJ: TU NOMBRE O META" maxlength="15">
+                    <div class="color-selector-wrapper">
+                        <span style="font-size: 10px; font-weight: 900; color: #888;">COLOR ETIQUETA:</span>
+                        <div id="color-preview" class="color-preview" onclick="toggleColors()"></div>
+                    </div>
+                    <div id="color-grid" class="color-grid">
+                        <div class="color-dot" style="background: #fff;" onclick="selectColor('#fff')"></div>
+                        <div class="color-dot" style="background: #ffec00;" onclick="selectColor('#ffec00')"></div>
+                        <div class="color-dot" style="background: #ff3333;" onclick="selectColor('#ff3333')"></div>
+                        <div class="color-dot" style="background: #00ff41;" onclick="selectColor('#00ff41')"></div>
+                        <div class="color-dot" style="background: #007bff;" onclick="selectColor('#007bff')"></div>
+                        <div class="color-dot" style="background: #ff00ff;" onclick="selectColor('#ff00ff')"></div>
+                        <div class="color-dot" style="background: #ff8000;" onclick="selectColor('#ff8000')"></div>
+                        <div class="color-dot" style="background: #a0a0a0;" onclick="selectColor('#a0a0a0')"></div>
+                        <div class="color-dot" style="background: #000; border: 1px solid #444;" onclick="selectColor('#000')"></div>
+                        <div class="color-dot" style="background: #8b4513;" onclick="selectColor('#8b4513')"></div>
+                    </div>
+                </div>
+
                 <div class="step">
                     <div class="label-group"><span>POLLO</span> <span id="val-pollo">100G</span></div>
                     <input type="range" id="input-pollo" min="0" max="800" step="50" value="100">
@@ -157,13 +179,12 @@
                 </div>
 
                 <div class="step">
-                    <div class="label-group"><span>MÁXIMO DE SAL ROSADA DEL HIMALAYA POR RACIÓN</span> <span style="background:#fff; color:#000; padding:2px 6px; font-size:9px; font-weight:900;">OPCIONAL</span></div>
+                    <div class="label-group"><span>SAL ROSADA DEL HIMALAYA</span> <span style="background:#fff; color:#000; padding:2px 6px; font-size:9px; font-weight:900;">OPCIONAL</span></div>
                     <div class="stepper-control">
                         <button class="stepper-btn" onclick="changeSal(-1)">-</button>
                         <span class="stepper-val" id="val-sal">0G</span>
                         <button class="stepper-btn" onclick="changeSal(1)">+</button>
                     </div>
-                    <p style="font-size: 8px; color: #aaa; margin-top: 5px;">*MÁXIMO RECOMENDADO: 5G POR RACIÓN</p>
                 </div>
 
                 <div class="macros-display">
@@ -189,16 +210,11 @@
 
     <div id="confirm-modal" class="modal-overlay">
         <div class="modal-content">
-            <div class="delete-btn-container" onclick="undoAddToCart()">
-                <span class="delete-x">✕</span>
-                <span class="delete-label">ELIMINAR PEDIDO</span>
-            </div>
-            <h2 class="modal-title" style="margin-top: 20px; font-size: 18px;">TUS PRODUCTOS</h2>
+            <h2 class="modal-title" style="font-size: 18px;">TUS PRODUCTOS</h2>
             <div class="modal-body">
                 <div class="modal-img-container"><img id="modal-img" src="" alt=""></div>
                 <div class="modal-info-text">
                     <p id="modal-desc" style="font-weight: 900; font-size: 11px;"></p>
-                    <p id="modal-qty-text" style="font-size: 11px;"></p>
                     <p id="modal-total" style="font-weight: 900; border-top: 1px solid #eee; padding-top: 12px; font-size: 16px; margin-top: 12px;"></p>
                 </div>
             </div>
@@ -208,7 +224,7 @@
     </div>
 
     <script>
-        let prepPollo = 'PLANCHA', conPimienta = true, salGrams = 0, itemQty = 1, lastAddedCount = 0;
+        let prepPollo = 'PLANCHA', conPimienta = true, salGrams = 0, itemQty = 1, selectedColor = '#fff';
         const precios = { pollo: 22.47, arroz: 2.08, brocoli: 5.69, base: 3 };
         const pollo_macros = { 'PLANCHA': { p: 0.31, c: 0, f: 0.085, k: 2.03 }, 'COCIDO': { p: 0.23, c: 0, f: 0.02, k: 1.1 } };
         const arroz_macros = { p: 0.0267, c: 0.2867, f: 0.0067, k: 1.306 };
@@ -219,79 +235,48 @@
             document.getElementById('global-cart-count').innerText = cart.length;
         }
 
+        function toggleColors() {
+            const grid = document.getElementById('color-grid');
+            grid.style.display = grid.style.display === 'grid' ? 'none' : 'grid';
+        }
+
+        function selectColor(hex) {
+            selectedColor = hex;
+            document.getElementById('color-preview').style.background = hex;
+            document.getElementById('color-grid').style.display = 'none';
+        }
+
         function changeSal(v) { salGrams = Math.max(0, Math.min(5, salGrams + v)); update(); }
         function changeQty(v) { itemQty = Math.max(1, Math.min(10, itemQty + v)); update(); }
-
-        function setPrep(type) {
-            prepPollo = type;
-            document.getElementById('btn-cocido').classList.toggle('active', type === 'COCIDO');
-            document.getElementById('btn-plancha').classList.toggle('active', type === 'PLANCHA');
-            update();
-        }
-
-        function setPimienta(val) {
-            conPimienta = val;
-            document.getElementById('btn-p-si').classList.toggle('active', val);
-            document.getElementById('btn-p-no').classList.toggle('active', !val);
-            update();
-        }
-
-        function getCombinationID(p, a, b, prep) {
-            const id = ((p/50)*100) + ((a/50)*10) + (b/50) + (prep==='PLANCHA'?500:0);
-            return Math.abs(Math.floor(id)).toString().padStart(4, '0');
-        }
+        function setPrep(type) { prepPollo = type; update(); }
+        function setPimienta(val) { conPimienta = val; update(); }
 
         function getImgId(p, a, b, prep) {
             const sp = p === 0 ? 'N' : (p < 400 ? 'P' : 'M');
             const sa = a === 0 ? 'N' : (a < 400 ? 'P' : 'M');
             const sb = b === 0 ? 'N' : (b < 400 ? 'P' : 'M');
-
             if (sp === 'N') {
-                if (sa==='N' && sb==='N') return 1;
-                if (sa==='N' && sb==='P') return 2;
-                if (sa==='N' && sb==='M') return 3;
-                if (sa==='P' && sb==='N') return 4;
-                if (sa==='P' && sb==='P') return 5;
-                if (sa==='P' && sb==='M') return 6;
-                if (sa==='M' && sb==='N') return 7;
-                if (sa==='M' && sb==='P') return 8;
-                if (sa==='M' && sb==='M') return 9;
+                if (sa==='N' && sb==='N') return 1; if (sa==='N' && sb==='P') return 2; if (sa==='N' && sb==='M') return 3;
+                if (sa==='P' && sb==='N') return 4; if (sa==='P' && sb==='P') return 5; if (sa==='P' && sb==='M') return 6;
+                if (sa==='M' && sb==='N') return 7; if (sa==='M' && sb==='P') return 8; if (sa==='M' && sb==='M') return 9;
             }
             if (prep === 'COCIDO') {
                 if (sp==='P') {
-                    if (sa==='N' && sb==='N') return 10;
-                    if (sa==='N' && sb==='P') return 11;
-                    if (sa==='N' && sb==='M') return 12;
-                    if (sa==='P' && sb==='N') return 13;
-                    if (sa==='P' && sb==='P') return 14;
-                    if (sa==='P' && sb==='M') return 15;
-                    if (sa==='M' && sb==='N') return 16;
-                    if (sa==='M' && sb==='P') return 17;
+                    if (sa==='N' && sb==='N') return 10; if (sa==='N' && sb==='P') return 11; if (sa==='N' && sb==='M') return 12;
+                    if (sa==='P' && sb==='N') return 13; if (sa==='P' && sb==='P') return 14; if (sa==='P' && sb==='M') return 15;
+                    if (sa==='M' && sb==='N') return 16; if (sa==='M' && sb==='P') return 17;
                 } else {
-                    if (sa==='N' && sb==='N') return 18;
-                    if (sa==='N' && sb==='P') return 19;
-                    if (sa==='P' && sb==='N') return 20;
-                    if (sa==='P' && sb==='P') return 21;
-                    if (sa==='N' && sb==='M') return 22;
-                    if (sa==='M' && sb==='N') return 23;
+                    if (sa==='N' && sb==='N') return 18; if (sa==='N' && sb==='P') return 19; if (sa==='P' && sb==='N') return 20;
+                    if (sa==='P' && sb==='P') return 21; if (sa==='N' && sb==='M') return 22; if (sa==='M' && sb==='N') return 23;
                 }
             } else {
                 if (sp==='P') {
-                    if (sa==='N' && sb==='N') return 24;
-                    if (sa==='N' && sb==='P') return 26; // PARCHE: 25 -> 26
-                    if (sa==='N' && sb==='M') return 26;
-                    if (sa==='P' && sb==='N') return 27;
-                    if (sa==='P' && sb==='P') return 31; // PARCHE: 28 -> 31
-                    if (sa==='P' && sb==='M') return 29;
-                    if (sa==='M' && sb==='N') return 27; // PARCHE: 30 -> 27
-                    if (sa==='M' && sb==='P') return 31;
+                    if (sa==='N' && sb==='N') return 24; if (sa==='N' && sb==='P') return 26; if (sa==='N' && sb==='M') return 26;
+                    if (sa==='P' && sb==='N') return 27; if (sa==='P' && sb==='P') return 31; if (sa==='P' && sb==='M') return 29;
+                    if (sa==='M' && sb==='N') return 27; if (sa==='M' && sb==='P') return 31;
                 } else {
-                    if (sa==='N' && sb==='N') return 32;
-                    if (sa==='N' && sb==='P') return 33;
-                    if (sa==='P' && sb==='N') return 37; // PARCHE: 34 -> 37
-                    if (sa==='P' && sb==='P') return 35;
-                    if (sa==='N' && sb==='M') return 36;
-                    if (sa==='M' && sb==='N') return 37;
+                    if (sa==='N' && sb==='N') return 32; if (sa==='N' && sb==='P') return 33; if (sa==='P' && sb==='N') return 37;
+                    if (sa==='P' && sb==='P') return 35; if (sa==='N' && sb==='M') return 36; if (sa==='M' && sb==='N') return 37;
                 }
             }
             return 1;
@@ -301,75 +286,42 @@
             let p = parseInt(document.getElementById('input-pollo').value);
             let a = parseInt(document.getElementById('input-arroz').value);
             let b = parseInt(document.getElementById('input-brocoli').value);
-            
-            if (p + a + b > 800 && e) {
-                e.target.value = parseInt(e.target.value) - ((p + a + b) - 800);
-                p = parseInt(document.getElementById('input-pollo').value);
-                a = parseInt(document.getElementById('input-arroz').value);
-                b = parseInt(document.getElementById('input-brocoli').value);
-            }
-
+            if (p + a + b > 800 && e) { e.target.value = parseInt(e.target.value) - ((p + a + b) - 800); p = parseInt(document.getElementById('input-pollo').value); a = parseInt(document.getElementById('input-arroz').value); b = parseInt(document.getElementById('input-brocoli').value); }
             const prot = ((p * pollo_macros[prepPollo].p) + (a * arroz_macros.p) + (b * brocoli_macros.p)) * itemQty;
             const carb = ((a * arroz_macros.c) + (b * brocoli_macros.c)) * itemQty;
-            const fat = ((p * pollo_macros[prepPollo].f) + (a * arroz_macros.f) + (b * brocoli_macros.f)) * itemQty;
             const kcal = ((p * pollo_macros[prepPollo].k) + (a * arroz_macros.k) + (b * brocoli_macros.k)) * itemQty;
-            
             const unitPrice = (p * precios.pollo) + (a * precios.arroz) + (b * precios.brocoli) + precios.base;
             const totalPrice = unitPrice * itemQty;
-
-            document.getElementById('val-pollo').innerText = p + "G";
-            document.getElementById('val-arroz').innerText = a + "G";
-            document.getElementById('val-brocoli').innerText = b + "G";
-            document.getElementById('val-sal').innerText = salGrams + "G";
-            document.getElementById('val-qty').innerText = itemQty;
-            
-            document.getElementById('m-prot').innerText = Math.round(prot);
-            document.getElementById('m-carb').innerText = Math.round(carb);
-            document.getElementById('m-fat').innerText = Math.round(fat);
-            document.getElementById('m-kcal').innerText = Math.round(kcal);
-            
+            document.getElementById('val-pollo').innerText = p + "G"; document.getElementById('val-arroz').innerText = a + "G"; document.getElementById('val-brocoli').innerText = b + "G"; document.getElementById('val-sal').innerText = salGrams + "G"; document.getElementById('val-qty').innerText = itemQty;
+            document.getElementById('m-prot').innerText = Math.round(prot); document.getElementById('m-carb').innerText = Math.round(carb); document.getElementById('m-kcal').innerText = Math.round(kcal);
             document.getElementById('final-price').innerText = "$" + Math.round(totalPrice).toLocaleString('es-CL');
-
-            const isUnderMin = totalPrice < 4000;
-            document.getElementById('add-btn').disabled = isUnderMin;
-            document.getElementById('min-alert').style.display = isUnderMin ? 'block' : 'none';
-
+            const isUnderMin = totalPrice < 4000; document.getElementById('add-btn').disabled = isUnderMin; document.getElementById('min-alert').style.display = isUnderMin ? 'block' : 'none';
             document.getElementById('active-img').src = `img/${getImgId(p, a, b, prepPollo)}.png`;
             document.getElementById('protocol-name').innerText = "UNIDAD: " + (p+a+b >= 750 ? "SOBRECARGA" : (p >= 400 && a <= 100 ? "KETO ELITE" : (p+a+b <= 350 ? "BASE LIGERA" : "PERSONALIZADA")));
-            document.getElementById('comb-number').innerText = `ID: #${getCombinationID(p, a, b, prepPollo)}`;
+            const id = ((p/50)*100) + ((a/50)*10) + (b/50) + (prepPollo==='PLANCHA'?500:0);
+            document.getElementById('comb-number').innerText = `ID: #${Math.abs(Math.floor(id)).toString().padStart(4, '0')}`;
         }
 
         function addToCartCustom() {
-            const p = document.getElementById('input-pollo').value;
-            const a = document.getElementById('input-arroz').value;
-            const b = document.getElementById('input-brocoli').value;
-            const prText = document.getElementById('final-price').innerText;
-            const prNum = parseInt(prText.replace('$', '').replace('.', '')) / itemQty;
-            const pim = conPimienta ? "C/PIM" : "S/PIM";
-            
-            const name = `CUSTOM: ${document.getElementById('protocol-name').innerText} (${p}P ${prepPollo}|${a}A|${b}B) [${pim}|SAL:${salGrams}G]`;
-            
-            lastAddedCount = itemQty;
+            const labelName = document.getElementById('custom-label-name').value || "SIN NOMBRE";
+            const name = `CUSTOM: ${labelName} [COLOR:${selectedColor}] (${document.getElementById('input-pollo').value}P|${document.getElementById('input-arroz').value}A|${document.getElementById('input-brocoli').value}B)`;
+            const price = parseInt(document.getElementById('final-price').innerText.replace('$', '').replace('.', '')) / itemQty;
             let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
-            for(let i=0; i<itemQty; i++) { cart.push({ name: name, price: prNum }); }
+            for(let i=0; i<itemQty; i++) { cart.push({ name: name, price: price }); }
             localStorage.setItem('preps_cart', JSON.stringify(cart));
             updateGlobalCartCount();
             document.getElementById('modal-img').src = document.getElementById('active-img').src;
             document.getElementById('modal-desc').innerText = name;
-            document.getElementById('modal-qty-text').innerText = "CANTIDAD AGREGADA: " + itemQty;
-            document.getElementById('modal-total').innerText = "TOTAL: " + prText;
+            document.getElementById('modal-total').innerText = "TOTAL: " + document.getElementById('final-price').innerText;
             document.getElementById('confirm-modal').style.display = 'flex';
         }
 
-        function undoAddToCart() {
-            let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
-            if (cart.length >= lastAddedCount) { cart.splice(-lastAddedCount); localStorage.setItem('preps_cart', JSON.stringify(cart)); }
-            updateGlobalCartCount();
-            closeModal();
-        }
-
         function closeModal() { document.getElementById('confirm-modal').style.display = 'none'; }
-        window.addEventListener('load', () => { updateGlobalCartCount(); setTimeout(() => { document.getElementById('loader').style.opacity = '0'; setTimeout(() => { document.getElementById('loader').style.display = 'none'; reveal(); }, 800); }, 1000); update(); });
+        window.addEventListener('load', () => { 
+            updateGlobalCartCount(); 
+            setTimeout(() => { document.getElementById('loader').style.opacity = '0'; setTimeout(() => { document.getElementById('loader').style.display = 'none'; reveal(); }, 800); }, 1000); 
+            update(); 
+        });
         function reveal() { var reveals = document.querySelectorAll(".reveal"); for (var i = 0; i < reveals.length; i++) { if (reveals[i].getBoundingClientRect().top < window.innerHeight - 150) reveals[i].classList.add("active"); } }
         window.addEventListener("scroll", reveal);
         document.querySelectorAll('input[type=range]').forEach(i => i.addEventListener('input', update));
