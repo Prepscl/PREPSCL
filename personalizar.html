@@ -6,6 +6,9 @@
     <meta name="format-detection" content="telephone=no">
     <title>CUSTOM LAB PERFORMANCE V1.0 - PREPS</title>
     
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link rel="icon" type="image/png" href="img/logo-preps.png">
     <link rel="apple-touch-icon" href="img/logo-preps.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
@@ -122,7 +125,7 @@
                     <span id="protocol-name">CARGANDO...</span><br>
                     <span id="comb-number" style="font-size: 10px; color: #888; letter-spacing: 2px;">ID: #0000</span>
                 </div>
-                <div class="image-placeholder"><img id="active-img" src="img/1.png" alt="Preview"></div>
+                <div class="image-placeholder"><img id="active-img" src="img/1.webp" alt="Preview" loading="eager"></div>
             </div>
 
             <div class="config-section reveal">
@@ -167,7 +170,7 @@
                 <div class="step">
                     <div class="section-label" style="margin-bottom:20px; border-color: #888;">DATOS DE ETIQUETA</div>
                     <div class="label-group"><span>NOMBRE EN ETIQUETA</span></div>
-                    <input type="text" id="custom-label-name" class="input-label-custom" placeholder="EJ: TU NOMBRE O META" maxlength="15">
+                    <input type="text" id="custom-label-name" class="input-label-custom" placeholder="EJ: TU NOMBRE OR META" maxlength="15">
                     
                     <div class="label-group"><span>COLOR DE REFERENCIA</span></div>
                     <div class="color-selector-wrapper">
@@ -223,7 +226,11 @@
 
         function updateGlobalCartCount() {
             const cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
-            document.getElementById('global-cart-count').innerText = cart.length;
+            const countElement = document.getElementById('global-cart-count');
+            if (countElement) {
+                countElement.innerText = cart.length;
+                countElement.style.display = cart.length > 0 ? 'flex' : 'none';
+            }
         }
 
         function updateColorPreview(hex) {
@@ -292,7 +299,10 @@
             document.getElementById('m-prot').innerText = Math.round(prot); document.getElementById('m-carb').innerText = Math.round(carb); document.getElementById('m-kcal').innerText = Math.round(kcal);
             document.getElementById('final-price').innerText = "$" + Math.round(totalPrice).toLocaleString('es-CL');
             const isUnderMin = totalPrice < 4000; document.getElementById('add-btn').disabled = isUnderMin; document.getElementById('min-alert').style.display = isUnderMin ? 'block' : 'none';
-            document.getElementById('active-img').src = `img/${getImgId(p, a, b, prepPollo)}.png`;
+            
+            // CAMBIO A WEBP
+            document.getElementById('active-img').src = `img/${getImgId(p, a, b, prepPollo)}.webp`;
+            
             document.getElementById('protocol-name').innerText = "UNIDAD: " + (p+a+b >= 750 ? "SOBRECARGA" : (p >= 400 && a <= 100 ? "KETO ELITE" : (p+a+b <= 350 ? "BASE LIGERA" : "PERSONALIZADA")));
             const id = ((p/50)*100) + ((a/50)*10) + (b/50) + (prepPollo==='PLANCHA'?500:0);
             document.getElementById('comb-number').innerText = `ID: #${Math.abs(Math.floor(id)).toString().padStart(4, '0')}`;
