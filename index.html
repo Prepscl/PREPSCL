@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PREPS - DISEÑADO PARA TU RENDIMIENTO</title>
     
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     
@@ -132,7 +136,6 @@
 
         @media (max-width: 850px) {
             .hero-section { height: 80vh !important; }
-            /* ZOOM APLICADO: se sube de 130% a 145% para mayor impacto */
             .hero-img-bg { width: 145% !important; height: 100% !important; left: -22.5% !important; object-fit: contain !important; }
             .hero-title { font-size: 32px; }
             .slide-card { min-width: 320px; flex: 0 0 320px; } 
@@ -165,7 +168,7 @@
 
     <main>
         <section class="hero-section">
-            <img src="img/home.png" class="hero-img-bg" id="heroImg">
+            <img src="img/home.webp" class="hero-img-bg" id="heroImg" alt="PREPS Home">
             <div class="hero-content">
                 <h1 class="hero-title" id="heroText">DISEÑADO PARA<br>TU RENDIMIENTO</h1>
             </div>
@@ -175,14 +178,14 @@
             <div class="section-header"><h2>MENÚS Y PAQUETES</h2></div>
             <div class="product-slider" id="ps">
                 <a href="producto.html?id=highcarb" class="slide-card">
-                    <img src="img/menu1.png" class="standard-img">
+                    <img src="img/menu1.webp" class="standard-img" loading="lazy" alt="Menu 1">
                     <div style="text-align:center; margin-top:50px;">
                         <h3>POWER BREAST HIGH CARB</h3>
                         <div class="price">$5.690</div>
                     </div>
                 </a>
                 <a href="producto.html?id=lowcarb" class="slide-card">
-                    <img src="img/menu2.png" class="standard-img">
+                    <img src="img/menu2.webp" class="standard-img" loading="lazy" alt="Menu 2">
                     <div style="text-align:center; margin-top:50px;">
                         <h3>POWER BREAST LOW CARB</h3>
                         <div class="price">$4.900</div>
@@ -195,7 +198,7 @@
                         </svg>
                         <div class="card-image-area">
                             <div class="lab-photo-carousel" id="labCarousel">
-                                <img src="img/26.png" class="active"><img src="img/29.png"><img src="img/37.png"><img src="img/22.png"><img src="img/19.png"><img src="img/17.png"><img src="img/9.png">
+                                <img src="img/26.webp" class="active" loading="lazy"><img src="img/29.webp" loading="lazy"><img src="img/37.webp" loading="lazy"><img src="img/22.webp" loading="lazy"><img src="img/19.webp" loading="lazy"><img src="img/17.webp" loading="lazy"><img src="img/9.webp" loading="lazy">
                             </div>
                         </div>
                         <div class="lab-separator sep-white"></div>
@@ -207,7 +210,7 @@
                 </a>
                 <a href="producto.html?id=pack5" class="slide-card">
                     <div class="base-card custom-card-pack">
-                        <div class="card-image-area"><img src="img/pack5.png" class="pack-img-full"></div>
+                        <div class="card-image-area"><img src="img/pack5.webp" class="pack-img-full" loading="lazy" alt="Pack 5"></div>
                         <div class="lab-separator sep-black"></div>
                         <div class="card-info-area info-black">
                             <h3>05 PACKS PERFORMANCE</h3>
@@ -217,7 +220,7 @@
                 </a>
                 <a href="producto.html?id=pack15" class="slide-card">
                     <div class="base-card custom-card-pack">
-                        <div class="card-image-area"><img src="img/pack15.png" class="pack-img-full"></div>
+                        <div class="card-image-area"><img src="img/pack15.webp" class="pack-img-full" loading="lazy" alt="Pack 15"></div>
                         <div class="lab-separator sep-black"></div>
                         <div class="card-info-area info-black">
                             <h3>15 PACKS PERFORMANCE</h3>
@@ -227,7 +230,7 @@
                 </a>
                 <a href="producto.html?id=pack28" class="slide-card">
                     <div class="base-card custom-card-pack">
-                        <div class="card-image-area"><img src="img/pack28.png" class="pack-img-full"></div>
+                        <div class="card-image-area"><img src="img/pack28.webp" class="pack-img-full" loading="lazy" alt="Pack 28"></div>
                         <div class="lab-separator sep-black"></div>
                         <div class="card-info-area info-black">
                             <h3>28 PACKS PERFORMANCE</h3>
@@ -262,7 +265,6 @@
     <script>
         gsap.registerPlugin(ScrollTrigger);
         
-        // FUNCION PARA ACTUALIZAR CONTADOR CARRITO
         function updateGlobalCartCount() {
             const cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
             const countElement = document.getElementById('global-cart-count');
@@ -273,7 +275,7 @@
         }
 
         window.addEventListener('load', () => {
-            updateGlobalCartCount(); // Iniciar contador
+            updateGlobalCartCount();
             setTimeout(() => {
                 document.getElementById('loader').style.opacity = '0';
                 setTimeout(() => { 
@@ -308,13 +310,17 @@
         const counter = document.getElementById('counter');
 
         function updateCounter() {
-            const cardWidth = slider.querySelector('.slide-card').offsetWidth + 60; 
+            const cards = slider.querySelectorAll('.slide-card');
+            if (cards.length === 0) return;
+            const cardWidth = cards[0].offsetWidth + 60; 
             const index = Math.round(slider.scrollLeft / cardWidth) + 1;
             counter.innerText = `${Math.min(index, 6)} / 6`;
         }
 
         function scrollBtn(dir) {
-            const cardWidth = slider.querySelector('.slide-card').offsetWidth + 60;
+            const cards = slider.querySelectorAll('.slide-card');
+            if (cards.length === 0) return;
+            const cardWidth = cards[0].offsetWidth + 60;
             slider.scrollBy({ left: dir * cardWidth, behavior: 'smooth' });
         }
         slider.addEventListener('scroll', updateCounter);
