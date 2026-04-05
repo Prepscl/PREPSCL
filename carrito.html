@@ -146,17 +146,18 @@
             for (const [name, data] of Object.entries(grouped)) {
                 totalMoney += data.price * data.count;
                 
-                // 1. DETECCIÓN DE MACROS DESDE CUSTOM LAB
+                // 1. DETECCIÓN DE MACROS DESDE LABS (Formato: TOTAL MACROS: 219P|270C|57F - 2490KCAL)
                 if (name.includes("TOTAL MACROS:")) {
                     const matchProt = name.match(/(\d+)P/);
                     const matchCarb = name.match(/\|(\d+)C/);
                     const matchKcal = name.match(/(\d+)KCAL/);
                     
+                    // Sumamos los valores del string multiplicados por la cantidad en carrito
                     totalProt += (matchProt ? parseInt(matchProt[1]) : 0) * data.count;
                     totalCarb += (matchCarb ? parseInt(matchCarb[1]) : 0) * data.count;
                     totalKcal += (matchKcal ? parseInt(matchKcal[1]) : 0) * data.count;
                 } 
-                // 2. DETECCIÓN DE PACKS (5, 15, 28)
+                // 2. DETECCIÓN DE PACKS PERFORMANCE (Formato: [5HC|0LC])
                 else if (name.includes("PACKS PERFORMANCE")) {
                     const matchHC = name.match(/(\d+)HC/);
                     const matchLC = name.match(/(\d+)LC/);
