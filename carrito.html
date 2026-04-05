@@ -12,7 +12,7 @@
 
     <style>
         :root { --accent: #25D366; --dark: #000; --light: #f2f2f2; --neon: #39FF14; }
-        body { background-color: var(--light); color: var(--dark); font-family: 'Courier New', monospace; margin: 0; text-transform: uppercase; -webkit-font-smoothing: antialiased; }
+        body { background-color: var(--light); color: var(--dark); font-family: 'Courier New', monospace; margin: 0; text-transform: uppercase; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 
         /* HEADER */
         .main-header { display: flex; align-items: center; justify-content: space-between; padding: 15px 50px; background: #f2f2f2; border-bottom: 1px solid #000; position: sticky; top: 0; z-index: 1000; }
@@ -123,12 +123,10 @@
         let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
         let discount = 0;
         
+        // VALORES BASE PARA CÁLCULO DE MACROS EN CARRITO
         const macroDB = { 
             "HIGH CARB": {k: 830, p: 73, c: 92}, 
-            "LOW CARB": {k: 632, p: 69, c: 49}, 
-            "PACK 5": {k: 3600, p: 350, c: 300}, 
-            "PACK 15": {k: 10800, p: 1050, c: 900}, 
-            "PACK 28": {k: 20000, p: 2000, c: 1700} 
+            "LOW CARB": {k: 632, p: 69, c: 49}
         };
 
         function renderCart(savedName = "", savedEmail = "") {
@@ -148,27 +146,30 @@
             for (const [name, data] of Object.entries(grouped)) {
                 totalMoney += data.price * data.count;
                 
-                // LÓGICA DE MACROS PARA PRODUCTOS PERSONALIZADOS (CUSTOM)
-                if (name.includes("CUSTOM")) {
-                    // AJUSTE CRUCIAL: Ahora busca P, A y B según tu nuevo personalizador
-                    const matchPollo = name.match(/(\d+)P/);
-                    const matchArroz = name.match(/\|(\d+)A/);
-                    const matchBrocoli = name.match(/\|(\d+)B/);
-                    const isPlancha = name.includes("PLANCHA");
+                // 1. DETECCIÓN DE MACROS DESDE CUSTOM LAB (Lógica sumatoria desde el string)
+                if (name.includes("TOTAL MACROS:")) {
+                    const matchProt = name.match(/(\d+)P/);
+                    const matchCarb = name.match(/\|(\d+)C/);
+                    const matchKcal = name.match(/(\d+)KCAL/);
                     
-                    const pG = matchPollo ? parseInt(matchPollo[1]) : 0;
-                    const aG = matchArroz ? parseInt(matchArroz[1]) : 0;
-                    const bG = matchBrocoli ? parseInt(matchBrocoli[1]) : 0;
+                    totalProt += (matchProt ? parseInt(matchProt[1]) : 0) * data.count;
+                    totalCarb += (matchCarb ? parseInt(matchCarb[1]) : 0) * data.count;
+                    totalKcal += (matchKcal ? parseInt(matchKcal[1]) : 0) * data.count;
+                } 
+                // 2. DETECCIÓN DE PACKS (5, 15, 28)
+                else if (name.includes("PACKS PERFORMANCE")) {
+                    const matchHC = name.match(/(\d+)HC/);
+                    const matchLC = name.match(/(\d+)LC/);
                     
-                    // Factores de Laboratorio PREPS
-                    const fPK = isPlancha ? 2.03 : 1.1;
-                    const fPP = isPlancha ? 0.31 : 0.23;
+                    const numHC = matchHC ? parseInt(matchHC[1]) : 0;
+                    const numLC = matchLC ? parseInt(matchLC[1]) : 0;
 
-                    // Suma multiplicada por la cantidad (data.count)
-                    totalKcal += ((pG * fPK) + (aG * 1.306) + (bG * 0.32)) * data.count;
-                    totalProt += ((pG * fPP) + (aG * 0.0267) + (bG * 0.03)) * data.count;
-                    totalCarb += ((aG * 0.2867) + (bG * 0.06)) * data.count;
-                } else {
+                    totalKcal += ((numHC * macroDB["HIGH CARB"].k) + (numLC * macroDB["LOW CARB"].k)) * data.count;
+                    totalProt += ((numHC * macroDB["HIGH CARB"].p) + (numLC * macroDB["LOW CARB"].p)) * data.count;
+                    totalCarb += ((numHC * macroDB["HIGH CARB"].c) + (numLC * macroDB["LOW CARB"].c)) * data.count;
+                }
+                // 3. MENÚS ESTÁNDAR
+                else {
                     let key = Object.keys(macroDB).find(k => name.toUpperCase().includes(k));
                     if(key) { 
                         totalKcal += macroDB[key].k * data.count; 
@@ -176,6 +177,7 @@
                         totalCarb += macroDB[key].c * data.count; 
                     }
                 }
+
                 tableRows += `<tr class="cart-row"><td><span style="font-weight:900;">${name}</span></td><td width="120"><div class="qty-controls"><button class="btn-qty" onclick="changeQty('${name}', -1)">-</button><span style="font-weight:900;">${data.count}</span><button class="btn-qty" onclick="changeQty('${name}', 1)">+</button></div></td><td style="text-align:right; font-weight:900;">$${(data.price * data.count).toLocaleString('es-CL')}</td></tr>`;
             }
 
@@ -193,7 +195,7 @@
                     <input type="text" id="cust-name" placeholder="NOMBRE COMPLETO" value="${nameToUse}">
                     <input type="email" id="cust-email" placeholder="CORREO ELECTRÓNICO" value="${emailToUse}">
                     <select id="delivery-method" onchange="toggleDelivery()"><option value="RETIRO">RETIRO LOCAL</option><option value="DELIVERY">DELIVERY</option></select>
-                    <div id="delivery-options" style="display:none; margin-top:15px;"><select id="comuna"><option value="VITACURA">VITACURA</option><option value="LAS CONDES">LAS CONDES</option><option value="PROVIDENCIA">PROVIDENCIA</option><option value="LO BARNECHEA">LO BARNECHEA</option></select></div>
+                    <div id="delivery-options" style="display:none; margin-top:15px;"><select id="comuna"><option value="ENVIO">DELIVERYS Y PUNTOS DE ENCUENTRO (CONSULTAR)</option></select></div>
                 </div>
                 
                 <div class="form-box">
@@ -225,17 +227,9 @@
             const isChecked = document.getElementById('protocol-check').checked;
             const btn = document.getElementById('final-checkout-btn');
             if(isChecked) {
-                btn.disabled = false;
-                btn.style.background = "var(--accent)";
-                btn.style.cursor = "pointer";
-                btn.style.opacity = "1";
-                btn.innerText = "GENERAR TICKET Y PAGAR";
+                btn.disabled = false; btn.style.background = "var(--accent)"; btn.style.cursor = "pointer"; btn.style.opacity = "1"; btn.innerText = "GENERAR TICKET Y PAGAR";
             } else {
-                btn.disabled = true;
-                btn.style.background = "#ccc";
-                btn.style.cursor = "not-allowed";
-                btn.style.opacity = "0.5";
-                btn.innerText = "ACEPTAR PROTOCOLO PARA CONTINUAR";
+                btn.disabled = true; btn.style.background = "#ccc"; btn.style.cursor = "not-allowed"; btn.style.opacity = "0.5"; btn.innerText = "ACEPTAR PROTOCOLO PARA CONTINUAR";
             }
         }
 
@@ -244,9 +238,7 @@
 
         function applyPromo() {
             const code = document.getElementById('promo-code').value.toUpperCase();
-            const currentName = document.getElementById('cust-name').value;
-            const currentEmail = document.getElementById('cust-email').value;
-            if (code === 'MILA10') { discount = 0.10; renderCart(currentName, currentEmail); } else { alert("SISTEMA: CÓDIGO INVÁLIDO"); }
+            if (code === 'MILA10') { discount = 0.10; renderCart(document.getElementById('cust-name').value, document.getElementById('cust-email').value); } else { alert("SISTEMA: CÓDIGO INVÁLIDO"); }
         }
 
         function startProcess() {
@@ -289,7 +281,7 @@
 
         function sendToWhatsApp() {
             localStorage.removeItem('preps_cart');
-            let msg = `Por favor adjuntar archivo descargado para continuar con el proceso.`;
+            let msg = `HOLA PREPS, AQUÍ ESTÁ MI TICKET DE CARGA NUTRICIONAL PARA AGENDAR MI PEDIDO.`;
             window.location.href = `https://wa.me/56941892028?text=${encodeURIComponent(msg)}`;
         }
 
