@@ -123,9 +123,9 @@
         let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
         let discount = 0;
         
-        // VALORES BASE PARA CÁLCULO DE MACROS EN CARRITO
+        // VALORES BASE PARA CÁLCULO DE MACROS EN CARRITO - ACTUALIZADOS
         const macroDB = { 
-            "HIGH CARB": {k: 830, p: 73, c: 92}, 
+            "HIGH CARB": {k: 830, p: 73, c: 90}, 
             "LOW CARB": {k: 632, p: 69, c: 49}
         };
 
@@ -146,7 +146,7 @@
             for (const [name, data] of Object.entries(grouped)) {
                 totalMoney += data.price * data.count;
                 
-                // 1. DETECCIÓN DE MACROS DESDE CUSTOM LAB (Lógica sumatoria desde el string)
+                // 1. DETECCIÓN DE MACROS DESDE CUSTOM LAB
                 if (name.includes("TOTAL MACROS:")) {
                     const matchProt = name.match(/(\d+)P/);
                     const matchCarb = name.match(/\|(\d+)C/);
