@@ -221,13 +221,13 @@
         let prepPollo = 'PLANCHA', conPimienta = true, salGrams = 0, itemQty = 1, selectedColor = '#ffffff';
         const precios = { pollo: 22.47, arroz: 2.08, brocoli: 5.69, base: 3 };
         
-        // VALORES ORIGINALES RESTAURADOS
+        // COEFICIENTES AJUSTADOS PARA COINCIDIR EXACTAMENTE CON LOS MENÚS
         const pollo_macros = { 
-            'PLANCHA': { p: 0.31, c: 0, f: 0.085, k: 2.03 }, 
+            'PLANCHA': { p: 0.315, c: 0, f: 0.075, k: 1.95 }, 
             'COCIDO': { p: 0.23, c: 0, f: 0.02, k: 1.1 } 
         };
-        const arroz_macros = { p: 0.0267, c: 0.2867, f: 0.0067, k: 1.306 };
-        const brocoli_macros = { p: 0.03, c: 0.06, f: 0.004, k: 0.32 };
+        const arroz_macros = { p: 0.03, c: 0.28, f: 0.01, k: 1.32 };
+        const brocoli_macros = { p: 0.01, c: 0.06, f: 0.01, k: 0.44 };
 
         function updateGlobalCartCount() {
             const cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
@@ -238,10 +238,7 @@
             }
         }
 
-        function updateColorPreview(hex) {
-            selectedColor = hex;
-        }
-
+        function updateColorPreview(hex) { selectedColor = hex; }
         function changeSal(v) { salGrams = Math.max(0, Math.min(5, salGrams + v)); update(); }
         function changeQty(v) { itemQty = Math.max(1, Math.min(10, itemQty + v)); update(); }
         
@@ -299,28 +296,28 @@
             const unitPrice = (p * precios.pollo) + (a * precios.arroz) + (b * precios.brocoli) + precios.base;
             const totalPrice = unitPrice * itemQty;
             
-            // CÁLCULOS DE MACROS CON SUMA DE CANTIDAD
-            const prot = ((p * pollo_macros[prepPollo].p) + (a * arroz_macros.p) + (b * brocoli_macros.p)) * itemQty;
-            const carb = ((a * arroz_macros.c) + (b * brocoli_macros.c)) * itemQty;
-            const fat = ((p * pollo_macros[prepPollo].f) + (a * arroz_macros.f) + (b * brocoli_macros.f)) * itemQty;
-            const kcal = ((p * pollo_macros[prepPollo].k) + (a * arroz_macros.k) + (b * brocoli_macros.k)) * itemQty;
+            // CÁLCULOS
+            let prot = ((p * pollo_macros[prepPollo].p) + (a * arroz_macros.p) + (b * brocoli_macros.p));
+            let carb = ((a * arroz_macros.c) + (b * brocoli_macros.c));
+            let fat = ((p * pollo_macros[prepPollo].f) + (a * arroz_macros.f) + (b * brocoli_macros.f));
+            let kcal = ((p * pollo_macros[prepPollo].k) + (a * arroz_macros.k) + (b * brocoli_macros.k));
 
+            // REDONDEO SEGÚN REQUERIMIENTO EXACTO PARA LOS MENÚS STANDAR (SUMA POST-MULTIPLICACIÓN)
             document.getElementById('val-pollo').innerText = p + "G"; 
             document.getElementById('val-arroz').innerText = a + "G"; 
             document.getElementById('val-brocoli').innerText = b + "G"; 
             document.getElementById('val-sal').innerText = salGrams + "G"; 
             document.getElementById('val-qty').innerText = itemQty;
             
-            document.getElementById('m-prot').innerText = Math.round(prot); 
-            document.getElementById('m-carb').innerText = Math.round(carb); 
-            document.getElementById('m-fat').innerText = Math.round(fat); 
-            document.getElementById('m-kcal').innerText = Math.round(kcal);
+            document.getElementById('m-prot').innerText = Math.round(prot * itemQty); 
+            document.getElementById('m-carb').innerText = Math.round(carb * itemQty); 
+            document.getElementById('m-fat').innerText = Math.round(fat * itemQty); 
+            document.getElementById('m-kcal').innerText = Math.round(kcal * itemQty);
             
             document.getElementById('final-price').innerText = "$" + Math.round(totalPrice).toLocaleString('es-CL');
             const isUnderMin = totalPrice < 4000; document.getElementById('add-btn').disabled = isUnderMin; document.getElementById('min-alert').style.display = isUnderMin ? 'block' : 'none';
             
             document.getElementById('active-img').src = `img/${getImgId(p, a, b, prepPollo)}.webp`;
-            
             document.getElementById('protocol-name').innerText = "UNIDAD: " + (p+a+b >= 750 ? "SOBRECARGA" : (p >= 400 && a <= 100 ? "KETO ELITE" : (p+a+b <= 350 ? "BASE LIGERA" : "PERSONALIZADA")));
             const id = ((p/50)*100) + ((a/50)*10) + (b/50) + (prepPollo==='PLANCHA'?500:0);
             document.getElementById('comb-number').innerText = `ID: #${Math.abs(Math.floor(id)).toString().padStart(4, '0')}`;
@@ -332,19 +329,16 @@
             const a = document.getElementById('input-arroz').value;
             const b = document.getElementById('input-brocoli').value;
             const prText = document.getElementById('final-price').innerText;
-            const prNum = parseInt(prText.replace('$', '').replace('.', '')) / itemQty;
             
-            // CAPTURAR MACROS ACTUALES (YA VIENEN MULTIPLICADOS POR CANTIDAD EN EL DOM)
+            // CAPTURAR MACROS EXACTOS DEL DOM
             const totalProt = document.getElementById('m-prot').innerText;
             const totalCarb = document.getElementById('m-carb').innerText;
             const totalFat = document.getElementById('m-fat').innerText;
             const totalKcal = document.getElementById('m-kcal').innerText;
 
-            // NOMBRE CON MACROS REALES SUMADOS
-            const name = `CUSTOM: ${labelName} [${selectedColor}] (${itemQty} UNID) - TOTAL MACROS: ${totalProt}P|${totalCarb}C|${totalFat}F - ${totalKcal}KCAL (${p}P|${a}A|${b}B)`;
+            const name = `CUSTOM: ${labelName} [HEX:${selectedColor}] (${itemQty} UNID) - MACROS: ${totalProt}P|${totalCarb}C|${totalFat}F - ${totalKcal}KCAL (${p}P|${a}A|${b}B)`;
             
             let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
-            // Se añade como un solo ítem que representa el pack de N unidades para mantener los macros sumados en la descripción
             cart.push({ name: name, price: parseInt(prText.replace('$', '').replace('.', '')) }); 
             
             localStorage.setItem('preps_cart', JSON.stringify(cart));
