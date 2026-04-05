@@ -47,6 +47,10 @@
         #live-price { font-family: 'Courier New'; font-size: 32px; margin-bottom: 20px; font-weight: 900; }
         .technical-desc { font-size: 13px; color: #444; margin-bottom: 30px; line-height: 1.5; max-width: 600px; }
         
+        /* ESTILO MACROS DEBAJO DE GRAMOS */
+        .product-macros-row { font-family: 'Inter'; font-weight: 900; font-size: 11px; letter-spacing: 1px; color: #888; margin-bottom: 20px; display: flex; justify-content: center; gap: 15px; }
+        .product-macros-row span { color: #000; }
+
         .config-box { width: 100%; max-width: 450px; margin-bottom: 40px; border: 1px solid #000; background: #fff; padding: 25px; box-sizing: border-box; text-align: left; }
         .config-label { font-family: 'Inter'; font-weight: 900; font-size: 11px; margin-bottom: 15px; display: block; letter-spacing: 1px; color: #888; }
         
@@ -90,7 +94,6 @@
         @media (max-width: 600px) { 
             header { padding: 15px 20px; flex-direction: column; gap: 15px; } 
             .macro-grid { grid-template-columns: repeat(2, 1fr); }
-            /* AJUSTE MÓVIL PARA QUE NO SE DESCUADRE */
             .image-container { max-width: 90vw; height: 90vw; margin-bottom: 20px; }
             .product-title { font-size: 28px; }
         }
@@ -133,9 +136,8 @@
     </div>
 
     <script>
-        // MIGRACIÓN A WEBP
         const db = {
-            highcarb: { id: 'highcarb', name: "POWER BREAST HIGH CARB", price: 5690, imgs: ["img/menu1.webp"], k: "830", p: "73", c: "92", g: "19", grams: "200G POLLO | 300G ARROZ | 100G BRÓCOLI", max: 20 },
+            highcarb: { id: 'highcarb', name: "POWER BREAST HIGH CARB", price: 5690, imgs: ["img/menu1.webp"], k: "830", p: "73", c: "90", g: "19", grams: "200G POLLO | 300G ARROZ | 100G BRÓCOLI", max: 20 },
             lowcarb: { id: 'lowcarb', name: "POWER BREAST LOW CARB", price: 4990, imgs: ["img/menu2.webp"], k: "632", p: "69", c: "49", g: "17", grams: "200G POLLO | 150G ARROZ | 100G BRÓCOLI", max: 20 },
             pack5: { id: 'pack5', name: "05 PACKS PERFORMANCE", price: 24900, imgs: ["img/pack5.png"], total: 5, max: 2 },
             pack15: { id: 'pack15', name: "15 PACKS PERFORMANCE", price: 72900, imgs: ["img/pack15.png"], total: 15, max: 2 },
@@ -197,20 +199,20 @@
                 <div class="image-container"><div class="image-wrapper"><img src="${item.imgs[0]}" loading="eager"></div></div>
                 <div id="live-price">$${item.price.toLocaleString('es-CL')}</div>
                 <h1 class="product-title">${item.name}</h1>
-                <p style="font-family:'Inter'; font-weight:900; font-size:12px; letter-spacing:1px; margin-bottom:10px;">${item.grams || 'SISTEMA DE ALIMENTACIÓN POR VOLUMEN'}</p>
+                <p style="font-family:'Inter'; font-weight:900; font-size:12px; letter-spacing:1px; margin-bottom:5px;">${item.grams || 'SISTEMA DE ALIMENTACIÓN POR VOLUMEN'}</p>
+                
+                ${!isPack ? `
+                <div class="product-macros-row">
+                    <span>${item.p}G PROT</span> | <span>${item.c}G CARB</span> | <span>${item.g}G FAT</span> | <span>${item.k} KCAL</span>
+                </div>
+                ` : ''}
+
                 <p class="technical-desc">POLLO A LA PLANCHA CON ARROZ BLANCO Y BRÓCOLI COCIDO AL DENTE.</p>
                 ${configHTML}
                 <div class="purchase-container">
                     <div class="stepper" style="border:none; border-right:1px solid #000; padding:10px;"><button class="stepper-btn" onclick="stepMain(-1)">-</button><span class="stepper-val" id="val-main">1</span><button class="stepper-btn" onclick="stepMain(1)">+</button></div>
                     <button class="buy-btn-new" onclick="addToCart()">AÑADIR AL CARRO</button>
-                </div>
-                ${!isPack ? `
-                <div class="macro-grid">
-                    <div class="macro-item"><span class="macro-num">${item.k}</span><span class="macro-label">KCAL</span></div>
-                    <div class="macro-item"><span class="macro-num">${item.p}G</span><span class="macro-label">PROT</span></div>
-                    <div class="macro-item"><span class="macro-num">${item.c}G</span><span class="macro-label">CARBS</span></div>
-                    <div class="macro-item"><span class="macro-num">${item.g}G</span><span class="macro-label">FAT</span></div>
-                </div>` : ''}`;
+                </div>`;
         }
 
         function addToCart() {
