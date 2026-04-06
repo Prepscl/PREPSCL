@@ -58,8 +58,10 @@
 
         #console-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; color: var(--neon); padding: 40px; box-sizing: border-box; }
         #console-text { font-family: 'Courier New', monospace; font-size: 14px; text-align: left; max-width: 400px; margin-bottom: 30px; }
-        .btn-wsp-final { background: var(--neon); color: #000; padding: 18px 30px; border: none; font-weight: 900; font-family: 'Inter'; cursor: pointer; display: none; text-decoration: none; font-size: 14px; }
-        .alert-download { font-family: 'Inter'; font-weight: 900; font-size: 20px; color: var(--neon); margin-bottom: 20px; border: 1px solid var(--neon); padding: 10px; text-align: center; }
+        
+        .btn-download-final { background: var(--neon); color: #000; padding: 22px 35px; border: none; font-weight: 900; font-family: 'Inter'; cursor: pointer; margin-bottom: 20px; font-size: 18px; transition: 0.3s; }
+        .btn-download-final:hover { transform: scale(1.05); }
+        .btn-wsp-final { background: transparent; color: var(--neon); padding: 18px 30px; border: 2px solid var(--neon); font-weight: 900; font-family: 'Inter'; cursor: pointer; display: none; text-decoration: none; font-size: 14px; }
 
         #ticket-export { position: absolute; left: -9999px; top: 0; width: 600px; background: #fff; color: #000; padding: 50px; box-sizing: border-box; border: 1px solid #000; }
         .tk-header { border-bottom: 5px solid #000; padding-bottom: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end; }
@@ -91,6 +93,7 @@
     </div>
 
     <div id="console-modal">
+        <button id="btn-trigger-download" class="btn-download-final" onclick="executeDownload()">POR FAVOR DESCARGAR ARCHIVO</button>
         <div id="console-text"></div>
         <button id="btn-goto-wsp" class="btn-wsp-final" onclick="sendToWhatsApp()">CONTINUAR A WHATSAPP</button>
     </div>
@@ -144,13 +147,10 @@
 
             for (const [name, data] of Object.entries(grouped)) {
                 totalMoney += data.price * data.count;
-                
-                // DETECCIÓN DE MACROS (Soporta "MACROS:" y "TOTAL MACROS:")
                 if (name.includes("MACROS:")) {
                     const matchProt = name.match(/(\d+)P/);
                     const matchCarb = name.match(/\|(\d+)C/);
                     const matchKcal = name.match(/(\d+)KCAL/);
-                    
                     totalProt += (matchProt ? parseInt(matchProt[1]) : 0) * data.count;
                     totalCarb += (matchCarb ? parseInt(matchCarb[1]) : 0) * data.count;
                     totalKcal += (matchKcal ? parseInt(matchKcal[1]) : 0) * data.count;
@@ -160,7 +160,6 @@
                     const matchLC = name.match(/(\d+)LC/);
                     const numHC = matchHC ? parseInt(matchHC[1]) : 0;
                     const numLC = matchLC ? parseInt(matchLC[1]) : 0;
-
                     totalKcal += ((numHC * macroDB["HIGH CARB"].k) + (numLC * macroDB["LOW CARB"].k)) * data.count;
                     totalProt += ((numHC * macroDB["HIGH CARB"].p) + (numLC * macroDB["LOW CARB"].p)) * data.count;
                     totalCarb += ((numHC * macroDB["HIGH CARB"].c) + (numLC * macroDB["LOW CARB"].c)) * data.count;
@@ -173,7 +172,6 @@
                         totalCarb += macroDB[key].c * data.count; 
                     }
                 }
-
                 tableRows += `<tr class="cart-row"><td><span style="font-weight:900;">${name}</span></td><td width="120"><div class="qty-controls"><button class="btn-qty" onclick="changeQty('${name}', -1)">-</button><span style="font-weight:900;">${data.count}</span><button class="btn-qty" onclick="changeQty('${name}', 1)">+</button></div></td><td style="text-align:right; font-weight:900;">$${(data.price * data.count).toLocaleString('es-CL')}</td></tr>`;
             }
 
@@ -193,15 +191,13 @@
                     <select id="delivery-method" onchange="toggleDelivery()"><option value="RETIRO">RETIRO LOCAL</option><option value="DELIVERY">DELIVERY</option></select>
                     <div id="delivery-options" style="display:none; margin-top:15px;"><select id="comuna"><option value="ENVIO">DELIVERYS Y PUNTOS DE ENCUENTRO (CONSULTAR)</option></select></div>
                 </div>
-                
                 <div class="form-box">
                     <span class="form-label">[VALIDACIÓN DE PROTOCOLO]</span>
                     <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; text-transform: uppercase; font-size: 11px; line-height: 1.5;">
                         <input type="checkbox" id="protocol-check" onchange="toggleCheckoutBtn()" style="width: 20px; height: 20px; margin: 0; accent-color: var(--neon); cursor: pointer;">
-                        <span>HE LEÍDO Y ACEPTO EL <a href="protocolo.html" target="_blank" style="color: #000; font-weight: 900;">PROTOCOLO DE OPERACIÓN</a> (TIEMPOS DE PREPARACIÓN Y CADENA DE FRÍO).</span>
+                        <span>HE LEÍDO Y ACEPTO EL <a href="protocolo.html" target="_blank" style="color: #000; font-weight: 900;">PROTOCOLO DE OPERACIÓN</a>.</span>
                     </label>
                 </div>
-
                 <div class="form-box">
                     <span class="form-label">[CÓDIGO DE DESCUENTO]</span>
                     <div class="promo-group">
@@ -215,7 +211,6 @@
                     <button class="btn-checkout" id="final-checkout-btn" onclick="startProcess()" disabled style="background: #ccc; cursor: not-allowed; opacity: 0.5;">ACEPTAR PROTOCOLO PARA CONTINUAR</button>
                 </div>
             `;
-
             setTimeout(() => { document.getElementById('progress-bar').style.width = Math.min((cart.length / 12) * 100, 100) + "%"; }, 100);
         }
 
@@ -241,12 +236,16 @@
             const name = document.getElementById('cust-name').value;
             const email = document.getElementById('cust-email').value;
             if(!name || !email) { alert("DATOS INCOMPLETOS"); return; }
-            const modal = document.getElementById('console-modal');
+            document.getElementById('console-modal').style.display = 'flex';
+        }
+
+        function executeDownload() {
+            const name = document.getElementById('cust-name').value;
+            const email = document.getElementById('cust-email').value;
             const text = document.getElementById('console-text');
-            modal.style.display = 'flex';
-            text.innerHTML = "<div class='alert-download'>POR FAVOR DESCARGAR ARCHIVO.</div><br>";
-            text.innerHTML += "> INICIANDO PROTOCOLO PREPS...<br>";
-            setTimeout(() => { text.innerHTML += "> COMPILANDO ORDEN VISUAL...<br>"; generateTicket(name, email); }, 500);
+            text.innerHTML = "> INICIANDO PROTOCOLO PREPS...<br>> COMPILANDO ORDEN VISUAL...<br>";
+            
+            generateTicket(name, email);
         }
 
         function generateTicket(name, email) {
@@ -263,21 +262,23 @@
             const grouped = cart.reduce((acc, item) => { acc[item.name] = acc[item.name] || { count: 0, price: item.price }; acc[item.name].count++; return acc; }, {});
             body.innerHTML = "";
             for (const [n, data] of Object.entries(grouped)) { body.innerHTML += `<tr><td>${n}</td><td align="center">${data.count}</td><td align="right">$${(data.price * data.count).toLocaleString('es-CL')}</td></tr>`; }
+            
             html2canvas(ticket, { scale: 2 }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = `PREPS-TICKET-${name.split(' ')[0]}.png`;
                 link.href = canvas.toDataURL();
                 link.click();
+                
                 const text = document.getElementById('console-text');
-                text.innerHTML += "> TICKET DESCARGADO CON ÉXITO.<br>";
-                text.innerHTML += "<br>> ADJUNTA LA IMAGEN EN EL SIGUIENTE PASO.";
+                text.innerHTML += "> TICKET DESCARGADO CON ÉXITO.<br><br>> ADJUNTA LA IMAGEN EN EL SIGUIENTE PASO.";
                 document.getElementById('btn-goto-wsp').style.display = 'block';
+                document.getElementById('btn-trigger-download').style.display = 'none';
             });
         }
 
         function sendToWhatsApp() {
             localStorage.removeItem('preps_cart');
-            let msg = `HOLA PREPS, AQUÍ ESTÁ MI TICKET DE CARGA NUTRICIONAL PARA AGENDAR MI PEDIDO.`;
+            let msg = `HOLA PREPS, POR FAVOR MANDAR TICKET PREVIAMENTE DESCARGADO PARA AGENDAR MI PEDIDO.`;
             window.location.href = `https://wa.me/56941892028?text=${encodeURIComponent(msg)}`;
         }
 
