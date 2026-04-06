@@ -63,6 +63,10 @@
         .btn-download-final:hover { transform: scale(1.05); }
         .btn-wsp-final { background: transparent; color: var(--neon); padding: 18px 30px; border: 2px solid var(--neon); font-weight: 900; font-family: 'Inter'; cursor: pointer; display: none; text-decoration: none; font-size: 14px; }
 
+        /* FIX PARA INSTAGRAM: VISUALIZACIÓN DEL TICKET GENERADO */
+        #ticket-preview-container { display: none; width: 100%; max-width: 300px; margin-top: 20px; border: 2px solid var(--neon); }
+        #ticket-preview-img { width: 100%; height: auto; display: block; }
+
         #ticket-export { position: absolute; left: -9999px; top: 0; width: 600px; background: #fff; color: #000; padding: 50px; box-sizing: border-box; border: 1px solid #000; }
         .tk-header { border-bottom: 5px solid #000; padding-bottom: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end; }
         .tk-logo { height: 60px; }
@@ -93,8 +97,12 @@
     </div>
 
     <div id="console-modal">
-        <button id="btn-trigger-download" class="btn-download-final" onclick="executeDownload()">POR FAVOR DESCARGAR ARCHIVO</button>
+        <button id="btn-trigger-download" class="btn-download-final" onclick="executeDownload()">GENERAR TICKET DE CARGA</button>
         <div id="console-text"></div>
+        <div id="ticket-preview-container">
+            <img id="ticket-preview-img" src="" alt="Ticket Preps">
+            <p style="font-size: 9px; color: var(--neon); margin-top: 10px; text-align: center;">MANTÉN PRESIONADA LA IMAGEN PARA GUARDARLA</p>
+        </div>
         <button id="btn-goto-wsp" class="btn-wsp-final" onclick="sendToWhatsApp()">CONTINUAR A WHATSAPP</button>
     </div>
 
@@ -264,13 +272,20 @@
             for (const [n, data] of Object.entries(grouped)) { body.innerHTML += `<tr><td>${n}</td><td align="center">${data.count}</td><td align="right">$${(data.price * data.count).toLocaleString('es-CL')}</td></tr>`; }
             
             html2canvas(ticket, { scale: 2 }).then(canvas => {
+                const dataUrl = canvas.toDataURL("image/png");
+                
+                // Mostrar vista previa para Instagram
+                document.getElementById('ticket-preview-img').src = dataUrl;
+                document.getElementById('ticket-preview-container').style.display = 'block';
+                
+                // Intento de descarga automática (funciona en Chrome/Safari normal)
                 const link = document.createElement('a');
                 link.download = `PREPS-TICKET-${name.split(' ')[0]}.png`;
-                link.href = canvas.toDataURL();
+                link.href = dataUrl;
                 link.click();
                 
                 const text = document.getElementById('console-text');
-                text.innerHTML += "> TICKET DESCARGADO CON ÉXITO.<br><br>> ADJUNTA LA IMAGEN EN EL SIGUIENTE PASO.";
+                text.innerHTML += "> TICKET GENERADO CON ÉXITO.<br><br>> SI NO SE DESCARGÓ, GUARDA LA IMAGEN DE ABAJO.";
                 document.getElementById('btn-goto-wsp').style.display = 'block';
                 document.getElementById('btn-trigger-download').style.display = 'none';
             });
@@ -278,7 +293,7 @@
 
         function sendToWhatsApp() {
             localStorage.removeItem('preps_cart');
-            let msg = `HOLA SOMOS PREPS, POR FAVOR MANDAR TICKET PREVIAMENTE DESCARGADO PARA PODER TOMAR SU PEDIDO.`;
+            let msg = `HOLA SOMOS PREPS, POR FAVOR MANDAR TICKET PREVIAMENTE DESCARGADO O GUARDADO PARA PODER TOMAR SU PEDIDO.`;
             window.location.href = `https://wa.me/56941892028?text=${encodeURIComponent(msg)}`;
         }
 
