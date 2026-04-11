@@ -63,7 +63,6 @@
         .btn-download-final:hover { transform: scale(1.05); }
         .btn-wsp-final { background: transparent; color: var(--neon); padding: 18px 30px; border: 2px solid var(--neon); font-weight: 900; font-family: 'Inter'; cursor: pointer; display: none; text-decoration: none; font-size: 14px; }
 
-        /* FIX PARA INSTAGRAM: VISUALIZACIÓN DEL TICKET GENERADO */
         #ticket-preview-container { display: none; width: 100%; max-width: 300px; margin-top: 20px; border: 2px solid var(--neon); }
         #ticket-preview-img { width: 100%; height: auto; display: block; }
 
@@ -253,6 +252,26 @@
             const text = document.getElementById('console-text');
             text.innerHTML = "> INICIANDO PROTOCOLO PREPS...<br>> COMPILANDO ORDEN VISUAL...<br>";
             
+            // FUNCIÓN DE NOTIFICACIÓN SILENCIOSA A FORMSPREE
+            const method = document.getElementById('delivery-method').value;
+            const total = document.getElementById('display-total').innerText;
+            const grouped = cart.reduce((acc, item) => { acc[item.name] = acc[item.name] || { count: 0 }; acc[item.name].count++; return acc; }, {});
+            
+            let orderDetails = "";
+            for (const [n, d] of Object.entries(grouped)) { orderDetails += `- ${d.count}x ${n}\n`; }
+
+            fetch("https://formspree.io/f/xjgpnkky", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    cliente: name,
+                    email: email,
+                    entrega: method,
+                    pedido: orderDetails,
+                    total_venta: total
+                })
+            }).catch(err => console.log("Notificación manual enviada."));
+
             generateTicket(name, email);
         }
 
@@ -273,12 +292,9 @@
             
             html2canvas(ticket, { scale: 2 }).then(canvas => {
                 const dataUrl = canvas.toDataURL("image/png");
-                
-                // Mostrar vista previa para Instagram
                 document.getElementById('ticket-preview-img').src = dataUrl;
                 document.getElementById('ticket-preview-container').style.display = 'block';
                 
-                // Intento de descarga automática (funciona en Chrome/Safari normal)
                 const link = document.createElement('a');
                 link.download = `PREPS-TICKET-${name.split(' ')[0]}.png`;
                 link.href = dataUrl;
