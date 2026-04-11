@@ -291,23 +291,31 @@
                 }
             }
 
-            // ENVIAR CORREO PRIMERO Y ESPERAR RESPUESTA (ASYNC/AWAIT)
             try {
-                await fetch("https://formspree.io/f/xjgpnkky", {
+                const response = await fetch("https://formspree.io/f/xjgpnkky", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    headers: { 
+                        "Content-Type": "application/json",
+                        "Accept": "application/json" 
+                    },
                     body: JSON.stringify({
-                        ORDEN: "#PRP-" + Math.floor(Math.random()*9000+1000),
-                        CLIENTE: name.toUpperCase(),
-                        EMAIL: email.toUpperCase(),
-                        ENTREGA: method,
-                        HOJA_DE_COCINA: comandaTecnica,
-                        TOTAL_VENTA: total
+                        email: email,
+                        nombre_cliente: name.toUpperCase(),
+                        entrega: method,
+                        hoja_cocina: comandaTecnica,
+                        total_final: total,
+                        _subject: "NUEVA ORDEN LABORATORIO: " + name.toUpperCase()
                     })
                 });
-                text.innerHTML += "> COMANDA ENVIADA AL LABORATORIO.<br>";
+                
+                if(response.ok) {
+                    text.innerHTML += "> COMANDA ENVIADA AL LABORATORIO.<br>";
+                } else {
+                    text.innerHTML += "> ERROR EN SERVIDOR DE CORREO.<br>";
+                }
             } catch (err) {
-                console.log("Error de red, pero continuando...");
+                text.innerHTML += "> ERROR DE CONEXIÓN, CONTINUANDO...<br>";
+                console.log(err);
             }
 
             generateTicket(name, email);
