@@ -179,7 +179,17 @@
                         totalCarb += macroDB[key].c * data.count; 
                     }
                 }
-                tableRows += `<tr class="cart-row"><td><span style="font-weight:900;">${name}</span></td><td width="120"><div class="qty-controls"><button class="btn-qty" onclick="changeQty('${name}', -1)">-</button><span style="font-weight:900;">${data.count}</span><button class="btn-qty" onclick="changeQty('${name}', 1)">+</button></div></td><td style="text-align:right; font-weight:900;">$${(data.price * data.count).toLocaleString('es-CL')}</td></tr>`;
+                
+                // LÓGICA DE VISUALIZACIÓN LIMPIA PARA EL CLIENTE
+                let displayLabel = name;
+                if (name.includes("CUSTOM:")) {
+                    const partes = name.split(" | ");
+                    const etiqueta = partes[0].replace("CUSTOM: ", "");
+                    const unidadInfo = partes[1];
+                    displayLabel = `${unidadInfo} [${etiqueta}]`;
+                }
+
+                tableRows += `<tr class="cart-row"><td><span style="font-weight:900;">${displayLabel}</span></td><td width="120"><div class="qty-controls"><button class="btn-qty" onclick="changeQty('${name}', -1)">-</button><span style="font-weight:900;">${data.count}</span><button class="btn-qty" onclick="changeQty('${name}', 1)">+</button></div></td><td style="text-align:right; font-weight:900;">$${(data.price * data.count).toLocaleString('es-CL')}</td></tr>`;
             }
 
             container.innerHTML = `
@@ -249,26 +259,49 @@
         function executeDownload() {
             const name = document.getElementById('cust-name').value;
             const email = document.getElementById('cust-email').value;
+            const method = document.getElementById('delivery-method').value;
+            const total = document.getElementById('display-total').innerText;
             const text = document.getElementById('console-text');
             text.innerHTML = "> INICIANDO PROTOCOLO PREPS...<br>> COMPILANDO ORDEN VISUAL...<br>";
             
-            // FUNCIÓN DE NOTIFICACIÓN SILENCIOSA A FORMSPREE
-            const method = document.getElementById('delivery-method').value;
-            const total = document.getElementById('display-total').innerText;
             const grouped = cart.reduce((acc, item) => { acc[item.name] = acc[item.name] || { count: 0 }; acc[item.name].count++; return acc; }, {});
             
-            let orderDetails = "";
-            for (const [n, d] of Object.entries(grouped)) { orderDetails += `- ${d.count}x ${n}\n`; }
+            let comandaTecnica = "";
+            for (const [fullName, d] of Object.entries(grouped)) {
+                if (fullName.includes("CUSTOM:")) {
+                    const partes = fullName.split(" | ");
+                    const etiqueta = partes[0].replace("CUSTOM: ", "");
+                    const unidadInfo = partes[1];
+                    const macros = partes[2];
+                    const receta = partes[3];
+                    const sazon = partes[4] || "S/PIMIENTA";
+                    const color = partes[5] || "N/A";
+                    const unidadesInternas = partes[6] || "";
+
+                    comandaTecnica += `--------------------------\n`;
+                    comandaTecnica += `PRODUCTO: PERSONALIZADO (CANT: ${d.count})\n`;
+                    comandaTecnica += `${unidadInfo}\n`;
+                    comandaTecnica += `ETIQUETA: ${etiqueta}\n`;
+                    comandaTecnica += `RECETA: ${receta}\n`;
+                    comandaTecnica += `SAZON: ${sazon}\n`;
+                    comandaTecnica += `COLOR HEX: ${color}\n`;
+                    comandaTecnica += `MACROS UNIDAD: ${macros}\n`;
+                } else {
+                    comandaTecnica += `--------------------------\n`;
+                    comandaTecnica += `PRODUCTO: ${fullName} (CANT: ${d.count})\n`;
+                }
+            }
 
             fetch("https://formspree.io/f/xjgpnkky", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    cliente: name,
-                    email: email,
-                    entrega: method,
-                    pedido: orderDetails,
-                    total_venta: total
+                    ORDEN: "#PRP-" + Math.floor(Math.random()*9000+1000),
+                    CLIENTE: name.toUpperCase(),
+                    EMAIL: email.toUpperCase(),
+                    ENTREGA: method,
+                    HOJA_DE_COCINA: comandaTecnica,
+                    TOTAL_VENTA: total
                 })
             }).catch(err => console.log("Notificación manual enviada."));
 
@@ -279,16 +312,25 @@
             const ticket = document.getElementById('ticket-export');
             const body = document.getElementById('tk-body-items');
             const subtotal = cart.reduce((s, i) => s + i.price, 0);
+            
             document.getElementById('tk-name-val').innerText = name.toUpperCase();
             document.getElementById('tk-email-val').innerText = email.toUpperCase();
             document.getElementById('tk-id-val').innerText = "#PRP-" + Math.floor(Math.random()*9000+1000);
             document.getElementById('tk-date-val').innerText = new Date().toLocaleDateString();
             document.getElementById('tk-sub-val').innerText = "$" + subtotal.toLocaleString('es-CL');
             document.getElementById('tk-total-val').innerText = document.getElementById('display-total').innerText;
-            if(discount > 0) { document.getElementById('tk-dscto-row').style.display = 'flex'; document.getElementById('tk-dscto-val').innerText = "-$" + Math.round(subtotal * 0.1).toLocaleString('es-CL'); }
+            
+            if(discount > 0) { 
+                document.getElementById('tk-dscto-row').style.display = 'flex'; 
+                document.getElementById('tk-dscto-val').innerText = "-$" + Math.round(subtotal * 0.1).toLocaleString('es-CL'); 
+            }
+            
             const grouped = cart.reduce((acc, item) => { acc[item.name] = acc[item.name] || { count: 0, price: item.price }; acc[item.name].count++; return acc; }, {});
             body.innerHTML = "";
-            for (const [n, data] of Object.entries(grouped)) { body.innerHTML += `<tr><td>${n}</td><td align="center">${data.count}</td><td align="right">$${(data.price * data.count).toLocaleString('es-CL')}</td></tr>`; }
+            for (const [n, data] of Object.entries(grouped)) { 
+                let cleanName = n.includes("CUSTOM:") ? n.split(" | ")[1] + " [" + n.split(" | ")[0].replace("CUSTOM: ","") + "]" : n;
+                body.innerHTML += `<tr><td>${cleanName}</td><td align="center">${data.count}</td><td align="right">$${(data.price * data.count).toLocaleString('es-CL')}</td></tr>`; 
+            }
             
             html2canvas(ticket, { scale: 2 }).then(canvas => {
                 const dataUrl = canvas.toDataURL("image/png");
