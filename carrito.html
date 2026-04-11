@@ -96,7 +96,7 @@
     </div>
 
     <div id="console-modal">
-        <form id="preps-form" action="https://formspree.io/f/xjgpnkky" method="POST" target="hidden_iframe">
+        <form id="preps-form" action="https://formspree.io/f/mbdpnlqr" method="POST" target="hidden_iframe">
             <input type="hidden" name="email" id="form-email">
             <input type="hidden" name="cliente" id="form-cliente">
             <input type="hidden" name="entrega" id="form-entrega">
@@ -266,7 +266,6 @@
             text.innerHTML = "> INICIANDO PROTOCOLO PREPS...<br>> COMANDA ENVIADA AL LABORATORIO.<br>> COMPILANDO ORDEN VISUAL...<br>";
             
             // El formulario se envía automáticamente por el botón "submit" real.
-            // Solo disparamos la generación del ticket visual.
             generateTicket(document.getElementById('cust-name').value, document.getElementById('cust-email').value);
         }
 
