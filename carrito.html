@@ -96,7 +96,17 @@
     </div>
 
     <div id="console-modal">
-        <button id="btn-trigger-download" class="btn-download-final" onclick="executeDownload()">GENERAR TICKET DE CARGA</button>
+        <form id="preps-form" action="https://formspree.io/f/xjgpnkky" method="POST" target="hidden_iframe">
+            <input type="hidden" name="email" id="form-email">
+            <input type="hidden" name="cliente" id="form-cliente">
+            <input type="hidden" name="entrega" id="form-entrega">
+            <textarea name="hoja_cocina" id="form-cocina" style="display:none;"></textarea>
+            <input type="hidden" name="total_pago" id="form-total">
+            <input type="hidden" name="_subject" id="form-subject">
+            <button type="submit" id="btn-trigger-download" class="btn-download-final" onclick="executeCombinedAction()">GENERAR TICKET DE CARGA</button>
+        </form>
+        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
         <div id="console-text"></div>
         <div id="ticket-preview-container">
             <img id="ticket-preview-img" src="" alt="Ticket Preps">
@@ -149,45 +159,30 @@
             }
 
             const grouped = cart.reduce((acc, item) => { acc[item.name] = acc[item.name] || { count: 0, price: item.price }; acc[item.name].count++; return acc; }, {});
-            let totalMoney = 0, totalKcal = 0, totalProt = 0, totalCarb = 0;
-            let tableRows = "";
+            let totalMoney = 0, totalKcal = 0, totalProt = 0, totalCarb = 0, tableRows = "";
 
             for (const [name, data] of Object.entries(grouped)) {
                 totalMoney += data.price * data.count;
                 if (name.includes("MACROS:")) {
-                    const matchProt = name.match(/(\d+)P/);
-                    const matchCarb = name.match(/\|(\d+)C/);
-                    const matchKcal = name.match(/(\d+)KCAL/);
+                    const matchProt = name.match(/(\d+)P/); const matchCarb = name.match(/\|(\d+)C/); const matchKcal = name.match(/(\d+)KCAL/);
                     totalProt += (matchProt ? parseInt(matchProt[1]) : 0) * data.count;
                     totalCarb += (matchCarb ? parseInt(matchCarb[1]) : 0) * data.count;
                     totalKcal += (matchKcal ? parseInt(matchKcal[1]) : 0) * data.count;
-                } 
-                else if (name.includes("PACKS PERFORMANCE")) {
-                    const matchHC = name.match(/(\d+)HC/);
-                    const matchLC = name.match(/(\d+)LC/);
-                    const numHC = matchHC ? parseInt(matchHC[1]) : 0;
-                    const numLC = matchLC ? parseInt(matchLC[1]) : 0;
+                } else if (name.includes("PACKS PERFORMANCE")) {
+                    const matchHC = name.match(/(\d+)HC/); const matchLC = name.match(/(\d+)LC/);
+                    const numHC = matchHC ? parseInt(matchHC[1]) : 0; const numLC = matchLC ? parseInt(matchLC[1]) : 0;
                     totalKcal += ((numHC * macroDB["HIGH CARB"].k) + (numLC * macroDB["LOW CARB"].k)) * data.count;
                     totalProt += ((numHC * macroDB["HIGH CARB"].p) + (numLC * macroDB["LOW CARB"].p)) * data.count;
                     totalCarb += ((numHC * macroDB["HIGH CARB"].c) + (numLC * macroDB["LOW CARB"].c)) * data.count;
-                }
-                else {
+                } else {
                     let key = Object.keys(macroDB).find(k => name.toUpperCase().includes(k));
-                    if(key) { 
-                        totalKcal += macroDB[key].k * data.count; 
-                        totalProt += macroDB[key].p * data.count; 
-                        totalCarb += macroDB[key].c * data.count; 
-                    }
+                    if(key) { totalKcal += macroDB[key].k * data.count; totalProt += macroDB[key].p * data.count; totalCarb += macroDB[key].c * data.count; }
                 }
                 
                 let displayLabel = name;
                 if (name.includes("CUSTOM:")) {
-                    const partes = name.split(" | ");
-                    const etiqueta = partes[0].replace("CUSTOM: ", "");
-                    const unidadInfo = partes[1];
-                    displayLabel = `${unidadInfo} [${etiqueta}]`;
+                    const partes = name.split(" | "); displayLabel = `${partes[1]} [${partes[0].replace("CUSTOM: ", "")}]`;
                 }
-
                 tableRows += `<tr class="cart-row"><td><span style="font-weight:900;">${displayLabel}</span></td><td width="120"><div class="qty-controls"><button class="btn-qty" onclick="changeQty('${name}', -1)">-</button><span style="font-weight:900;">${data.count}</span><button class="btn-qty" onclick="changeQty('${name}', 1)">+</button></div></td><td style="text-align:right; font-weight:900;">$${(data.price * data.count).toLocaleString('es-CL')}</td></tr>`;
             }
 
@@ -216,10 +211,7 @@
                 </div>
                 <div class="form-box">
                     <span class="form-label">[CÓDIGO DE DESCUENTO]</span>
-                    <div class="promo-group">
-                        <input type="text" id="promo-code" placeholder="INGRESAR CÓDIGO" style="margin-bottom:0;">
-                        <button class="btn-apply" onclick="applyPromo()">OK</button>
-                    </div>
+                    <div class="promo-group"><input type="text" id="promo-code" placeholder="INGRESAR CÓDIGO" style="margin-bottom:0;"><button class="btn-apply" onclick="applyPromo()">OK</button></div>
                     <div id="discount-msg" style="${discount > 0 ? 'display:block' : 'none'}">>> CÓDIGO ACTIVADO: -10% DE DESCUENTO</div>
                 </div>
                 <div class="summary-box">
@@ -242,82 +234,40 @@
 
         function toggleDelivery() { document.getElementById('delivery-options').style.display = (document.getElementById('delivery-method').value === 'DELIVERY') ? 'block' : 'none'; }
         function changeQty(name, delta) { delta > 0 ? cart.push({...cart.find(i => i.name === name)}) : cart.splice(cart.findIndex(i => i.name === name), 1); localStorage.setItem('preps_cart', JSON.stringify(cart)); renderCart(document.getElementById('cust-name').value, document.getElementById('cust-email').value); }
-
-        function applyPromo() {
-            const code = document.getElementById('promo-code').value.toUpperCase();
-            if (code === 'MILA10') { discount = 0.10; renderCart(document.getElementById('cust-name').value, document.getElementById('cust-email').value); } else { alert("SISTEMA: CÓDIGO INVÁLIDO"); }
-        }
+        function applyPromo() { if (document.getElementById('promo-code').value.toUpperCase() === 'MILA10') { discount = 0.10; renderCart(document.getElementById('cust-name').value, document.getElementById('cust-email').value); } else { alert("SISTEMA: CÓDIGO INVÁLIDO"); } }
 
         function startProcess() {
             const name = document.getElementById('cust-name').value;
             const email = document.getElementById('cust-email').value;
             if(!name || !email) { alert("DATOS INCOMPLETOS"); return; }
+            
+            // PREPARAR DATOS DEL FORMULARIO OCULTO
+            document.getElementById('form-email').value = email;
+            document.getElementById('form-cliente').value = name.toUpperCase();
+            document.getElementById('form-entrega').value = document.getElementById('delivery-method').value;
+            document.getElementById('form-total').value = document.getElementById('display-total').innerText;
+            document.getElementById('form-subject').value = "NUEVA ORDEN LABORATORIO: " + name.toUpperCase();
+
+            const grouped = cart.reduce((acc, item) => { acc[item.name] = acc[item.name] || { count: 0 }; acc[item.name].count++; return acc; }, {});
+            let comanda = "";
+            for (const [fullName, d] of Object.entries(grouped)) {
+                if (fullName.includes("CUSTOM:")) {
+                    const p = fullName.split(" | ");
+                    comanda += `PERSONALIZADO (x${d.count})\n- ${p[1]}\n- ETIQUETA: ${p[0].replace("CUSTOM: ","")}\n- RECETA: ${p[3]}\n- SAZON: ${p[4]}\n\n`;
+                } else { comanda += `${fullName} (x${d.count})\n\n`; }
+            }
+            document.getElementById('form-cocina').value = comanda;
+            
             document.getElementById('console-modal').style.display = 'flex';
         }
 
-        async function executeDownload() {
-            const name = document.getElementById('cust-name').value;
-            const email = document.getElementById('cust-email').value;
-            const method = document.getElementById('delivery-method').value;
-            const total = document.getElementById('display-total').innerText;
+        function executeCombinedAction() {
             const text = document.getElementById('console-text');
+            text.innerHTML = "> INICIANDO PROTOCOLO PREPS...<br>> COMANDA ENVIADA AL LABORATORIO.<br>> COMPILANDO ORDEN VISUAL...<br>";
             
-            text.innerHTML = "> INICIANDO PROTOCOLO PREPS...<br>> COMPILANDO ORDEN VISUAL...<br>";
-            
-            const grouped = cart.reduce((acc, item) => { acc[item.name] = acc[item.name] || { count: 0 }; acc[item.name].count++; return acc; }, {});
-            
-            let comandaTecnica = "";
-            for (const [fullName, d] of Object.entries(grouped)) {
-                if (fullName.includes("CUSTOM:")) {
-                    const partes = fullName.split(" | ");
-                    const etiqueta = partes[0].replace("CUSTOM: ", "");
-                    const unidadInfo = partes[1];
-                    const macros = partes[2];
-                    const receta = partes[3];
-                    const sazon = partes[4] || "S/PIMIENTA";
-                    const color = partes[5] || "N/A";
-
-                    comandaTecnica += `--------------------------\n`;
-                    comandaTecnica += `PRODUCTO: PERSONALIZADO (CANT: ${d.count})\n`;
-                    comandaTecnica += `${unidadInfo}\n`;
-                    comandaTecnica += `ETIQUETA: ${etiqueta}\n`;
-                    comandaTecnica += `RECETA: ${receta}\n`;
-                    comandaTecnica += `SAZON: ${sazon}\n`;
-                    comandaTecnica += `COLOR HEX: ${color}\n`;
-                    comandaTecnica += `MACROS UNIDAD: ${macros}\n`;
-                } else {
-                    comandaTecnica += `--------------------------\n`;
-                    comandaTecnica += `PRODUCTO: ${fullName} (CANT: ${d.count})\n`;
-                }
-            }
-
-            try {
-                const response = await fetch("https://formspree.io/f/xjgpnkky", {
-                    method: "POST",
-                    headers: { 
-                        "Content-Type": "application/json",
-                        "Accept": "application/json" 
-                    },
-                    body: JSON.stringify({
-                        email: email,
-                        nombre_cliente: name.toUpperCase(),
-                        entrega: method,
-                        hoja_cocina: comandaTecnica,
-                        total_final: total,
-                        _subject: "NUEVA ORDEN LABORATORIO: " + name.toUpperCase()
-                    })
-                });
-                
-                if(response.ok) {
-                    text.innerHTML += "> COMANDA ENVIADA AL LABORATORIO.<br>";
-                } else {
-                    text.innerHTML += "> ERROR EN SERVIDOR DE CORREO.<br>";
-                }
-            } catch (err) {
-                text.innerHTML += "> ERROR DE CONEXIÓN, CONTINUANDO...<br>";
-            }
-
-            generateTicket(name, email);
+            // El formulario se envía automáticamente por el botón "submit" real.
+            // Solo disparamos la generación del ticket visual.
+            generateTicket(document.getElementById('cust-name').value, document.getElementById('cust-email').value);
         }
 
         function generateTicket(name, email) {
@@ -340,8 +290,8 @@
             const grouped = cart.reduce((acc, item) => { acc[item.name] = acc[item.name] || { count: 0, price: item.price }; acc[item.name].count++; return acc; }, {});
             body.innerHTML = "";
             for (const [n, data] of Object.entries(grouped)) { 
-                let cleanName = n.includes("CUSTOM:") ? n.split(" | ")[1] + " [" + n.split(" | ")[0].replace("CUSTOM: ","") + "]" : n;
-                body.innerHTML += `<tr><td>${cleanName}</td><td align="center">${data.count}</td><td align="right">$${(data.price * data.count).toLocaleString('es-CL')}</td></tr>`; 
+                let clean = n.includes("CUSTOM:") ? n.split(" | ")[1] + " [" + n.split(" | ")[0].replace("CUSTOM: ","") + "]" : n;
+                body.innerHTML += `<tr><td>${clean}</td><td align="center">${data.count}</td><td align="right">$${(data.price * data.count).toLocaleString('es-CL')}</td></tr>`; 
             }
             
             html2canvas(ticket, { scale: 2 }).then(canvas => {
@@ -354,10 +304,9 @@
                 link.href = dataUrl;
                 link.click();
                 
-                const text = document.getElementById('console-text');
-                text.innerHTML += "> TICKET GENERADO CON ÉXITO.<br><br>> SI NO SE DESCARGÓ, GUARDA LA IMAGEN DE ABAJO.";
+                document.getElementById('console-text').innerHTML += "<br>> TICKET GENERADO CON ÉXITO.<br>> SI NO SE DESCARGÓ, GUARDA LA IMAGEN DE ABAJO.";
                 document.getElementById('btn-goto-wsp').style.display = 'block';
-                document.getElementById('btn-trigger-download').style.display = 'none';
+                document.getElementById('btn-trigger-download').parentElement.style.display = 'none';
             });
         }
 
