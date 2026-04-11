@@ -221,7 +221,6 @@
         let prepPollo = 'PLANCHA', conPimienta = true, salGrams = 0, itemQty = 1, selectedColor = '#ffffff';
         const precios = { pollo: 22.47, arroz: 2.08, brocoli: 5.69, base: 3 };
         
-        // COEFICIENTES AJUSTADOS PARA COINCIDIR EXACTAMENTE CON LOS MENÚS
         const pollo_macros = { 
             'PLANCHA': { p: 0.315, c: 0, f: 0.075, k: 1.95 }, 
             'COCIDO': { p: 0.23, c: 0, f: 0.02, k: 1.1 } 
@@ -296,13 +295,11 @@
             const unitPrice = (p * precios.pollo) + (a * precios.arroz) + (b * precios.brocoli) + precios.base;
             const totalPrice = unitPrice * itemQty;
             
-            // CÁLCULOS
             let prot = ((p * pollo_macros[prepPollo].p) + (a * arroz_macros.p) + (b * brocoli_macros.p));
             let carb = ((a * arroz_macros.c) + (b * brocoli_macros.c));
             let fat = ((p * pollo_macros[prepPollo].f) + (a * arroz_macros.f) + (b * brocoli_macros.f));
             let kcal = ((p * pollo_macros[prepPollo].k) + (a * arroz_macros.k) + (b * brocoli_macros.k));
 
-            // REDONDEO SEGÚN REQUERIMIENTO EXACTO PARA LOS MENÚS STANDAR (SUMA POST-MULTIPLICACIÓN)
             document.getElementById('val-pollo').innerText = p + "G"; 
             document.getElementById('val-arroz').innerText = a + "G"; 
             document.getElementById('val-brocoli').innerText = b + "G"; 
@@ -328,15 +325,19 @@
             const p = document.getElementById('input-pollo').value;
             const a = document.getElementById('input-arroz').value;
             const b = document.getElementById('input-brocoli').value;
+            const unitName = document.getElementById('protocol-name').innerText; 
+            const unitID = document.getElementById('comb-number').innerText; 
             const prText = document.getElementById('final-price').innerText;
             
-            // CAPTURAR MACROS EXACTOS DEL DOM
             const totalProt = document.getElementById('m-prot').innerText;
             const totalCarb = document.getElementById('m-carb').innerText;
             const totalFat = document.getElementById('m-fat').innerText;
             const totalKcal = document.getElementById('m-kcal').innerText;
 
-            const name = `CUSTOM: ${labelName} [HEX:${selectedColor}] (${itemQty} UNID) - MACROS: ${totalProt}P|${totalCarb}C|${totalFat}F - ${totalKcal}KCAL (${p}P|${a}A|${b}B)`;
+            const sazonPimienta = conPimienta ? "C/PIMIENTA" : "S/PIMIENTA";
+
+            // NOMBRE ESTRUCTURADO CON METADATOS TÉCNICOS SEPARADOS POR |
+            const name = `CUSTOM: ${labelName} | ${unitName} (${unitID}) | MACROS: ${totalProt}P|${totalCarb}C|${totalFat}F - ${totalKcal}KCAL | RECETA: ${p}P|${a}A|${b}B|${salGrams}S | ${sazonPimienta} | HEX: ${selectedColor} | CANT: ${itemQty}`;
             
             let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
             cart.push({ name: name, price: parseInt(prText.replace('$', '').replace('.', '')) }); 
@@ -345,7 +346,7 @@
             updateGlobalCartCount();
             
             document.getElementById('modal-img').src = document.getElementById('active-img').src;
-            document.getElementById('modal-desc').innerText = name;
+            document.getElementById('modal-desc').innerText = `${unitName} (${unitID}) para ${labelName}`;
             document.getElementById('modal-total').innerText = "TOTAL: " + prText;
             document.getElementById('confirm-modal').style.display = 'flex';
         }
