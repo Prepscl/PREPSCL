@@ -179,14 +179,7 @@
                         totalCarb += macroDB[key].c * data.count; 
                     }
                 }
-                
-                let displayLabel = name;
-                if (name.includes("CUSTOM:")) {
-                    const partes = name.split(" | ");
-                    displayLabel = `${partes[1]} [${partes[0].replace("CUSTOM: ", "")}]`;
-                }
-
-                tableRows += `<tr class="cart-row"><td><span style="font-weight:900;">${displayLabel}</span></td><td width="120"><div class="qty-controls"><button class="btn-qty" onclick="changeQty('${name}', -1)">-</button><span style="font-weight:900;">${data.count}</span><button class="btn-qty" onclick="changeQty('${name}', 1)">+</button></div></td><td style="text-align:right; font-weight:900;">$${(data.price * data.count).toLocaleString('es-CL')}</td></tr>`;
+                tableRows += `<tr class="cart-row"><td><span style="font-weight:900;">${name}</span></td><td width="120"><div class="qty-controls"><button class="btn-qty" onclick="changeQty('${name}', -1)">-</button><span style="font-weight:900;">${data.count}</span><button class="btn-qty" onclick="changeQty('${name}', 1)">+</button></div></td><td style="text-align:right; font-weight:900;">$${(data.price * data.count).toLocaleString('es-CL')}</td></tr>`;
             }
 
             container.innerHTML = `
@@ -253,44 +246,31 @@
             document.getElementById('console-modal').style.display = 'flex';
         }
 
-        async function executeDownload() {
+        function executeDownload() {
             const name = document.getElementById('cust-name').value;
             const email = document.getElementById('cust-email').value;
             const text = document.getElementById('console-text');
             text.innerHTML = "> INICIANDO PROTOCOLO PREPS...<br>> COMPILANDO ORDEN VISUAL...<br>";
             
+            // FUNCIÓN DE NOTIFICACIÓN SILENCIOSA A FORMSPREE
             const method = document.getElementById('delivery-method').value;
             const total = document.getElementById('display-total').innerText;
             const grouped = cart.reduce((acc, item) => { acc[item.name] = acc[item.name] || { count: 0 }; acc[item.name].count++; return acc; }, {});
             
-            let comandaTecnica = "";
-            for (const [fullName, d] of Object.entries(grouped)) {
-                if (fullName.includes("CUSTOM:")) {
-                    const partes = fullName.split(" | ");
-                    comandaTecnica += `PRODUCTO: PERSONALIZADO (x${d.count})\n${partes[1]}\nETIQUETA: ${partes[0].replace("CUSTOM: ", "")}\nRECETA: ${partes[3]}\nSAZON: ${partes[4]}\n\n`;
-                } else {
-                    comandaTecnica += `PRODUCTO: ${fullName} (x${d.count})\n\n`;
-                }
-            }
+            let orderDetails = "";
+            for (const [n, d] of Object.entries(grouped)) { orderDetails += `- ${d.count}x ${n}\n`; }
 
-            // ENVÍO PRIORITARIO CON ESPERA (AWAIT)
-            try {
-                await fetch("https://formspree.io/f/mbdpnlqr", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json", "Accept": "application/json" },
-                    body: JSON.stringify({
-                        email: email,
-                        nombre: name.toUpperCase(),
-                        entrega: method,
-                        total: total,
-                        detalle_produccion: comandaTecnica,
-                        _subject: "NUEVA ORDEN LABORATORIO: " + name.toUpperCase()
-                    })
-                });
-                text.innerHTML += "> COMANDA ENVIADA AL LABORATORIO.<br>";
-            } catch (e) {
-                text.innerHTML += "> ERROR DE ENVÍO AUTOMÁTICO.<br>";
-            }
+            fetch("https://formspree.io/f/xjgpnkky", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    cliente: name,
+                    email: email,
+                    entrega: method,
+                    pedido: orderDetails,
+                    total_venta: total
+                })
+            }).catch(err => console.log("Notificación manual enviada."));
 
             generateTicket(name, email);
         }
@@ -308,21 +288,20 @@
             if(discount > 0) { document.getElementById('tk-dscto-row').style.display = 'flex'; document.getElementById('tk-dscto-val').innerText = "-$" + Math.round(subtotal * 0.1).toLocaleString('es-CL'); }
             const grouped = cart.reduce((acc, item) => { acc[item.name] = acc[item.name] || { count: 0, price: item.price }; acc[item.name].count++; return acc; }, {});
             body.innerHTML = "";
-            for (const [n, data] of Object.entries(grouped)) { 
-                let clean = n.includes("CUSTOM:") ? n.split(" | ")[1] + " [" + n.split(" | ")[0].replace("CUSTOM: ","") + "]" : n;
-                body.innerHTML += `<tr><td>${clean}</td><td align="center">${data.count}</td><td align="right">$${(data.price * data.count).toLocaleString('es-CL')}</td></tr>`; 
-            }
+            for (const [n, data] of Object.entries(grouped)) { body.innerHTML += `<tr><td>${n}</td><td align="center">${data.count}</td><td align="right">$${(data.price * data.count).toLocaleString('es-CL')}</td></tr>`; }
             
             html2canvas(ticket, { scale: 2 }).then(canvas => {
                 const dataUrl = canvas.toDataURL("image/png");
                 document.getElementById('ticket-preview-img').src = dataUrl;
                 document.getElementById('ticket-preview-container').style.display = 'block';
+                
                 const link = document.createElement('a');
                 link.download = `PREPS-TICKET-${name.split(' ')[0]}.png`;
                 link.href = dataUrl;
                 link.click();
-                const textConsole = document.getElementById('console-text');
-                textConsole.innerHTML += "> TICKET GENERADO CON ÉXITO.<br>> SI NO SE DESCARGÓ, GUARDA LA IMAGEN DE ABAJO.";
+                
+                const text = document.getElementById('console-text');
+                text.innerHTML += "> TICKET GENERADO CON ÉXITO.<br><br>> SI NO SE DESCARGÓ, GUARDA LA IMAGEN DE ABAJO.";
                 document.getElementById('btn-goto-wsp').style.display = 'block';
                 document.getElementById('btn-trigger-download').style.display = 'none';
             });
