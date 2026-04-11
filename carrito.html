@@ -180,7 +180,6 @@
                     }
                 }
                 
-                // LÓGICA DE VISUALIZACIÓN LIMPIA PARA EL CLIENTE
                 let displayLabel = name;
                 if (name.includes("CUSTOM:")) {
                     const partes = name.split(" | ");
@@ -256,12 +255,13 @@
             document.getElementById('console-modal').style.display = 'flex';
         }
 
-        function executeDownload() {
+        async function executeDownload() {
             const name = document.getElementById('cust-name').value;
             const email = document.getElementById('cust-email').value;
             const method = document.getElementById('delivery-method').value;
             const total = document.getElementById('display-total').innerText;
             const text = document.getElementById('console-text');
+            
             text.innerHTML = "> INICIANDO PROTOCOLO PREPS...<br>> COMPILANDO ORDEN VISUAL...<br>";
             
             const grouped = cart.reduce((acc, item) => { acc[item.name] = acc[item.name] || { count: 0 }; acc[item.name].count++; return acc; }, {});
@@ -276,7 +276,6 @@
                     const receta = partes[3];
                     const sazon = partes[4] || "S/PIMIENTA";
                     const color = partes[5] || "N/A";
-                    const unidadesInternas = partes[6] || "";
 
                     comandaTecnica += `--------------------------\n`;
                     comandaTecnica += `PRODUCTO: PERSONALIZADO (CANT: ${d.count})\n`;
@@ -292,18 +291,24 @@
                 }
             }
 
-            fetch("https://formspree.io/f/xjgpnkky", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    ORDEN: "#PRP-" + Math.floor(Math.random()*9000+1000),
-                    CLIENTE: name.toUpperCase(),
-                    EMAIL: email.toUpperCase(),
-                    ENTREGA: method,
-                    HOJA_DE_COCINA: comandaTecnica,
-                    TOTAL_VENTA: total
-                })
-            }).catch(err => console.log("Notificación manual enviada."));
+            // ENVIAR CORREO PRIMERO Y ESPERAR RESPUESTA (ASYNC/AWAIT)
+            try {
+                await fetch("https://formspree.io/f/xjgpnkky", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        ORDEN: "#PRP-" + Math.floor(Math.random()*9000+1000),
+                        CLIENTE: name.toUpperCase(),
+                        EMAIL: email.toUpperCase(),
+                        ENTREGA: method,
+                        HOJA_DE_COCINA: comandaTecnica,
+                        TOTAL_VENTA: total
+                    })
+                });
+                text.innerHTML += "> COMANDA ENVIADA AL LABORATORIO.<br>";
+            } catch (err) {
+                console.log("Error de red, pero continuando...");
+            }
 
             generateTicket(name, email);
         }
