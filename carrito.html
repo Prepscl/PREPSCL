@@ -179,7 +179,16 @@
                         totalCarb += macroDB[key].c * data.count; 
                     }
                 }
-                tableRows += `<tr class="cart-row"><td><span style="font-weight:900;">${name}</span></td><td width="120"><div class="qty-controls"><button class="btn-qty" onclick="changeQty('${name}', -1)">-</button><span style="font-weight:900;">${data.count}</span><button class="btn-qty" onclick="changeQty('${name}', 1)">+</button></div></td><td style="text-align:right; font-weight:900;">$${(data.price * data.count).toLocaleString('es-CL')}</td></tr>`;
+                
+                // LÓGICA DE VISUALIZACIÓN DE ETIQUETAS PERSONALIZADAS
+                let displayLabel = name;
+                if (name.includes("CUSTOM:")) {
+                    const partes = name.split(" | ");
+                    // Muestra: TIPO DE UNIDAD [NOMBRE ETIQUETA]
+                    displayLabel = `${partes[1]} [${partes[0].replace("CUSTOM: ", "")}]`;
+                }
+
+                tableRows += `<tr class="cart-row"><td><span style="font-weight:900;">${displayLabel}</span></td><td width="120"><div class="qty-controls"><button class="btn-qty" onclick="changeQty('${name}', -1)">-</button><span style="font-weight:900;">${data.count}</span><button class="btn-qty" onclick="changeQty('${name}', 1)">+</button></div></td><td style="text-align:right; font-weight:900;">$${(data.price * data.count).toLocaleString('es-CL')}</td></tr>`;
             }
 
             container.innerHTML = `
@@ -236,7 +245,13 @@
 
         function applyPromo() {
             const code = document.getElementById('promo-code').value.toUpperCase();
-            if (code === 'MILA10') { discount = 0.10; renderCart(document.getElementById('cust-name').value, document.getElementById('cust-email').value); } else { alert("SISTEMA: CÓDIGO INVÁLIDO"); }
+            // NUEVO CÓDIGO BASSS10 AGREGADO
+            if (code === 'MILA10' || code === 'BASSS10') { 
+                discount = 0.10; 
+                renderCart(document.getElementById('cust-name').value, document.getElementById('cust-email').value); 
+            } else { 
+                alert("SISTEMA: CÓDIGO INVÁLIDO"); 
+            }
         }
 
         function startProcess() {
@@ -252,13 +267,15 @@
             const text = document.getElementById('console-text');
             text.innerHTML = "> INICIANDO PROTOCOLO PREPS...<br>> COMPILANDO ORDEN VISUAL...<br>";
             
-            // FUNCIÓN DE NOTIFICACIÓN SILENCIOSA A FORMSPREE
             const method = document.getElementById('delivery-method').value;
             const total = document.getElementById('display-total').innerText;
             const grouped = cart.reduce((acc, item) => { acc[item.name] = acc[item.name] || { count: 0 }; acc[item.name].count++; return acc; }, {});
             
             let orderDetails = "";
-            for (const [n, d] of Object.entries(grouped)) { orderDetails += `- ${d.count}x ${n}\n`; }
+            for (const [n, d] of Object.entries(grouped)) { 
+                let label = n.includes("CUSTOM:") ? n.split(" | ")[1] + " [" + n.split(" | ")[0].replace("CUSTOM: ","") + "]" : n;
+                orderDetails += `- ${d.count}x ${label}\n`; 
+            }
 
             fetch("https://formspree.io/f/xjgpnkky", {
                 method: "POST",
@@ -288,7 +305,10 @@
             if(discount > 0) { document.getElementById('tk-dscto-row').style.display = 'flex'; document.getElementById('tk-dscto-val').innerText = "-$" + Math.round(subtotal * 0.1).toLocaleString('es-CL'); }
             const grouped = cart.reduce((acc, item) => { acc[item.name] = acc[item.name] || { count: 0, price: item.price }; acc[item.name].count++; return acc; }, {});
             body.innerHTML = "";
-            for (const [n, data] of Object.entries(grouped)) { body.innerHTML += `<tr><td>${n}</td><td align="center">${data.count}</td><td align="right">$${(data.price * data.count).toLocaleString('es-CL')}</td></tr>`; }
+            for (const [n, data] of Object.entries(grouped)) { 
+                let label = n.includes("CUSTOM:") ? n.split(" | ")[1] + " [" + n.split(" | ")[0].replace("CUSTOM: ","") + "]" : n;
+                body.innerHTML += `<tr><td>${label}</td><td align="center">${data.count}</td><td align="right">$${(data.price * data.count).toLocaleString('es-CL')}</td></tr>`; 
+            }
             
             html2canvas(ticket, { scale: 2 }).then(canvas => {
                 const dataUrl = canvas.toDataURL("image/png");
