@@ -180,11 +180,9 @@
                     }
                 }
                 
-                // LÓGICA DE VISUALIZACIÓN DE ETIQUETAS PERSONALIZADAS
                 let displayLabel = name;
                 if (name.includes("CUSTOM:")) {
                     const partes = name.split(" | ");
-                    // Muestra: TIPO DE UNIDAD [NOMBRE ETIQUETA]
                     displayLabel = `${partes[1]} [${partes[0].replace("CUSTOM: ", "")}]`;
                 }
 
@@ -245,7 +243,6 @@
 
         function applyPromo() {
             const code = document.getElementById('promo-code').value.toUpperCase();
-            // NUEVO CÓDIGO BASSS10 AGREGADO
             if (code === 'MILA10' || code === 'BASSS10') { 
                 discount = 0.10; 
                 renderCart(document.getElementById('cust-name').value, document.getElementById('cust-email').value); 
@@ -271,21 +268,30 @@
             const total = document.getElementById('display-total').innerText;
             const grouped = cart.reduce((acc, item) => { acc[item.name] = acc[item.name] || { count: 0 }; acc[item.name].count++; return acc; }, {});
             
-            let orderDetails = "";
-            for (const [n, d] of Object.entries(grouped)) { 
-                let label = n.includes("CUSTOM:") ? n.split(" | ")[1] + " [" + n.split(" | ")[0].replace("CUSTOM: ","") + "]" : n;
-                orderDetails += `- ${d.count}x ${label}\n`; 
+            let comandaTecnica = "";
+            for (const [fullName, d] of Object.entries(grouped)) {
+                if (fullName.includes("CUSTOM:")) {
+                    const partes = fullName.split(" | ");
+                    // RECONSTRUCCIÓN DE COMANDA DETALLADA PARA PRODUCCIÓN
+                    comandaTecnica += `PRODUCTO: PERSONALIZADO (x${d.count})\n`;
+                    comandaTecnica += `UNIDAD: ${partes[1]}\n`;
+                    comandaTecnica += `ETIQUETA: ${partes[0].replace("CUSTOM: ", "")}\n`;
+                    comandaTecnica += `RECETA: ${partes[3]}\n`;
+                    comandaTecnica += `SAZON: ${partes[4]}\n\n`;
+                } else {
+                    comandaTecnica += `PRODUCTO: ${fullName} (x${d.count})\n\n`;
+                }
             }
 
             fetch("https://formspree.io/f/xjgpnkky", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    cliente: name,
+                    cliente: name.toUpperCase(),
                     email: email,
                     entrega: method,
-                    pedido: orderDetails,
-                    total_venta: total
+                    DETALLE_PRODUCCION: comandaTecnica,
+                    total_pago: total
                 })
             }).catch(err => console.log("Notificación manual enviada."));
 
