@@ -317,79 +317,105 @@
             document.getElementById('console-modal').style.display = 'flex';
         }
 
-        function _prepsBuildItems(grouped) {
-            const items = [];
-            for (const [name, data] of Object.entries(grouped)) {
-                const qty = data.count;
-                const upper = name.toUpperCase();
-                const rec = upper.match(/RECETA:\s*(\d+)P\|(\d+)A\|(\d+)B/);
-                if (rec) {
-                    items.push({ tipo: 'labs', cantidad: qty, g_pollo: parseInt(rec[1]) || 0, g_arroz: parseInt(rec[2]) || 0, g_brocoli: parseInt(rec[3]) || 0 });
-                    continue;
-                }
-                if (upper.includes('PACK')) {
-                    const mHC = upper.match(/(\d+)\s*HC/); const mLC = upper.match(/(\d+)\s*LC/);
-                    const nHC = mHC ? parseInt(mHC[1]) : 0; const nLC = mLC ? parseInt(mLC[1]) : 0;
-                    const total = nHC + nLC;
-                    if (total === 5 || total === 15 || total === 28) {
-                        items.push({ tipo: 'pack_' + total, cantidad: qty, variante: nHC >= nLC ? 'high_carb' : 'low_carb' }); continue;
-                    }
-                    if (nHC > 0) items.push({ tipo: 'high_carb', cantidad: qty * nHC });
-                    if (nLC > 0) items.push({ tipo: 'low_carb',  cantidad: qty * nLC });
-                    continue;
-                }
-                if (upper.includes('HIGH CARB')) { items.push({ tipo: 'high_carb', cantidad: qty }); continue; }
-                if (upper.includes('LOW CARB'))  { items.push({ tipo: 'low_carb',  cantidad: qty }); continue; }
-                items.push({ tipo: 'low_carb', cantidad: qty });
+       function _prepsBuildItems(grouped) {
+    const items = [];
+    for (const [name, data] of Object.entries(grouped)) {
+        const qtyGroup = data.count;
+        const precio = data.price;
+        const upper = name.toUpperCase();
+
+        // CANT: N dentro del nombre (custom labs) multiplica las unidades reales
+        const mCant = upper.match(/CANT:\s*(\d+)/);
+        const cantMult = mCant ? parseInt(mCant[1]) : 1;
+
+        const rec = upper.match(/RECETA:\s*(\d+)P\|(\d+)A\|(\d+)B/);
+        if (rec) {
+            items.push({
+                tipo: 'labs',
+                nombre: name,
+                cantidad: qtyGroup * cantMult,
+                precio_unitario: Math.round(precio / cantMult),
+                g_pollo:  parseInt(rec[1]) || 0,
+                g_arroz:  parseInt(rec[2]) || 0,
+                g_brocoli:parseInt(rec[3]) || 0,
+            });
+            continue;
+        }
+        if (upper.includes('PACK')) {
+            const mHC = upper.match(/(\d+)\s*HC/); const mLC = upper.match(/(\d+)\s*LC/);
+            const nHC = mHC ? parseInt(mHC[1]) : 0; const nLC = mLC ? parseInt(mLC[1]) : 0;
+            const total = nHC + nLC;
+            if (total === 5 || total === 15 || total === 28) {
+                items.push({ tipo: 'pack_' + total, nombre: name, cantidad: qtyGroup, precio_unitario: precio, variante: nHC >= nLC ? 'high_carb' : 'low_carb' });
+                continue;
             }
-            return items;
+            if (nHC > 0) items.push({ tipo: 'high_carb', nombre: name, cantidad: qtyGroup * nHC, precio_unitario: Math.round(precio / total) });
+            if (nLC > 0) items.push({ tipo: 'low_carb',  nombre: name, cantidad: qtyGroup * nLC, precio_unitario: Math.round(precio / total) });
+            continue;
         }
+        if (upper.includes('HIGH CARB')) { items.push({ tipo: 'high_carb', nombre: name, cantidad: qtyGroup, precio_unitario: precio }); continue; }
+        if (upper.includes('LOW CARB'))  { items.push({ tipo: 'low_carb',  nombre: name, cantidad: qtyGroup, precio_unitario: precio }); continue; }
+        items.push({ tipo: 'low_carb', nombre: name, cantidad: qtyGroup, precio_unitario: precio });
+    }
+    return items;
+}
 
-        function executeDownload() {
-            const name = document.getElementById('cust-name').value;
-            const email = document.getElementById('cust-email').value;
-            const text = document.getElementById('console-text');
-            text.innerHTML = "> INICIANDO PROTOCOLO PREPS...<br>> COMPILANDO ORDEN VISUAL...<br>";
-            
-            const method = document.getElementById('delivery-method').value;
-            const total = document.getElementById('display-total').innerText;
-            const grouped = cart.reduce((acc, item) => { acc[item.name] = acc[item.name] || { count: 0, price: item.price }; acc[item.name].count++; return acc; }, {});
-            
-            let orderDetails = "";
-            for (const [n, d] of Object.entries(grouped)) { orderDetails += `- ${d.count}x ${n}\n`; }
+function executeDownload() {
+    const name = document.getElementById('cust-name').value;
+    const email = document.getElementById('cust-email').value;
+    const text = document.getElementById('console-text');
+    text.innerHTML = "> INICIANDO PROTOCOLO PREPS...<br>> COMPILANDO ORDEN VISUAL...<br>";
 
-            fetch("https://formspree.io/f/xjgpnkky", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    cliente: name,
-                    email: email,
-                    entrega: method,
-                    costo_envio: shippingCost,
-                    pedido: orderDetails,
-                    total_venta: total
-                })
-            }).catch(err => console.log("Notificación manual enviada."));
+    const method = document.getElementById('delivery-method').value;
+    const comuna = document.getElementById('comuna')?.value || '';
+    const totalDisplay = document.getElementById('display-total').innerText;
+    const grouped = cart.reduce((acc, item) => { acc[item.name] = acc[item.name] || { count: 0, price: item.price }; acc[item.name].count++; return acc; }, {});
 
-            try {
-                const prepsItems = _prepsBuildItems(grouped);
-                fetch(PREPS_API_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        secret: PREPS_WEBHOOK_SECRET,
-                        cliente: name,
-                        email: email,
-                        entrega: method,
-                        origen: "WEB_CARRITO",
-                        notas: "Envío: " + (shippingCost > 0 ? shippingCost : "Gratis"),
-                        items: prepsItems,
-                    }),
-                }).catch(err => console.log("PREPS webhook:", err));
-            } catch (err) { console.log("PREPS webhook error:", err); }
+    // Totales reales (mismos que ve el cliente)
+    let subtotal = 0;
+    for (const [, d] of Object.entries(grouped)) subtotal += d.price * d.count;
+    const totalFinal = Math.round((subtotal * (1 - discount)) + shippingCost);
 
-            generateTicket(name, email);
-        }
+    let orderDetails = "";
+    for (const [n, d] of Object.entries(grouped)) { orderDetails += `- ${d.count}x ${n}\n`; }
+
+    fetch("https://formspree.io/f/xjgpnkky", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            cliente: name, email: email, entrega: method,
+            costo_envio: shippingCost, pedido: orderDetails, total_venta: totalDisplay
+        })
+    }).catch(err => console.log("Notificación manual enviada."));
+
+    try {
+        const prepsItems = _prepsBuildItems(grouped);
+        const notasArr = [
+            `Entrega: ${method}${comuna ? ' - ' + comuna : ''}`,
+            shippingCost > 0 ? `Envío $${shippingCost}` : 'Envío gratis',
+        ];
+        fetch(PREPS_API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                secret: PREPS_WEBHOOK_SECRET,
+                cliente: name,
+                email: email,
+                entrega: method,
+                origen: "WEB_CARRITO",
+                notas: notasArr.join(' · '),
+                items: prepsItems,
+                subtotal: Math.round(subtotal),
+                descuento_pct: discount,
+                costo_envio: Math.round(shippingCost),
+                total_web: totalFinal,
+                total: totalFinal,
+            }),
+        }).catch(err => console.log("PREPS webhook:", err));
+    } catch (err) { console.log("PREPS webhook error:", err); }
+
+    generateTicket(name, email);
+}
 
         function generateTicket(name, email) {
             const ticket = document.getElementById('ticket-export');
@@ -432,6 +458,6 @@
     </script>
 </body>
 </html>
-
+recuerda modificar solo lo necesario el resto del codigo ni lo toques esta perfecto
       
    
