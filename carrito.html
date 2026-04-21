@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -14,7 +14,6 @@
         :root { --accent: #25D366; --dark: #000; --light: #f2f2f2; --neon: #39FF14; }
         body { background-color: var(--light); color: var(--dark); font-family: 'Courier New', monospace; margin: 0; text-transform: uppercase; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 
-        /* HEADER */
         .main-header { display: flex; align-items: center; justify-content: space-between; padding: 15px 50px; background: #f2f2f2; border-bottom: 1px solid #000; position: sticky; top: 0; z-index: 1000; }
         .logo-link img { height: 35px; width: auto; display: block; }
         .main-nav { display: flex; align-items: center; gap: 30px; }
@@ -130,6 +129,10 @@
     </div>
 
     <script>
+        // ⚠️ REEMPLAZAR ESTOS 2 VALORES CON LOS DE TU APP PREPS EN VERCEL ⚠️
+        const PREPS_API_URL        = "https://preps-app.vercel.app/api/pedidos/nuevo";
+        const PREPS_WEBHOOK_SECRET = "MILA";
+
         let cart = JSON.parse(localStorage.getItem('preps_cart')) || [];
         let discount = 0;
         
@@ -251,6 +254,57 @@
             document.getElementById('console-modal').style.display = 'flex';
         }
 
+        // ─── Mapper: convierte el carrito al formato que espera /api/pedidos/nuevo ───
+        function _prepsBuildItems(grouped) {
+            const items = [];
+            for (const [name, data] of Object.entries(grouped)) {
+                const qty = data.count;
+                const upper = name.toUpperCase();
+
+                // Labs personalizado: leer RECETA: 200P|250A|300B|3S
+                const rec = upper.match(/RECETA:\s*(\d+)P\|(\d+)A\|(\d+)B/);
+                if (rec) {
+                    items.push({
+                        tipo: 'labs',
+                        cantidad: qty,
+                        g_pollo:   parseInt(rec[1]) || 0,
+                        g_arroz:   parseInt(rec[2]) || 0,
+                        g_brocoli: parseInt(rec[3]) || 0,
+                    });
+                    continue;
+                }
+
+                // Pack Performance: detectar NHC + MLC
+                if (upper.includes('PACK')) {
+                    const mHC = upper.match(/(\d+)\s*HC/);
+                    const mLC = upper.match(/(\d+)\s*LC/);
+                    const nHC = mHC ? parseInt(mHC[1]) : 0;
+                    const nLC = mLC ? parseInt(mLC[1]) : 0;
+                    const total = nHC + nLC;
+                    if (total === 5 || total === 15 || total === 28) {
+                        items.push({
+                            tipo: 'pack_' + total,
+                            cantidad: qty,
+                            variante: nHC >= nLC ? 'high_carb' : 'low_carb',
+                        });
+                        continue;
+                    }
+                    // Si no matchea un pack estándar, decomponer
+                    if (nHC > 0) items.push({ tipo: 'high_carb', cantidad: qty * nHC });
+                    if (nLC > 0) items.push({ tipo: 'low_carb',  cantidad: qty * nLC });
+                    if (nHC === 0 && nLC === 0) items.push({ tipo: 'low_carb', cantidad: qty });
+                    continue;
+                }
+
+                if (upper.includes('HIGH CARB')) { items.push({ tipo: 'high_carb', cantidad: qty }); continue; }
+                if (upper.includes('LOW CARB'))  { items.push({ tipo: 'low_carb',  cantidad: qty }); continue; }
+
+                // Fallback
+                items.push({ tipo: 'low_carb', cantidad: qty });
+            }
+            return items;
+        }
+
         function executeDownload() {
             const name = document.getElementById('cust-name').value;
             const email = document.getElementById('cust-email').value;
@@ -260,7 +314,7 @@
             // FUNCIÓN DE NOTIFICACIÓN SILENCIOSA A FORMSPREE
             const method = document.getElementById('delivery-method').value;
             const total = document.getElementById('display-total').innerText;
-            const grouped = cart.reduce((acc, item) => { acc[item.name] = acc[item.name] || { count: 0 }; acc[item.name].count++; return acc; }, {});
+            const grouped = cart.reduce((acc, item) => { acc[item.name] = acc[item.name] || { count: 0, price: item.price }; acc[item.name].count++; return acc; }, {});
             
             let orderDetails = "";
             for (const [n, d] of Object.entries(grouped)) { orderDetails += `- ${d.count}x ${n}\n`; }
@@ -276,6 +330,25 @@
                     total_venta: total
                 })
             }).catch(err => console.log("Notificación manual enviada."));
+
+            // ─── Enviar pedido al software PREPS (Vercel) ───
+            try {
+                const prepsItems = _prepsBuildItems(grouped);
+                fetch(PREPS_API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        secret: PREPS_WEBHOOK_SECRET,
+                        cliente: name,
+                        email: email,
+                        telefono: "",
+                        entrega: method,
+                        origen: "WEB_CARRITO",
+                        notas: "Total carrito: " + total,
+                        items: prepsItems,
+                    }),
+                }).catch(err => console.log("PREPS webhook:", err));
+            } catch (err) { console.log("PREPS webhook error:", err); }
 
             generateTicket(name, email);
         }
