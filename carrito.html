@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
     <title>SISTEMA DE CARGA - PREPS</title>
     <link rel="icon" type="image/png" href="img/logo-preps.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
@@ -450,7 +453,7 @@ function executeDownload() {
 
         function sendToWhatsApp() {
             localStorage.removeItem('preps_cart');
-            let msg = `HOLA SOMOS PREPS, POR FAVOR MANDAR TICKET PREVIAMENTE DESCARGADO O GUARDADO PARA PODER TOMAR SU PEDIDO.`;
+            let msg = `HOLA, POR FAVOR MANDAR TICKET PREVIAMENTE DESCARGADO O GUARDADO PARA PODER TOMAR SU PEDIDO.`;
             window.location.href = `https://wa.me/56941892028?text=${encodeURIComponent(msg)}`;
         }
 
