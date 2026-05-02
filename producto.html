@@ -243,5 +243,6 @@
         function updateGlobalCartCount() { document.getElementById('global-cart-count').innerText = (JSON.parse(localStorage.getItem('preps_cart')) || []).length; }
         window.addEventListener('load', () => { updateGlobalCartCount(); renderProduct(); });
     </script>
+<script src="chatbot.js" defer></script>
 </body>
 </html>
