@@ -397,24 +397,32 @@ function executeDownload() {
             `Entrega: ${method}${comuna ? ' - ' + comuna : ''}`,
             shippingCost > 0 ? `Envío $${shippingCost}` : 'Envío gratis',
         ];
+        const prepsPayload = JSON.stringify({
+            secret: PREPS_WEBHOOK_SECRET,
+            cliente: name,
+            email: email,
+            entrega: method,
+            origen: "WEB_CARRITO",
+            notas: notasArr.join(' · '),
+            items: prepsItems,
+            subtotal: Math.round(subtotal),
+            descuento_pct: discount,
+            costo_envio: Math.round(shippingCost),
+            total_web: totalFinal,
+            total: totalFinal,
+        });
         fetch(PREPS_API_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                secret: PREPS_WEBHOOK_SECRET,
-                cliente: name,
-                email: email,
-                entrega: method,
-                origen: "WEB_CARRITO",
-                notas: notasArr.join(' · '),
-                items: prepsItems,
-                subtotal: Math.round(subtotal),
-                descuento_pct: discount,
-                costo_envio: Math.round(shippingCost),
-                total_web: totalFinal,
-                total: totalFinal,
-            }),
-        }).catch(err => console.log("PREPS webhook:", err));
+            body: prepsPayload,
+            keepalive: true,
+        })
+        .then(r => { if (!r.ok) console.log("PREPS webhook HTTP", r.status); })
+        .catch(err => console.log("PREPS webhook fail:", err));
+        try {
+            const blob = new Blob([prepsPayload], { type: 'application/json' });
+            if (navigator.sendBeacon) navigator.sendBeacon(PREPS_API_URL, blob);
+        } catch(e) {}
     } catch (err) { console.log("PREPS webhook error:", err); }
 
     generateTicket(name, email);
