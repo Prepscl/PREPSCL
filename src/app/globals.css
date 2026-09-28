@@ -1,0 +1,655 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.social-footer { margin-top: 64px; padding: 36px 12px; border-top: 1px solid #ffffff18; }
+.social-footer nav { display: flex; justify-content: center; align-items: center; gap: 32px; }
+.social-footer a { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; color: #999; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .15em; }
+.social-footer a:hover { color: #fff; }
+.social-footer svg { width: 20px; height: 20px; }
+.home-social-footer { padding: 0 32px 24px 200px; }
+.home-social-footer .social-footer { margin-top: 0; }
+.preps-entry-curtain { position: fixed; inset: 0; z-index: 10000; display: grid; place-items: center; background: #000; pointer-events: none; animation: preps-curtain-fade .8s 1s ease both; }
+.preps-entry-curtain img { width: 150px; height: auto; animation: preps-logo-pulse 2s ease-in-out both; }
+@keyframes preps-logo-pulse { 0%,100% { transform: scale(.9); opacity: .3; } 50% { transform: scale(1); opacity: 1; } }
+@keyframes preps-curtain-fade { from { opacity: 1; } to { opacity: 0; visibility: hidden; } }
+@media (max-width: 520px) { .home-social-footer { padding: 0 20px 24px; } }
+@media (prefers-reduced-motion: reduce) { .preps-entry-curtain { display: none; } }
+
+:root {
+  --white: #f6f6f2;
+  --muted: rgba(246, 246, 242, 0.58);
+  --line: rgba(255, 255, 255, 0.22);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  background: #030303;
+  color: var(--white);
+  font-family: var(--font-preps), Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Purchase actions stay available while the decorative headline enters. */
+.home-scene .home-cta-reveal { animation: none !important; opacity: 1; transform: none; }
+.home-description { max-width: 390px; margin: 18px 0 0; color: #e0e2e2; font-size: 15px; line-height: 1.5; }
+.home-offer { margin: 8px 0 0; color: #bfc4c6; font-size: 12px; line-height: 1.5; }
+.home-scene .home-cta { min-height: 48px; margin-top: 20px; }
+.home-conditions { display: inline-block; margin-top: 10px; padding-block: 8px; font-size: 11px; color: #bfc4c6; text-decoration: underline; text-underline-offset: 4px; }
+.menu-select { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 22px; min-height: 48px; padding: 14px 18px; background: #111; color: white; font-size: 12px; font-weight: 700; }
+.compra-info { margin-top: 36px; border-top: 1px solid #d0d0d0; color: #242424; text-align: left; }
+.compra-info h2 { font-size: 20px; font-weight: 800; margin: 24px 0 12px; }
+.compra-info details { border-bottom: 1px solid #d0d0d0; }
+.compra-info summary { cursor: pointer; padding: 18px 0; font-size: 14px; font-weight: 600; }
+.compra-info p { margin: 0 0 20px; max-width: 720px; font-size: 14px; line-height: 1.7; }
+.compra-info a { text-decoration: underline; text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid #f6f6f2; outline-offset: 5px; }
+
+/* Static graphite finish: one glyph layer, no strokes or moving highlights. */
+.headline-metal,
+.preps-page :is(h1, h2, h3),
+body .prp-card .prp-title {
+  color: #686d70;
+  background: linear-gradient(172deg, #92989b 0%, #62686c 25%, #353a3e 58%, #555c61 82%, #747b7e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 1px #000);
+  font-family: var(--font-preps), Arial, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -.045em;
+  padding-block: .15em .08em;
+}
+
+.home-scene {
+  --intro-delay: 1.45s;
+  --camera-x: 0;
+  --camera-y: 0;
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  height: 100svh;
+  min-height: 640px;
+  overflow: hidden;
+  background: #030303;
+}
+.coming-title {
+  margin: 20px 0 0;
+  padding-block: .2em .08em;
+  max-width: 100%;
+  font-size: clamp(26px, 6.4vw, 100px);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -.052em;
+  line-height: 1.05;
+}
+@media (max-width: 520px) {
+  .coming-title { font-size: clamp(24px, 7.2vw, 38px); }
+}
+.home-camera, .home-photo-reveal, .home-photo, .home-scrim {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.home-camera {
+  z-index: -3;
+  transform: perspective(1600px) translate3d(calc(var(--camera-x) * -10px), calc(var(--camera-y) * -7px), 0)
+    rotateX(calc(var(--camera-y) * .6deg)) rotateY(calc(var(--camera-x) * -.8deg)) scale(1.025);
+  transition: transform 900ms cubic-bezier(.2,.7,.2,1);
+}
+.home-photo-reveal { animation: home-dolly 2.1s var(--intro-delay) var(--ease) both; }
+/* El lienzo va en 1672x1194: el contenido de 1672x940 lleva 127px de negro
+   arriba y abajo. Eso es lo que `cover` recorta en las ventanas anchas, en
+   lugar de comerse el envase, que llega a 32px del borde derecho. */
+.home-photo { object-fit: cover; object-position: center; }
+
+/* Fuera del rango donde el relleno alcanza se vuelve a encajar: bajo 1.40
+   `cover` recortaria por los lados y bajo esa forma el envase no sobrevive;
+   sobre 2.20 se comeria su borde superior. Las barras no se notan porque el
+   borde de la imagen y el fondo de la pagina son el mismo negro. */
+@media (max-aspect-ratio: 7/5), (min-aspect-ratio: 11/5) {
+  .home-photo { object-fit: contain; }
+}
+.home-scrim {
+  z-index: -2;
+  pointer-events: none;
+  background: linear-gradient(90deg,rgba(0,0,0,.7),rgba(0,0,0,.25) 38%,transparent 65%),
+    linear-gradient(180deg,rgba(0,0,0,.3),transparent 32%,rgba(0,0,0,.22));
+}
+.home-scene > header { animation: railIn 1s calc(var(--intro-delay) + .2s) var(--ease) both; }
+.home-scene nav a { animation: home-nav-in .8s calc(var(--intro-delay) + .35s) var(--ease) backwards; }
+.home-scene nav a:nth-child(2) { animation-delay: calc(var(--intro-delay) + .43s); }
+.home-scene nav a:nth-child(3) { animation-delay: calc(var(--intro-delay) + .51s); }
+.home-scene nav a:nth-child(4) { animation-delay: calc(var(--intro-delay) + .59s); }
+.home-scene nav a:nth-child(5) { animation-delay: calc(var(--intro-delay) + .67s); }
+.home-copy {
+  position: absolute;
+  bottom: clamp(58px,10vh,116px);
+  left: clamp(212px,15vw,286px);
+  z-index: 3;
+  width: calc(100% - clamp(212px,15vw,286px) - 24px);
+}
+.home-title {
+  margin: 0;
+  font-size: clamp(42px,5.05vw,88px);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -.052em;
+  line-height: .98;
+}
+.home-title-mask { display: block; overflow: hidden; perspective: 900px; padding: .2em .02em .12em; margin: -.2em -.02em -.12em; }
+.home-title-line {
+  display: block;
+  width: max-content;
+  /* Give the metallic background room to paint accents above the line box. */
+  padding-block: .2em .08em;
+  margin-block: -.2em -.08em;
+  transform-origin: 50% 100%;
+  animation: home-type-in 1.25s calc(var(--intro-delay) + .35s) var(--ease) both;
+}
+/* Separación amplia entre líneas: con .12s de diferencia las tres entraban casi
+   juntas y se leía como un bloque apareciendo de golpe. A .42s cada una se lee
+   como una cascada. */
+.home-title-mask--1 .home-title-line { animation-delay: calc(var(--intro-delay) + .77s); }
+.home-title-mask--2 .home-title-line { animation-delay: calc(var(--intro-delay) + 1.19s); }
+.home-cta-reveal { animation: home-nav-in 1s calc(var(--intro-delay) + 1.75s) var(--ease) both; }
+.home-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  min-height: 48px;
+  margin-top: 26px;
+  color: var(--white);
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  perspective: 500px;
+}
+.home-cta-arrow {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255,255,255,.5);
+  border-radius: 50%;
+  font-size: 17px;
+  transition: transform 300ms var(--ease), background 220ms, color 220ms;
+}
+.home-scene a:focus-visible { outline: 2px solid #f6f6f2; outline-offset: 7px; border-radius: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .home-cta:hover .home-cta-arrow { transform: translateX(6px) rotateY(-18deg); background: var(--white); color: #030303; }
+  .home-scene header > a { transition: transform 300ms var(--ease); }
+  .home-scene header > a:hover { transform: perspective(400px) rotateY(-10deg) scale(1.04); }
+}
+.home-cta:active .home-cta-arrow { transform: scale(.94); }
+.home-intro {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  background: #030303;
+  pointer-events: none;
+  perspective: 1100px;
+  animation: home-curtain-out .95s 1.3s cubic-bezier(.76,0,.24,1) both;
+}
+.home-intro-logo { animation: home-logo-in 1.3s cubic-bezier(.16,1,.3,1) both; width: clamp(180px,25vw,380px); }
+.home-wordmark { position: relative; width: 100%; aspect-ratio: 708 / 174; overflow: hidden; }
+.home-wordmark img { position: absolute; top: -244.25%; left: -22.6%; width: 144.63%; max-width: none; height: auto; }
+.home-scene--skip .home-intro { display: none; }
+/* El texto acompaña al video en vez de esperarlo. El video dura 3,7 s y se
+   llena hasta el segundo 2,1; con este retraso las tres líneas entran a 1,00 s,
+   1,42 s y 1,84 s, y el botón a 2,40 s, así que la última termina justo antes
+   de que el plato quede quieto. */
+.home-scene--native { --intro-delay: .65s; }
+/* Al saltarse la intro no hay video que esperar: el texto aparece al toque.
+   Va después de --native y con doble clase para ganarle en especificidad. */
+.home-scene--skip.home-scene--skip { --intro-delay: 0s; }
+.home-scene--native .home-photo-reveal,
+.home-scene--native > header,
+.home-scene--native nav a { animation: none; }
+.home-scene--native .home-camera { transform: none; transition: none; }
+.home-scene--loading .home-title-line,
+.home-scene--loading .home-cta-reveal { animation-play-state: paused; }
+@media (max-width: 520px) {
+  .home-scene--native .home-camera { transform: none; }
+}
+.home-replay {
+  position: absolute;
+  top: 30px;
+  right: 28px;
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 8px;
+  border: 0;
+  background: transparent;
+  color: #b7bbbd;
+  font: inherit;
+  font-size: 9px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.home-replay:hover { color: #fff; }
+.home-replay:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+.home-replay span { font-size: 17px; }
+@keyframes home-logo-in {
+  from { opacity: 0; transform: translateY(24px) rotateX(32deg) scale(.88); }
+  65%, to { opacity: 1; transform: translateY(0) rotateX(0) scale(1); }
+}
+@keyframes home-curtain-out {
+  from { transform: translateY(0); visibility: visible; }
+  to { transform: translateY(-101%); visibility: hidden; }
+}
+@keyframes home-dolly {
+  from { opacity: .2; transform: scale(1.08) translateY(16px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes home-type-in {
+  from { opacity: 0; transform: translate3d(0,110%,0) rotateX(24deg); }
+  to { opacity: 1; transform: translate3d(0,0,0) rotateX(0); }
+}
+@keyframes home-nav-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 760px) and (min-width: 521px) {
+  .home-title { font-size: clamp(32px,5.4vw,42px); }
+  .home-copy { left: 196px; width: calc(100% - 216px); }
+}
+@media (max-width: 520px) {
+  .home-scene { min-height: 560px; }
+  /* Recompose the panoramic master, instead of enlarging it to portrait cover. */
+  .home-camera {
+    top: calc(108px + env(safe-area-inset-top));
+    bottom: calc(225px + env(safe-area-inset-bottom));
+    height: auto;
+    transform: none;
+    transition: none;
+    -webkit-mask-image: linear-gradient(transparent, #000 12%, #000 80%, transparent);
+    mask-image: linear-gradient(transparent, #000 12%, #000 80%, transparent);
+  }
+  .home-photo-reveal { animation-name: home-photo-mobile-in; }
+  .home-photo {
+    inset: auto;
+    top: 50%;
+    left: -64%;
+    width: 164%;
+    max-width: none;
+    height: auto;
+    aspect-ratio: 1672 / 1194;
+    object-fit: contain;
+    transform: translateY(-50%);
+  }
+  .home-scrim {
+    background: linear-gradient(0deg, #030303, transparent 36%);
+  }
+  .home-copy {
+    left: max(20px,env(safe-area-inset-left));
+    right: max(20px,env(safe-area-inset-right));
+    bottom: calc(32px + env(safe-area-inset-bottom));
+    width: auto;
+  }
+  .home-title { font-size: clamp(27px,8.65vw,45px); letter-spacing: -.045em; line-height: 1.02; }
+  .home-cta { margin-top: 20px; }
+  .home-replay { top: calc(12px + env(safe-area-inset-top)); right: 14px; font-size: 8px; }
+  .site-rail {
+    height: auto;
+    min-height: 112px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    padding: calc(24px + env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) 8px max(16px,env(safe-area-inset-left));
+  }
+  .site-rail > a { flex-shrink: 0; }
+  .site-rail nav {
+    width: 100%;
+    margin: 0;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 4px;
+  }
+  .site-rail nav a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 36px;
+    font-size: 8px;
+    letter-spacing: .06em;
+    white-space: nowrap;
+    transform: none;
+  }
+  .site-rail nav a:hover { transform: none; }
+  .site-rail nav a[href="/carrito"] { gap: 4px; }
+  .site-rail nav a[href="/carrito"] > span:last-child:not([aria-hidden]) {
+    position: absolute;
+    top: -2px;
+    right: 0;
+  }
+  .site-rail + main { padding-top: calc(148px + env(safe-area-inset-top)); }
+}
+
+@keyframes home-photo-mobile-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Short landscape phones retain the wide composition without forcing a 640px canvas. */
+@media (min-width: 521px) and (max-height: 520px) and (orientation: landscape) {
+  .home-scene { min-height: 360px; }
+  .home-camera { transform: none; transition: none; }
+  .home-photo-reveal { animation-name: home-photo-mobile-in; }
+  .home-copy { left: 196px; bottom: max(24px,env(safe-area-inset-bottom)); width: calc(100% - 220px); }
+  .home-title { font-size: clamp(28px,4.5vw,40px); }
+  .home-cta { margin-top: 14px; }
+  .home-scene .site-rail { padding-top: 24px; padding-bottom: 20px; }
+  .home-scene .site-rail nav { gap: 12px; }
+  .home-replay { top: 12px; right: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *:not(.home-scene--motion):not(.home-scene--motion *),
+  *:not(.home-scene--motion):not(.home-scene--motion *)::before,
+  *:not(.home-scene--motion):not(.home-scene--motion *)::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .home-scene:not(.home-scene--motion) .home-intro { display: none; }
+  .home-camera { transform: none; transition: none; }
+  .home-scene:not(.home-scene--motion) :is(.home-photo-reveal, .home-title-line, .home-cta-reveal, header, nav a) {
+    animation: none !important;
+  }
+}
+
+@keyframes home-fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* Con movimiento reducido el titular no se desplaza —la entrada original lo
+   sube un 110% y lo rota, que es justo lo que la preferencia pide evitar—
+   pero sí aparece. Un fundido no dispara los mismos problemas que el
+   movimiento, y sin él la entrada se perdía por completo. Va después del
+   bloque de arriba y con más especificidad para ganarle. */
+@media (prefers-reduced-motion: reduce) {
+  .home-scene .home-title-mask .home-title-line,
+  .home-scene .home-copy .home-cta-reveal {
+    animation: home-fade-in .85s var(--intro-delay) var(--ease) both !important;
+  }
+  .home-scene .home-title-mask--1 .home-title-line { animation-delay: calc(var(--intro-delay) + .3s) !important; }
+  .home-scene .home-title-mask--2 .home-title-line { animation-delay: calc(var(--intro-delay) + .6s) !important; }
+  .home-scene .home-copy .home-cta-reveal { animation-delay: calc(var(--intro-delay) + .95s) !important; }
+}
+
+/* ---- Layout de las paginas con rail --------------------------------------
+   El rail mide 168px fijos a la izquierda. Por defecto se le reserva ese
+   espacio y el contenido se centra en lo que queda. */
+.pagina-main {
+  --rail: 168px;
+  padding-left: calc(var(--rail) + 2rem);
+  padding-right: 2rem;
+}
+.pagina-contenido { max-width: var(--ancho, 768px); }
+.menu-catalog-centered { display: flex; flex-wrap: wrap; justify-content: center; gap: 24px; padding-block: 40px; width: 100%; margin-inline: auto; }
+.menu-catalog-centered > a { flex: 0 1 calc((100% - 48px) / 3); max-width: 400px; min-width: 0; text-align: center; }
+.menu-catalog-centered > a > div:last-child { gap: 14px; }
+.menu-catalog-centered h2 { min-height: 3em; margin-bottom: 0; display: flex; align-items: center; justify-content: center; }
+.menu-catalog-centered .menu-select { justify-content: center; margin-top: auto; }
+.menu-catalog-centered .menu-price-original { margin-bottom: 14px; }
+@media (max-width: 1000px) {
+  .menu-catalog-centered > a { flex-basis: calc((100% - 24px) / 2); }
+}
+@media (max-width: 600px) {
+  .menu-catalog-centered > a { flex-basis: 100%; width: 100%; }
+}
+
+/* Con sitio de sobra el bloque se centra en la VENTANA COMPLETA y no en el
+   hueco a la derecha del rail: asi cae en el centro optico de la pantalla en
+   vez de verse corrido. El ancho se limita a 100% - 336px para que el borde
+   izquierdo nunca llegue debajo del rail. */
+@media (min-width: 1100px) {
+  .pagina-main { padding-left: 2rem; }
+  .pagina-contenido { max-width: min(var(--ancho, 768px), calc(100% - var(--rail) * 2)); }
+}
+
+@media (max-width: 520px) {
+  .pagina-main { padding-left: 1.25rem; padding-right: 1.25rem; }
+  .home-scene { min-height: 760px; }
+  .home-camera { bottom: calc(365px + env(safe-area-inset-bottom)); }
+  .home-description { font-size: 13px; margin-top: 12px; max-width: 310px; }
+  .home-offer { font-size: 11px; }
+  .home-conditions { max-width: calc(100% - 52px); }
+  .menu-grid > a { min-width: 0; }
+}
+
+/* Catalog: equal margins within the space beside the navigation rail. */
+.pagina-main--rail-centered { padding-left: calc(var(--rail) + 2rem); padding-right: 2rem; }
+.pagina-main--rail-centered > .pagina-contenido { max-width: var(--ancho, 1200px); }
+@media (max-width: 520px) {
+  .pagina-main--rail-centered { padding-inline: 1.25rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-scene .home-copy .home-cta-reveal { animation: none !important; }
+}
+
+/* Shared dark surfaces, including the legacy information panel. */
+body { color-scheme: dark; }
+.preps-page h1 { font-weight: 700; letter-spacing: -.045em; line-height: 1.15; }
+.preps-page h2 { font-weight: 600; }
+.preps-page input:not([type="range"]):not([type="color"]), .preps-page select { background-color: #111; color: #eee; }
+.preps-page button[aria-pressed="true"] { border-color: #ddd; background: #242424; color: #fff; }
+.preps-page button:disabled { opacity: .4; }
+.menu-select { background: #151515; border: 1px solid #333; font-weight: 600; }
+.compra-info { border-color: #303030; color: #d5d5d5; }
+.compra-info details { border-color: #303030; }
+.compra-info h2 { font-weight: 600; }
+body .prp-card { background: #0b0b0b; border-color: #303030; color: #eee; font-family: var(--font-preps), sans-serif; text-transform: none; }
+body .prp-card :is(.prp-title,.prp-tag,.prp-cta,.prp-status) { font-family: inherit; }
+body .prp-card .prp-title { color: #eee; font-weight: 600; }
+body .prp-card .prp-rule { border-color: #303030; }
+body .prp-card .prp-rule div { color: #bbb; }
+body .prp-card .prp-rule strong { color: #eee; }
+body .prp-bubble { background: #121212; color: #eee; border-color: #444; box-shadow: none; }
+
+/* Preserve the original copy, in natural sentence case. PREPS is literal text. */
+.preps-page .nosotros-editorial :is(p, li, h2, h3, a) { text-transform: none; }
+.nosotros-editorial :is(p, li) { letter-spacing: normal; }
+.nosotros-editorial li { font-size: 15px; line-height: 1.8; }
+.nosotros-editorial footer a { letter-spacing: .02em; }
+.menu-price-original {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+/* Label-inspired poster palette, approximated from the supplied Canva image. */
+.meal-banner { position: relative; container-type: inline-size; isolation: isolate; overflow: hidden; background: #030303; padding: 24px 0 36px; margin-bottom: 72px; border-bottom: 1px solid #262626; }
+.meal-banner-top { display: flex; justify-content: space-between; align-items: center; gap: 16px; color: #9a9d9e; font-size: 10px; letter-spacing: .13em; text-transform: uppercase; }
+.meal-banner-brand { font-size: 24px; font-weight: 800; letter-spacing: -.06em; color: #f6f6f2; }
+.meal-banner-scene { position: relative; height: clamp(380px, 52cqw, 620px); margin-top: 16px; isolation: isolate; display: flex; align-items: center; }
+.preps-page h1.meal-banner-title { position: relative; z-index: 2; margin: 0; padding: 0 0 28px; background: none; filter: none; color: #f6f6f2; -webkit-text-fill-color: currentColor; font-size: clamp(36px, 8.8cqw, 108px); font-weight: 800; letter-spacing: -.07em; line-height: .96; text-align: left; }
+/* Numero de pedido en la confirmacion del checkout. Mismo patron que el
+   titulo del banner: la regla de h1 pesa (0,1,1) y una clase sola no alcanza. */
+.preps-page h1.pedido-numero { background: none; filter: none; color: var(--white); -webkit-text-fill-color: currentColor; }
+.meal-banner-title span { display: block; }
+.meal-banner-title span:last-child { color: #8f9395; }
+.meal-banner-visual { position: absolute; inset: -15% -5% -12% 0; z-index: 1; mask-image: linear-gradient(to right, transparent, #000 28%); }
+.meal-banner-photo { object-fit: cover; object-position: right center; pointer-events: none; }
+.meal-banner-replay { border: 0; padding: 10px 0 10px 12px; min-height: 44px; color: #9a9d9e; background: transparent; cursor: pointer; font: inherit; letter-spacing: .03em; }
+.meal-banner-replay:focus-visible { outline: 2px solid #f6f6f2; outline-offset: 3px; }
+.meal-banner:not(.meal-banner--ready) .meal-banner-visual { opacity: 0; }
+.meal-banner--ready .meal-banner-title > span { animation: meal-type-in .85s cubic-bezier(.22,1,.36,1) both; }
+.meal-banner--ready .meal-banner-title > span:last-child { animation-delay: .16s; }
+.meal-banner--ready .meal-banner-visual { animation: meal-image-in 1.4s .9s cubic-bezier(.22,1,.36,1) both; }
+@keyframes meal-type-in { from { opacity: 0; transform: translateY(24px) rotateX(12deg); } to { opacity: 1; transform: none; } }
+@keyframes meal-image-in { from { opacity: 0; transform: translateY(28px) scale(.94) rotate(2deg); } to { opacity: 1; transform: none; } }
+@keyframes meal-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .meal-banner--ready .meal-banner-title > span { animation: meal-fade-in .85s both !important; }
+  .meal-banner--ready .meal-banner-title > span:last-child { animation-delay: .16s !important; }
+  .meal-banner--ready .meal-banner-visual { animation: meal-fade-in 1.4s .9s both !important; }
+}
+.meal-banner-cta { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; gap: 36px; width: fit-content; margin: 0; padding: 15px 24px; border: 1px solid #606667; border-radius: 999px; color: #f6f6f2; background: #030303; font-size: 14px; font-weight: 600; letter-spacing: -.025em; transition: background .2s, color .2s; }
+.meal-banner-cta:hover { background: #f6f6f2; color: #030303; }
+.meal-banner-cta:focus-visible { outline: 2px solid #ffbf00; outline-offset: 5px; }
+.meal-products-heading { scroll-margin-top: 100px; }
+@media (max-width: 700px) {
+  .meal-banner { padding: 18px 0 24px; margin-bottom: 44px; }
+  .meal-banner-top { font-size: 8px; letter-spacing: .06em; }
+  .meal-banner-brand { font-size: 20px; }
+  .meal-banner-scene { height: clamp(380px, 125cqw, 640px); margin-top: 24px; align-items: flex-start; }
+  .preps-page h1.meal-banner-title { font-size: 12.4cqw; }
+  .meal-banner-visual { inset: 19% -4% 0 -36%; mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 90%, transparent); }
+  .meal-banner-cta { padding: 15px 20px; }
+}
+.menu-posters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; padding-block: 40px 48px; }
+.menu-poster { --label-color: #ffbf00; --photo-angle: -9deg; position: relative; min-width: 0; display: flex; flex-direction: column; overflow: hidden; background: #080808; border: 1px solid transparent; text-align: left; color: #f6f6f2; }
+.menu-poster--low_carb { --label-color: #f6f6f2; --photo-angle: 7deg; margin-top: 64px; }
+.menu-poster--high_carb { margin-bottom: 64px; }
+.menu-poster-stage { position: relative; isolation: isolate; aspect-ratio: 1 / 1.12; container-type: inline-size; }
+.menu-poster-type { position: absolute; inset: 5% 0 0; color: var(--label-color); font-size: clamp(64px, 35cqw, 274px); font-weight: 800; line-height: .82; letter-spacing: -.08em; display: flex; flex-direction: column; gap: .22em; user-select: none; transform: rotate(-5deg); }
+.menu-poster-type > span:first-child { align-self: flex-start; margin-left: -2%; }
+.menu-poster-type > span:last-child { align-self: flex-start; margin-left: -2%; }
+.menu-poster--low_carb .menu-poster-type { transform: rotate(4deg); padding-top: 5%; }
+.menu-poster--low_carb .menu-poster-type > span:first-child { align-self: flex-end; margin-right: 5%; }
+.menu-poster--low_carb .menu-poster-type > span:last-child { align-self: flex-end; margin-left: 0; margin-right: 5%; }
+.menu-poster-photo { z-index: 1; transform: translateY(3%) scale(1.28) rotate(var(--photo-angle)); filter: drop-shadow(0 22px 18px #000b); transition: transform .65s cubic-bezier(.22,1,.36,1); }
+.menu-poster-price { position: absolute; z-index: 2; bottom: 3%; left: 6%; width: 29cqw; height: 29cqw; max-width: 150px; max-height: 150px; border: 1px solid var(--label-color); border-radius: 50%; background: #080808; display: flex; flex-direction: column; align-items: center; justify-content: center; transform: rotate(-9deg); box-shadow: 0 8px 24px #0008; }
+.menu-poster-price > span { font-size: clamp(10px, 2.6cqw, 14px); color: #aaa; }
+.menu-poster-price > strong { font-family: 'Courier New', Courier, monospace; font-size: clamp(16px, 5cqw, 28px); letter-spacing: -.06em; color: var(--label-color); }
+.menu-poster--low_carb .menu-poster-price { left: auto; right: 5%; transform: rotate(8deg); }
+.menu-poster-info { position: relative; z-index: 2; padding: 12px 26px 26px; margin-top: auto; }
+.menu-poster-info .menu-select { background: transparent; border: 0; border-top: 1px solid #303030; padding-inline: 0; padding-bottom: 0; border-radius: 0; }
+.menu-poster-info .menu-select > span { color: var(--label-color); }
+.menu-lab-feature { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; align-items: center; border-top: 1px solid #292929; margin-top: 20px; padding-top: 24px; }
+@media (hover: hover) and (pointer: fine) {
+  .menu-poster:hover .menu-poster-photo { transform: translateY(1%) scale(1.32) rotate(var(--photo-angle)); }
+  .menu-poster:hover { border-color: var(--label-color); }
+}
+@media (max-width: 700px) {
+  .menu-posters { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .menu-poster--high_carb, .menu-poster--low_carb { margin-block: 0; }
+  .menu-lab-feature { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .menu-poster-photo { transition: none; }
+  .menu-poster:hover .menu-poster-photo { transform: translateY(3%) scale(1.28) rotate(var(--photo-angle)); }
+}
+.preps-page .nosotros-editorial a[href="/"] {
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+}
+.preps-page .nosotros-editorial :is(p, li, strong, h2, h3, a) {
+  color: rgb(255 255 255 / .45);
+  -webkit-text-fill-color: currentColor;
+  background-image: none;
+  filter: none;
+}
+
+/* Hero entry: restrained image reveal and short, staggered type movement. */
+.home-refined .home-title-line {
+  font-family: var(--font-preps), Arial, sans-serif;
+  font-weight: 800;
+  letter-spacing: -.045em;
+  animation: none;
+}
+.home-refined .home-title { font-size: clamp(32px, 5.05vw, 88px); line-height: 1.02; }
+.home-refined:not(.home-refined--ready) .home-photo-reveal,
+.home-refined:not(.home-refined--ready) .home-title-mask .home-title-line { opacity: 0; animation: none !important; }
+.home-refined .home-title-mask { perspective: none; padding-top: .24em; margin-top: -.24em; }
+.home-refined.home-refined--ready .home-photo-reveal { animation: preps-photo-entry 1.8s 1.35s cubic-bezier(.22,1,.36,1) both; }
+.home-refined.home-refined--ready .home-title-line { animation: preps-title-entry 1s cubic-bezier(.22,1,.36,1) both; }
+.home-refined.home-refined--ready .home-title-mask--1 .home-title-line { animation-delay: .12s; }
+.home-refined.home-refined--ready .home-title-mask--2 .home-title-line { animation-delay: .24s; }
+@keyframes preps-photo-entry {
+  from { opacity: 0; transform: translateY(24px) scale(1.045); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes preps-title-entry {
+  from { opacity: 0; transform: translate3d(0, 24px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@media (max-width: 520px) {
+  .home-refined { min-height: 620px; }
+  .home-refined .home-camera { bottom: calc(270px + env(safe-area-inset-bottom)); }
+  .home-refined .home-title { font-size: clamp(27px, 8.65vw, 45px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* Same order, opacity only: no camera movement or sliding text. */
+  .home-refined.home-refined--ready .home-title-mask .home-title-line { animation: home-fade-in .7s 0s ease-out both !important; }
+  .home-refined.home-refined--ready .home-title-mask--1 .home-title-line { animation-delay: .15s !important; }
+  .home-refined.home-refined--ready .home-title-mask--2 .home-title-line { animation-delay: .3s !important; }
+  .home-refined.home-refined--ready .home-photo-reveal { animation: home-fade-in 1.2s 1.1s ease-out both !important; }
+}
+
+/* El encabezado de "Antes de pedir" en su version compacta: mas discreto que
+   el de la pagina completa, pero suficiente para que las preguntas se lean
+   como una seccion y no como letra chica del boton. */
+.compra-info .compra-info-titulo {
+  margin: 28px 0 0;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(246, 246, 242, .55);
+}
+
+/* Safari en iPhone acerca la pantalla solo al tocar un campo con letra menor
+   a 16px, y deja la pagina corrida. !important porque es un arreglo
+   transversal: sin el, cualquier clase como text-sm le gana al selector de
+   elemento aunque venga despues (ver Trampas conocidas, Ulloa). */
+@media (max-width: 767px) {
+  input, select, textarea { font-size: 16px !important; }
+}
+
+/* Aviso "agregado a tu pedido" (AgregadoAlCarrito). Entra subiendo apenas; el
+   fondo solo aparece. */
+.agregado-dialogo[open] { animation: agregado-in 320ms var(--ease) both; }
+.agregado-dialogo[open]::backdrop { animation: home-fade-in 220ms ease-out both; }
+@keyframes agregado-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .agregado-dialogo[open] { animation: home-fade-in 200ms ease-out both; }
+}
+
+/* Mapa del carrito: el de OpenStreetMap pasado a negro. Sin color e
+   invertido, el fondo claro queda casi negro y calles y nombres en grises.
+   El punto lo pone el sitio, en blanco: el marcador de OSM se invertiría
+   con todo lo demás. */
+.mapa-oscuro { filter: grayscale(1) invert(1) brightness(.9) contrast(1.1); }
+.mapa-pin {
+  position: absolute; left: 50%; top: 50%;
+  width: 14px; height: 14px; margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  background: #f6f6f2;
+  box-shadow: 0 0 0 4px rgba(246, 246, 242, .2), 0 0 22px rgba(246, 246, 242, .45);
+}
+.mapa-pin::after {
+  content: ''; position: absolute; inset: -4px;
+  border-radius: 50%; border: 1px solid rgba(246, 246, 242, .55);
+  animation: mapa-pulso 2.2s ease-out infinite;
+}
+@keyframes mapa-pulso { from { transform: scale(1); opacity: .9; } to { transform: scale(3.2); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .mapa-pin::after { animation: none; opacity: 0; }
+}

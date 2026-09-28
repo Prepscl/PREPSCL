@@ -1,0 +1,15 @@
+node_modules
+.next
+out
+build
+.DS_Store
+*.pem
+npm-debug.log*
+.env*.local
+.vercel
+next-env.d.ts
+*.tsbuildinfo
+
+# Videos de las pruebas de animación del hero. No los usa ninguna página y
+# son 19 MB que viajarían en cada publicación.
+public/videos/

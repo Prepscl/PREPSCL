@@ -6,7 +6,7 @@
   window.__PREPS_BOT__ = true;
 
   const ACCENT = '#000000';
-  const LOGO   = 'img/logo-preps.png';
+  const LOGO   = '/img/logo-preps.png';
   const WSP    = '56941892028';
 
   const SLIDES = [
@@ -66,7 +66,7 @@
           <span class="prp-tag">GRATIS</span>
           <div>
             <strong>ENVÍO SIN COSTO</strong>
-            Con <b>5 menús o más</b> el envío es gratis. También podés <b>retirar</b> en local sin costo.
+            El despacho depende de tu comuna y se suma al total en el carrito, antes de confirmar.
           </div>
         </div>
         <div class="prp-rule">
@@ -86,7 +86,7 @@
           <span class="prp-tag">WHATSAPP</span>
           <div>
             <strong>COMPROBANTE</strong>
-            Una vez generado el ticket, debes enviarlo por WhatsApp para validar tu pedido.
+            Al confirmar el pedido en la web te mostramos los datos para transferir. Manda el comprobante por WhatsApp con el número de pedido.
           </div>
         </div>
         <div class="prp-rule">
